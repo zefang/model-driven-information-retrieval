@@ -1,0 +1,49 @@
+#!/bin/sh
+# ***********************************************************************************************************************
+#  * Copyright (c) 2008 empolis GmbH and brox IT Solutions GmbH. All rights reserved. This program and the accompanying
+#  * materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution,
+#  * and is available at http://www.eclipse.org/legal/epl-v10.html
+#  *
+#  * Contributors: brox IT Solutions GmbH)- initial creator
+#  **********************************************************************************************************************/
+#
+# executes a normative (same as bamboo) build of the whole project and all active tests 
+# see: http://wiki.eclipse.org/SMILA/Development_Guidelines/Howto_build_a_SMILA-Distribution
+
+# set this to the location of your working copy of the SMILA source code (default is ok, usually
+SMILA_HOME=$PWD/..
+
+# set this to the location of a Eclipse Classic 3.6.1 SDK + matching delta pack
+ECLIPSE_HOME=/usr/local/eclipse-3.6.1
+
+# make sure that the arch setting matches the used JDK
+ARCH="-Dos=linux -Dws=gtk -Darch=x86_64"
+JAVA_HOME=/usr/local/jdk1.6.0_14
+
+ANT_HOME=/usr/local/apache-ant-1.7.0
+BUILDLIB_DIR=$HOME/SMILA/3rd_party_sw/lib
+
+# set to location of libraries needed for build
+# comment out, if your lib directory is in trunk
+libDir="-Dlib.dir=$BUILDLIB_DIR"
+
+# standard values for Eclipse 3.6.1 Classic SDK + Delta Pack 3.6.1 - adapt if you use a different version
+buildOpts="-Declipse.running=true -DpdeBuildPluginVersion=3.6.1.R36x_v20100823 -DequinoxLauncherPluginVersion=1.1.0.v20100507"
+
+# usually there is no need to change the following lines
+buildDir=-DbuildDirectory=${SMILA_HOME}/smila.build
+builder=-Dbuilder=${SMILA_HOME}/SMILA.builder 
+eclipseHome=-Declipse.home="${ECLIPSE_HOME}"
+testJava=-Dtest.java.home="${JAVA_HOME}"
+configHome="-Dorg.eclipse.smila.utils.config.root=../SMILA.application/configuration"
+
+antTarget=$1
+logfile=log.${antTarget}.txt
+
+date | tee ${logfile}
+
+PATH=$JAVA_HOME/bin:$ANT_HOME/bin:$PATH
+
+export JAVA_HOME ANT_HOME PATH
+
+exec ant -f make.xml ${buildDir} ${eclipseHome} ${builder} ${ARCH} ${testJava} ${buildOpts} ${configHome} ${libDir} $* | tee -a ${logfile}
