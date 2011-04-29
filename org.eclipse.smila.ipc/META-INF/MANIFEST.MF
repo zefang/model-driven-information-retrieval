@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: IPC (Inter Process Communication) Bundle
+Bundle-SymbolicName: org.eclipse.smila.ipc
+Bundle-Version: 0.8.0
+Bundle-Vendor: attensity europe GmbH
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: org.apache.commons.io;version="1.4.0",
+ org.codehaus.jackson;version="1.6.0",
+ org.codehaus.jackson.map;version="1.6.0"
+Export-Package: org.eclipse.smila.ipc;version="0.8.0",
+ org.eclipse.smila.ipc.json;version="0.8.0"

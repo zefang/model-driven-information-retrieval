@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Solr
+Bundle-SymbolicName: org.eclipse.smila.integration.solr
+Bundle-Version: 0.8.0
+Bundle-Vendor: Attensity Europe GmbH
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: org.apache.commons.logging;version="1.1.1",
+ org.apache.xerces.dom,
+ org.apache.xml.serialize,
+ org.eclipse.smila.blackboard;version="0.8.0",
+ org.eclipse.smila.datamodel;version="0.8.0",
+ org.eclipse.smila.datamodel.filter;version="0.8.0",
+ org.eclipse.smila.management;version="0.8.0",
+ org.eclipse.smila.processing;version="0.8.0",
+ org.eclipse.smila.processing.parameters;version="0.8.0",
+ org.eclipse.smila.search.api;version="0.8.0",
+ org.eclipse.smila.search.api.helper;version="0.8.0",
+ org.eclipse.smila.utils.digest;version="0.8.0"
+SMILA-Pipelets: org.eclipse.smila.integration.solr.SolrIndexPipelet,
+ org.eclipse.smila.integration.solr.SolrSearchPipelet
+Export-Package: org.eclipse.smila.integration.solr;version="0.8.0"

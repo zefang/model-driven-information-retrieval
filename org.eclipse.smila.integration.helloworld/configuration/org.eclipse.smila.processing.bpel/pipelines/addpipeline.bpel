@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  * Copyright (c) 2008, 2010 Empolis GmbH and brox IT Solutions GmbH.
+  * All rights reserved. This program and the accompanying materials
+  * are made available under the terms of the Eclipse Public License v1.0
+  * which accompanies this distribution, and is available at
+  * http://www.eclipse.org/legal/epl-v10.html
+  *
+  * Contributors:
+  * Daniel Stucky (Empolis GmbH) - initial design
+  * Igor Novakovic (Empolis GmbH) - added the invocation of HelloWorldPipelet
+-->
+<process name="AddPipeline" targetNamespace="http://www.eclipse.org/smila/processor"
+  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:proc="http://www.eclipse.org/smila/processor" xmlns:rec="http://www.eclipse.org/smila/record">
+
+  <import location="processor.wsdl" namespace="http://www.eclipse.org/smila/processor"
+    importType="http://schemas.xmlsoap.org/wsdl/" />
+
+  <partnerLinks>
+    <partnerLink name="Pipeline" partnerLinkType="proc:ProcessorPartnerLinkType" myRole="service" />
+  </partnerLinks>
+
+  <extensions>
+    <extension namespace="http://www.eclipse.org/smila/processor" mustUnderstand="no" />
+  </extensions>
+
+  <variables>
+    <variable name="request" messageType="proc:ProcessorMessage" />
+  </variables>
+
+  <sequence>
+    <receive name="start" partnerLink="Pipeline" portType="proc:ProcessorPortType"
+      operation="process" variable="request" createInstance="yes" />
+
+    <if name="conditionHasMimeType">
+      <condition>not($request.records/rec:Record[1]/rec:Val@key="MimeType"])</condition>
+      <sequence name="detectMimeType">
+
+        <extensionActivity>
+          <proc:invokePipelet name="detect MimeType">
+            <proc:pipelet class="org.eclipse.smila.processing.pipelets.MimeTypeIdentifyPipelet" />
+            <proc:variables input="request" output="request" />
+            <proc:configuration>
+              <proc:Property name="FileExtensionAttribute">
+                <proc:Value>Extension</proc:Value>
+              </proc:Property>
+              <proc:Property name="MetaDataAttribute">
+                <proc:Value>MetaData</proc:Value>
+              </proc:Property>
+              <proc:Property name="MimeTypeAttribute">
+                <proc:Value>MimeType</proc:Value>
+              </proc:Property>
+            </proc:configuration>
+          </proc:invokePipelet>
+        </extensionActivity>
+
+      </sequence>
+    </if>
+
+    <!-- only process text based content, skip everything else -->
+    <if name="conditionIsText">
+      <condition>starts-with($request.records/rec:Record[1]/rec:Val@key="MimeType"],"text/")
+      </condition>
+      <sequence name="processTextBasedContent">
+
+        <if name="conditionIsHtml">
+          <condition>starts-with($request.records/rec:Record[1]/rec:Val@key="MimeType"],"text/html")
+            or
+            starts-with($request.records/rec:Record[1]/rec:Val@key="MimeType"],"text/xml")
+          </condition>
+          <!-- extract txt from html and xml files -->
+          <extensionActivity>
+            <proc:invokePipelet name="invokeHtml2Txt">
+              <proc:pipelet class="org.eclipse.smila.processing.pipelets.HtmlToTextPipelet" />
+              <proc:variables input="request" output="request" />
+              <proc:configuration>
+                <rec:Val key="inputType">ATTACHMENT</rec:Val>
+                <rec:Val key="outputType">ATTRIBUTE</rec:Val>
+                <rec:Val key="inputName">Content</rec:Val>
+                <rec:Val key="outputName">Content</rec:Val>
+                <rec:Val key="meta:title">Title</rec:Val>
+              </proc:configuration>
+            </proc:invokePipelet>
+          </extensionActivity>
+          <else>
+            <!-- copy txt from attachment to attribute -->
+            <extensionActivity>
+              <proc:invokePipelet name="invokeCopyContent">
+                <proc:pipelet class="org.eclipse.smila.processing.pipelets.CopyPipelet" />
+                <proc:variables input="request" output="request" />
+                <proc:configuration>
+                  <rec:Val key="inputType">ATTACHMENT</rec:Val>
+                  <rec:Val key="outputType">ATTRIBUTE</rec:Val>
+                  <rec:Val key="inputName">Content</rec:Val>
+                  <rec:Val key="outputName">Content</rec:Val>
+                  <rec:Val key="mode">COPY</rec:Val>
+                </proc:configuration>
+              </proc:invokePipelet>
+            </extensionActivity>
+          </else>
+        </if>
+
+        <extensionActivity>
+          <proc:invokePipelet name="invokeHelloWorldPipelet">
+            <proc:pipelet class="org.eclipse.smila.integration.helloworld.HelloWorldPipelet" />
+            <proc:variables input="request" output="request" />
+            <proc:configuration>
+              <rec:Val key="source_attribute_name">Title</rec:Val>
+              <rec:Val key="target_attribute_name">Title</rec:Val>
+            </proc:configuration>
+          </proc:invokePipelet>
+        </extensionActivity>
+
+        <extensionActivity>
+          <proc:invokePipelet name="invokeLuceneIndex">
+            <proc:pipelet class="org.eclipse.smila.lucene.pipelets.LuceneIndexPipelet" />
+            <proc:variables input="request" output="request" />
+            <proc:configuration>
+              <rec:Map key="_indexing">
+                <rec:Val key="indexName">test_index</rec:Val>
+                <rec:Val key="executionMode">ADD</rec:Val>
+                <rec:Val key="allowDoublets">false</rec:Val>
+              </rec:Map>
+            </proc:configuration>
+          </proc:invokePipelet>
+        </extensionActivity>
+
+      </sequence>
+    </if>
+
+    <reply name="end" partnerLink="Pipeline" portType="proc:ProcessorPortType" operation="process"
+      variable="request" />
+    <exit />
+  </sequence>
+</process>

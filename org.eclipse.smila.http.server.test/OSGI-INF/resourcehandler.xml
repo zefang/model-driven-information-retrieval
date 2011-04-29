@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="org.eclipse.smila.http.server.util.ResourceHandlerService" immediate="true">
+    <implementation class="org.eclipse.smila.http.server.util.ResourceHandlerService" />
+    <service>
+       <provide interface="org.eclipse.smila.http.server.JettyHandler"/>
+    </service>
+    <property name="rootContextPath" type="String" value="/resources"/>
+    <property name="configBundle" type="String" value="org.eclipse.smila.http.server.test" />
+    <property name="resourceBase" type="String" value="resources"/>    
+    <property name="welcomeFiles" type="String" value="index.html"/>
+</component>

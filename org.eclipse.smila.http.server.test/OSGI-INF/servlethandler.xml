@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="org.eclipse.smila.http.server.util.ServletContextService" immediate="true">
+    <implementation class="org.eclipse.smila.http.server.util.ServletContextService" />
+    <service>
+       <provide interface="org.eclipse.smila.http.server.JettyHandler"/>
+    </service>
+    <property name="rootContextPath" type="String" value="/servlet"/>
+    <property name="servletClassName" type="String" value="org.eclipse.smila.http.server.test.MockServlet" />
+    <property name="servletPath" type="String" value="/mock"/>    
+</component>

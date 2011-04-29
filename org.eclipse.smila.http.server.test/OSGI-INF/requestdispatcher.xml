@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="org.eclipse.smila.http.server.util.RequestDispatcher" immediate="true">
+    <implementation class="org.eclipse.smila.http.server.util.RequestDispatcher" />
+    <service>
+       <provide interface="org.eclipse.smila.http.server.HttpHandler"/>
+    </service>
+    <reference
+      name="RequestHandlers"
+      interface="org.eclipse.smila.http.server.util.RequestHandler"
+      bind="addRequestHandler"
+      unbind="removeRequestHandler"
+      cardinality="0..n"
+      policy="dynamic"
+      target="(rootContextPath=/dispatch)" 
+      />    
+</component>

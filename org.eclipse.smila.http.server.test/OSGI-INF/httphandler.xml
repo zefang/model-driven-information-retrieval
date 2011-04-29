@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="org.eclipse.smila.http.server.test.MockHttpHandler" immediate="true">
+    <implementation class="org.eclipse.smila.http.server.test.MockHttpHandler" />
+    <service>
+       <provide interface="org.eclipse.smila.http.server.HttpHandler"/>
+    </service>
+</component>

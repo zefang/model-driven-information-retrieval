@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="org.eclipse.smila.http.server.util.WebappContextService" immediate="true">
+    <implementation class="org.eclipse.smila.http.server.util.WebappContextService" />
+    <service>
+       <provide interface="org.eclipse.smila.http.server.JettyHandler"/>
+    </service>
+    <property name="rootContextPath" type="String" value="/webapp"/>
+    <property name="configBundle" type="String" value="org.eclipse.smila.http.server.test" />
+    <property name="webappDir" type="String" value="webapp"/>    
+</component>

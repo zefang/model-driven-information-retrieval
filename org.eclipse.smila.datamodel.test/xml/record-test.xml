@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2008 Attensity Europe GmbH and brox IT Solutions GmbH. All rights reserved.
+  This program and the accompanying materials are made available under the terms of the
+  Eclipse Public License v1.0 which accompanies this distribution, and is available at
+  http://www.eclipse.org/legal/epl-v10.html
+  Contributors: Juergen Schumacher (Attensity Europe GmbH) - initial design -->
+<Record version="2.0" xmlns="http://www.eclipse.org/smila/record" xmlns:rec="http://www.eclipse.org/smila/record"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eclipse.org/smila/record record.xsd ">
+
+  <Val key="_recordid">id://record1</Val>
+  <Val key="filesize" type="long">1234</Val>
+  <Val key="created" type="date">2010-12-02</Val>
+  <Val key="lastModified" type="datetime">2010-12-02T16:20:54+01:00</Val>
+  <Seq key="trustee">
+    <Val>group1</Val>
+    <Val>group2</Val>
+  </Seq>
+  <Seq key="author">
+    <Map>
+      <Val key="firstname">John</Val>
+      <Val key="lastname">Doe</Val>
+    </Map>
+    <Map>
+      <Val key="firstname">Lisa</Val>
+      <Val key="lastname">Müller</Val>
+    </Map>
+  </Seq>
+  <Map key="contact">
+    <Val key="email">Homer.Simpson@powerplant.com</Val>
+    <Map key="adress">
+      <Val key="street">742 Evergreen Terrace</Val>
+      <Val key="city">Springfield</Val>
+    </Map>
+  </Map>
+  <Seq key="emptylist" />
+  <Map key="emptymap" />
+</Record>

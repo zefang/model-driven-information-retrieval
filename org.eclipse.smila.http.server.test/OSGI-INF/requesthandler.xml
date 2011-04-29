@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="org.eclipse.smila.http.server.test.MockRequestHandler" immediate="true">
+    <implementation class="org.eclipse.smila.http.server.test.MockRequestHandler" />    
+    <service>
+       <provide interface="org.eclipse.smila.http.server.util.RequestHandler"/>
+    </service>
+    <property name="rootContextPath" type="String" value="/dispatch"/>
+    <property name="uriPattern" type="String" value="/handle/([^/]+)/?$"/>    
+</component>
