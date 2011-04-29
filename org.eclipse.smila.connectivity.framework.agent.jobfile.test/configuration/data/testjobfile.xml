@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<JobFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../org.eclipse.smila.connectivity.framework.agent.jobfile/schemas/jobfile.xsd">
+    <Add>
+        <Record version="2.0">
+          <Val key="_recordid">testjobfile:&lt;Filename=AIIM Kurzmeldungen March 6 2000.txt;Path=configuration/data/AIIM Kurzmeldungen March 6 2000.txt&gt;</Val>
+          <Val key="_source">testjobfile</Val>
+          <Val key="MimeType">text/plain</Val>
+          <Val key="Size" type="long">16384</Val>
+          <Val key="Extension">txt</Val>
+          <Val key="LastModifiedDate" type="datetime">2008-08-15T15:57:16+0100</Val>
+          <Val key="Filename">AIIM Kurzmeldungen March 6 2000.txt</Val>
+		  <Val key="Path">configuration/data/AIIM Kurzmeldungen March 6 2000.txt</Val>
+          <Attachment>Content####configuration/data/AIIM Kurzmeldungen March 6 2000.txt</Attachment>
+        </Record>       
+        
+        <Record version="2.0">
+          <Val key="MimeType">text/xml</Val>
+          <Val key="Size" type="long">8192</Val>
+          <Val key="Extension">xml</Val>
+          <Val key="LastModifiedDate" type="datetime">2008-08-15T15:57:16+0100</Val>
+          <Val key="Filename">eca011_20051023_0315_002.xml</Val>
+		  <Val key="Path">C:\somepath\Overseas pharmaceutical companies in Ireland.htm</Val>
+          <Attachment>Content####configuration/data/eca011_20051023_0315_002.xml</Attachment>
+        </Record>  
+
+        <Record version="2.0">
+          <Val key="MimeType">text/html</Val>
+          <Val key="Size" type="long">94203</Val>
+          <Val key="Extension">htm</Val>
+          <Val key="LastModifiedDate" type="datetime">2008-08-15T15:57:16+0100</Val>
+          <Val key="Filename">Overseas pharmaceutical companies in Ireland.htm</Val>
+		  <Val key="Url">http://somewhere.net/Overseas pharmaceutical companies in Ireland.htm</Val>
+          <Attachment>Content####configuration/data/Overseas pharmaceutical companies in Ireland.htm</Attachment>
+        </Record>   
+    </Add>
+
+    <Delete>
+      <Record version="2.0">
+          <Val key="_recordid">testjobfile:&lt;Filename=0815.xml;Path=c:\data\XML\0815.xml&gt;</Val>
+          <Val key="_source">testjobfile</Val>
+          <Val key="Path">c:\data\XML\0815.xml</Val>
+      </Record>
+      <Record version="2.0">
+          <Val key="_source">testjobfile</Val>
+          <Val key="Path">c:\data\XML\4711.xml</Val>
+      </Record>
+    </Delete>
+</JobFile>
