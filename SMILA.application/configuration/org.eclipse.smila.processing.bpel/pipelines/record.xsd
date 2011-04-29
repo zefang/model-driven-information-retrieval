@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2008 Attensity Europe GmbH and brox IT Solutions GmbH. All rights reserved.
+  This program and the accompanying materials are made available under the terms of the
+  Eclipse Public License v1.0 which accompanies this distribution, and is available at
+  http://www.eclipse.org/legal/epl-v10.html
+  Contributors: Juergen Schumacher (Attensity Europe GmbH) - initial design -->
+<schema targetNamespace="http://www.eclipse.org/smila/record" xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:rec="http://www.eclipse.org/smila/record" elementFormDefault="qualified">
+
+  <annotation>
+    <documentation>http://wiki.eclipse.org/SMILA/Project_Concepts/Data_Model_and_XML_representation
+    </documentation>
+  </annotation>
+
+  <element name="Record" type="rec:RecordType" />
+  <element name="RecordList" type="rec:RecordListType" />
+  <element name="Map" type="rec:MapType" />
+  <element name="Seq" type="rec:SequenceType" />
+  <element name="Val" type="rec:ValueType" />
+
+  <complexType name="RecordType">
+    <sequence maxOccurs="1" minOccurs="1">
+      <group ref="rec:KeyAny" minOccurs="0" maxOccurs="unbounded" />
+      <element name="Attachment" type="string" minOccurs="0" maxOccurs="unbounded" />
+    </sequence>
+    <attribute name="version" type="string" fixed="2.0" />
+  </complexType>
+
+  <complexType name="RecordListType">
+    <sequence maxOccurs="1" minOccurs="1">
+      <element ref="rec:Record" maxOccurs="unbounded" minOccurs="0" />
+    </sequence>
+  </complexType>
+
+  <complexType name="ValueType">
+    <simpleContent>
+      <extension base="string">
+        <attribute name="type" use="optional" default="string">
+          <simpleType>
+            <restriction base="string">
+              <enumeration value="string" />
+              <enumeration value="long" />
+              <enumeration value="double" />
+              <enumeration value="boolean" />
+              <enumeration value="date" />
+              <enumeration value="datetime" />
+            </restriction>
+          </simpleType>
+        </attribute>
+      </extension>
+    </simpleContent>
+  </complexType>
+
+  <complexType name="KeyValueType">
+    <simpleContent>
+      <extension base="rec:ValueType">
+        <attribute name="key" use="required" type="string" />
+      </extension>
+    </simpleContent>
+  </complexType>
+
+  <complexType name="MapType">
+    <sequence minOccurs="0" maxOccurs="unbounded">
+      <group ref="rec:KeyAny" minOccurs="1" maxOccurs="1" />
+    </sequence>
+  </complexType>
+
+  <complexType name="KeyMapType">
+    <complexContent>
+      <extension base="rec:MapType">
+        <attribute name="key" use="required" type="string" />
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <complexType name="SequenceType">
+    <sequence minOccurs="0" maxOccurs="unbounded">
+      <group ref="rec:Any" minOccurs="1" maxOccurs="1" />
+    </sequence>
+  </complexType>
+
+  <complexType name="KeySequenceType">
+    <complexContent>
+      <extension base="rec:SequenceType">
+        <attribute name="key" use="required" type="string" />
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <group name="Any">
+    <choice>
+      <element name="Val" type="rec:ValueType" minOccurs="1" maxOccurs="1" />
+      <element name="Map" type="rec:MapType" minOccurs="1" maxOccurs="1" />
+      <element name="Seq" type="rec:SequenceType" minOccurs="1" maxOccurs="1" />
+    </choice>
+  </group>
+
+  <group name="KeyAny">
+    <choice>
+      <element name="Val" type="rec:KeyValueType" minOccurs="1" maxOccurs="1" />
+      <element name="Map" type="rec:KeyMapType" minOccurs="1" maxOccurs="1" />
+      <element name="Seq" type="rec:KeySequenceType" minOccurs="1" maxOccurs="1" />
+    </choice>
+  </group>
+
+</schema>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  * Copyright (c) 2008 empolis GmbH and brox IT Solutions GmbH.
+  * All rights reserved. This program and the accompanying materials
+  * are made available under the terms of the Eclipse Public License v1.0
+  * which accompanies this distribution, and is available at
+  * http://www.eclipse.org/legal/epl-v10.html
+  *
+  * Contributors:
+  * Daniel Stucky (empolis GmbH) - initial design
+-->
+<process name="AddFeedPipeline" targetNamespace="http://www.eclipse.org/smila/processor"
+  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:proc="http://www.eclipse.org/smila/processor" xmlns:rec="http://www.eclipse.org/smila/record"
+  xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+
+  <import location="processor.wsdl" namespace="http://www.eclipse.org/smila/processor"
+    importType="http://schemas.xmlsoap.org/wsdl/" />
+
+  <partnerLinks>
+    <partnerLink name="Pipeline" partnerLinkType="proc:ProcessorPartnerLinkType" myRole="service" />
+  </partnerLinks>
+
+  <extensions>
+    <extension namespace="http://www.eclipse.org/smila/processor" mustUnderstand="no" />
+  </extensions>
+
+  <variables>
+    <variable name="request" messageType="proc:ProcessorMessage" />
+  </variables>
+
+  <sequence name="AddFeedPipeline">
+    <receive name="start" partnerLink="Pipeline" portType="proc:ProcessorPortType"
+      operation="process" variable="request" createInstance="yes" />
+
+    <!-- extract mimetype -->
+    <extensionActivity>
+      <proc:invokePipelet name="extract MimeType">
+        <proc:pipelet class="org.eclipse.smila.processing.pipelets.SubAttributeExtractorPipelet" />
+        <proc:variables input="request" output="request" />
+        <proc:configuration>
+          <rec:Val key="inputPath">Contents/Type</rec:Val>
+          <rec:Val key="outputPath">MimeType</rec:Val>
+          <rec:Val key="mode">FIRST</rec:Val>
+        </proc:configuration>
+      </proc:invokePipelet>
+    </extensionActivity>
+
+    <!-- extract content -->
+    <extensionActivity>
+      <proc:invokePipelet name="extract content">
+        <proc:pipelet class="org.eclipse.smila.processing.pipelets.SubAttributeExtractorPipelet" />
+        <proc:variables input="request" output="request" />
+        <proc:configuration>
+          <rec:Val key="inputPath">Contents/Value</rec:Val>
+          <rec:Val key="outputPath">Content</rec:Val>
+          <rec:Val key="mode">ALL_AS_ONE</rec:Val>
+        </proc:configuration>
+      </proc:invokePipelet>
+    </extensionActivity>
+
+    <!-- extract link Hrefs -->
+    <extensionActivity>
+      <proc:invokePipelet name="extract link">
+        <proc:pipelet class="org.eclipse.smila.processing.pipelets.SubAttributeExtractorPipelet" />
+        <proc:variables input="request" output="request" />
+        <proc:configuration>
+          <rec:Val key="inputPath">Links/Href</rec:Val>
+          <rec:Val key="outputPath">Url</rec:Val>
+          <rec:Val key="mode">FIRST</rec:Val>
+        </proc:configuration>
+      </proc:invokePipelet>
+    </extensionActivity>
+
+
+    <!-- extract author names -->
+    <extensionActivity>
+      <proc:invokePipelet name="extract author names">
+        <proc:pipelet class="org.eclipse.smila.processing.pipelets.SubAttributeExtractorPipelet" />
+        <proc:variables input="request" output="request" />
+        <proc:configuration>
+          <rec:Val key="inputPath">Authors/Name</rec:Val>
+          <rec:Val key="outputPath">Author</rec:Val>
+          <rec:Val key="mode">ALL_AS_LIST</rec:Val>
+        </proc:configuration>
+      </proc:invokePipelet>
+    </extensionActivity>
+
+
+
+    <!-- extract text from html and xml content -->
+    <if name="IsHTML">
+      <condition>($request.records/rec:Record[1]/rec:Val[@key="MimeType"] = "text/html")
+        or
+        ($request.records/rec:Record[1]/rec:Val[@key="MimeType"] = "text/xml")</condition>
+      <extensionActivity>
+        <proc:invokePipelet name="extract text from HTML">
+          <proc:pipelet class="org.eclipse.smila.processing.pipelets.HtmlToTextPipelet" />
+          <proc:variables input="request" output="request" />
+          <proc:configuration>
+            <rec:Val key="inputType">ATTRIBUTE</rec:Val>
+            <rec:Val key="outputType">ATTRIBUTE</rec:Val>
+            <rec:Val key="inputName">Content</rec:Val>
+            <rec:Val key="outputName">Content</rec:Val>
+          </proc:configuration>
+        </proc:invokePipelet>
+      </extensionActivity>
+    </if>
+
+    <extensionActivity>
+      <proc:invokePipelet name="index records">
+        <proc:pipelet class="org.eclipse.smila.lucene.pipelets.LuceneIndexPipelet" />
+        <proc:variables input="request" output="request" />
+        <proc:configuration>
+          <rec:Map key="_indexing">
+            <rec:Val key="indexname">test_index</rec:Val>
+            <rec:Val key="executionMode">ADD</rec:Val>
+            <rec:Val key="allowDoublets">false</rec:Val>
+          </rec:Map>
+        </proc:configuration>
+      </proc:invokePipelet>
+    </extensionActivity>
+
+    <reply name="end" partnerLink="Pipeline" portType="proc:ProcessorPortType" operation="process"
+      variable="request" />
+    <exit />
+  </sequence>
+</process>

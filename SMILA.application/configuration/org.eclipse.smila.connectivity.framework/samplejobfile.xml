@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<JobFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../org.eclipse.smila.connectivity.framework.agent.jobfile/schemas/jobfile.xsd">
+    <Add>
+        <!-- sample record where id is created and content is loaded into attachment from file url //-->
+        <Record version="2.0">
+          <Val key="MimeType">text/html</Val>
+          <Val key="Size" type="long">16536</Val>
+          <Val key="Extension">html</Val>
+          <Val key="LastModifiedDate" type="datetime">2009-03-13T10:42:00+0100</Val>
+          <Val key="Filename">epl-v10.html</Val>
+		  <Val key="Path">epl-v10.html</Val>   
+          <Attachment>Content####epl-v10.html</Attachment>
+        </Record>     
+        
+        <!-- sample record where id is created and content is loaded inti attachment from http url //-->
+        <Record version="1.0">
+          <Val key="MimeType">text/html</Val>
+          <Val key="Size" type="long">11765</Val>
+          <Val key="Extension">html</Val>
+          <Val key="LastModifiedDate" type="date">2009-07-09</Val>
+          <Val key="Url">http://www.eclipse.org/smila/</Val>
+          <Attachment>Content####http://www.eclipse.org/smila/</Attachment>
+        </Record>     
+
+        <!-- sample record where id is provided and txt content is provided in attribute //-->
+        <Record version="2.0">
+          <Val key="_recordid">jobfile:C:/sample folder/sample filename.txt</Val>
+          <Val key="_source">jobfile</Val>
+          <Val key="MimeType">text/plain</Val>
+          <Val key="Size" type="long">16384</Val>
+          <Val key="Extension">txt</Val>
+          <Val key="LastModifiedDate" type="datetime">2009-07-09T14:53:16+0100</Val>
+          <Val key="Filename">sample filename.txt</Val>
+		  <Val key="Path">C:/sample folder/sample filename.txt</Val>   
+          <Val key="Content">This is just some imaginary text content. Used to show how SMILA JobFileAgent works.</Val>   
+        </Record>  
+
+        <!-- sample record where id is provided and html content is provided in attribute //-->
+        <Record version="2.0">
+          <Val key="_recordid">jobfile:C:/sample folder/sample filename.html</Val>
+          <Val key="_source">jobfile</Val>
+          <Val key="MimeType">text/html</Val>
+          <Val key="Size" type="long">16384</Val>
+          <Val key="Extension">html</Val>
+          <Val key="LastModifiedDate" type="datetime">2009-07-09T14:53:16+0100</Val>
+          <Val key="Filename">sample filename.html</Val>
+		  <Val key="Path">C:/sample folder/sample filename.html</Val>   
+          <Val key="Content">
+                 <![CDATA[
+                    <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+                    <HTML>
+                     <HEAD>
+                      <TITLE> A sample test document </TITLE>
+                      <META NAME="Author" CONTENtype="Danieel Stucky">
+                      <META NAME="Keywords" CONTENtype="SMILA eclipse">
+                      <META NAME="Description" CONTENtype="sample test document">
+                     </HEAD>
+                     <BODY>
+                      This is just some imaginary text content. Used to show how SMILA JobFileAgent works. It even contains a <a href="http://www.eclipse.org">link</a>.
+                     </BODY>
+                    </HTML>
+                ]]>              
+              </Val>   
+        </Record> 
+    </Add>
+
+</JobFile>
