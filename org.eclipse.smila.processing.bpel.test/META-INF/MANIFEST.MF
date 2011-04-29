@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SMILA BPEL Workflow Engine Integration Test Bundle (Incubation)
+Bundle-SymbolicName: org.eclipse.smila.processing.bpel.test
+Bundle-Version: 0.8.0
+Import-Package: junit.framework;version="[3.8.0,4.0.0)",
+ org.apache.commons.logging;version="1.1.1",
+ org.eclipse.smila.blackboard;version="0.8.0",
+ org.eclipse.smila.datamodel;version="0.8.0",
+ org.eclipse.smila.ode;version="0.8.0",
+ org.eclipse.smila.processing;version="0.8.0",
+ org.eclipse.smila.test;version="0.8.0",
+ org.osgi.framework;version="1.4.0"
+SMILA-Pipelets: 
+ org.eclipse.smila.processing.bpel.pipelet.SimpleTestPipelet,
+ org.eclipse.smila.processing.bpel.pipelet.SplitterPipelet,
+ org.eclipse.smila.processing.bpel.pipelet.ErrorPipelet,
+ org.eclipse.smila.processing.bpel.pipelet.SearchTestPipelet,
+ org.eclipse.smila.processing.bpel.pipelet.AddLiteralPipelet
+Export-Package: org.eclipse.smila.processing.bpel.pipelet;version="0.8.0",
+ org.eclipse.smila.processing.bpel.test;version="0.8.0",
+ org.eclipse.smila.processing.bpel.test.activator;version="0.8.0"
+Bundle-Vendor: empolis GmbH and brox IT Solutions GmbH
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

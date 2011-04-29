@@ -1,0 +1,30 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SMILA Standard Pipelets Plug-in (Incubation)
+Bundle-SymbolicName: org.eclipse.smila.processing.pipelets
+Bundle-Version: 0.8.0
+Import-Package: org.apache.commons.collections.map;version="3.2.0",
+ org.apache.commons.io;version="1.4.0",
+ org.apache.commons.logging;version="1.1.1",
+ org.apache.xerces.xni;version="2.9.0",
+ org.apache.xerces.xni.parser;version="2.9.0",
+ org.cyberneko.html;version="1.9.9",
+ org.cyberneko.html.filters;version="1.9.9",
+ org.eclipse.smila.blackboard;version="0.8.0",
+ org.eclipse.smila.common.mimetype;version="0.8.0",
+ org.eclipse.smila.datamodel;version="0.8.0",
+ org.eclipse.smila.datamodel.filter;version="0.8.0",
+ org.eclipse.smila.processing;version="0.8.0",
+ org.eclipse.smila.processing.parameters;version="0.8.0",
+ org.eclipse.smila.utils.service;version="0.8.0",
+ org.osgi.framework;version="1.5.0"
+Export-Package: org.eclipse.smila.processing.pipelets;version="0.8.0"
+SMILA-Pipelets: org.eclipse.smila.processing.pipelets.CommitRecordsPipelet,
+ org.eclipse.smila.processing.pipelets.HtmlToTextPipelet,
+ org.eclipse.smila.processing.pipelets.AddValuesPipelet,
+ org.eclipse.smila.processing.pipelets.SubAttributeExtractorPipelet,
+ org.eclipse.smila.processing.pipelets.CopyPipelet,
+ org.eclipse.smila.processing.pipelets.MimeTypeIdentifyPipelet
+Bundle-ClassPath: .
+Bundle-Vendor: empolis GmbH and brox IT Solutions GmbH
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

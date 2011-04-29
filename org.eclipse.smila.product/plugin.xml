@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<!--
+/***********************************************************************************************************************
+ * Copyright (c) 2008 empolis GmbH and brox IT Solutions GmbH. All rights reserved. This program and the accompanying
+ * materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors: Ivan Churkin (brox IT Solutions GmbH) - initial creator
+ **********************************************************************************************************************/
+-->
+<plugin>
+   <extension
+         id="SMILA.application"
+         point="org.eclipse.core.runtime.applications">
+      <application
+            cardinality="singleton-scoped"
+            thread="main"
+            visible="true">
+         <run
+               class="org.eclipse.smila.product.Application">
+         </run>
+      </application>
+   </extension>
+   <extension
+         id="SMILA"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="SMILA.application"
+            name="SMILA">
+         <property
+               name="appName"
+               value="SMILA">
+         </property>
+         <property
+               name="aboutImage"
+               value="smila-icon-tagline.png">
+         </property>
+         <property
+               name="aboutText"
+               value="Unleashing the potential of unstructured data sources&#x0A;&#x0A;The amount and diversity of information is growing exponentially, mainly in the area of unstructured data, like emails, text files, blogs, images etc. Poor data accessibility, user rights integration and the lack of semantic meta data are constraining factors for building next generation enterprise search and other document centric applications. Missing standards result in proprietary solutions with huge short and long term cost. &#x0A;&#x0A;SMILA is an extensible framework for building search solutions to access unstructured information in the enterprise. Besides providing essential infrastructure components and services, SMILA also delivers ready-to-use add-on components, like connectors to most relevant data sources. Using the framework as their basis will enable developers to concentrate on the creation of higher value solutions, like semantic driven applications etc.">
+         </property>
+         <property
+               name="windowImages"
+               value="smila-icon.png">
+         </property>
+      </product>
+   </extension>
+
+</plugin>

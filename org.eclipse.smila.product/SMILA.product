@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="SMILA" id="org.eclipse.smila.product.SMILA" application="SMILA.application" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="/org.eclipse.smila.product/smila-icon-tagline.png"/>
+      <text>
+         Unleashing the potential of unstructured data sources
+
+The amount and diversity of information is growing exponentially, mainly in the area of unstructured data, like emails, text files, blogs, images etc. Poor data accessibility, user rights integration and the lack of semantic meta data are constraining factors for building next generation enterprise search and other document centric applications. Missing standards result in proprietary solutions with huge short and long term cost. 
+
+SMILA is an extensible framework for building search solutions to access unstructured information in the enterprise. Besides providing essential infrastructure components and services, SMILA also delivers ready-to-use add-on components, like connectors to most relevant data sources. Using the framework as their basis will enable developers to concentrate on the creation of higher value solutions, like semantic driven applications etc.
+      </text>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>-console -noexit</programArgs>
+      <vmArgs>-Xms40m
+-Xmx512m 
+-XX:MaxPermSize=256m
+-Declipse.ignoreApp=true 
+-Dosgi.noShutdown=true 
+-Dorg.apache.commons.logging.Log=org.apache.commons.logging.impl.Log4JLogger 
+-Dlog4j.configuration=file:log4j.properties 
+-Dosgi.requiredJavaVersion=1.6
+-Dcom.sun.management.jmxremote 
+-Dcom.sun.management.jmxremote.ssl=false 
+-Dcom.sun.management.jmxremote.authenticate=false 
+-Dcom.sun.management.jmxremote.port=9004</vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="/org.eclipse.smila.product/icons/smila-icon-16.png" i32="/org.eclipse.smila.product/icons/smila-icon-32.png" i48="/org.eclipse.smila.product/icons/smila-icon-48.png" i64="/org.eclipse.smila.product/icons/smila-icon-64.png" i128="/org.eclipse.smila.product/icons/smila-icon-128.png"/>
+
+   <launcher name="SMILA">
+      <linux icon="/org.eclipse.smila.product/icons/smila-icon-48.xpm"/>
+      <solaris/>
+      <win useIco="false">
+         <bmp
+            winSmallHigh="/org.eclipse.smila.product/icons/smila-icon-16.bmp"
+            winSmallLow="/org.eclipse.smila.product/icons/smila-icon-16-8.bmp"
+            winMediumHigh="/org.eclipse.smila.product/icons/smila-icon-32.bmp"
+            winMediumLow="/org.eclipse.smila.product/icons/smila-icon-32-8.bmp"
+            winLargeHigh="/org.eclipse.smila.product/icons/smila-icon-48.bmp"
+            winLargeLow="/org.eclipse.smila.product/icons/smila-icon-48-8.bmp"/>
+      </win>
+   </launcher>
+
+
+   <vm>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="org.eclipse.smila.extension.feature" version="0.8.0"/>
+      <feature id="org.eclipse.smila.feature" version="0.8.0"/>
+      <feature id="org.eclipse.smila.product.core.feature" version="0.8.0"/>
+      <feature id="org.eclipse.rcp"/>
+   </features>
+
+
+</product>
