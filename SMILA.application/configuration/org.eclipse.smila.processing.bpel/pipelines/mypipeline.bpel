@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  * Copyright (c) 2009 empolis GmbH and brox IT Solutions GmbH.
+  * All rights reserved. This program and the accompanying materials
+  * are made available under the terms of the Eclipse Public License v1.0
+  * which accompanies this distribution, and is available at
+  * http://www.eclipse.org/legal/epl-v10.html
+  *
+  * Contributors:
+  * Juergen Schumacher (empolis GmbH) - initial design
+-->
+<process name="MyPipeline" targetNamespace="http://www.eclipse.org/smila/processor"
+  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:proc="http://www.eclipse.org/smila/processor" xmlns:rec="http://www.eclipse.org/smila/record"
+  xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+
+  <import location="processor.wsdl" namespace="http://www.eclipse.org/smila/processor"
+    importType="http://schemas.xmlsoap.org/wsdl/" />
+
+  <partnerLinks>
+    <partnerLink name="Pipeline" partnerLinkType="proc:ProcessorPartnerLinkType" myRole="service" />
+  </partnerLinks>
+
+  <extensions>
+    <extension namespace="http://www.eclipse.org/smila/processor" mustUnderstand="no" />
+  </extensions>
+
+  <variables>
+    <variable name="request" messageType="proc:ProcessorMessage" />
+  </variables>
+
+  <sequence name="SearchPipeline">
+    <receive name="start" partnerLink="Pipeline" portType="proc:ProcessorPortType"
+      operation="process" variable="request" createInstance="yes" />
+	  
+    <extensionActivity>
+      <proc:invokePipelet name="search">
+        <proc:pipelet class="org.eclipse.smila.lucene.pipelets.LuceneSearchPipelet" />
+        <proc:variables input="request" />
+        <proc:configuration>
+          <rec:Val key="indexname">test_index</rec:Val>
+        </proc:configuration>
+      </proc:invokePipelet>
+    </extensionActivity>
+	
+	<extensionActivity>
+      <proc:invokePipelet name="dummy">
+        <proc:pipelet class="it.polimi.mdir.dummybundle.DummyPipelet" />
+        <proc:variables input="request" />
+        <proc:configuration>
+          <rec:Val key="source_attribute_name">Title</rec:Val>
+		  <rec:Val key="target_attribute_name">Title</rec:Val>
+        </proc:configuration>
+      </proc:invokePipelet>
+    </extensionActivity>	
+
+    <extensionActivity>
+      <proc:invokePipelet name="highlight results">
+        <proc:pipelet class="org.eclipse.smila.search.highlighting.HighlightingPipelet" />
+        <proc:variables input="request" />
+        <proc:configuration>
+          <rec:Map key="highlightingTransformers">
+            <rec:Map key="Content">
+              <rec:Val key="name">Sentence</rec:Val>
+              <rec:Val key="MaxLength">300</rec:Val>
+              <rec:Val key="MarkupPrefix">&lt;b&gt;</rec:Val>
+              <rec:Val key="MarkupSuffix">&lt;/b&gt;</rec:Val>
+              <rec:Val key="MaxHLElements">999</rec:Val>
+              <rec:Val key="MaxSucceedingCharacters">30</rec:Val>
+              <rec:Val key="SucceedingCharacters">...</rec:Val>
+              <rec:Val key="SortAlgorithm">Occurrence</rec:Val>
+              <rec:Val key="TextHandling">ReturnSnipplet</rec:Val>
+            </rec:Map>
+          </rec:Map>
+        </proc:configuration>
+      </proc:invokePipelet>
+    </extensionActivity>
+
+    <reply name="end" partnerLink="Pipeline" portType="proc:ProcessorPortType" operation="process"
+      variable="request" />
+    <exit />
+  </sequence>
+</process>

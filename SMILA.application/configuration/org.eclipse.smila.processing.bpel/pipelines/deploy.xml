@@ -10,6 +10,13 @@
 -->
 <deploy xmlns="http://www.apache.org/ode/schemas/dd/2007/03" xmlns:proc="http://www.eclipse.org/smila/processor">
 
+  <process name="proc:MyPipeline">
+    <in-memory>true</in-memory>
+    <provide partnerLink="Pipeline">
+      <service name="proc:MyPipeline" port="ProcessorPort" />
+    </provide>    
+  </process>
+
   <process name="proc:AddPipeline">
     <in-memory>true</in-memory>
     <provide partnerLink="Pipeline">
