@@ -1,0 +1,10 @@
+<books>
+	<book id="1">
+		<author>JK Rowling</author>
+		<price>20</price>
+	</book>
+	<book id="2">
+		<author>Stephen King</author>
+		<price>25</price>
+	</book>
+</books>
