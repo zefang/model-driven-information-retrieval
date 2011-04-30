@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/***********************************************************************************************************************
+ * Contributors: Stefano Celentano, Lorenzo Furrer
+ **********************************************************************************************************************/
+-->
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:redefine schemaLocation="../../org.eclipse.smila.connectivity.framework.schema/schemas/RootDataSourceConnectionConfigSchema.xsd">
+
+<!--
+
+TO DO!
+Vedi template nel FileSystemCrawler
+
+-->
+
+</xs:schema>
