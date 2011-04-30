@@ -17,6 +17,13 @@
     </provide>    
   </process>
 
+  <process name="proc:SolrAddPipeline">
+    <in-memory>true</in-memory>
+    <provide partnerLink="Pipeline">
+      <service name="proc:SolrAddPipeline" port="ProcessorPort" />
+    </provide>    
+  </process>
+
   <process name="proc:AddPipeline">
     <in-memory>true</in-memory>
     <provide partnerLink="Pipeline">
@@ -31,6 +38,13 @@
     </provide>    
   </process>
   
+  <process name="proc:SolrSearchPipeline">
+    <in-memory>true</in-memory>
+    <provide partnerLink="Pipeline">
+      <service name="proc:SolrSearchPipeline" port="ProcessorPort" />
+    </provide>    
+  </process>
+    
    <process name="proc:SearchPipeline">
     <in-memory>true</in-memory>
     <provide partnerLink="Pipeline">
