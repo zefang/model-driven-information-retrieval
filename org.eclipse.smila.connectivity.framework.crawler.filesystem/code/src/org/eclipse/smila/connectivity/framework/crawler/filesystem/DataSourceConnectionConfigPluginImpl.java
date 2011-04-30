@@ -26,14 +26,12 @@ public class DataSourceConnectionConfigPluginImpl implements DataSourceConnectio
     return "schemas/FileSystemDataSourceConnectionConfigSchema.xsd";
   }
 
-  /**
-   * {@inheritDoc}
-   * 
-   * @see org.eclipse.smila.connectivity.framework.schema.DataSourceConnectionConfigPlugin#getMessagesPackage()
-   */
   @Override
   public String getMessagesPackage() {
-    return "org.eclipse.smila.connectivity.framework.crawler.filesystem.messages";
-  }
+	// TODO Auto-generated method stub
+	return null;
+   }
+
+
 
 }
