@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/***********************************************************************************************************************
+ * Contributors: Stefano Celentano, Lorenzo Furrer
+ **********************************************************************************************************************/
+-->
+<component name="ModelCrawler" immediate="false" factory="CrawlerFactory">
+    <implementation class="it.polimi.mdir.crawler.model.ModelCrawler" />
+    <service>
+         <provide interface="org.eclipse.smila.connectivity.framework.Crawler"/>
+    </service>    
+</component>
