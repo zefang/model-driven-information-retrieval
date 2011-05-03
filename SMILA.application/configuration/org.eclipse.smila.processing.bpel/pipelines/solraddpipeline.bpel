@@ -33,82 +33,17 @@
     <receive name="start" partnerLink="Pipeline" portType="proc:ProcessorPortType"
       operation="process" variable="request" createInstance="yes" />
 
-    <if name="conditionHasMimeType">
-      <condition>not($request.records/rec:Record[1]/rec:Val[@key="MimeType"])</condition>
-      <sequence name="detectMimeType">
-
-        <extensionActivity>
-          <proc:invokePipelet name="detect MimeType">
-            <proc:pipelet class="org.eclipse.smila.processing.pipelets.MimeTypeIdentifyPipelet" />
-            <proc:variables input="request" output="request" />
-            <proc:configuration>
-              <rec:Val key="FileExtensionAttribute">Extension</rec:Val>
-              <rec:Val key="MetaDataAttribute">MetaData</rec:Val>
-              <rec:Val key="MimeTypeAttribute">MimeType</rec:Val>
-            </proc:configuration>
-          </proc:invokePipelet>
-        </extensionActivity>
-
-      </sequence>
-    </if>
-
-    <!-- only process text based content, skip everything else -->
-    <if name="conditionIsText">
-      <condition>starts-with($request.records/rec:Record[1]/rec:Val[@key="MimeType"],"text/")
-      </condition>
-      <sequence name="processTextBasedContent">
-        <if name="conditionIsHtml">
-          <condition>starts-with($request.records/rec:Record[1]/rec:Val[@key="MimeType"],"text/html")
-            or
-            starts-with($request.records/rec:Record[1]/rec:Val[@key="MimeType"],"text/xml")
-          </condition>
-          <!-- extract txt from html and xml files -->
-          <extensionActivity>
-            <proc:invokePipelet name="invokeHtml2Txt">
-              <proc:pipelet class="org.eclipse.smila.processing.pipelets.HtmlToTextPipelet" />
-              <proc:variables input="request" output="request" />
-              <proc:configuration>
-                <rec:Val key="inputType">ATTACHMENT</rec:Val>
-                <rec:Val key="outputType">ATTRIBUTE</rec:Val>
-                <rec:Val key="inputName">Content</rec:Val>
-                <rec:Val key="outputName">Content</rec:Val>
-                <rec:Val key="meta:title">Title</rec:Val>
-              </proc:configuration>
-            </proc:invokePipelet>
-          </extensionActivity>
-          <else>
-            <!-- copy txt from attachment to attribute -->
-            <extensionActivity>
-              <proc:invokePipelet name="invokeCopyContent">
-                <proc:pipelet class="org.eclipse.smila.processing.pipelets.CopyPipelet" />
-                <proc:variables input="request" output="request" />
-                <proc:configuration>
-                  <rec:Val key="inputType">ATTACHMENT</rec:Val>
-                  <rec:Val key="outputType">ATTRIBUTE</rec:Val>
-                  <rec:Val key="inputName">Content</rec:Val>
-                  <rec:Val key="outputName">Content</rec:Val>
-                  <rec:Val key="mode">COPY</rec:Val>
-                </proc:configuration>
-              </proc:invokePipelet>
-            </extensionActivity>
-          </else>
-        </if>
-
-        <extensionActivity>
-          <proc:invokePipelet name="invokeSolrPipelet">
-            <proc:pipelet class="org.eclipse.smila.integration.solr.SolrIndexPipelet" />
+		<extensionActivity>
+          <proc:invokePipelet name="invokeSolrIndexerPipelet">
+            <proc:pipelet class="it.polimi.mdir.solr.SolrIndexerPipelet" />
             <proc:variables input="request" />
             <proc:configuration>
               <rec:Val key="executionMode">ADD</rec:Val>
-              <rec:Val key="allowDoublets" type="boolean">false</rec:Val>
               <rec:Val key="commitWithin" type="long">10000</rec:Val>
-              <rec:Val key="indexname">test_index</rec:Val>
+              <rec:Val key="indexname">test_core</rec:Val>
             </proc:configuration>
           </proc:invokePipelet>
         </extensionActivity>
-
-      </sequence>
-    </if>
 
     <reply name="end" partnerLink="Pipeline" portType="proc:ProcessorPortType" operation="process"
       variable="request" />
