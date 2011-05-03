@@ -13,9 +13,17 @@
   xsi:noNamespaceSchemaLocation="schemas/QueueWorkerConfig.xsd"
 >
 
+  <Rule Name="SolrAddPipeline Rule" WaitMessageTimeout="10" Threads="4" MaxMessageBlockSize="20">
+    <Source BrokerId="broker1" Queue="SMILA.connectivity"/>
+    <Condition>Call_Pipeline='SolrAddPipeline' and Operation='ADD' and NOT(DataSourceID LIKE '%feeds%') and NOT(DataSourceID LIKE '%xmldump%')</Condition>
+    <Task>
+      <Process Workflow="SolrAddPipeline"/>
+    </Task>
+  </Rule>
+
   <Rule Name="ADD Rule" WaitMessageTimeout="10" Threads="4" MaxMessageBlockSize="20">
     <Source BrokerId="broker1" Queue="SMILA.connectivity"/>
-    <Condition>Operation='ADD' and NOT(DataSourceID LIKE '%feeds%') and NOT(DataSourceID LIKE '%xmldump%')</Condition>
+    <Condition>NOT(Call_Pipeline='SolrAddPipeline') and Operation='ADD' and NOT(DataSourceID LIKE '%feeds%') and NOT(DataSourceID LIKE '%xmldump%')</Condition>
     <Task>
       <Process Workflow="AddPipeline"/>
     </Task>
