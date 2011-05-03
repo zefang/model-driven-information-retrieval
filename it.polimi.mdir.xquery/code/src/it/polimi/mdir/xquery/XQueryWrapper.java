@@ -49,14 +49,15 @@ public class XQueryWrapper {
 		
 			FileInputStream inputStream = new FileInputStream("xquery/q.xquery"); 
 			XQPreparedExpression expr = conn.prepareExpression(inputStream);
-			expr.bindObject(new QName("document"),new String("exampledocs/books.xml"), null);
-			expr.bindObject(new QName("v"),new Integer(23), null);
+			expr.bindObject(new QName("document"),new String("exampledocs/PetriNet_extended.uml"), null);
+			//expr.bindObject(new QName("v"),new Integer(23), null);
 			
 			XQResultSequence result = expr.executeQuery();
 			
 			while (result.next()) {
-				System.out.println(result.getItemAsString(null));
+				System.out.println(result.getObject().toString());
 			}
+			result.close();
 		
 		} catch (InstantiationException e) {
 			e.printStackTrace();

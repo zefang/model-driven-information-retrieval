@@ -1,6 +1,8 @@
-declare variable $document as xs:string external;
-declare variable $v as xs:int external;
+declare namespace xmi = "http://schema.omg.org/spec/XMI/2.1";
+declare namespace uml = "http://www.eclipse.org/uml2/2.1.0/UML"; 
 
-for $x in doc($document)//book
-where $x/price > $v
-return $x/author
+declare variable $document as xs:string external;
+
+for $x in doc($document)//packagedElement
+where $x/@xmi:type = "uml:Class"
+return $x/@name
