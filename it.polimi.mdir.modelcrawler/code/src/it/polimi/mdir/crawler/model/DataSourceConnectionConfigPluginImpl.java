@@ -18,7 +18,7 @@ public class DataSourceConnectionConfigPluginImpl implements DataSourceConnectio
    */
   @Override
   public String getSchemaLocation() {
-    return "schemas/FileSystemDataSourceConnectionConfigSchema.xsd";
+    return "schemas/ModelDataSourceConnectionConfigSchema.xsd";
   }
 
   @Override
