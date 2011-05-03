@@ -46,17 +46,20 @@ public class SolrAnalyzerPipelet implements Pipelet {
 	
 	private static final String HTTP_LOCALHOST = "http://localhost";
 	private static final String SOLR_WEBAPP = ":8983/solr/";
-	private static final String ANALYSIS = "analysis/document";
+	private static final String ANALYSIS = "/analysis/document";
 	
 	private static final String WRITERTYPE = "writerType";
 	private static final String INDENT = "indent";
+	private static final String CORE_NAME = "coreName";
 	
 	private static final String FIELD = "field";
 	
 	private static final String FIELDTYPE = "fieldType";
 	
-	private String _writerType = "xml"; //default value
-	private String _indent = "true"; //default value
+	//Default values if no parameters are specified
+	private String _writerType = "xml";
+	private String _indent = "true";
+	private String _coreName = "test_core";
 	private String _fieldType = "";
 	
 	
@@ -74,7 +77,10 @@ public class SolrAnalyzerPipelet implements Pipelet {
 		if (_configuration.containsKey(INDENT)) {
 			_indent = _configuration.getStringValue(INDENT);
 		}
-		
+		//reads the index name. If nothing is specified, test_core will be used.
+		if (configuration.containsKey(CORE_NAME)) {   
+			_coreName = _configuration.getStringValue(CORE_NAME);
+		} 
 		if (_configuration.containsKey(FIELDTYPE)) {
 			_fieldType = _configuration.getStringValue(FIELDTYPE);
 		} else {
@@ -86,7 +92,7 @@ public class SolrAnalyzerPipelet implements Pipelet {
 	public String[] process(Blackboard blackboard, String[] recordIds)
 			throws ProcessingException {
 
-		String analysisURL = HTTP_LOCALHOST + SOLR_WEBAPP + ANALYSIS;
+		String analysisURL = HTTP_LOCALHOST + SOLR_WEBAPP + _coreName + ANALYSIS;
 		analysisURL += "?wt=" + _writerType + "&indent=" + _indent;
 		
 		URL url = null;
