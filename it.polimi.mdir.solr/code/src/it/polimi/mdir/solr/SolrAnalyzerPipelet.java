@@ -31,6 +31,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
+/**
+ * This pipelet integrates the Apache Solr's REST API and is designed to be used both in processing and in search
+ * pipelines. It calls the "/analysis/document" service of solr. 
+ * 
+ * */
+
 public class SolrAnalyzerPipelet implements Pipelet {
 
 	private AnyMap _configuration;
@@ -48,13 +54,14 @@ public class SolrAnalyzerPipelet implements Pipelet {
 	private static final String SOLR_WEBAPP = ":8983/solr/";
 	private static final String ANALYSIS = "/analysis/document";
 	
+	//Solr document constants
+	private static final String FIELD = "field";
+	private static final String FIELDTYPE = "fieldType";
+	
+	//Configuration parameter names
 	private static final String WRITERTYPE = "writerType";
 	private static final String INDENT = "indent";
 	private static final String CORE_NAME = "coreName";
-	
-	private static final String FIELD = "field";
-	
-	private static final String FIELDTYPE = "fieldType";
 	
 	//Default values if no parameters are specified
 	private String _writerType = "xml";
@@ -188,6 +195,11 @@ public class SolrAnalyzerPipelet implements Pipelet {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
+		} 
+		finally {
+			if (conn != null) {
+				conn.disconnect();
+			}
 		}
 		return recordIds;
 	}
