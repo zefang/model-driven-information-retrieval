@@ -52,7 +52,7 @@ public class XQueryWrapper {
 		
 			XQConnection conn = source.getConnection();
 		
-			FileInputStream inputStream = new FileInputStream("xquery/q.xquery"); 
+			FileInputStream inputStream = new FileInputStream("xquery/q.xquery.getclassnames"); 
 			XQPreparedExpression expr = conn.prepareExpression(inputStream);
 			expr.bindObject(new QName("document"),new String("exampledocs/PetriNet_extended.uml"), null);
 			//expr.bindObject(new QName("v"),new Integer(23), null);
@@ -65,7 +65,21 @@ public class XQueryWrapper {
 				listResults.add(result.getObject().toString());
 			}
 			result.close();
+			
+			
+			inputStream = new FileInputStream("xquery/q.xquery.getattributenames"); 
+			expr = conn.prepareExpression(inputStream);
+			expr.bindObject(new QName("document"),new String("exampledocs/PetriNet_extended.uml"), null);			
+			
+			result = expr.executeQuery();
 		
+			while (result.next()) {
+				listResults.add(result.getObject().toString());
+			}
+			result.close();	
+			
+			System.out.println(listResults.toString());
+			
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
