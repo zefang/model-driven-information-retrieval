@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Model crawler
-Bundle-SymbolicName: it.polimi.mdir.modelcrawler;singleton:=true
+Bundle-SymbolicName: it.polimi.mdir.crawler.model;singleton:=true
 Bundle-Version: 0.1
 Import-Package: it.polimi.mdir.logger,
  org.apache.commons.io;version="1.4.0",

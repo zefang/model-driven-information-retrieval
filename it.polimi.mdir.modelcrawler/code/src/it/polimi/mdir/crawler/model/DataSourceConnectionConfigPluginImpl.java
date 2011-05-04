@@ -23,8 +23,8 @@ public class DataSourceConnectionConfigPluginImpl implements DataSourceConnectio
 
   @Override
   public String getMessagesPackage() {
-	// TODO Auto-generated method stub
-	return null;
+	  return "it.polimi.mdir.crawler.model.messages";
+
   }
   
 }
