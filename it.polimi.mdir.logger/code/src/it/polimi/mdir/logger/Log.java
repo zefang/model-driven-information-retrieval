@@ -31,7 +31,8 @@ public class Log {
 	
 	public void write(String message) {
 		try {
-			PrintWriter outputstream = new PrintWriter(new FileWriter(_logFile));
+			_logFile = new File(PATH);
+			PrintWriter outputstream = new PrintWriter(new FileWriter(_logFile, true));
 			outputstream.println(message);
 			outputstream.close();
 		} catch (FileNotFoundException e) {
