@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/***********************************************************************************************************************
+ * Copyright (c) 2008 empolis GmbH and brox IT Solutions GmbH. All rights reserved. This program and the accompanying
+ * materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors: Ivan Churkin (brox IT Solutions GmbH) - initial creator
+ **********************************************************************************************************************/
+-->
+<DataSourceConnectionConfig
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../it.polimi.mdir.modelcrawler/schemas/ModelDataSourceConnectionConfigSchema.xsd"
+>
+  <DataSourceID>model</DataSourceID>
+  <SchemaID>it.polimi.mdir.modelcrawler</SchemaID>
+  <DataConnectionID>
+    <Crawler>ModelCrawler</Crawler>
+  </DataConnectionID>
+  <RecordBuffer Size="40" FlushInterval="3000" />  
+  <DeltaIndexing>full</DeltaIndexing>  
+  <Attributes>
+    <Attribute Type="String" Name="FileName" KeyAttribute="true">
+      <FileAttributes>FileName</FileAttributes>
+    </Attribute>
+    <Attribute Type="String" Name="Path">
+      <FileAttributes>Path</FileAttributes>
+    </Attribute>
+    <Attribute Type="String" Name="Content">
+      <FileAttributes>Content</FileAttributes>
+    </Attribute> 
+  </Attributes>
+  <Process>
+    <BaseDir>c:\UML_models</BaseDir>
+    <Filter Recursive="true" CaseSensitive="false">
+      <Include Name="*.uml"/>                  
+    </Filter>
+  </Process>
+</DataSourceConnectionConfig>
