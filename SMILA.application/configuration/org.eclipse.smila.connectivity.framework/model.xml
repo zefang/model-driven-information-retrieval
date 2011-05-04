@@ -10,7 +10,7 @@
 -->
 <DataSourceConnectionConfig
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="../it.polimi.mdir.modelcrawler/schemas/ModelDataSourceConnectionConfigSchema.xsd"
+  xsi:noNamespaceSchemaLocation="../it.polimi.mdir.crawler.model/schemas/ModelDataSourceConnectionConfigSchema.xsd"
 >
   <DataSourceID>model</DataSourceID>
   <SchemaID>it.polimi.mdir.modelcrawler</SchemaID>
