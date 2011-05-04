@@ -12,6 +12,8 @@ import it.polimi.mdir.crawler.model.messages.Attribute;
 import it.polimi.mdir.crawler.model.messages.Process.Filter;
 import it.polimi.mdir.crawler.model.messages.Process.Filter.Exclude;
 import it.polimi.mdir.crawler.model.messages.Process.Filter.Include;
+import it.polimi.mdir.logger.Log;
+import it.polimi.mdir.logger.LogFactory;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -28,8 +30,6 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOCase;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.eclipse.smila.connectivity.ConnectivityId;
 import org.eclipse.smila.connectivity.framework.AbstractCrawler;
 import org.eclipse.smila.connectivity.framework.CrawlerCallback;
@@ -89,9 +89,9 @@ public class ModelCrawler extends AbstractCrawler {
   private static final int STEP = 10;
 
   /**
-   * The LOG.
+   * The LOG, our version.
    */
-  private final Log _log = LogFactory.getLog(ModelCrawler.class);
+  private final Log _log = LogFactory.getLog();
 
   /**
    * The _queue.
@@ -153,9 +153,7 @@ public class ModelCrawler extends AbstractCrawler {
    */
   public ModelCrawler() {
     super();
-    if (_log.isDebugEnabled()) {
-      _log.debug("Creating ModelCrawler instance");
-    }
+    _log.write("[DEBUG] Creating ModelCrawler instance");
   }
 
   /**
@@ -166,7 +164,7 @@ public class ModelCrawler extends AbstractCrawler {
    */
   @Override
   public void initialize(final DataSourceConnectionConfig config) throws CrawlerException, CrawlerCriticalException {
-    _log.info("Initializing ModelCrawler...");
+    _log.write("[INFO] Initializing ModelCrawler...");
     synchronized (_openedMonitor) {
       if (_opened) {
         throw new CrawlerCriticalException(
@@ -357,7 +355,7 @@ public class ModelCrawler extends AbstractCrawler {
   public void close() throws CrawlerException {
     synchronized (_openedMonitor) {
       _opened = false;
-      _log.info("Closing FileSystemCrawler...");
+      _log.write("[INFO] Closing FileSystemCrawler...");
       _forceClosing = true;
       _isProducerRunning = false;
       _crawlThread = null;
@@ -513,7 +511,7 @@ public class ModelCrawler extends AbstractCrawler {
             final Filter filter = (Filter) _process.getBaseDirAndFilter().get(i++);
             final File file = new File(path);
             if (!file.exists() || !file.isDirectory()) {
-              _log.error("Folder " + path + " is not found");
+              _log.write("[ERROR] Folder " + path + " is not found");
               continue;
             }
             processFolder(file, filter);
@@ -522,13 +520,13 @@ public class ModelCrawler extends AbstractCrawler {
           if (_performanceCounters != null) {
             _performanceCounters.addException(ex);
           }
-          _log.error("Producer error", ex);
+          _log.write("[ERROR] Producer error: " + ex.toString());
         } finally {
           _isProducerRunning = false;
           if (_forceClosing) {
-            _log.info("Producer finished by forcing close procedure");
+            _log.write("[INFO] Producer finished by forcing close procedure");
           } else {
-            _log.info("Producer finished!");
+            _log.write("[INFO] Producer finished!");
           }
         }
       } catch (RuntimeException ex) {
@@ -575,7 +573,7 @@ public class ModelCrawler extends AbstractCrawler {
       }
       final File[] entries = dir.listFiles(fileFilter);
       if (entries == null) {
-        _log.warn("Unknown IO error while listing directory " + dir + ", skipping.");
+        _log.write("[WARNING] Unknown IO error while listing directory " + dir + ", skipping.");
       } else {
         for (int i = 0; i < entries.length; i++) {
           final File file = entries[i];
@@ -596,11 +594,11 @@ public class ModelCrawler extends AbstractCrawler {
               } catch (final Throwable e) {
                 _performanceCounters.increment(POC_PRODUCER_EXCEPTIONS);
                 _performanceCounters.addException(e);
-                _log.error("", e);
+                _log.write("[ERROR]" + e.toString());
               }
             }
           } else {
-            _log.warn("Path " + file + " is neither file nor directory, skipping.");
+            _log.write("[WARNING] Path " + file + " is neither file nor directory, skipping.");
           }
         }
       }

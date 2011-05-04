@@ -946,14 +946,14 @@
          unpack="false"/>
 
    <plugin
-         id="it.polimi.mdir.modelcrawler"
+         id="it.polimi.mdir.logger"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="it.polimi.mdir.logger"
+         id="it.polimi.mdir.crawler.model"
          download-size="0"
          install-size="0"
          version="0.0.0"

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Model crawler
+Bundle-Name: Model Crawler
 Bundle-SymbolicName: it.polimi.mdir.crawler.model;singleton:=true
 Bundle-Version: 0.1
 Import-Package: it.polimi.mdir.logger,
@@ -20,3 +20,5 @@ Import-Package: it.polimi.mdir.logger,
  org.eclipse.smila.utils.file;version="0.8.0"
 Service-Component: OSGI-INF/modelcrawler.xml
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: it.polimi.mdir.crawler.model,
+ it.polimi.mdir.crawler.model.messages
