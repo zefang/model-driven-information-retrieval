@@ -12,8 +12,8 @@ public class Profiler {
 
 	
 	final static private String MODELS_PATH = "C:/UML_models";
-	final static private String QUERY_PATH = "xquery/getClasses.xquery";
-	final static private String OUTPUT_PATH = "output/numclasses.txt";
+	final static private String QUERY_PATH = "xquery/getPackages.xquery";
+	final static private String OUTPUT_PATH = "output/numpackages.txt";
 	
 	private static int _numClasses = -1;
 	
