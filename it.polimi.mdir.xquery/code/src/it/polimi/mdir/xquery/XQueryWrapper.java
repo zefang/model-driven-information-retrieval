@@ -1,7 +1,9 @@
 package it.polimi.mdir.xquery;
 
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import javax.xml.namespace.QName;
 import javax.xml.xquery.XQConnection;
@@ -21,7 +23,6 @@ public class XQueryWrapper {
 	private XQResultSequence _xqResultSequence;
 	
 	private FileInputStream _queryFile;
-
 	
 	public XQueryWrapper(String queryPath) {
 		configure(queryPath);
@@ -43,6 +44,8 @@ public class XQueryWrapper {
 	public static void main(String[] args) {
 		
 		try {
+			
+			
 			XQDataSource source = (XQDataSource) Class.forName(DRIVER).newInstance();
 		
 			XQConnection conn = source.getConnection();
@@ -54,8 +57,10 @@ public class XQueryWrapper {
 			
 			XQResultSequence result = expr.executeQuery();
 			
+			ArrayList<String> listResults = new ArrayList<String>();
+			
 			while (result.next()) {
-				System.out.println(result.getObject().toString());
+				listResults.add(result.getObject().toString());
 			}
 			result.close();
 		
@@ -75,7 +80,6 @@ public class XQueryWrapper {
 	
 	public void configure(String queryPath) {
 		try {
-			
 			_xqDatasource = (XQDataSource) Class.forName(DRIVER).newInstance();
 			_xqConnection = _xqDatasource.getConnection();
 			
@@ -96,15 +100,16 @@ public class XQueryWrapper {
 		
 	}
 	
-	public XQResultSequence executeQuery(String query, String documentPath) throws XQException {
+	public ArrayList<String> executeQuery(String query, String documentPath) throws XQException {
 		
+		ArrayList<String> resultList = new ArrayList<String>();
 		_xqResultSequence = _xqPreparedExpression.executeQuery();
 			
 		while (_xqResultSequence.next()) {
-			System.out.println(_xqResultSequence.getItemAsString(null));
+			resultList.add(_xqResultSequence.getObject().toString());
 		}
 			
-		return _xqResultSequence;
+		return resultList;
 	}
 	
 	public void bindVariable(String variableName, String value) throws XQException {
