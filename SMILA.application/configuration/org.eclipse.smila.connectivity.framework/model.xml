@@ -13,7 +13,7 @@
   xsi:noNamespaceSchemaLocation="../it.polimi.mdir.crawler.model/schemas/ModelDataSourceConnectionConfigSchema.xsd"
 >
   <DataSourceID>model</DataSourceID>
-  <SchemaID>it.polimi.mdir.modelcrawler</SchemaID>
+  <SchemaID>it.polimi.mdir.crawler.model</SchemaID>
   <DataConnectionID>
     <Crawler>ModelCrawler</Crawler>
   </DataConnectionID>
