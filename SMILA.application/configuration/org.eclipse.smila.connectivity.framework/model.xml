@@ -18,7 +18,7 @@
     <Crawler>ModelCrawler</Crawler>
   </DataConnectionID>
   <RecordBuffer Size="40" FlushInterval="3000" />  
-  <DeltaIndexing>full</DeltaIndexing>  
+  <DeltaIndexing>disabled</DeltaIndexing>  
   <Attributes>
     <Attribute Type="String" Name="FileName" KeyAttribute="true">
       <FileAttributes>FileName</FileAttributes>
