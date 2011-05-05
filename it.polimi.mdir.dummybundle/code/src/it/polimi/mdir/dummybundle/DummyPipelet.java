@@ -1,5 +1,9 @@
 package it.polimi.mdir.dummybundle;
 
+import java.util.ArrayList;
+
+import it.polimi.mdir.xquery.XQueryWrapper;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.smila.blackboard.Blackboard;
@@ -25,6 +29,7 @@ public class DummyPipelet implements Pipelet {
 
   @Override
   public String[] process(final Blackboard blackboard, final String[] recordIds) throws ProcessingException {
+	  
     for (final String id : recordIds) {
       try {
         String inValue = "";
@@ -44,6 +49,13 @@ public class DummyPipelet implements Pipelet {
         throw new ProcessingException(e);
       }
     }
+    
+    XQueryWrapper xq = new XQueryWrapper("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.dummybundle/xquery/getClasses.xquery");
+    xq.bindVariable("document", "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.dummybundle/xquery/PetriNet_extended.uml");
+    ArrayList<String> list = xq.executeQuery();
+    System.out.println(list.get(0).toString());
+    System.out.println("Sono in DummyPipelet");
+    
     return recordIds;
   }
 

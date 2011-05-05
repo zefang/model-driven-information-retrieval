@@ -23,3 +23,5 @@ Service-Component: OSGI-INF/modelcrawler.xml
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: it.polimi.mdir.crawler.model,
  it.polimi.mdir.crawler.model.messages
+Require-Bundle: it.polimi.mdir.xquery;bundle-version="1.0.0"
+Eclipse-RegisterBuddy: it.polimi.mdir.xquery

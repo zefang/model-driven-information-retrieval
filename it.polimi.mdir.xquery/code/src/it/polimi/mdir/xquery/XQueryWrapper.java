@@ -3,13 +3,11 @@ package it.polimi.mdir.xquery;
 
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import javax.xml.namespace.QName;
 import javax.xml.xquery.XQConnection;
 import javax.xml.xquery.XQDataSource;
-import javax.xml.xquery.XQException;
 import javax.xml.xquery.XQPreparedExpression;
 import javax.xml.xquery.XQResultSequence;
 
@@ -52,7 +50,7 @@ public class XQueryWrapper {
 		
 			XQConnection conn = source.getConnection();
 		
-			FileInputStream inputStream = new FileInputStream("xquery/q.xquery.getclassnames"); 
+			FileInputStream inputStream = new FileInputStream("xquery/getclassnames.xquery"); 
 			XQPreparedExpression expr = conn.prepareExpression(inputStream);
 			expr.bindObject(new QName("document"),new String("exampledocs/PetriNet_extended.uml"), null);
 			//expr.bindObject(new QName("v"),new Integer(23), null);
@@ -67,7 +65,7 @@ public class XQueryWrapper {
 			result.close();
 			
 			
-			inputStream = new FileInputStream("xquery/q.xquery.getattributenames"); 
+			inputStream = new FileInputStream("xquery/getattributenames.xquery"); 
 			expr = conn.prepareExpression(inputStream);
 			expr.bindObject(new QName("document"),new String("exampledocs/PetriNet_extended.uml"), null);			
 			
@@ -80,17 +78,9 @@ public class XQueryWrapper {
 			
 			System.out.println(listResults.toString());
 			
-		} catch (InstantiationException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (XQException e) {
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		} 
 
 	}
 	
@@ -102,17 +92,9 @@ public class XQueryWrapper {
 			_queryFile = new FileInputStream(queryPath);
 			_xqPreparedExpression = _xqConnection.prepareExpression(_queryFile);
 			
-		} catch (InstantiationException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (XQException e) {
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		} 
 		
 	}
 	
@@ -126,7 +108,7 @@ public class XQueryWrapper {
 				resultList.add(_xqResultSequence.getObject().toString());
 			}
 		}
-		catch (XQException e) {
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 		
@@ -137,7 +119,7 @@ public class XQueryWrapper {
 		
 		try {
 			_xqPreparedExpression.bindString(new QName(variableName), value, null);
-		} catch (XQException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		

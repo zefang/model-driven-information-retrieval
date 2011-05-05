@@ -97,6 +97,9 @@ public class SolrIndexerPipelet implements Pipelet {
   
   @Override
   public String[] process(final Blackboard blackboard, final String[] recordIds) throws ProcessingException {
+	
+	System.out.println("Start SolrIndexerPipelet");
+	  
     final String updateURL = HTTP_LOCALHOST + SOLR_WEBAPP + _coreName + UPDATE;
     String updateXMLMessage = null;
     URL url = null;
