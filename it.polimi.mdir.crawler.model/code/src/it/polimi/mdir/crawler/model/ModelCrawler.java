@@ -411,7 +411,7 @@ public class ModelCrawler extends AbstractCrawler {
         return file.getAbsolutePath();
       case CONTENT:
     	  System.out.println("Instantiating XQueryWrapper...");
-    	XQueryWrapper xq = new XQueryWrapper("xquery/getClassNames.xquery");
+    	XQueryWrapper xq = new XQueryWrapper("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.crawler.model/xquery/getClassNames.xquery");
     	System.out.println("binding variable...");
         xq.bindVariable("document", file.getAbsolutePath());
         System.out.println("executing query...");

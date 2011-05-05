@@ -10,4 +10,5 @@ Import-Package: org.apache.xerces.dom;version="2.9.0",
  org.eclipse.smila.integration.solr;version="0.8.0",
  org.eclipse.smila.processing;version="0.8.0",
  org.w3c.dom;version="3.0.0"
-SMILA-Pipelets: it.polimi.mdir.solr.SolrAnalyzerPipelet
+SMILA-Pipelets: it.polimi.mdir.solr.SolrAnalyzerPipelet,
+ it.polimi.mdir.solr.SolrIndexerPipelet
