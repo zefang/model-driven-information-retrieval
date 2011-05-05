@@ -10,5 +10,3 @@ Import-Package: it.polimi.mdir.xquery,
  org.eclipse.smila.blackboard;version="0.8.0",
  org.eclipse.smila.datamodel;version="0.8.0",
  org.eclipse.smila.processing;version="0.8.0"
-Require-Bundle: it.polimi.mdir.xquery;bundle-version="1.0.0"
-Eclipse-RegisterBuddy: it.polimi.mdir.xquery
