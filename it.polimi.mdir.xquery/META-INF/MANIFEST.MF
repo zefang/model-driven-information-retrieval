@@ -4,7 +4,6 @@ Bundle-Name: Xquery
 Bundle-SymbolicName: it.polimi.mdir.xquery
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Eclipse-BuddyPolicy: registered
 Export-Package: it.polimi.mdir.xquery
 Import-Package: it.polimi.mdir.logger
 Bundle-ClassPath: basex-api.jar,
