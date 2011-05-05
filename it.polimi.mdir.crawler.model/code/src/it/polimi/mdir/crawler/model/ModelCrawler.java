@@ -405,14 +405,18 @@ public class ModelCrawler extends AbstractCrawler {
     throws CrawlerException {
     switch (attribute.getFileAttributes()) {
       case FILENAME:
+    	  System.out.println(file.getName());
         return file.getName();
       case PATH:
         return file.getAbsolutePath();
       case CONTENT:
+    	  System.out.println("Instantiating XQueryWrapper...");
     	XQueryWrapper xq = new XQueryWrapper("xquery/getClassNames.xquery");
+    	System.out.println("binding variable...");
         xq.bindVariable("document", file.getAbsolutePath());
+        System.out.println("executing query...");
         ArrayList<String> resultList = xq.executeQuery();
-        System.out.println(resultList.get(0).toString());
+        System.out.println("First result: " + resultList.get(0).toString());
         return resultList.toString();
       default:
         throw new RuntimeException("Unknown file attributes type " + attribute.getFileAttributes());
