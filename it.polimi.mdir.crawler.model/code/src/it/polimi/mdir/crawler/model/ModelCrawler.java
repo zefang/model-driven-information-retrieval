@@ -403,20 +403,28 @@ public class ModelCrawler extends AbstractCrawler {
    */
   private Serializable readAttribute(final File file, final Attribute attribute, final boolean forceByteToString)
     throws CrawlerException {
+	
+	  XQueryWrapper xq;
+	  ArrayList<String> resultList = new ArrayList<String>();
     switch (attribute.getFileAttributes()) {
+      case PROJECTID:
+    	xq = new XQueryWrapper("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.crawler.model/xquery/getProjectId.xquery");
+        xq.bindVariable("document", file.getAbsolutePath());
+        resultList = xq.executeQuery();
+        String id = resultList.get(0);
+    	System.out.println("Reading PROJECTID: " + id);
+    	return id;
       case FILENAME:
-    	  System.out.println(file.getName());
+    	System.out.println("Reading FILENAME: " + file.getName());
         return file.getName();
       case PATH:
+    	System.out.println("Reading PATH: " + file.getAbsolutePath());
         return file.getAbsolutePath();
       case CONTENT:
-    	  System.out.println("Instantiating XQueryWrapper...");
-    	XQueryWrapper xq = new XQueryWrapper("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.crawler.model/xquery/getClassNames.xquery");
-    	System.out.println("binding variable...");
+    	xq = new XQueryWrapper("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.crawler.model/xquery/getClassNames.xquery");
         xq.bindVariable("document", file.getAbsolutePath());
-        System.out.println("executing query...");
-        ArrayList<String> resultList = xq.executeQuery();
-        System.out.println("First result: " + resultList.get(0).toString());
+        resultList = xq.executeQuery();
+        System.out.println("Result list: " + resultList.toString());
         return resultList.toString();
       default:
         throw new RuntimeException("Unknown file attributes type " + attribute.getFileAttributes());

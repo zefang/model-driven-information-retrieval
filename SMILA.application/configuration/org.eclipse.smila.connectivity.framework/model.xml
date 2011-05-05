@@ -20,7 +20,10 @@
   <RecordBuffer Size="40" FlushInterval="3000" />  
   <DeltaIndexing>disabled</DeltaIndexing>  
   <Attributes>
-    <Attribute Type="String" Name="FileName" KeyAttribute="true">
+    <Attribute Type="String" Name="projectId" KeyAttribute="true">
+      <FileAttributes>projectId</FileAttributes>
+    </Attribute>
+    <Attribute Type="String" Name="FileName" HashAttribute="true">
       <FileAttributes>FileName</FileAttributes>
     </Attribute>
     <Attribute Type="String" Name="Path" HashAttribute="true">

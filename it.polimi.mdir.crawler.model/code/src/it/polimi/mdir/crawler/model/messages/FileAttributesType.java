@@ -22,12 +22,10 @@ import javax.xml.bind.annotation.XmlType;
  * <pre>
  * &lt;simpleType name="FileAttributesType">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="Name"/>
+ *     &lt;enumeration value="projectId"/>
+ *     &lt;enumeration value="FileName"/>
  *     &lt;enumeration value="Path"/>
- *     &lt;enumeration value="Size"/>
- *     &lt;enumeration value="LastModifiedDate"/>
  *     &lt;enumeration value="Content"/>
- *     &lt;enumeration value="FileExtension"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
@@ -36,19 +34,15 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "FileAttributesType")
 @XmlEnum
 public enum FileAttributesType {
-
+	
+    @XmlEnumValue("projectId")
+    PROJECTID("projectId"),
     @XmlEnumValue("FileName")
     FILENAME("FileName"),
     @XmlEnumValue("Path")
     PATH("Path"),
-    @XmlEnumValue("Size")
-    SIZE("Size"),
-    @XmlEnumValue("LastModifiedDate")
-    LAST_MODIFIED_DATE("LastModifiedDate"),
     @XmlEnumValue("Content")
-    CONTENT("Content"),
-    @XmlEnumValue("FileExtension")
-    FILE_EXTENSION("FileExtension");
+    CONTENT("Content");
     private final String value;
 
     FileAttributesType(String v) {

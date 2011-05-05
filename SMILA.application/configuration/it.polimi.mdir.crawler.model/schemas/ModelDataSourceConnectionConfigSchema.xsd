@@ -54,6 +54,7 @@
   <!-- simple types -->
   <xs:simpleType name="FileAttributesType">
     <xs:restriction base="xs:string">
+	  <xs:enumeration value="projectId"/>
       <xs:enumeration value="FileName"/>
       <xs:enumeration value="Path"/>
       <xs:enumeration value="Content"/>
