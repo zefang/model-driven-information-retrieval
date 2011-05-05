@@ -14,6 +14,7 @@ import it.polimi.mdir.crawler.model.messages.Process.Filter.Exclude;
 import it.polimi.mdir.crawler.model.messages.Process.Filter.Include;
 import it.polimi.mdir.logger.Log;
 import it.polimi.mdir.logger.LogFactory;
+import it.polimi.mdir.xquery.XQueryWrapper;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -202,6 +203,9 @@ public class ModelCrawler extends AbstractCrawler {
    */
   @Override
   public DataReference[] getNext() throws CrawlerException, CrawlerCriticalException {
+	
+	  System.out.println("Chiamato getNext()"); //TODO delete
+	  
     while (hasNext()) {
       final List<DataReference> refList = new ArrayList<DataReference>();
       try {
@@ -400,25 +404,16 @@ public class ModelCrawler extends AbstractCrawler {
   private Serializable readAttribute(final File file, final Attribute attribute, final boolean forceByteToString)
     throws CrawlerException {
     switch (attribute.getFileAttributes()) {
-      case FILENAME: //TODO cambiare FileAttributes
+      case FILENAME:
         return file.getName();
       case PATH:
         return file.getAbsolutePath();
       case CONTENT:
-        try {
-          final byte[] bytes = FileUtils.readFileToByteArray(file);
-          if (forceByteToString) {
-            try {
-              return EncodingHelper.convertToString(bytes);
-            } catch (final Exception e) {
-              throw new CrawlerException("Error decoding content from file " + file.getAbsolutePath(), e);
-            }
-          } else {
-            return bytes;
-          }
-        } catch (final IOException e) {
-          throw new CrawlerException("Error reading attribute from file " + file.getAbsolutePath(), e);
-        }
+    	XQueryWrapper xq = new XQueryWrapper("xquery/getClassNames.xquery");
+        xq.bindVariable("document", file.getAbsolutePath());
+        ArrayList<String> resultList = xq.executeQuery();
+        System.out.println(resultList.get(0).toString());
+        return resultList.toString();
       default:
         throw new RuntimeException("Unknown file attributes type " + attribute.getFileAttributes());
     }
@@ -642,6 +637,7 @@ public class ModelCrawler extends AbstractCrawler {
      */
     private void readIdAndHashAttributesAndAttachments(final File file, final AnyMap idAttributes,
       final AnyMap hashAttributes, final Map<String, byte[]> hashAttachments) throws CrawlerException {
+    	
       for (final Attribute attributeDef : _attributes) {
         if (attributeDef.isKeyAttribute() || attributeDef.isHashAttribute()) {
           if (attributeDef.isAttachment()) {
@@ -660,6 +656,8 @@ public class ModelCrawler extends AbstractCrawler {
               }
             }
           }
+        } else {
+        	System.out.println(attributeDef.getName() + ": is neither KeyAttribute nor HashAttribute");
         }
       }
     }

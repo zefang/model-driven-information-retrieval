@@ -23,10 +23,10 @@
     <Attribute Type="String" Name="FileName" KeyAttribute="true">
       <FileAttributes>FileName</FileAttributes>
     </Attribute>
-    <Attribute Type="String" Name="Path">
+    <Attribute Type="String" Name="Path" HashAttribute="true">
       <FileAttributes>Path</FileAttributes>
     </Attribute>
-    <Attribute Type="String" Name="Content">
+    <Attribute Type="String" Name="Content" HashAttribute="true">
       <FileAttributes>Content</FileAttributes>
     </Attribute> 
   </Attributes>
