@@ -40,7 +40,6 @@ public class DummyPipelet implements Pipelet {
 		Record myRecord = blackboard.getRecord(id);
 		Record myCopiedRecord = blackboard.copyRecord(id, "5kpokpo");
 		myCopiedRecord.getMetadata().put("attributo", "valore");
-		System.out.println("myCopiedRecord.getMetadata().getStringValue(\"attributo\"): " + myCopiedRecord.getMetadata().getStringValue("attributo"));
 		blackboard.setRecord(myCopiedRecord);
 		blackboard.commit();
 		
