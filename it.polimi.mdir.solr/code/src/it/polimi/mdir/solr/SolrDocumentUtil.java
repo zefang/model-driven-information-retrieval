@@ -1,7 +1,5 @@
 package it.polimi.mdir.solr;
 
-import javax.xml.transform.TransformerFactory;
-
 public class SolrDocumentUtil {
 	
 	// Solr Http constants
