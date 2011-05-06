@@ -33,6 +33,37 @@
     <receive name="start" partnerLink="Pipeline" portType="proc:ProcessorPortType"
       operation="process" variable="request" createInstance="yes" />
 
+	  <!-- Sequences smilaFields and SolrAnalysisTypes must match each other.
+	  They map a name of a field in the smila storage with the requested analysis for it.
+	  Field in position 1 will have the fieldtype in position 1
+	  Omit fields that don't need analysis
+	  Id field is still required though, and is assumed to be the first entry of the list-->
+		<extensionActivity>
+          <proc:invokePipelet name="invokeSolrAnalyzerPipelet">
+            <proc:pipelet class="it.polimi.mdir.solr.SolrAnalyzerPipelet" />
+            <proc:variables input="request" />
+            <proc:configuration>
+			  <rec:Val key="writerType">xml</rec:Val>
+			  <rec:Val key="indent">true</rec:Val>
+              <rec:Val key="coreName">test_core</rec:Val>
+			  <rec:Seq key="smilaFields">
+			    <rec:Val>projectId</rec:Val>
+				<rec:Val>Content</rec:Val>
+			  </rec:Seq>
+			  <rec:Seq key="solrAnalysisTypes">
+			    <rec:Val>projectId</rec:Val>
+				<rec:Val>text_A</rec:Val>
+			  </rec:Seq>
+            </proc:configuration>
+          </proc:invokePipelet>
+        </extensionActivity>
+	  
+	  
+<!--	  
+	  <!-- the same but for indexing. List the fields you want to index in smilaFields and 
+	  the respective name of the solrFields
+	  The first entry of the sequence is considered the id.
+	  
 		<extensionActivity>
           <proc:invokePipelet name="invokeSolrIndexerPipelet">
             <proc:pipelet class="it.polimi.mdir.solr.SolrIndexerPipelet" />
@@ -40,11 +71,19 @@
             <proc:configuration>
               <rec:Val key="executionMode">ADD</rec:Val>
               <rec:Val key="commitWithin" type="long">10000</rec:Val>
-              <rec:Val key="indexname">test_core</rec:Val>
+              <rec:Val key="coreName">test_core</rec:Val>
+			  <rec:Seq key="smilaFields">
+			    <rec:Val>projectId</rec:Val>
+				<rec:Val>Content</rec:Val>
+			  </rec:Seq>
+			  <rec:Seq key="solrFields">
+			    <rec:Val>projectId</rec:Val>
+				<rec:Val>text_A</rec:Val>
+			  </rec:Seq>
             </proc:configuration>
           </proc:invokePipelet>
         </extensionActivity>
-
+-->
     <reply name="end" partnerLink="Pipeline" portType="proc:ProcessorPortType" operation="process"
       variable="request" />
     <exit />
