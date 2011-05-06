@@ -9,4 +9,5 @@ Import-Package: it.polimi.mdir.xquery,
  org.apache.commons.logging;version="1.1.1",
  org.eclipse.smila.blackboard;version="0.8.0",
  org.eclipse.smila.datamodel;version="0.8.0",
- org.eclipse.smila.processing;version="0.8.0"
+ org.eclipse.smila.processing;version="0.8.0",
+ org.eclipse.smila.recordstorage
