@@ -42,7 +42,7 @@ public class DummyPipelet2 implements Pipelet {
 		// Provo a recuperare un attributo
 		Record myOldRecord = blackboard.getRecord("5kpokpo");
 		System.out.println(myOldRecord.getId());
-		System.out.println("myOldRecord.getMetadata().getStringValue(\"attributo\"): " + myOldRecord.getMetadata().getStringValue("attributo"));
+		System.out.println(myOldRecord.getMetadata().getStringValue("attributo"));
 		
 	} catch (BlackboardAccessException e) {
 		// TODO Auto-generated catch block
