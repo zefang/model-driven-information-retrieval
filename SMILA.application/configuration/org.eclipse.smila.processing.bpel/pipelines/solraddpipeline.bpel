@@ -37,7 +37,7 @@
 	  They map a name of a field in the smila storage with the requested analysis for it.
 	  Field in position 1 will have the fieldtype in position 1
 	  Omit fields that don't need analysis
-	  Id field is still required though, and is assumed to be the first entry of the list-->
+	  Id field is still required though, and is assumed to be the first entry of the list -->
 		<extensionActivity>
           <proc:invokePipelet name="invokeSolrAnalyzerPipelet">
             <proc:pipelet class="it.polimi.mdir.solr.SolrAnalyzerPipelet" />
@@ -58,7 +58,7 @@
           </proc:invokePipelet>
         </extensionActivity>
  
-	  <!-- the same but for indexing. List the fields you want to index in smilaFields and 
+	  <!--the same but for indexing. List the fields you want to index in smilaFields and 
 	  the respective name of the solrFields
 	  The first entry of the sequence is considered the id.-->
 		<extensionActivity>

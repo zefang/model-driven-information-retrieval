@@ -142,19 +142,11 @@ public class SolrIndexerPipelet implements Pipelet {
     	  logId = id;
     	  final Element doc = document.createElement(SolrDocumentUtil.DOC);
     	  add.appendChild(doc);
-    	  
-    	  //Create id field
-    	  field = document.createElement(SolrDocumentUtil.FIELD);
-    	  field.setAttribute(SolrDocumentUtil.NAME,  _solrFields.get(0));
-    	  final String idEncoded = URLEncoder.encode(id, UTF8);
-    	  text = document.createTextNode(idEncoded);
-    	  field.appendChild(text);
-    	  doc.appendChild(field);
 
-    	  //Create all other fields
+    	  //Create fields
     	  final AnyMap record = blackboard.getMetadata(id);
     	  for (final String attrName : record.keySet()) {
-    		  if (_smilaFields.contains(attrName)) { //TODO to test
+    		  if (_smilaFields.contains(attrName)) {
     			  int n = _smilaFields.indexOf(attrName);
     			  final Value attributeValue = record.getValue(attrName);
     			  String stringValue = replaceNonXMLChars(attributeValue.asString());
@@ -188,7 +180,7 @@ public class SolrIndexerPipelet implements Pipelet {
         response.append('\r');
       }
       rd.close();
-      // System.out.println("Response:\n" + response.toString());
+      System.out.println("Indexer Response:\n" + response.toString());
     } catch (final Exception e) {
       final String msg =
         "Error while processing record '" + logId + "' for index '" + _coreName + "': " + e.getMessage() + "'.";

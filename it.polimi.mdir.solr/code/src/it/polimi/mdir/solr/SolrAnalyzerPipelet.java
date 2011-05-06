@@ -135,18 +135,10 @@ public class SolrAnalyzerPipelet implements Pipelet {
 				final Element doc = document.createElement(SolrDocumentUtil.DOC);
 				root.appendChild(doc);
 
-				//Create Id field
-				field = document.createElement(SolrDocumentUtil.FIELD);
-				field.setAttribute(SolrDocumentUtil.NAME, _solrAnalysisTypes.get(0));
-				final String idEncoded = URLEncoder.encode(id, UTF8);
-		        text = document.createTextNode(idEncoded);
-		        field.appendChild(text);
-		        doc.appendChild(field);
-				
-				//Create other fields
+				//Create fields
 				final AnyMap record = blackboard.getMetadata(id);
 				for (final String attrName : record.keySet()) {
-					if (_smilaFields.contains(attrName)) { //TODO to test
+					if (_smilaFields.contains(attrName)) {
 						int n = _smilaFields.indexOf(attrName);
 						final Value attributeValue = record.getValue(attrName);
 						String stringValue = replaceNonXMLChars(attributeValue.asString());
@@ -179,7 +171,7 @@ public class SolrAnalyzerPipelet implements Pipelet {
 	    	  response.append('\r');
 	      	}
 	      	rd.close();
-	      	System.out.println("Response:\n" + response.toString());
+	      	System.out.println("Analyzer Response:\n" + response.toString());
 	      	
 	      	//TODO utilizing response
 	      	
