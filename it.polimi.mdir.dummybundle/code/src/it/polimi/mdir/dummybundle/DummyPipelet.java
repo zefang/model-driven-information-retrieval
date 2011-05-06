@@ -37,16 +37,10 @@ public class DummyPipelet implements Pipelet {
 	  System.out.println("Sono in DummyPipelet");
 	  String id = recordIds[0];
 	  try {
-		// Provo a recuperare un record
 		Record myRecord = blackboard.getRecord(id);
-		// Provo a recuperare un attributo
-		System.out.println(blackboard.getMetadata(id).getStringValue("Content"));		
-		// Faccio la copia di un record  già esistente
 		Record myCopiedRecord = blackboard.copyRecord(id, "5kpokpo");
-		// Memorizzo il record nella blackboard
 		blackboard.setRecord(myCopiedRecord);
-		// Committo i cambiamenti al recordstorage PRIMA che il record venga cancellato
-		blackboard.commit("5kpokpo");
+		blackboard.commit();
 		
 	} catch (BlackboardAccessException e) {
 		// TODO Auto-generated catch block
