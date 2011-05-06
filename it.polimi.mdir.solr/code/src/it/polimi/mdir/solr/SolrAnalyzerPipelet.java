@@ -41,18 +41,9 @@ public class SolrAnalyzerPipelet implements Pipelet {
 
 	private AnyMap _configuration;
 	
-	// Solr Http constants
-	private static final String CONTENT_TYPE = "Content-Type";
-	private static final String CONTENT_LENGTH = "Content-Length";
-	private static final String RESPONSE_HEADER = "ResponseHeader";
-	private static final String META_DATA = "MetaData";
-	private static final String TEXT_XML_CHARSET = "text/xml; charset=";
-	private static final String POST = "POST";
-	private static final TransformerFactory TRANSFORMER_FACTORY = TransformerFactory.newInstance();
-	
-	private static final String HTTP_LOCALHOST = "http://localhost";
-	private static final String SOLR_WEBAPP = ":8983/solr/";
 	private static final String ANALYSIS = "/analysis/document";
+	
+	private static final TransformerFactory TRANSFORMER_FACTORY = TransformerFactory.newInstance();
 	
 	//Configuration parameter names
 	private static final String WRITERTYPE = "writerType";
@@ -108,7 +99,7 @@ public class SolrAnalyzerPipelet implements Pipelet {
 	public String[] process(Blackboard blackboard, String[] recordIds)
 			throws ProcessingException {
 
-		String analysisURL = HTTP_LOCALHOST + SOLR_WEBAPP + _coreName + ANALYSIS;
+		String analysisURL = SolrDocumentUtil.HTTP_LOCALHOST + SolrDocumentUtil.SOLR_WEBAPP + _coreName + ANALYSIS;
 		analysisURL += "?wt=" + _writerType + "&indent=" + _indent;
 		
 		URL url = null;
@@ -119,8 +110,8 @@ public class SolrAnalyzerPipelet implements Pipelet {
 	    	
 			url = new URL(analysisURL);
 			conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestMethod(POST);
-		    conn.setRequestProperty(CONTENT_TYPE, TEXT_XML_CHARSET + UTF8);
+			conn.setRequestMethod(SolrDocumentUtil.POST);
+		    conn.setRequestProperty(SolrDocumentUtil.CONTENT_TYPE, SolrDocumentUtil.TEXT_XML_CHARSET + UTF8);
 		    conn.setUseCaches(false);
 		    conn.setDoOutput(true);
 		    conn.setDoInput(true);
@@ -174,7 +165,7 @@ public class SolrAnalyzerPipelet implements Pipelet {
 			final StreamResult streamResult = new StreamResult(w);
 			transformer.transform(source, streamResult);
 			outputXMLMessage = streamResult.getWriter().toString();
-			conn.setRequestProperty(CONTENT_LENGTH, Integer.toString(outputXMLMessage.length()));
+			conn.setRequestProperty(SolrDocumentUtil.CONTENT_LENGTH, Integer.toString(outputXMLMessage.length()));
 			final DataOutputStream os = new DataOutputStream(conn.getOutputStream());
 			os.write(outputXMLMessage.getBytes(UTF8));
 			os.flush();

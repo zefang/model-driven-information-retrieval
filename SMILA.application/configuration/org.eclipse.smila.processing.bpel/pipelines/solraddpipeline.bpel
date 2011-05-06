@@ -57,13 +57,10 @@
             </proc:configuration>
           </proc:invokePipelet>
         </extensionActivity>
-	  
-	  
-<!--	  
+ 
 	  <!-- the same but for indexing. List the fields you want to index in smilaFields and 
 	  the respective name of the solrFields
-	  The first entry of the sequence is considered the id.
-	  
+	  The first entry of the sequence is considered the id.-->
 		<extensionActivity>
           <proc:invokePipelet name="invokeSolrIndexerPipelet">
             <proc:pipelet class="it.polimi.mdir.solr.SolrIndexerPipelet" />
@@ -83,7 +80,7 @@
             </proc:configuration>
           </proc:invokePipelet>
         </extensionActivity>
--->
+
     <reply name="end" partnerLink="Pipeline" portType="proc:ProcessorPortType" operation="process"
       variable="request" />
     <exit />
