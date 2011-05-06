@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -149,6 +150,14 @@ public class ModelCrawler extends AbstractCrawler {
    */
   private CrawlerPerformanceCounterHelper<ModelCrawlerPerformanceAgent> _performanceCounters;
 
+  
+  /**
+   * The path for xquery files.
+   */
+  private static String XQUERY_PATH;
+  
+  
+  
   /**
    * Instantiates a new file system crawler.
    */
@@ -192,8 +201,21 @@ public class ModelCrawler extends AbstractCrawler {
       }
     }
     _attachmentNames = attachmentsNames.toArray(new String[attachmentsNames.size()]);
+      
+    // Initialize config file for xquery files location
+    Properties xqueryConfig = new Properties();
+    try {
+		xqueryConfig.load(this.getClass().getClassLoader().getResourceAsStream("xqueryConfig.properties"));
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+	
+	XQUERY_PATH = xqueryConfig.getProperty("DIR");
+    
+    
     _crawlThread = new CrawlingProducerThread(this, config);
     _crawlThread.start();
+    
   }
 
   /**
@@ -408,7 +430,7 @@ public class ModelCrawler extends AbstractCrawler {
 	  ArrayList<String> resultList = new ArrayList<String>();
     switch (attribute.getFileAttributes()) {
       case PROJECTID:
-    	xq = new XQueryWrapper("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.crawler.model/xquery/getProjectId.xquery");
+    	xq = new XQueryWrapper(XQUERY_PATH.concat("/getProjectId.xquery"));
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         String id = resultList.get(0);
@@ -421,7 +443,7 @@ public class ModelCrawler extends AbstractCrawler {
     	System.out.println("Reading PATH: " + file.getAbsolutePath());
         return file.getAbsolutePath();
       case CONTENT:
-    	xq = new XQueryWrapper("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.crawler.model/xquery/getClassNames.xquery");
+    	xq = new XQueryWrapper(XQUERY_PATH.concat("/getClassNames.xquery"));
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         System.out.println("Result list: " + resultList.toString());
