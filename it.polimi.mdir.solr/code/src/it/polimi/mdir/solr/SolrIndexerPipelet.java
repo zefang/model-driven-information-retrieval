@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -19,6 +20,7 @@ import org.apache.xerces.dom.DOMImplementationImpl;
 import org.eclipse.smila.blackboard.Blackboard;
 import org.eclipse.smila.datamodel.Any;
 import org.eclipse.smila.datamodel.AnyMap;
+import org.eclipse.smila.datamodel.AnySeq;
 import org.eclipse.smila.datamodel.Value;
 import org.eclipse.smila.processing.Pipelet;
 import org.eclipse.smila.processing.ProcessingException;
@@ -36,28 +38,16 @@ public class SolrIndexerPipelet implements Pipelet {
 	
   private AnyMap _configuration;
 	
-  //Solr Http constants  
-  private static final String CONTENT_TYPE = "Content-Type";
-  private static final String CONTENT_LENGTH = "Content-Length";
-  private static final String RESPONSE_HEADER = "ResponseHeader";
-  private static final String META_DATA = "MetaData";
-  private static final String TEXT_XML_CHARSET = "text/xml; charset=";
-  private static final String POST = "POST";
   private static final TransformerFactory TRANSFORMER_FACTORY = TransformerFactory.newInstance();
-  
-  private static final String HTTP_LOCALHOST = "http://localhost";
-  private static final String SOLR_WEBAPP = ":8983/solr/";
+
   private static final String UPDATE = "/update";
-  
-  //Solr document constants
-  private static final String FIELD = "field";
-  private static final String ADD = "add";
-  private static final String DELETE = "delete";
   
   //configuration parameter names
   private static final String CORE_NAME = "coreName";
   private static final String COMMIT_WITHIN = "commitWithin";
   private static final String EXECUTION_MODE = "executionMode";
+  private static final String SMILA_FIELDS = "smilaFields";
+  private static final String SOLR_FIELDS = "solrFields";
   
   //Default values if no parameters are specified
   private long _commitWithin = 10000;
@@ -67,6 +57,11 @@ public class SolrIndexerPipelet implements Pipelet {
   public enum ExecutionMode {
     ADD, DELETE
   };
+  
+  private AnySeq _smilaFieldsSeq = null;
+  private AnySeq _solrFieldsSeq = null;
+  private ArrayList<String> _smilaFields = new ArrayList<String>();
+  private ArrayList<String> _solrFields = new ArrayList<String>();
   
   public static final String UTF8 = "utf-8";
 
@@ -92,6 +87,19 @@ public class SolrIndexerPipelet implements Pipelet {
     if (_configuration.containsKey(CORE_NAME)) {
       _coreName = _configuration.getStringValue(CORE_NAME);
     }
+    
+    _smilaFieldsSeq = _configuration.getSeq(SMILA_FIELDS);
+	_solrFieldsSeq = _configuration.getSeq(SOLR_FIELDS);
+	for (final Any smilaFieldValue : _smilaFieldsSeq) {
+		if (smilaFieldValue.isValue()) {
+        	_smilaFields.add(((Value) smilaFieldValue).asString());
+        }
+    }
+	for (final Any solrFieldValue : _solrFieldsSeq) {
+		if (solrFieldValue.isValue()) {
+			_solrFields.add(((Value) solrFieldValue).asString());
+        }
+    }
   }
   
   @Override
@@ -99,7 +107,7 @@ public class SolrIndexerPipelet implements Pipelet {
 	
 	System.out.println("Start SolrIndexerPipelet");
 	  
-    final String updateURL = HTTP_LOCALHOST + SOLR_WEBAPP + _coreName + UPDATE;
+    final String updateURL = SolrDocumentUtil.HTTP_LOCALHOST + SolrDocumentUtil.SOLR_WEBAPP + _coreName + UPDATE;
     String updateXMLMessage = null;
     URL url = null;
     HttpURLConnection conn = null;
@@ -107,8 +115,8 @@ public class SolrIndexerPipelet implements Pipelet {
     try {
       url = new URL(updateURL);
       conn = (HttpURLConnection) url.openConnection();
-      conn.setRequestMethod(POST);
-      conn.setRequestProperty(CONTENT_TYPE, TEXT_XML_CHARSET + UTF8);
+      conn.setRequestMethod(SolrDocumentUtil.POST);
+      conn.setRequestProperty(SolrDocumentUtil.CONTENT_TYPE, SolrDocumentUtil.TEXT_XML_CHARSET + UTF8);
       conn.setUseCaches(false);
       conn.setDoOutput(true);
       conn.setDoInput(true);
@@ -122,53 +130,43 @@ public class SolrIndexerPipelet implements Pipelet {
       final Document document = impl.createDocument(null, SolrDocumentUtil.SOLR, null);
       Element add = null;
       if (_mode == ExecutionMode.ADD) {
-        add = document.createElement(ADD);
+        add = document.createElement(SolrDocumentUtil.ADD);
       } else {
-        add = document.createElement(DELETE);
+        add = document.createElement(SolrDocumentUtil.DELETE);
       }
       add.setAttribute(COMMIT_WITHIN, String.valueOf(_commitWithin));
 
+      Element field;
+      Text text;
       for (final String id : recordIds) {
-        logId = id;
-        final Element doc = document.createElement(SolrDocumentUtil.DOC);
-        add.appendChild(doc);
+    	  logId = id;
+    	  final Element doc = document.createElement(SolrDocumentUtil.DOC);
+    	  add.appendChild(doc);
+    	  
+    	  //Create id field
+    	  field = document.createElement(SolrDocumentUtil.FIELD);
+    	  field.setAttribute(SolrDocumentUtil.NAME,  _solrFields.get(0));
+    	  final String idEncoded = URLEncoder.encode(id, UTF8);
+    	  text = document.createTextNode(idEncoded);
+    	  field.appendChild(text);
+    	  doc.appendChild(field);
 
-        // Create id attribute
-        Element field = document.createElement(FIELD);
-        field.setAttribute(SolrDocumentUtil.NAME, SolrDocumentUtil.ID);
-        final String idEncoded = URLEncoder.encode(id, UTF8);
-        Text text = document.createTextNode(idEncoded);
-        field.appendChild(text);
-        doc.appendChild(field);
-
-        // Create all other attributes
-        final AnyMap record = blackboard.getMetadata(id);
-        for (final String attrName : record.keySet()) {
-          if (!attrName.startsWith(META_DATA) && !attrName.startsWith(RESPONSE_HEADER)) {
-            final Any attributeValue = record.get(attrName);
-            for (final Any any : attributeValue) {
-              if (any.isValue()) {
-                final Value value = (Value) any;
-                String stringValue = null;
-                if (value.isDate()) {
-                  final SimpleDateFormat df = new SimpleDateFormat(SolrDocumentUtil.DATE_FORMAT_PATTERN);
-                  stringValue = df.format(value.asDate());
-                } else if (value.isDateTime()) {
-                  final SimpleDateFormat df = new SimpleDateFormat(SolrDocumentUtil.DATE_FORMAT_PATTERN);
-                  stringValue = df.format(value.asDateTime());
-                } else {
-                  stringValue = replaceNonXMLChars(value.asString());
-                }
-                field = document.createElement(FIELD);
-                field.setAttribute(SolrDocumentUtil.NAME, attrName);
-                text = document.createTextNode(stringValue);
-                field.appendChild(text);
-                doc.appendChild(field);
-              }
-            }
-          }
-        }
+    	  //Create all other fields
+    	  final AnyMap record = blackboard.getMetadata(id);
+    	  for (final String attrName : record.keySet()) {
+    		  if (_smilaFields.contains(attrName)) { //TODO to test
+    			  int n = _smilaFields.indexOf(attrName);
+    			  final Value attributeValue = record.getValue(attrName);
+    			  String stringValue = replaceNonXMLChars(attributeValue.asString());
+    			  field = document.createElement(SolrDocumentUtil.FIELD);
+    			  field.setAttribute(SolrDocumentUtil.NAME, _solrFields.get(n));
+    			  text = document.createTextNode(stringValue);
+    			  field.appendChild(text);
+    			  doc.appendChild(field);
+    		  }
+    	  }
       }
+      
       final Transformer transformer = TRANSFORMER_FACTORY.newTransformer();
       
       final DOMSource source = new DOMSource(add);
@@ -176,7 +174,7 @@ public class SolrIndexerPipelet implements Pipelet {
       final StreamResult streamResult = new StreamResult(w);
       transformer.transform(source, streamResult);
       updateXMLMessage = streamResult.getWriter().toString();
-      conn.setRequestProperty(CONTENT_LENGTH, Integer.toString(updateXMLMessage.length()));
+      conn.setRequestProperty(SolrDocumentUtil.CONTENT_LENGTH, Integer.toString(updateXMLMessage.length()));
       final DataOutputStream os = new DataOutputStream(conn.getOutputStream());
       os.write(updateXMLMessage.getBytes(UTF8));
       os.flush();
@@ -200,6 +198,8 @@ public class SolrIndexerPipelet implements Pipelet {
         conn.disconnect();
       }
     }
+    
+    System.out.println("Record correctly indexed");
     return recordIds;
   }
 
