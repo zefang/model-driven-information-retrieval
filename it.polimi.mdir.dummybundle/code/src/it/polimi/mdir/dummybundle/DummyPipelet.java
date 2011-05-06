@@ -7,10 +7,14 @@ import it.polimi.mdir.xquery.XQueryWrapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.smila.blackboard.Blackboard;
+import org.eclipse.smila.blackboard.BlackboardAccessException;
 import org.eclipse.smila.datamodel.AnyMap;
+import org.eclipse.smila.datamodel.Record;
 import org.eclipse.smila.datamodel.Value;
 import org.eclipse.smila.processing.Pipelet;
 import org.eclipse.smila.processing.ProcessingException;
+import org.eclipse.smila.recordstorage.RecordStorage;
+import org.eclipse.smila.recordstorage.RecordStorageException;
 
 /**
  * 
@@ -29,32 +33,52 @@ public class DummyPipelet implements Pipelet {
 
   @Override
   public String[] process(final Blackboard blackboard, final String[] recordIds) throws ProcessingException {
+	
+	  System.out.println("Sono in DummyPipelet");
+	  String id = recordIds[0];
+	  try {
+		// Provo a recuperare un record
+		Record myRecord = blackboard.getRecord(id);
+		// Provo a recuperare un attributo
+		System.out.println(blackboard.getMetadata(id).getStringValue("Content"));		
+		// Faccio la copia di un record  già esistente
+		Record myCopiedRecord = blackboard.copyRecord(id, "5kpokpo");
+		// Memorizzo il record nella blackboard
+		blackboard.setRecord(myCopiedRecord);
+		// Committo i cambiamenti al recordstorage PRIMA che il record venga cancellato
+		blackboard.commit("5kpokpo");
+		
+	} catch (BlackboardAccessException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 	  
-    for (final String id : recordIds) {
-      try {
-        String inValue = "";
-        String outValue = "";
-
-        if (blackboard.getMetadata(id).containsKey(_sourceAttr)) {
-          inValue = blackboard.getMetadata(id).getStringValue(_sourceAttr);
-        }
-
-        outValue = inValue + " --- Hello world!!!";
-
-        final Value outLiteral = blackboard.getDataFactory().createStringValue(outValue);
-        blackboard.getMetadata(id).put(_targetAttr, outLiteral);
-
-      } catch (final Exception e) {
-        _log.error("Error while calling HelloWorldPipelet for record: '" + id + "':" + e.getMessage(), e);
-        throw new ProcessingException(e);
-      }
-    }
-    
-    XQueryWrapper xq = new XQueryWrapper("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.dummybundle/xquery/getClasses.xquery");
-    xq.bindVariable("document", "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.dummybundle/xquery/PetriNet_extended.uml");
-    ArrayList<String> list = xq.executeQuery();
-    System.out.println(list.get(0).toString());
-    System.out.println("Sono in DummyPipelet");
+	  
+//    for (final String id : recordIds) {
+//      try {
+//        String inValue = "";
+//        String outValue = "";
+//
+//        if (blackboard.getMetadata(id).containsKey(_sourceAttr)) {
+//          inValue = blackboard.getMetadata(id).getStringValue(_sourceAttr);
+//        }
+//
+//        outValue = inValue + " --- Hello world!!!";
+//
+//        final Value outLiteral = blackboard.getDataFactory().createStringValue(outValue);
+//        blackboard.getMetadata(id).put(_targetAttr, outLiteral);
+//
+//      } catch (final Exception e) {
+//        _log.error("Error while calling HelloWorldPipelet for record: '" + id + "':" + e.getMessage(), e);
+//        throw new ProcessingException(e);
+//      }
+//    }
+//    
+//    XQueryWrapper xq = new XQueryWrapper("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.dummybundle/xquery/getClasses.xquery");
+//    xq.bindVariable("document", "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.dummybundle/xquery/PetriNet_extended.uml");
+//    ArrayList<String> list = xq.executeQuery();
+//    System.out.println(list.get(0).toString());
+//    
     
     return recordIds;
   }
