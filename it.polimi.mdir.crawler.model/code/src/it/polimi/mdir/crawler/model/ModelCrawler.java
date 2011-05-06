@@ -446,12 +446,34 @@ public class ModelCrawler extends AbstractCrawler {
     	xq = new XQueryWrapper(XQUERY_PATH.concat("/getClassNames.xquery"));
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
-        System.out.println("Result list: " + resultList.toString());
-        return resultList.toString();
+        String resultListString = arrayListToString(resultList);
+        System.out.println("Result list: " + resultListString);
+        return resultListString;
       default:
         throw new RuntimeException("Unknown file attributes type " + attribute.getFileAttributes());
     }
   }
+  
+  
+  // Converting an array list to one single (very long) string
+  
+  private String arrayListToString(ArrayList<String> array) {
+	
+	  String result = new String();
+	  
+	  for (int i=0; i<array.size(); i++) {
+		  
+		  if(i == 0)
+			  result = result.concat(array.get(i));
+		  else 
+			  result = result.concat(" " + array.get(i));
+	  }
+	  
+	  return result;	  
+	  
+  }
+  
+  
 
   /**
    * Read attachment.
