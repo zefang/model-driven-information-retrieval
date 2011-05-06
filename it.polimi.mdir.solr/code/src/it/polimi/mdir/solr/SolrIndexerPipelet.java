@@ -20,7 +20,6 @@ import org.eclipse.smila.blackboard.Blackboard;
 import org.eclipse.smila.datamodel.Any;
 import org.eclipse.smila.datamodel.AnyMap;
 import org.eclipse.smila.datamodel.Value;
-import org.eclipse.smila.integration.solr.SolrResponseHandler;
 import org.eclipse.smila.processing.Pipelet;
 import org.eclipse.smila.processing.ProcessingException;
 import org.w3c.dom.DOMImplementation;
@@ -120,7 +119,7 @@ public class SolrIndexerPipelet implements Pipelet {
     }
     try {
       final DOMImplementation impl = DOMImplementationImpl.getDOMImplementation();
-      final Document document = impl.createDocument(null, SolrResponseHandler.SOLR, null);
+      final Document document = impl.createDocument(null, SolrDocumentUtil.SOLR, null);
       Element add = null;
       if (_mode == ExecutionMode.ADD) {
         add = document.createElement(ADD);
@@ -131,12 +130,12 @@ public class SolrIndexerPipelet implements Pipelet {
 
       for (final String id : recordIds) {
         logId = id;
-        final Element doc = document.createElement(SolrResponseHandler.DOC);
+        final Element doc = document.createElement(SolrDocumentUtil.DOC);
         add.appendChild(doc);
 
         // Create id attribute
         Element field = document.createElement(FIELD);
-        field.setAttribute(SolrResponseHandler.NAME, SolrResponseHandler.ID);
+        field.setAttribute(SolrDocumentUtil.NAME, SolrDocumentUtil.ID);
         final String idEncoded = URLEncoder.encode(id, UTF8);
         Text text = document.createTextNode(idEncoded);
         field.appendChild(text);
@@ -152,16 +151,16 @@ public class SolrIndexerPipelet implements Pipelet {
                 final Value value = (Value) any;
                 String stringValue = null;
                 if (value.isDate()) {
-                  final SimpleDateFormat df = new SimpleDateFormat(SolrResponseHandler.DATE_FORMAT_PATTERN);
+                  final SimpleDateFormat df = new SimpleDateFormat(SolrDocumentUtil.DATE_FORMAT_PATTERN);
                   stringValue = df.format(value.asDate());
                 } else if (value.isDateTime()) {
-                  final SimpleDateFormat df = new SimpleDateFormat(SolrResponseHandler.DATE_FORMAT_PATTERN);
+                  final SimpleDateFormat df = new SimpleDateFormat(SolrDocumentUtil.DATE_FORMAT_PATTERN);
                   stringValue = df.format(value.asDateTime());
                 } else {
                   stringValue = replaceNonXMLChars(value.asString());
                 }
                 field = document.createElement(FIELD);
-                field.setAttribute(SolrResponseHandler.NAME, attrName);
+                field.setAttribute(SolrDocumentUtil.NAME, attrName);
                 text = document.createTextNode(stringValue);
                 field.appendChild(text);
                 doc.appendChild(field);

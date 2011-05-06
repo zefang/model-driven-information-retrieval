@@ -1,6 +1,5 @@
 package it.polimi.mdir.solr;
 
-
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -12,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -22,8 +22,8 @@ import org.apache.xerces.dom.DOMImplementationImpl;
 import org.eclipse.smila.blackboard.Blackboard;
 import org.eclipse.smila.datamodel.Any;
 import org.eclipse.smila.datamodel.AnyMap;
+import org.eclipse.smila.datamodel.AnySeq;
 import org.eclipse.smila.datamodel.Value;
-import org.eclipse.smila.integration.solr.SolrResponseHandler;
 import org.eclipse.smila.processing.Pipelet;
 import org.eclipse.smila.processing.ProcessingException;
 import org.w3c.dom.DOMImplementation;
@@ -54,21 +54,22 @@ public class SolrAnalyzerPipelet implements Pipelet {
 	private static final String SOLR_WEBAPP = ":8983/solr/";
 	private static final String ANALYSIS = "/analysis/document";
 	
-	//Solr document constants
-	private static final String FIELD = "field";
-	private static final String FIELDTYPE = "fieldType";
-	
 	//Configuration parameter names
 	private static final String WRITERTYPE = "writerType";
 	private static final String INDENT = "indent";
 	private static final String CORE_NAME = "coreName";
+	private static final String SMILA_FIELDS = "smilaFields";
+	private static final String SOLR_ANALYSIS_TYPES = "solrAnalysisTypes";
 	
 	//Default values if no parameters are specified
 	private String _writerType = "xml";
 	private String _indent = "true";
 	private String _coreName = "test_core";
-	private String _fieldType = "";
 	
+	private AnySeq _smilaFieldsSeq = null;
+	private AnySeq _solrAnalysisTypesSeq = null;
+	private ArrayList<String> _smilaFields = new ArrayList<String>();
+	private ArrayList<String> _solrAnalysisTypes = new ArrayList<String>();
 	
 	public static final String UTF8 = "utf-8";
 	
@@ -88,11 +89,19 @@ public class SolrAnalyzerPipelet implements Pipelet {
 		if (configuration.containsKey(CORE_NAME)) {   
 			_coreName = _configuration.getStringValue(CORE_NAME);
 		} 
-		if (_configuration.containsKey(FIELDTYPE)) {
-			_fieldType = _configuration.getStringValue(FIELDTYPE);
-		} else {
-			System.out.println("Error: fieldType not present");
-		}
+		
+		_smilaFieldsSeq = _configuration.getSeq(SMILA_FIELDS);
+		_solrAnalysisTypesSeq = _configuration.getSeq(SOLR_ANALYSIS_TYPES);
+		for (final Any smilaFieldValue : _smilaFieldsSeq) {
+			if (smilaFieldValue.isValue()) {
+	        	_smilaFields.add(((Value) smilaFieldValue).asString());
+	        }
+	    }
+		for (final Any solrAnalysisTypeValue : _solrAnalysisTypesSeq) {
+			if (solrAnalysisTypeValue.isValue()) {
+				_solrAnalysisTypes.add(((Value) solrAnalysisTypeValue).asString());
+	        }
+	    }
 	}
 
 	@Override
@@ -125,49 +134,40 @@ public class SolrAnalyzerPipelet implements Pipelet {
 		
 		try {
 			final DOMImplementation impl = DOMImplementationImpl.getDOMImplementation();
-			final Document document = impl.createDocument(null, SolrResponseHandler.SOLR, null);
-			Element root = document.createElement("root");
+			final Document document = impl.createDocument(null, SolrDocumentUtil.SOLR, null);
+			Element root = document.createElement(SolrDocumentUtil.ROOT);
 	      
+			Element field;
+			Text text;
+			
 			for (final String id : recordIds) {
-				final Element doc = document.createElement(SolrResponseHandler.DOC);
+				final Element doc = document.createElement(SolrDocumentUtil.DOC);
 				root.appendChild(doc);
 
-				// Create id attribute
-				Element field = document.createElement(FIELD);
-				field.setAttribute(SolrResponseHandler.NAME, SolrResponseHandler.ID);
+				//Create Id field
+				field = document.createElement(SolrDocumentUtil.FIELD);
+				field.setAttribute(SolrDocumentUtil.NAME, _solrAnalysisTypes.get(0));
 				final String idEncoded = URLEncoder.encode(id, UTF8);
-				Text text = document.createTextNode(idEncoded);
-				field.appendChild(text);
-				doc.appendChild(field);
-
-				// Create all other attributes
+		        text = document.createTextNode(idEncoded);
+		        field.appendChild(text);
+		        doc.appendChild(field);
+				
+				//Create other fields
 				final AnyMap record = blackboard.getMetadata(id);
 				for (final String attrName : record.keySet()) {
-					if (!attrName.startsWith(META_DATA) && !attrName.startsWith(RESPONSE_HEADER)) {
-						final Any attributeValue = record.get(attrName);
-						for (final Any any : attributeValue) {
-							if (any.isValue()) {
-								final Value value = (Value) any;
-								String stringValue = null;
-								if (value.isDate()) {
-									final SimpleDateFormat df = new SimpleDateFormat(SolrResponseHandler.DATE_FORMAT_PATTERN);
-									stringValue = df.format(value.asDate());
-								} else if (value.isDateTime()) {
-									final SimpleDateFormat df = new SimpleDateFormat(SolrResponseHandler.DATE_FORMAT_PATTERN);
-									stringValue = df.format(value.asDateTime());
-								} else {
-									stringValue = replaceNonXMLChars(value.asString());
-								}
-								field = document.createElement(FIELD);
-								field.setAttribute(SolrResponseHandler.NAME, _fieldType); //original: attrName
-								text = document.createTextNode(stringValue);
-								field.appendChild(text);
-								doc.appendChild(field);
-							}
-						}
+					if (_smilaFields.contains(attrName)) { //TODO to test
+						int n = _smilaFields.indexOf(attrName);
+						final Value attributeValue = record.getValue(attrName);
+						String stringValue = replaceNonXMLChars(attributeValue.asString());
+						field = document.createElement(SolrDocumentUtil.FIELD);
+						field.setAttribute(SolrDocumentUtil.NAME, _solrAnalysisTypes.get(n));
+						text = document.createTextNode(stringValue);
+						field.appendChild(text);
+						doc.appendChild(field);
 					}
 				}
 			}
+
 			final Transformer transformer = TRANSFORMER_FACTORY.newTransformer();
 			final DOMSource source = new DOMSource(root);
 			final Writer w = new StringWriter();
