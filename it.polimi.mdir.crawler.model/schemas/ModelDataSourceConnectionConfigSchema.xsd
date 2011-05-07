@@ -58,6 +58,7 @@
       <xs:enumeration value="FileName"/>
       <xs:enumeration value="Path"/>
       <xs:enumeration value="Content"/>
+      <xs:enumeration value="classIds"/>      
     </xs:restriction>
   </xs:simpleType>
 

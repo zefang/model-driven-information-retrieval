@@ -42,7 +42,9 @@ public enum FileAttributesType {
     @XmlEnumValue("Path")
     PATH("Path"),
     @XmlEnumValue("Content")
-    CONTENT("Content");
+    CONTENT("Content"),
+    @XmlEnumValue("classIds")
+    CLASSIDS("classIds");
     private final String value;
 
     FileAttributesType(String v) {
