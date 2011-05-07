@@ -12,6 +12,7 @@ import org.eclipse.smila.blackboard.BlackboardAccessException;
 import org.eclipse.smila.datamodel.AnyMap;
 import org.eclipse.smila.datamodel.Record;
 import org.eclipse.smila.datamodel.Value;
+import org.eclipse.smila.datamodel.filter.RecordFilterNotFoundException;
 import org.eclipse.smila.processing.Pipelet;
 import org.eclipse.smila.processing.ProcessingException;
 
@@ -52,6 +53,13 @@ public class EnrichRecords implements Pipelet {
 				copy.getMetadata().put("conceptId", classId);
 				copy.getMetadata().put("conceptType", CONCEPT_TYPE);
 				copy.getMetadata().put("Content", className);
+				
+				//Apply record filter
+				try {
+					copy = blackboard.filterRecord(copy, "experimentB");
+				} catch (RecordFilterNotFoundException e) {
+					e.printStackTrace();
+				}
 				
 				//Store record		
 				blackboard.setRecord(copy);
