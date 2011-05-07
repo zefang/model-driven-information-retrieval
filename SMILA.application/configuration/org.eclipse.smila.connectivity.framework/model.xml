@@ -31,7 +31,10 @@
     </Attribute>
     <Attribute Type="String" Name="Content" HashAttribute="true">
       <FileAttributes>Content</FileAttributes>
-    </Attribute> 
+    </Attribute>
+    <Attribute Type="String" Name="classIds" HashAttribute="true">
+      <FileAttributes>classIds</FileAttributes>
+    </Attribute>
   </Attributes>
   <Process>
     <BaseDir>c:\UML_models</BaseDir>

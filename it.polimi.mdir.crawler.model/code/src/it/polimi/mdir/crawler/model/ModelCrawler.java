@@ -428,6 +428,7 @@ public class ModelCrawler extends AbstractCrawler {
 	
 	  XQueryWrapper xq;
 	  ArrayList<String> resultList = new ArrayList<String>();
+	  String resultListString = new String();
     switch (attribute.getFileAttributes()) {
       case PROJECTID:
     	xq = new XQueryWrapper(XQUERY_PATH.concat("/getProjectId.xquery"));
@@ -446,9 +447,16 @@ public class ModelCrawler extends AbstractCrawler {
     	xq = new XQueryWrapper(XQUERY_PATH.concat("/getClassNames.xquery"));
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
-        String resultListString = arrayListToString(resultList);
-        System.out.println("Result list: " + resultListString);
+        resultListString = arrayListToString(resultList);
+        System.out.println("Result list Class Names: " + resultListString);
         return resultListString;
+      case CLASSIDS:
+      	xq = new XQueryWrapper(XQUERY_PATH.concat("/getClassIds.xquery"));
+        xq.bindVariable("document", file.getAbsolutePath());
+        resultList = xq.executeQuery();
+        resultListString = arrayListToString(resultList);
+        System.out.println("Result list Class Ids: " + resultListString);
+        return resultListString;      
       default:
         throw new RuntimeException("Unknown file attributes type " + attribute.getFileAttributes());
     }
