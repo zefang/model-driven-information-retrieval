@@ -29,6 +29,13 @@
     <variable name="request" messageType="proc:ProcessorMessage" />
   </variables>
 
+<extensionActivity name="invokeEnrichRecords">
+    <proc:invokePipelet>
+        <proc:pipelet class="it.polimi.mdir.enrich.records.experiment.b.EnrichRecords" />
+        <proc:variables input="request" output="result" />     
+    </proc:invokePipelet>
+</extensionActivity>	
+
   <sequence>
     <receive name="start" partnerLink="Pipeline" portType="proc:ProcessorPortType"
       operation="process" variable="request" createInstance="yes" />
