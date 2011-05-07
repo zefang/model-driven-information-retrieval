@@ -5,6 +5,8 @@
 
 package it.polimi.mdir.enrich.records.experiment.b;
 
+import java.util.ArrayList;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.smila.blackboard.Blackboard;
@@ -26,6 +28,10 @@ public class EnrichRecords implements Pipelet {
   public String[] process(final Blackboard blackboard, final String[] recordIds) throws ProcessingException {
     
 	  System.out.println("DEBUG ENRICH RECORDS: Sono in EnrichRecords");
+	  
+	  //This array will contain new id to pass through the framework
+	  ArrayList<String> newRecordsIds = new ArrayList<String>();
+	  int nNewRecords;
 	  
 	  for (final String id : recordIds) {
 
@@ -49,6 +55,9 @@ public class EnrichRecords implements Pipelet {
 				
 				Record copy = blackboard.copyRecord(id, classId);
 				
+				//Adding new id to newRecordsIds
+				newRecordsIds.add(classId);
+				
 				copy.getMetadata().put("conceptId", classId);
 				copy.getMetadata().put("conceptType", CONCEPT_TYPE);
 				copy.getMetadata().put("Content", className);
@@ -61,12 +70,12 @@ public class EnrichRecords implements Pipelet {
 				}
 				
 				System.out.println("DEBUG ENRICH RECORDS, COPIED RECORD: " + copy.toString());
+
 				//Store record		
-				blackboard.setRecord(copy);
-				blackboard.commit();
-				
+				blackboard.setRecord(copy);				
 			}
-		  
+			
+			blackboard.commit();	  
 		  
 		  } catch (BlackboardAccessException e) {
 			e.printStackTrace();
@@ -74,7 +83,10 @@ public class EnrichRecords implements Pipelet {
 
 	  }
 	  
-	  return recordIds;
+	  nNewRecords = newRecordsIds.size();
+	  String[] newRecordsIdsArray = new String[nNewRecords];
+	  newRecordsIds.toArray(newRecordsIdsArray);
+	  return newRecordsIdsArray;
   
   }
 
