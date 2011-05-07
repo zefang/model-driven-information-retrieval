@@ -30,8 +30,8 @@ public class EnrichRecords implements Pipelet {
 	  for (final String id : recordIds) {
 
 		  try {
-			System.out.println("DEBUG ENRICH RECORDS, PROJECT ID: " + blackboard.getRecord(id).getMetadata().getStringValue("projectId"));
-			System.out.println("DEBUG ENRICH RECORDS, CLASS IDS: " + blackboard.getRecord(id).getMetadata().getStringValue("classIds"));
+			//System.out.println("DEBUG ENRICH RECORDS, PROJECT ID: " + blackboard.getRecord(id).getMetadata().getStringValue("projectId"));
+			//System.out.println("DEBUG ENRICH RECORDS, CLASS IDS: " + blackboard.getRecord(id).getMetadata().getStringValue("classIds"));
 			String classIds = blackboard.getRecord(id).getMetadata().getStringValue("classIds");
 			String classNames = blackboard.getRecord(id).getMetadata().getStringValue("Content");
 
@@ -48,7 +48,6 @@ public class EnrichRecords implements Pipelet {
 				String className = classNamesArray[i];
 				
 				Record copy = blackboard.copyRecord(id, classId);
-				System.out.println("DEBUG ENRICH RECORDS, COPIED RECORD: " + copy.toString());
 				
 				copy.getMetadata().put("conceptId", classId);
 				copy.getMetadata().put("conceptType", CONCEPT_TYPE);
@@ -61,6 +60,7 @@ public class EnrichRecords implements Pipelet {
 					e.printStackTrace();
 				}
 				
+				System.out.println("DEBUG ENRICH RECORDS, COPIED RECORD: " + copy.toString());
 				//Store record		
 				blackboard.setRecord(copy);
 				blackboard.commit();
