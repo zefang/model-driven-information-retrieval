@@ -22,4 +22,12 @@
     <Element name="*" />
   </Filter>
   <Filter name="nothing" />
+  
+  <Filter name="experimentB">
+    <Element name="projectId" />
+    <Element name="Content" />
+    <Element name="conceptId" />
+	<Element name="conceptType" />  
+  </Filter>  
+  
 </RecordFilters>
