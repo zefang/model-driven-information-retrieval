@@ -180,7 +180,7 @@ public class SolrIndexerPipelet implements Pipelet {
         response.append('\r');
       }
       rd.close();
-      System.out.println("Indexer Response:\n" + response.toString());
+      //System.out.println("Indexer Response:\n" + response.toString());
     } catch (final Exception e) {
       final String msg =
         "Error while processing record '" + logId + "' for index '" + _coreName + "': " + e.getMessage() + "'.";
