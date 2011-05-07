@@ -29,16 +29,17 @@
     <variable name="request" messageType="proc:ProcessorMessage" />
   </variables>
 
-<extensionActivity name="invokeEnrichRecords">
-    <proc:invokePipelet>
-        <proc:pipelet class="it.polimi.mdir.enrich.records.experiment.b.EnrichRecords" />
-        <proc:variables input="request" output="result" />     
-    </proc:invokePipelet>
-</extensionActivity>	
-
   <sequence>
     <receive name="start" partnerLink="Pipeline" portType="proc:ProcessorPortType"
       operation="process" variable="request" createInstance="yes" />
+
+
+		<extensionActivity name="invokeEnrichRecords">
+		    <proc:invokePipelet>
+		        <proc:pipelet class="it.polimi.mdir.enrich.records.experiment.b.EnrichRecords" />
+		        <proc:variables input="request" output="result" />     
+		    </proc:invokePipelet>
+		</extensionActivity>
 
 	  <!-- Sequences smilaFields and SolrAnalysisTypes must match each other.
 	  They map a name of a field in the smila storage with the requested analysis for it.
@@ -79,10 +80,14 @@
 			  <rec:Seq key="smilaFields">
 			    <rec:Val>projectId</rec:Val>
 				<rec:Val>Content</rec:Val>
+				<rec:Val>conceptId</rec:Val>
+				<rec:Val>conceptType</rec:Val>
 			  </rec:Seq>
 			  <rec:Seq key="solrFields">
 			    <rec:Val>projectId</rec:Val>
 				<rec:Val>text_A</rec:Val>
+				<rec:Val>conceptId</rec:Val>
+				<rec:Val>conceptType</rec:Val>
 			  </rec:Seq>
             </proc:configuration>
           </proc:invokePipelet>
