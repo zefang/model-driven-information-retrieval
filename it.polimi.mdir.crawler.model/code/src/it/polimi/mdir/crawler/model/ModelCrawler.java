@@ -51,7 +51,7 @@ import org.eclipse.smila.datamodel.DataFactoryCreator;
 import org.eclipse.smila.utils.file.EncodingHelper;
 
 /**
- * The Class FileSystemCrawler.
+ * The Class ModelCrawler.
  */
 public class ModelCrawler extends AbstractCrawler {
 
@@ -381,7 +381,7 @@ public class ModelCrawler extends AbstractCrawler {
   public void close() throws CrawlerException {
     synchronized (_openedMonitor) {
       _opened = false;
-      _log.write("[INFO] Closing FileSystemCrawler...");
+      _log.write("[INFO] Closing ModelCrawler...");
       _forceClosing = true;
       _isProducerRunning = false;
       _crawlThread = null;
