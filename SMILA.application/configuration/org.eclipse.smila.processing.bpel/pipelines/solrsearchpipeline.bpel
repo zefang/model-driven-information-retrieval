@@ -34,8 +34,8 @@
       operation="process" variable="request" createInstance="yes" />
 
     <extensionActivity>
-      <proc:invokePipelet name="invokeSolrPipelet">
-        <proc:pipelet class="org.eclipse.smila.integration.solr.SolrSearchPipelet" />
+      <proc:invokePipelet name="invokeSolrSearcherPipelet">
+        <proc:pipelet class="it.polimi.mdir.solr.SolrSearcherPipelet" />
         <proc:variables input="request" />
         <proc:configuration>
           <rec:Seq key="shards">
@@ -45,7 +45,7 @@
           </rec:Seq>
           <rec:Val key="highlight" type="boolean">true</rec:Val>
           <rec:Seq key="highlight.params">
-            <rec:Val>hl.fl=Content</rec:Val>
+            <rec:Val>hl.fl=text_A</rec:Val>
             <rec:Val>hl.snippets=3</rec:Val>
             <rec:Val>hl.simple.pre=&lt;b&gt;</rec:Val>
             <rec:Val>hl.simple.post=&lt;/b&gt;</rec:Val>

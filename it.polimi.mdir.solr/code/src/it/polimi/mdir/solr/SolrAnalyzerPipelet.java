@@ -171,7 +171,7 @@ public class SolrAnalyzerPipelet implements Pipelet {
 	    	  response.append('\r');
 	      	}
 	      	rd.close();
-	      	System.out.println("Analyzer Response:\n" + response.toString());
+	      	//System.out.println("Analyzer Response:\n" + response.toString());
 	      	
 	      	//TODO utilizing response
 	      	
