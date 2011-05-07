@@ -60,7 +60,7 @@
 			  </rec:Seq>
 			  <rec:Seq key="solrFields">
 			    <rec:Val>projectId</rec:Val>
-				<rec:Val>text_A</rec:Val>
+				<rec:Val>text_B</rec:Val>
 				<rec:Val>conceptId</rec:Val>
 				<rec:Val>conceptType</rec:Val>
 			  </rec:Seq>
