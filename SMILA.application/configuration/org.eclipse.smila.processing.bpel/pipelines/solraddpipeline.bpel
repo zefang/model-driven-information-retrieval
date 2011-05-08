@@ -36,14 +36,14 @@
 
 		<extensionActivity>
 		    <proc:invokePipelet name="invokeEnrichRecords">
-		        <proc:pipelet class="it.polimi.mdir.enrich.records.experiment.b.EnrichRecords" />
+		        <proc:pipelet class="it.polimi.mdir.tetx.EnrichRecords" />
 		        <proc:variables input="request" />     
 		    </proc:invokePipelet>
 		</extensionActivity>
 		
 		<extensionActivity>
 		    <proc:invokePipelet name="invokePayloadAdder">
-		        <proc:pipelet class="it.polimi.mdir.experimentC.PayloadAdderPipelet" />
+		        <proc:pipelet class="it.polimi.mdir.text.PayloadAdder" />
 				<proc:variables input="request" />     
 		    </proc:invokePipelet>
 		</extensionActivity>
@@ -88,9 +88,11 @@
               <rec:Val key="coreName">text_experiment_C</rec:Val>
 			  <rec:Seq key="smilaFields">
 			    <rec:Val>projectId</rec:Val>
-				<rec:Val>Content</rec:Val>
+				<rec:Val>projectName</rec:Val>		    
+				<rec:Val>className</rec:Val>
 				<rec:Val>conceptId</rec:Val>
 				<rec:Val>conceptType</rec:Val>
+				<rec:Val>attributeNames</rec:Val>
 			  </rec:Seq>
 			  <rec:Seq key="solrFields">
 			    <rec:Val>projectId</rec:Val>
