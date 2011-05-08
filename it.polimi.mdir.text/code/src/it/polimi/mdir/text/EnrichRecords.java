@@ -15,8 +15,7 @@ import org.eclipse.smila.processing.ProcessingException;
 
 
 /**
- * This class constructs the attributeNames field and put the payload on the 
- * attributes
+ * This class constructs the attributeNames field
  */
 public class EnrichRecords implements Pipelet {
 	
