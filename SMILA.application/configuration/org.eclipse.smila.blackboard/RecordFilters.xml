@@ -25,9 +25,10 @@
   
   <Filter name="experimentB">
     <Element name="projectId" />
-    <Element name="Content" />
-    <Element name="conceptId" />
-	<Element name="conceptType" />  
+    <Element name="projectName" />
+    <Element name="conceptType" />  
+    <Element name="className" />
+    <Element name="classId" />
   </Filter>  
   
   <Filter name="experimentC">
