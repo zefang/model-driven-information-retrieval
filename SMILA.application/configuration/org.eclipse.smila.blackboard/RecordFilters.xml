@@ -30,4 +30,13 @@
 	<Element name="conceptType" />  
   </Filter>  
   
+  <Filter name="experimentC">
+    <Element name="projectId" />
+    <Element name="projectName" />
+    <Element name="conceptType" />  
+    <Element name="className" />
+    <Element name="classId" />
+	<Element name="attributeNames" />  
+  </Filter>  
+  
 </RecordFilters>

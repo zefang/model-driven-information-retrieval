@@ -39,7 +39,7 @@ public class EnrichRecords implements Pipelet {
 			//System.out.println("DEBUG ENRICH RECORDS, PROJECT ID: " + blackboard.getRecord(id).getMetadata().getStringValue("projectId"));
 			//System.out.println("DEBUG ENRICH RECORDS, CLASS IDS: " + blackboard.getRecord(id).getMetadata().getStringValue("classIds"));
 			String classIds = blackboard.getRecord(id).getMetadata().getStringValue("classIds");
-			String classNames = blackboard.getRecord(id).getMetadata().getStringValue("Content");
+			String classNames = blackboard.getRecord(id).getMetadata().getStringValue("classNames");
 
 			
 			//Tokenize classIds and classNames string into array string
@@ -60,7 +60,7 @@ public class EnrichRecords implements Pipelet {
 				
 				copy.getMetadata().put("conceptId", classId);
 				copy.getMetadata().put("conceptType", CONCEPT_TYPE);
-				copy.getMetadata().put("Content", className);
+				copy.getMetadata().put("Content", className); //TODO cambiare! anche nel bpel!!!
 				
 				//Apply record filter
 				try {
