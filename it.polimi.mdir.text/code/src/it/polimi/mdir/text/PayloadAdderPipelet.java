@@ -21,8 +21,19 @@ public class PayloadAdderPipelet implements Pipelet {
 			try {
 				Record record = blackboard.getRecord(id);
 				String className = record.getMetadata().getStringValue("className");
-				className += "|2.0";
+				className += "|100.0";
 				record.getMetadata().put("className", className);
+				
+				String attributeNamesString = record.getMetadata().getStringValue("attributeNames");
+				String[] attributeNamesArray = attributeNamesString.split("\\s");
+				attributeNamesString = "";
+				for (int i = 0; i < attributeNamesArray.length; i++) {
+					attributeNamesArray[i] += "|10.0";
+					attributeNamesString += attributeNamesArray[i] + " ";
+				}
+				attributeNamesString.trim();
+				record.getMetadata().put("attributeNames", attributeNamesString);
+				
 				
 				blackboard.setRecord(record);
 				blackboard.commit();

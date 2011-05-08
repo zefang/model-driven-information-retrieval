@@ -20,6 +20,7 @@ public class MyPerFieldSimilarityWrapper extends Similarity {
     this.defaultSimilarity = new DefaultSimilarity();
     this.fieldSimilarityMap = new HashMap<String,Similarity>();
     this.fieldSimilarityMap.put("text_C", new PayloadSimilarity());
+    this.fieldSimilarityMap.put("className", new PayloadSimilarity());
   }
   
   @Override
