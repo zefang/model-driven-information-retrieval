@@ -7,5 +7,6 @@ Import-Package: org.eclipse.smila.blackboard,
  org.eclipse.smila.datamodel,
  org.eclipse.smila.datamodel.filter,
  org.eclipse.smila.processing
-SMILA-Pipelets: it.polimi.mdir.text.EnrichRecordsExperimentBPipelet
+SMILA-Pipelets: it.polimi.mdir.text.EnrichRecordsExperimentBPipelet,
+ it.polimi.mdir.text.PayloadAdderPipelet 
 
