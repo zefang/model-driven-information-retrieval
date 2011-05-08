@@ -23,12 +23,19 @@
   </Filter>
   <Filter name="nothing" />
   
+  <Filter name="experimentA">
+    <Element name="projectId" />
+    <Element name="projectName" />
+    <Element name="content" />
+  </Filter> 
+  
   <Filter name="experimentB">
     <Element name="projectId" />
     <Element name="projectName" />
     <Element name="conceptType" />  
     <Element name="className" />
     <Element name="classId" />
+    <Element name="attributeNames" />
   </Filter>  
   
   <Filter name="experimentC">
