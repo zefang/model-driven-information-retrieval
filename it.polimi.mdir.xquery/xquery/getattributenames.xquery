@@ -3,5 +3,7 @@ declare namespace uml = "http://www.eclipse.org/uml2/2.1.0/UML";
 
 declare variable $document as xs:string external;
 
-for $x in doc($document)//ownedAttribute
-return data($x/@name)
+for $class in doc($document)//packagedElement
+	for $attribute in $class/ownedAttribute
+where $class/@xmi:type = "uml:Class"
+return concat(data($class/@xmi:id),'$',data($attribute/@name))
