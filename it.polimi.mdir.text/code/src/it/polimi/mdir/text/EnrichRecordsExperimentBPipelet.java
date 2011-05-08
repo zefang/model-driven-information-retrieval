@@ -65,7 +65,7 @@ public class EnrichRecordsExperimentBPipelet implements Pipelet {
 							attributesPerClass += attrName[1] + " ";
 						}
 					}
-					copy.getMetadata().put("attributeNames", attributesPerClass);
+					copy.getMetadata().put("attributeNames", attributesPerClass.trim());
 
 					//Apply record filter
 					try {
