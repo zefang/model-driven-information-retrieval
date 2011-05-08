@@ -17,7 +17,7 @@ import org.eclipse.smila.processing.ProcessingException;
 /**
  * This class constructs the attributeNames field
  */
-public class EnrichRecords implements Pipelet {
+public class EnrichRecordsPipelet implements Pipelet {
 	
 	private final String CONCEPT_TYPE = "CLASS";
 	
