@@ -430,6 +430,12 @@ public class ModelCrawler extends AbstractCrawler {
 	  ArrayList<String> resultList = new ArrayList<String>();
 	  String resultListString = new String();
     switch (attribute.getFileAttributes()) {
+      case FILENAME:
+    	System.out.println("Reading FILENAME: " + file.getName());
+        return file.getName();
+      case PATH:
+    	System.out.println("Reading PATH: " + file.getAbsolutePath());
+        return file.getAbsolutePath();
       case PROJECTID:
     	xq = new XQueryWrapper(XQUERY_PATH.concat("/getProjectId.xquery"));
         xq.bindVariable("document", file.getAbsolutePath());
@@ -437,26 +443,43 @@ public class ModelCrawler extends AbstractCrawler {
         String id = resultList.get(0);
     	System.out.println("Reading PROJECTID: " + id);
     	return id;
-      case FILENAME:
-    	System.out.println("Reading FILENAME: " + file.getName());
-        return file.getName();
-      case PATH:
-    	System.out.println("Reading PATH: " + file.getAbsolutePath());
-        return file.getAbsolutePath();
-      case CONTENT:
-    	xq = new XQueryWrapper(XQUERY_PATH.concat("/getClassNames.xquery"));
+    	
+    	/* Note: the projectName is actually te name of the first package 
+    	 * (the one which encloses the whole model), since the actual projectName is
+    	 * not significative (it's always 'MetaModel')
+    	 */
+      case PROJECTNAME: //TODO
+    	xq = new XQueryWrapper(XQUERY_PATH.concat("/getProjectName.xquery"));
+        xq.bindVariable("document", file.getAbsolutePath());
+        resultList = xq.executeQuery();
+        String projectName = resultList.get(0);
+    	System.out.println("Reading PROJECTNAME: " + projectName);
+    	return projectName;
+      case CLASSNAMES:
+        xq = new XQueryWrapper(XQUERY_PATH.concat("/getClassNames.xquery"));
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         resultListString = arrayListToString(resultList);
         System.out.println("Result list Class Names: " + resultListString);
-        return resultListString;
+        return resultListString; 
       case CLASSIDS:
       	xq = new XQueryWrapper(XQUERY_PATH.concat("/getClassIds.xquery"));
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         resultListString = arrayListToString(resultList);
         System.out.println("Result list Class Ids: " + resultListString);
-        return resultListString;      
+        return resultListString;
+        
+        /* Note: Attribute names are stored with the id of their class of belonging 
+    	 * The format is "classId$attributeName"
+    	 */
+      case ATTRIBUTENAMES:
+        xq = new XQueryWrapper(XQUERY_PATH.concat("/getAttributeNames.xquery"));
+        xq.bindVariable("document", file.getAbsolutePath());
+        resultList = xq.executeQuery();
+        resultListString = arrayListToString(resultList);
+        System.out.println("Result list Attribute Names: " + resultListString);
+        return resultListString;           
       default:
         throw new RuntimeException("Unknown file attributes type " + attribute.getFileAttributes());
     }

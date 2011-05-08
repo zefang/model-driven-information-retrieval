@@ -35,16 +35,21 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum
 public enum FileAttributesType {
 	
+	
+	@XmlEnumValue("FileName")
+	FILENAME("FileName"),
+	@XmlEnumValue("Path")
+	PATH("Path"),
     @XmlEnumValue("projectId")
     PROJECTID("projectId"),
-    @XmlEnumValue("FileName")
-    FILENAME("FileName"),
-    @XmlEnumValue("Path")
-    PATH("Path"),
-    @XmlEnumValue("Content")
-    CONTENT("Content"),
+    @XmlEnumValue("projectName")
+    PROJECTNAME("projectName"),
+    @XmlEnumValue("classNames")
+    CLASSNAMES("classNames"),
     @XmlEnumValue("classIds")
-    CLASSIDS("classIds");
+    CLASSIDS("classIds"),
+	@XmlEnumValue("attributeNames")
+    ATTRIBUTENAMES("attributeNames");
     private final String value;
 
     FileAttributesType(String v) {
