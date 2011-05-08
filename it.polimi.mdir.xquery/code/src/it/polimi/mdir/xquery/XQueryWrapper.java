@@ -64,7 +64,7 @@ public class XQueryWrapper {
 			}
 			result.close();
 			
-			System.out.println(listResults.get(0).toString());
+			System.out.println(listResults.toString());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
