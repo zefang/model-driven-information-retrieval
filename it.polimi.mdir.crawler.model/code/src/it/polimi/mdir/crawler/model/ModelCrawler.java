@@ -225,9 +225,6 @@ public class ModelCrawler extends AbstractCrawler {
    */
   @Override
   public DataReference[] getNext() throws CrawlerException, CrawlerCriticalException {
-	
-	  System.out.println("Chiamato getNext()"); //TODO delete
-	  
     while (hasNext()) {
       final List<DataReference> refList = new ArrayList<DataReference>();
       try {
@@ -448,7 +445,7 @@ public class ModelCrawler extends AbstractCrawler {
     	 * (the one which encloses the whole model), since the actual projectName is
     	 * not significative (it's always 'MetaModel')
     	 */
-      case PROJECTNAME: //TODO
+      case PROJECTNAME:
     	xq = new XQueryWrapper(XQUERY_PATH.concat("/getProjectName.xquery"));
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();

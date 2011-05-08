@@ -60,8 +60,8 @@ public class EnrichRecords implements Pipelet {
 					//Every attributeNamesArray[j] is of the format classId$attribteName
 					String attributesPerClass = "";
 					for (int j=0; j < attributeNamesArray.length; j++) {
-						String[] attrName = attributeNamesArray[j].split("$");
-						if (attrName[0].equals(classId)) {
+						String[] attrName = attributeNamesArray[j].split("\\$");
+						if (attrName[0].equals(classId.toString())) {
 							attributesPerClass += attrName[1] + " ";
 						}
 					}
