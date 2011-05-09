@@ -18,11 +18,6 @@ public class PayloadTermQueryPlugin extends QParserPlugin {
 
   @Override
   public QParser createParser(String qstr, SolrParams localParams, SolrParams params, SolrQueryRequest req) {
-	  System.out.println("qstr: " + qstr);
-	  System.out.println("localParams.toString(): " + localParams.toString());
-	  System.out.println("localParams.get(f): " + localParams.get("f"));
-	  System.out.println("localParams.get(v): " + localParams.get("v"));
-	  System.out.println("localParams.get(func): " + localParams.get("func"));
     return new QParser(qstr, localParams, params, req) {
       public Query parse() throws ParseException {
         return new PayloadTermQuery(        		
