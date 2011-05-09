@@ -1,5 +1,8 @@
 package it.polimi.mdir.solr;
 
+/**
+ * Collection of constants useful for interacting with the Solr REST API.
+ */
 public class SolrDocumentUtil {
 	
 	// Solr Http constants
@@ -24,7 +27,5 @@ public class SolrDocumentUtil {
 	public static final String DELETE = "delete";
 	
 	public static final String DATE_FORMAT_PATTERN = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-	
-	public static final String ID = "id"; //TODO da eliminare
 	
 }

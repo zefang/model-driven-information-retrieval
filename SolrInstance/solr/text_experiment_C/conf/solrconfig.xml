@@ -1019,7 +1019,7 @@
   <!-- example of registering a query parser
   <queryParser name="lucene" class="org.apache.solr.search.LuceneQParserPlugin"/>
   -->
- <!-- <queryParser name="payloadQueryParser" class="it.polimi.mdir.solr.plugin.PayloadQParserPlugin" />  --> 
+  <queryParser name="payloadQueryParser" class="it.polimi.mdir.solr.plugin.PayloadQParserPlugin" /> 
   <queryParser name="edismax" class="org.apache.solr.search.ExtendedDismaxPayloadQParserPlugin" />
   <queryParser name="payload" class="org.apache.solr.search.PayloadTermQueryPlugin" />
 
