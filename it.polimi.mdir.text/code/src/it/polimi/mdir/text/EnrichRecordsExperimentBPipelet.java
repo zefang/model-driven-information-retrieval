@@ -1,5 +1,8 @@
-package it.polimi.mdir.text;
+/*******************************************************************************
+ * Contributors: Stefano Celentano, Lorenzo Furrer
+ **********************************************************************************************************************/
 
+package it.polimi.mdir.text;
 
 import java.util.ArrayList;
 
