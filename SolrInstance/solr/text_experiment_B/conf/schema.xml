@@ -322,7 +322,7 @@
    <field name="classId" type="string" indexed="true" stored="true"  required="true" />
    <field name="className" type="text_B" indexed="true" stored="true" required="true" /> 
    
-   <field name="text_B" type="text_B" indexed="true" stored="true"    
+   <field name="attributeNames" type="text_B" indexed="true" stored="true"    
 			multiValued="true" termVectors="true" termOffsets="true" termPosition="true"/>
 
    <field name="content" type="text_B" indexed="true" stored="true"    
@@ -336,14 +336,14 @@
  <uniqueKey>classId</uniqueKey>
 
  <!-- field for the QueryParser to use when an explicit fieldname is absent -->
- <defaultSearchField>text_B</defaultSearchField>
+ <defaultSearchField>content</defaultSearchField>
 
  <!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
  <solrQueryParser defaultOperator="OR"/>
  
  
  <copyField source="className" dest="content" />
- <copyField source="text_B" dest="content" />
+ <copyField source="attributeNames" dest="content" />
  <copyField source="projectName" dest="content" />
 
 
