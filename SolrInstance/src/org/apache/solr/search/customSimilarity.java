@@ -21,11 +21,11 @@ public class customSimilarity extends DefaultSimilarity {
 	  {
 		float pl = PayloadHelper.decodeFloat(payload, offset);//we can ignore length here, because we know it is encoded as 4 bytes
 		float score = 1.0f;
-		
-		if(payWeight.containsKey(new Float(pl))){
+		return pl;
+		/*if(payWeight.containsKey(new Float(pl))){
 		   score = ((Float)payWeight.get(new Float(pl))).floatValue();
 		}		       
-	    return score;
+	    return score;*/
 	  }
 		
 	

@@ -390,7 +390,7 @@
 
     <!-- Maximum number of documents to cache for any entry in the
          queryResultCache. -->
-    <queryResultMaxDocsCached>200</queryResultMaxDocsCached>
+    <queryResultMaxDocsCached>0</queryResultMaxDocsCached> <!-- original: 200 -->
 
     <!-- a newSearcher event is fired whenever a new searcher is being prepared
       and there is a current searcher handling requests (aka registered).
@@ -448,7 +448,7 @@
          <cacheControl>
     -->
     <!-- <httpCaching never304="true"> -->
-    <httpCaching lastModifiedFrom="openTime"
+    <httpCaching never304="true" lastModifiedFrom="openTime"
                  etagSeed="Solr">
        <!-- lastModFrom="openTime" is the default, the Last-Modified value
             (and validation against If-Modified-Since requests) will all be
@@ -912,6 +912,25 @@
      <str name="echoHandler">true</str>
     </lst>
   </requestHandler>
+  
+  
+  <requestHandler name="payloadQueryParser" class="solr.SearchHandler">
+    <lst name="defaults">
+      <str name="defType">payloadQueryParser</str>
+    </lst>
+  </requestHandler>
+
+  <requestHandler name="edismax" class="solr.SearchHandler">
+    <lst name="defaults">
+      <str name="defType">edismax</str>
+    </lst>
+  </requestHandler>
+  
+  <requestHandler name="payload" class="solr.SearchHandler">
+    <lst name="defaults">
+      <str name="defType">payload</str>
+    </lst>
+  </requestHandler>
 
   <highlighting>
    <!-- Configure the standard fragmenter -->
@@ -1000,6 +1019,9 @@
   <!-- example of registering a query parser
   <queryParser name="lucene" class="org.apache.solr.search.LuceneQParserPlugin"/>
   -->
+  <queryParser name="payloadQueryParser" class="it.polimi.mdir.solr.plugin.PayloadQParserPlugin" /> 
+  <queryParser name="edismax" class="org.apache.solr.search.ExtendedDismaxPayloadQParserPlugin" />
+  <queryParser name="payload" class="org.apache.solr.search.PayloadTermQueryPlugin" />
 
   <!-- example of registering a custom function parser 
   <valueSourceParser name="myfunc" class="com.mycompany.MyValueSourceParser" />

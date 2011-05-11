@@ -263,6 +263,7 @@
 		<filter class="solr.PatternReplaceFilterFactory"
                 pattern="^[a-z]{2,5}[0-9]{1,4}?([.]|[a-z])?(.*)" replacement="" replace="all"
         />
+		<filter class="solr.WordDelimiterFilterFactory" preserveOriginal="1"/>
 		<filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"
                 enablePositionIncrements="true" />	
         <filter class="solr.TrimFilterFactory" />	
@@ -276,6 +277,7 @@
 		<filter class="solr.PatternReplaceFilterFactory"
                 pattern="^[a-z]{2,5}[0-9]{1,4}?([.]|[a-z])?(.*)" replacement="" replace="all"
         />
+		<filter class="solr.WordDelimiterFilterFactory" preserveOriginal="1"/>
 		<filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"
                 enablePositionIncrements="true" />
         <filter class="solr.TrimFilterFactory" />
@@ -313,11 +315,13 @@
      default: a value that should be used if no value is specified
        when adding a document.
    -->
-   
+
    <field name="projectId" type="string" indexed="true" stored="true" required="true" /> 
+   <field name="projectName" type="text_A" indexed="true" stored="true" required="true" /> 
+   
    <field name="text_A" type="text_A" indexed="true" stored="true"    
 			multiValued="true" termVectors="true" termOffsets="true" termPosition="true"/>
-
+	
    
  </fields>
 
@@ -337,6 +341,10 @@
       A custom similarity may be specified here, but the default is fine
       for most applications.  -->
  <!-- <similarity class="org.apache.lucene.search.DefaultSimilarity"/> -->
+ 
+ <!-- <similarity class="it.polimi.mdir.solr.plugin.MyPerFieldSimilarityWrapper" /> -->
+ <similarity class="org.apache.solr.search.customSimilarity"/>
+ 
  <!-- ... OR ...
       Specify a SimilarityFactory class name implementation
       allowing parameters to be used.

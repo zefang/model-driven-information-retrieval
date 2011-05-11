@@ -263,7 +263,7 @@
 		<filter class="solr.PatternReplaceFilterFactory"
                 pattern="^[a-z]{2,5}[0-9]{1,4}?([.]|[a-z])?(.*)" replacement="" replace="all"
         />
-		<filter class="solr.WordDelimiterFilterFactory" />
+		<filter class="solr.WordDelimiterFilterFactory" preserveOriginal="1"/>
 		<filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"
                 enablePositionIncrements="true" />	
         <filter class="solr.TrimFilterFactory" />	
@@ -277,7 +277,7 @@
 		<filter class="solr.PatternReplaceFilterFactory"
                 pattern="^[a-z]{2,5}[0-9]{1,4}?([.]|[a-z])?(.*)" replacement="" replace="all"
         />
-		<filter class="solr.WordDelimiterFilterFactory" />
+		<filter class="solr.WordDelimiterFilterFactory" preserveOriginal="1"/>
 		<filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"
                 enablePositionIncrements="true" />
         <filter class="solr.TrimFilterFactory" />
@@ -345,7 +345,7 @@
       for most applications.  -->
  <!-- <similarity class="org.apache.lucene.search.DefaultSimilarity"/> -->
  
- <!-- <similarity class="it.polimi.mdir.solr.plugin.MyPerFieldSimilarityWrapper" />  -->
+ <!-- <similarity class="it.polimi.mdir.solr.plugin.MyPerFieldSimilarityWrapper" /> -->
  <similarity class="org.apache.solr.search.customSimilarity"/>
  
  <!-- ... OR ...
