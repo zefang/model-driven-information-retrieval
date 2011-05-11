@@ -324,7 +324,9 @@
    
    <field name="text_B" type="text_B" indexed="true" stored="true"    
 			multiValued="true" termVectors="true" termOffsets="true" termPosition="true"/>
-	
+
+   <field name="content" type="text_B" indexed="true" stored="true"    
+			multiValued="true"/>			
    
  </fields>
 
@@ -338,6 +340,11 @@
 
  <!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
  <solrQueryParser defaultOperator="OR"/>
+ 
+ 
+ <copyField source="className" dest="content" />
+ <copyField source="text_B" dest="content" />
+ <copyField source="projectName" dest="content" />
 
 
  <!-- Similarity is the scoring routine for each document vs. a query.
