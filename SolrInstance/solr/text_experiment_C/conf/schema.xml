@@ -352,8 +352,9 @@
  <!-- <similarity class="org.apache.lucene.search.DefaultSimilarity"/> -->
  
  <!-- <similarity class="it.polimi.mdir.solr.plugin.MyPerFieldSimilarityWrapper" /> -->
- <similarity class="org.apache.solr.search.customSimilarity"/>
- 
+ <!-- <similarity class="org.apache.solr.search.customSimilarity"/> -->
+ <similarity class="it.polimi.mdir.solr.plugin.PayloadSimilarity"/>
+
  <!-- ... OR ...
       Specify a SimilarityFactory class name implementation
       allowing parameters to be used.
