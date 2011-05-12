@@ -6,4 +6,8 @@ declare variable $document as xs:string external;
 for $class in doc($document)//packagedElement
 	for $attribute in $class/ownedAttribute
 where $class/@xmi:type = "uml:Class"
-return concat(data($class/@xmi:id),'$',data($attribute/@name))
+return if (exists($attribute/@association) and exists($attribute/@aggregation))
+		then concat(data($class/@xmi:id),'$',data($attribute/@name),'+conceptType:composition')
+		else if (exists($attribute/@association) and not(exists($attribute/@aggregation)))
+		then concat(data($class/@xmi:id),'$',data($attribute/@name),'+conceptType:association')
+		else concat(data($class/@xmi:id),'$',data($attribute/@name),'+conceptType:attribute')

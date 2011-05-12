@@ -437,7 +437,7 @@ public class ModelCrawler extends AbstractCrawler {
     	System.out.println("Reading PROJECTID: " + id);
     	return id;
     	
-    	/* Note: the projectName is actually te name of the first package 
+    	/* Note: the projectName is actually the name of the first package 
     	 * (the one which encloses the whole model), since the actual projectName is
     	 * not significative (it's always 'MetaModel')
     	 */
@@ -463,8 +463,10 @@ public class ModelCrawler extends AbstractCrawler {
         System.out.println("Result list Class Ids: " + resultListString);
         return resultListString;
         
-        /* Note: Attribute names are stored with the id of their class of belonging 
-    	 * The format is "classId$attributeName"
+        /* Note: Attribute names are stored with:
+         * - the id of their class of belonging
+         * - the conceptType (attribute, composition, association)
+    	 * The format is "'classIdVALUE'$'attributeNameVALUE'+'conceptType:VALUE'"
     	 */
       case ATTRIBUTENAMES:
         xq = new XQueryWrapper(XQUERY_PATH.concat("/getAttributeNames.xquery"));
