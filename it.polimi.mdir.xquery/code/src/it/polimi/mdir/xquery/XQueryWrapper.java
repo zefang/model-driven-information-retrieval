@@ -52,7 +52,7 @@ public class XQueryWrapper {
 		
 			FileInputStream inputStream = new FileInputStream("xquery/getattributenames.xquery"); 
 			XQPreparedExpression expr = conn.prepareExpression(inputStream);
-			expr.bindObject(new QName("document"),new String("exampledocs/automaton.uml"), null);
+			expr.bindObject(new QName("document"),new String("exampledocs/QVT_SimpleRDBMS.uml"), null);
 			//expr.bindObject(new QName("v"),new Integer(23), null);
 			
 			XQResultSequence result = expr.executeQuery();
