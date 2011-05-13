@@ -9,6 +9,7 @@ Import-Package: org.eclipse.smila.blackboard,
  org.eclipse.smila.processing
 SMILA-Pipelets: it.polimi.mdir.text.EnrichRecordsExperimentAPipelet, 
  it.polimi.mdir.text.EnrichRecordsExperimentBPipelet, 
+ it.polimi.mdir.text.EnrichRecordsExperimentCPipelet,
  it.polimi.mdir.text.PayloadAdderPipelet
  
 

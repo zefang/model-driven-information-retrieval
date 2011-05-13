@@ -931,6 +931,19 @@
       <str name="defType">payload</str>
     </lst>
   </requestHandler>
+  
+  <requestHandler name="PLDisMaxQParserPlugin" class="solr.SearchHandler">
+    <lst name="defaults">
+      
+	  <str name="defType">PLDisMaxQParserPlugin</str>
+	 
+	 <!-- plf : comma separated list of field names -->  
+	  <str name="plf">
+			content
+	  </str>	  	
+    
+	</lst>
+  </requestHandler>
 
   <highlighting>
    <!-- Configure the standard fragmenter -->
@@ -1022,6 +1035,7 @@
   <queryParser name="payloadQueryParser" class="it.polimi.mdir.solr.plugin.PayloadQParserPlugin" /> 
   <queryParser name="edismax" class="org.apache.solr.search.ExtendedDismaxPayloadQParserPlugin" />
   <queryParser name="payload" class="org.apache.solr.search.PayloadTermQueryPlugin" />
+  <queryParser name="PLDisMaxQParserPlugin" class="org.apache.solr.search.PLDisMaxQParserPlugin" />
 
   <!-- example of registering a custom function parser 
   <valueSourceParser name="myfunc" class="com.mycompany.MyValueSourceParser" />

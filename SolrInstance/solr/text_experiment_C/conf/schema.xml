@@ -365,5 +365,7 @@
  </similarity>
  -->
 
+<similarity class="org.apache.solr.search.PayloadSimilarity" />
+
 
 </schema>
