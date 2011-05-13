@@ -47,7 +47,7 @@ public class EnrichRecordsExperimentAPipelet implements Pipelet {
 				//Split attributeNamesArray into "classId attribute" to extract only attribute names
 				for (int i=0; i<attributeNamesArray.length; i++) {
 					
-					attr = attributeNamesArray[i].split("\\$")[1];
+					attr = attributeNamesArray[i].split("\\$")[1].split("\\+")[0];
 					
 					if (i==0) {			
 						attributeNames = attributeNames.concat(attr);

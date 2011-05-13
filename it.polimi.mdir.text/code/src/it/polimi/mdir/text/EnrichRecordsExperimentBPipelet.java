@@ -65,7 +65,7 @@ public class EnrichRecordsExperimentBPipelet implements Pipelet {
 					for (int j=0; j < attributeNamesArray.length; j++) {
 						String[] attrName = attributeNamesArray[j].split("\\$");
 						if (attrName[0].equals(classId.toString())) {
-							attributesPerClass += attrName[1] + " ";
+							attributesPerClass += attrName[1].split("\\+")[0] + " ";
 						}
 					}
 					copy.getMetadata().put("attributeNames", attributesPerClass.trim());
