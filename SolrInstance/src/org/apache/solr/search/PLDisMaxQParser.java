@@ -83,10 +83,10 @@ public class PLDisMaxQParser extends DisMaxQParser {
         userQuery = SolrPluginUtils.stripIllegalOperators(userQuery)
             .toString();
 
-        parsedUserQuery = getUserQuery(userQuery, up, solrParams);
+        //parsedUserQuery = getUserQuery(userQuery, up, solrParams); TODO mia modifica
 
         // recursively rewrite the elements of the query
-        Query payloadedUserQuery = rewriteQueriesAsPLQueries(parsedUserQuery);
+        Query payloadedUserQuery = rewriteQueriesAsPLQueries(new PayloadTermQuery(new Term("content", userQuery),func)); //TODO original parsedUserQuery
         query.add(payloadedUserQuery, BooleanClause.Occur.MUST);
 
         Query phrase = getPhraseQuery(userQuery, pp);
@@ -153,6 +153,7 @@ public class PLDisMaxQParser extends DisMaxQParser {
     output.setBoost(input.getBoost());
     return output;
     }
+    
     public void addDebugInfo(NamedList<Object> debugInfo) {
     super.addDebugInfo(debugInfo);
     if (this.payloadFields.size() > 0) {
