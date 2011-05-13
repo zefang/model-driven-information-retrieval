@@ -318,9 +318,9 @@
 
    <field name="projectId" type="string" indexed="true" stored="true" required="true" /> 
    <field name="projectName" type="text_A" indexed="true" stored="true" required="true" /> 
-   
-   <field name="text_A" type="text_A" indexed="true" stored="true"    
-			multiValued="true" termVectors="true" termOffsets="true" termPosition="true"/>
+			
+   <field name="content" type="text_A" indexed="true" stored="true"    
+			multiValued="true"/>
 	
    
  </fields>
@@ -331,10 +331,13 @@
  <uniqueKey>projectId</uniqueKey>
 
  <!-- field for the QueryParser to use when an explicit fieldname is absent -->
- <defaultSearchField>text_A</defaultSearchField>
+ <defaultSearchField>content</defaultSearchField>
 
  <!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
  <solrQueryParser defaultOperator="OR"/>
+ 
+ 
+ <copyField source="projectName" dest="content" />
 
 
  <!-- Similarity is the scoring routine for each document vs. a query.
