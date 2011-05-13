@@ -28,7 +28,7 @@ public class PayloadAdderPipelet implements Pipelet {
 				String attributeName = "";
 				Record record = blackboard.getRecord(id);
 				String className = record.getMetadata().getStringValue("className");
-				className += "|100.0";
+				className += "|5.0";
 				System.out.println(className);
 				record.getMetadata().put("className", className);
 				
@@ -46,10 +46,10 @@ public class PayloadAdderPipelet implements Pipelet {
 						conceptType = attributeAndConceptTypeArray[1];
 					
 						if (conceptType.contains("attribute")) {
-							attributeNamesString += attributeName.concat("|5.0 ");	
+							attributeNamesString += attributeName.concat("|1.0 ");	
 						} else if (conceptType.contains("association")) {
-							attributeNamesString += attributeName.concat("|10.0 ");
-						} else attributeNamesString += attributeName.concat("|15.0 ");
+							attributeNamesString += attributeName.concat("|2.5 ");
+						} else attributeNamesString += attributeName.concat("|2.0 ");
 					}
 					attributeNamesString = attributeNamesString.trim();
 					System.out.println(attributeNamesString);
