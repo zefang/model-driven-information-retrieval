@@ -83,10 +83,10 @@ public class PLDisMaxQParser extends DisMaxQParser {
         userQuery = SolrPluginUtils.stripIllegalOperators(userQuery)
             .toString();
 
-        //parsedUserQuery = getUserQuery(userQuery, up, solrParams); TODO mia modifica
+        parsedUserQuery = getUserQuery(userQuery, up, solrParams);
 
         // recursively rewrite the elements of the query
-        Query payloadedUserQuery = rewriteQueriesAsPLQueries(new PayloadTermQuery(new Term("content", userQuery),func)); //TODO original parsedUserQuery
+        Query payloadedUserQuery = rewriteQueriesAsPLQueries(parsedUserQuery); //TODO original parsedUserQuery
         query.add(payloadedUserQuery, BooleanClause.Occur.MUST);
 
         Query phrase = getPhraseQuery(userQuery, pp);
