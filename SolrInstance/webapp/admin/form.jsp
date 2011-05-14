@@ -45,6 +45,22 @@
 </tr>
 <tr>
   <td>
+	<strong>Campo qf (Query Field)</strong>
+  </td>
+  <td>
+	<input name="qf" type="text" value="content" size="20"  />
+  </td>
+</tr>
+<tr>
+  <td>
+	<strong>Campo mm (Minimum 'Should' Match)</strong>
+  </td>
+  <td>
+	<input name="mm" type="text" value="100%" size="20"  />
+  </td>
+</tr>
+<tr>
+  <td>
 	<strong>Start Row</strong>
   </td>
   <td>
