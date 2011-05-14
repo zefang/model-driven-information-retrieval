@@ -53,7 +53,8 @@
 </tr>
 <tr>
   <td>
-	<strong>Campo mm (Minimum 'Should' Match)</strong>
+	<strong>Campo mm (Minimum 'Should' Match)</strong><br />
+	100% = AND, 0% = OR
   </td>
   <td>
 	<input name="mm" type="text" value="100%" size="20"  />
