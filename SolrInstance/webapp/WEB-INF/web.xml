@@ -111,6 +111,13 @@
     <servlet-name>ping</servlet-name>
     <jsp-file>/admin/ping.jsp</jsp-file>
   </servlet>
+  
+<!-- Test servlet -->
+
+  <servlet>
+    <servlet-name>TestServlet</servlet-name>
+    <servlet-class>it.polimi.mdir.solr.test.TestServlet</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>SolrServer</servlet-name>
@@ -138,6 +145,14 @@
     <servlet-name>Logging</servlet-name>
     <url-pattern>/admin/logging.jsp</url-pattern>
   </servlet-mapping>
+  
+  <!-- Test servlet -->
+  
+  <servlet-mapping>
+    <servlet-name>TestServlet</servlet-name>
+    <url-pattern>/test</url-pattern>
+  </servlet-mapping>
+  
   
   <mime-mapping>
     <extension>.xsl</extension>
