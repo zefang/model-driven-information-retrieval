@@ -3,8 +3,6 @@ package it.polimi.mdir.solr.test;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-import org.apache.commons.io.FileUtils;
-
 import java.io.*;
 import java.net.*;
 

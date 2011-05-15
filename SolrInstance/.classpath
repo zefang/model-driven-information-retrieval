@@ -36,5 +36,12 @@
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/slf4j-jdk14-1.5.5.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/wstx-asl-3.2.7.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/commons-lang-2.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Stefano/Downloads/SMILA-incubation-0.8-M1-win32.win32.x86/plugins/javax.servlet_2.5.0.v200910301333.jar" sourcepath="C:/Users/Stefano/Downloads/SMILA-incubation-0.8-M1-win32.win32.x86/plugins/javax.servlet_2.5.0.v200910301333.jar">
+		<accessrules>
+			<accessrule kind="accessible" pattern="javax/servlet/*"/>
+			<accessrule kind="accessible" pattern="javax/servlet/http/*"/>
+			<accessrule ignoreifbetter="true" kind="nonaccessible" pattern="**/*"/>
+		</accessrules>
+	</classpathentry>
 	<classpathentry kind="output" path="webapp/WEB-INF/classes"/>
 </classpath>
