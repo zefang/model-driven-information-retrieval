@@ -424,17 +424,14 @@ public class ModelCrawler extends AbstractCrawler {
 	  String resultListString = new String();
     switch (attribute.getFileAttributes()) {
       case FILENAME:
-    	System.out.println("Reading FILENAME: " + file.getName());
         return file.getName();
       case PATH:
-    	System.out.println("Reading PATH: " + file.getAbsolutePath());
         return file.getAbsolutePath();
       case PROJECTID:
     	xq = new XQueryWrapper(XQUERY_PATH.concat("/getProjectId.xquery"));
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         String id = resultList.get(0);
-    	System.out.println("Reading PROJECTID: " + id);
     	return id;
     	
     	/* Note: the projectName is actually the name of the first package 
@@ -446,21 +443,18 @@ public class ModelCrawler extends AbstractCrawler {
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         String projectName = resultList.get(0);
-    	System.out.println("Reading PROJECTNAME: " + projectName);
     	return projectName;
       case CLASSNAMES:
         xq = new XQueryWrapper(XQUERY_PATH.concat("/getClassNames.xquery"));
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         resultListString = arrayListToString(resultList);
-        System.out.println("Result list Class Names: " + resultListString);
         return resultListString; 
       case CLASSIDS:
       	xq = new XQueryWrapper(XQUERY_PATH.concat("/getClassIds.xquery"));
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         resultListString = arrayListToString(resultList);
-        System.out.println("Result list Class Ids: " + resultListString);
         return resultListString;
         
         /* Note: Attribute names are stored with:
@@ -473,7 +467,6 @@ public class ModelCrawler extends AbstractCrawler {
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         resultListString = arrayListToString(resultList);
-        System.out.println("Result list Attribute Names: " + resultListString);
         return resultListString;           
       default:
         throw new RuntimeException("Unknown file attributes type " + attribute.getFileAttributes());

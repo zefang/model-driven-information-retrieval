@@ -24,6 +24,8 @@ public class EnrichRecordsExperimentCPipelet implements Pipelet {
 	
 	private final String CONCEPT_TYPE = "CLASS";
 	
+	private static int count = 0;
+	
 	@Override
 	public void configure(AnyMap configuration) throws ProcessingException {
 		
@@ -32,6 +34,9 @@ public class EnrichRecordsExperimentCPipelet implements Pipelet {
 	@Override
 	public String[] process(Blackboard blackboard, String[] recordIds)
 			throws ProcessingException {
+		
+		System.out.println("Start Enrich C: " + ++count);
+		System.out.println("C -> recordids.length: " + recordIds.length);
 		//This array will contain new id to pass through the framework
 		ArrayList<String> newRecordsIds = new ArrayList<String>();
 		int nNewRecords;	

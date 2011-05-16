@@ -29,7 +29,6 @@ public class PayloadAdderPipelet implements Pipelet {
 				Record record = blackboard.getRecord(id);
 				String className = record.getMetadata().getStringValue("className");
 				className += "|5.0";
-				System.out.println(className);
 				record.getMetadata().put("className", className);
 				
 				String attributeNamesString = record.getMetadata().getStringValue("attributeNames");
@@ -52,7 +51,6 @@ public class PayloadAdderPipelet implements Pipelet {
 						} else attributeNamesString += attributeName.concat("|2.0 ");
 					}
 					attributeNamesString = attributeNamesString.trim();
-					System.out.println(attributeNamesString);
 				}
 				record.getMetadata().put("attributeNames", attributeNamesString);
 				
