@@ -30,6 +30,7 @@ tr.odd {
 }
 
 td {
+	vertical-align: top;
 	color: #333366;
 	padding: 8px;
 }
