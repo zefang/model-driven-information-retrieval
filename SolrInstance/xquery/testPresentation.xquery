@@ -4,7 +4,8 @@ declare namespace uml = "http://www.eclipse.org/uml2/2.1.0/UML";
 declare variable $document as xs:string external;
 
 for $doc in doc($document)//doc
-return concat(data($doc/str[@name="projectName"]),' ' ,
+return concat(data($doc/str[@name="projectId"]),' ' ,
+				data($doc/str[@name="projectName"]),' ' ,
 				data($doc/str[@name="classId"]),' ',
 				data($doc/str[@name="className"]),' ',
 				data($doc/float[@name="score"]))
