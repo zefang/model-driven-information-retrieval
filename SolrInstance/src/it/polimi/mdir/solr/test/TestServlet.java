@@ -44,6 +44,8 @@ public class TestServlet extends HttpServlet {
 		  query = req.getParameter("q");
 		  mm = req.getParameter("mm");
 		  
+		  query = query.replaceAll(" ", "+");
+		  
 		  // Preparing the urls
 		  for (int i=0; i<urls.length; i++) {
 			  urls[i] = urls[i].concat("&q=" + query);
