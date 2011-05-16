@@ -44,6 +44,7 @@ public class TestServlet extends HttpServlet {
 		  query = req.getParameter("q");
 		  mm = req.getParameter("mm");
 		  
+		  // Replacing spaces
 		  query = query.replaceAll(" ", "+");
 		  
 		  // Preparing the urls
@@ -81,7 +82,7 @@ public class TestServlet extends HttpServlet {
 		      in.close();		 
 		  }
 		  
-	      res.sendRedirect("./admin/testPresentation.jsp");
+	      res.sendRedirect("./admin/testPresentation.jsp?queryString=" + query);
 	  }
 	
 	  public void doPost (HttpServletRequest  req, HttpServletResponse  res)
