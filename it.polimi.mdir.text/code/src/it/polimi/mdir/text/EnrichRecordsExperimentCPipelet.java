@@ -42,6 +42,8 @@ public class EnrichRecordsExperimentCPipelet implements Pipelet {
 		int nNewRecords;	
 		for (final String id : recordIds) {
 			try {
+				System.out.println("C -> name: " + blackboard.getRecord(id).getMetadata().getStringValue("projectName"));
+				
 				//construct attributeNames field
 				String classIds = blackboard.getRecord(id).getMetadata().getStringValue("classIds");
 				String classNames = blackboard.getRecord(id).getMetadata().getStringValue("classNames");

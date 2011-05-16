@@ -137,6 +137,8 @@ public class SolrIndexerPipelet implements Pipelet {
       Element field;
       Text text;
       for (final String id : recordIds) {
+    	  System.out.println("Indexing "+_coreName+" -> name: " + blackboard.getRecord(id).getMetadata().getStringValue("className"));
+    	  
     	  logId = id;
     	  final Element doc = document.createElement(SolrDocumentUtil.DOC);
     	  add.appendChild(doc);
