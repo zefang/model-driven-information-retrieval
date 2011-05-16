@@ -15,12 +15,9 @@ public class TestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private String[] experiments = {"A", "B", "C"};
-	private String[] urls = {"http://localhost:8983/solr/text_experiment_A/select?qf=content&fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on", 
-							 "http://localhost:8983/solr/text_experiment_B/select?qf=content&fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on", 
-							 "http://localhost:8983/solr/text_experiment_C/select?qf=content&fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on"};
 	
-	private String query = "";
-	private String mm = "";
+	String query;
+	String mm;
 	
 	// This string will contain the lines coming from the servlet which is called
 	String line = "";
@@ -34,6 +31,14 @@ public class TestServlet extends HttpServlet {
 	    throws ServletException, IOException {
 		  
 		  System.out.println("Sono in TestServlet");
+		 
+		  String[] urls = {"http://localhost:8983/solr/text_experiment_A/select?qf=content&fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on", 
+					 "http://localhost:8983/solr/text_experiment_B/select?qf=content&fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on", 
+					 "http://localhost:8983/solr/text_experiment_C/select?qf=content&fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on"};		  
+		  
+		  // Cleaning parameters
+		  query = "";
+		  mm = "";
 		  
 		  // Retrieving parameters from the jsp page input form
 		  query = req.getParameter("q");
