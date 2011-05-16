@@ -46,11 +46,15 @@ resultList = xqA.executeQuery();
 </head>
 <body>
 
-<h1> Query Test Presentation Page </h1>
+<center><h1> Query Test Presentation Page </h1></center>
 
-<h2> Experiment A </h2>
+<table border="0">
+   <tr>
+   <!-- EXPERIMENT A -->
+      <td>
 
 <table border="1">
+   <caption><h2>EXPERIMENT A</h2></caption>
 <tr>
   <th>Ranking</th>
   <th>Project Name</th>
@@ -83,9 +87,12 @@ score = resultList.get(i).split(" ")[2];
   
 </tr>
 </table>
-
-<h2> Experiment B </h2>
-
+      
+      </td>
+      
+   <!-- EXPERIMENT B -->   
+      <td>
+      
 <%
 
 xqB = new XQueryWrapper(XQUERY_PATH.concat("/testPresentation.xquery"));
@@ -97,6 +104,7 @@ resultList = xqB.executeQuery();
 
 
 <table border="1">
+   <caption><h2>EXPERIMENT B</h2></caption>
 <tr>
   <th>Ranking</th>
   <th>Project Name</th>
@@ -129,9 +137,12 @@ score = resultList.get(i).split(" ")[2];
   
 </tr>
 </table>
-
-<h2> Experiment C </h2>
-
+      
+      </td>
+      
+   <!-- EXPERIMENT C -->   
+      <td>
+      
 <%
 
 xqC = new XQueryWrapper(XQUERY_PATH.concat("/testPresentation.xquery"));
@@ -141,6 +152,7 @@ resultList = xqC.executeQuery();
 %>
 
 <table border="1">
+   <caption><h2>EXPERIMENT C</h2></caption>
 <tr>
   <th>Ranking</th>
   <th>Project Name</th>
@@ -172,6 +184,10 @@ score = resultList.get(i).split(" ")[2];
 %>
   
 </tr>
+</table>
+      
+      </td>    
+   </tr>
 </table>
 
 </body>
