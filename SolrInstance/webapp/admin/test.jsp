@@ -16,7 +16,7 @@
  limitations under the License.
 --%>
 
-<form name="queryForm" method="GET" action="../../test" accept-charset="UTF-8">
+<form name="queryForm" method="GET" action="../test" accept-charset="UTF-8">
 <!-- these are good defaults to have if people bookmark the resulting
      URLs, but they should not show up in the form since they are very
      output type specific.

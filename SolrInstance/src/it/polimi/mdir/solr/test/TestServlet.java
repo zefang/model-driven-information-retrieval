@@ -33,6 +33,8 @@ public class TestServlet extends HttpServlet {
 	  public void doGet (HttpServletRequest req, HttpServletResponse res)
 	    throws ServletException, IOException {
 		  
+		  System.out.println("Sono in TestServlet");
+		  
 		  // Retrieving parameters from the jsp page input form
 		  query = req.getParameter("q");
 		  mm = req.getParameter("mm");
@@ -69,10 +71,10 @@ public class TestServlet extends HttpServlet {
 		      
 		      file.close();
 		    	  
-		      in.close();
-		      
-		      res.sendRedirect("./admin/testPresentation.jsp");
+		      in.close();		 
 		  }
+		  
+	      res.sendRedirect("./admin/testPresentation.jsp");
 	  }
 	
 	  public void doPost (HttpServletRequest  req, HttpServletResponse  res)
