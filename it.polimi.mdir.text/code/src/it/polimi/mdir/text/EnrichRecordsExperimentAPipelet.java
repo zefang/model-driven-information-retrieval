@@ -18,6 +18,8 @@ import org.eclipse.smila.processing.ProcessingException;
 
 public class EnrichRecordsExperimentAPipelet implements Pipelet {
 		
+	private static int count = 0;
+	
 	@Override
 	public void configure(AnyMap configuration) throws ProcessingException {
 		
@@ -27,6 +29,8 @@ public class EnrichRecordsExperimentAPipelet implements Pipelet {
 	public String[] process(Blackboard blackboard, String[] recordIds)
 			throws ProcessingException {
 		
+		System.out.println("Start Enrich A: " + ++count);
+		System.out.println("A -> recordids.length: " + recordIds.length);
 		//This array will contain new id to pass through the framework
 		ArrayList<String> newRecordsIds = new ArrayList<String>();
 		int nNewRecords;
