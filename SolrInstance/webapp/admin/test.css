@@ -6,7 +6,6 @@ body {
 }
 
 table {
-	border: 0px;
 	border-collapse: collapse;
 }
 
@@ -31,7 +30,6 @@ tr.odd {
 }
 
 td {
-	vertical-align: top;
 	color: #333366;
 	padding: 8px;
 }

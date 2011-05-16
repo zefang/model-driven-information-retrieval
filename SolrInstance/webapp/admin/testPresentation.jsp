@@ -29,6 +29,7 @@ XQueryWrapper xqC;
 
 ArrayList<String> resultList = new ArrayList<String>();
 String projectName = "";
+String classId = "";
 String className = "";
 String score = "";
 
@@ -44,6 +45,35 @@ resultList = xqA.executeQuery();
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Query Test Presentation Page</title>
 	<link type="text/css" rel="stylesheet" href="test.css" />
+	<script type="text/javascript">
+		
+		var originalColors = new Array(2);
+		
+		function highlightClasses(classId) {
+			var rows = new Array();
+			rows = document.getElementsByTagName("tr");
+			var k = 0;
+			var i = 0;
+			for (i = 0; i < rows.length; i++) {
+				if (rows[i].id != "" && rows[i].id == classId) {
+					originalColors[k++] = rows[i].style.background;
+					rows[i].style.background = "#FF8040";
+				}
+			}
+		}
+
+		function disableHighlightClasses(classId) {
+			var rows = document.getElementsByTagName("tr");
+			var k = 0;
+			var i = 0;
+			for (i = 0; i < rows.length; i++) {
+				if (rows[i].id == classId) {
+					rows[i].style.background = originalColors[k++];
+				}
+			}
+		}
+		
+	</script>
 </head>
 <body>
 
@@ -59,21 +89,23 @@ resultList = xqA.executeQuery();
 
 <table>
    <caption>EXPERIMENT A</caption>
-<tr>
-  <th>Ranking</th>
-  <th>Project Name</th>
-  <th>Class Name</th>
-  <th>Score</th>
-</tr>
-<tr>
-
+   <thead>
+		<tr>
+  		<th>Ranking</th>
+  		<th>Project Name</th>
+  		<th>Class Name</th>
+  		<th>Score</th>
+		</tr>
+	</thead>
+	
 <%
 
 for (int i=0; i<resultList.size(); i++) {
 
 projectName = resultList.get(i).split(" ")[0];
-className = resultList.get(i).split(" ")[1];
-score = resultList.get(i).split(" ")[2];
+classId = resultList.get(i).split(" ")[1];
+className = resultList.get(i).split(" ")[2];
+score = resultList.get(i).split(" ")[3];
 
 String trClass = "";
 if (i % 2 == 0) {
@@ -95,7 +127,6 @@ if (i % 2 == 0) {
 
 %>
   
-</tr>
 </table>
       
       </td>
@@ -115,21 +146,23 @@ resultList = xqB.executeQuery();
 
 <table>
    <caption>EXPERIMENT B</caption>
-<tr>
-  <th>Ranking</th>
-  <th>Project Name</th>
-  <th>Class Name</th>
-  <th>Score</th>
-</tr>
-<tr>
+   <thead>
+		<tr>
+  		<th>Ranking</th>
+  		<th>Project Name</th>
+  		<th>Class Name</th>
+  		<th>Score</th>
+		</tr>
+	</thead>
 
 <%
 
 for (int i=0; i<resultList.size(); i++) {
 
 projectName = resultList.get(i).split(" ")[0];
-className = resultList.get(i).split(" ")[1];
-score = resultList.get(i).split(" ")[2];
+classId = resultList.get(i).split(" ")[1];
+className = resultList.get(i).split(" ")[2];
+score = resultList.get(i).split(" ")[3];
 
 String trClass = "";
 if (i % 2 == 0) {
@@ -138,7 +171,8 @@ if (i % 2 == 0) {
 	trClass = "odd";
 }
 %>
-<tr class="<%=trClass %>">
+<tr class="<%=trClass %>" id="<%=classId %>" onmouseover="highlightClasses('<%=classId %>')"
+											 onmouseout="disableHighlightClasses('<%=classId %>')">
   <td><%=i+1%></td>
   <td><%=projectName%></td>
   <td><%=className%></td>
@@ -151,7 +185,6 @@ if (i % 2 == 0) {
 
 %>
   
-</tr>
 </table>
       
       </td>
@@ -169,21 +202,23 @@ resultList = xqC.executeQuery();
 
 <table>
    <caption>EXPERIMENT C</caption>
-<tr>
-  <th>Ranking</th>
-  <th>Project Name</th>
-  <th>Class Name</th>
-  <th>Score</th>
-</tr>
-<tr>
+   <thead>
+		<tr>
+  		<th>Ranking</th>
+  		<th>Project Name</th>
+  		<th>Class Name</th>
+  		<th>Score</th>
+		</tr>
+	</thead>
 
 <%
 
 for (int i=0; i<resultList.size(); i++) {
 
 projectName = resultList.get(i).split(" ")[0];
-className = resultList.get(i).split(" ")[1];
-score = resultList.get(i).split(" ")[2];
+classId = resultList.get(i).split(" ")[1];
+className = resultList.get(i).split(" ")[2];
+score = resultList.get(i).split(" ")[3];
 
 String trClass = "";
 if (i % 2 == 0) {
@@ -192,7 +227,8 @@ if (i % 2 == 0) {
 	trClass = "odd";
 }
 %>
-<tr class="<%=trClass %>">
+<tr class="<%=trClass %>" id="<%=classId %>" onmouseover="highlightClasses('<%=classId %>')"
+											 onmouseout="disableHighlightClasses('<%=classId %>')">
   <td><%=i+1%></td>
   <td><%=projectName%></td>
   <td><%=className%></td>
@@ -205,7 +241,6 @@ if (i % 2 == 0) {
 
 %>
   
-</tr>
 </table>
       
       </td>    
