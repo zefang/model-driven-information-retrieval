@@ -41,23 +41,24 @@ resultList = xqA.executeQuery();
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Query Test Presentation Page</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>Query Test Presentation Page</title>
+	<link type="text/css" rel="stylesheet" href="test.css" />
 </head>
 <body>
 
-<center><h1> Query Test Presentation Page </h1></center>
+<h1> Query Test Presentation Page </h1>
 
 <strong> Query string: </strong>
 <tt> <%=request.getParameter("queryString")%> </tt>
 
-<table border="0">
+<table>
    <tr>
    <!-- EXPERIMENT A -->
       <td>
 
-<table border="1">
-   <caption><h3>EXPERIMENT A</h3></caption>
+<table>
+   <caption>EXPERIMENT A</caption>
 <tr>
   <th>Ranking</th>
   <th>Project Name</th>
@@ -74,8 +75,14 @@ projectName = resultList.get(i).split(" ")[0];
 className = resultList.get(i).split(" ")[1];
 score = resultList.get(i).split(" ")[2];
 
+String trClass = "";
+if (i % 2 == 0) {
+	trClass = "even";
+} else {
+	trClass = "odd";
+}
 %>
-<tr>
+<tr class="<%=trClass %>">
   <td><%=i+1%></td>
   <td><%=projectName%></td>
   <td><%=className%></td>
@@ -106,8 +113,8 @@ resultList = xqB.executeQuery();
 %>
 
 
-<table border="1">
-   <caption><h3>EXPERIMENT B</h3></caption>
+<table>
+   <caption>EXPERIMENT B</caption>
 <tr>
   <th>Ranking</th>
   <th>Project Name</th>
@@ -124,8 +131,14 @@ projectName = resultList.get(i).split(" ")[0];
 className = resultList.get(i).split(" ")[1];
 score = resultList.get(i).split(" ")[2];
 
+String trClass = "";
+if (i % 2 == 0) {
+	trClass = "even";
+} else {
+	trClass = "odd";
+}
 %>
-<tr>
+<tr class="<%=trClass %>">
   <td><%=i+1%></td>
   <td><%=projectName%></td>
   <td><%=className%></td>
@@ -154,8 +167,8 @@ resultList = xqC.executeQuery();
 
 %>
 
-<table border="1">
-   <caption><h3>EXPERIMENT C</h3></caption>
+<table>
+   <caption>EXPERIMENT C</caption>
 <tr>
   <th>Ranking</th>
   <th>Project Name</th>
@@ -172,8 +185,14 @@ projectName = resultList.get(i).split(" ")[0];
 className = resultList.get(i).split(" ")[1];
 score = resultList.get(i).split(" ")[2];
 
+String trClass = "";
+if (i % 2 == 0) {
+	trClass = "even";
+} else {
+	trClass = "odd";
+}
 %>
-<tr>
+<tr class="<%=trClass %>">
   <td><%=i+1%></td>
   <td><%=projectName%></td>
   <td><%=className%></td>
