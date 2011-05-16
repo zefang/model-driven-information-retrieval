@@ -2,7 +2,10 @@
     pageEncoding="ISO-8859-1"%>
     
 <%@ page import="it.polimi.mdir.xquery.XQueryWrapper"%>
-<%@ page import="java.util.ArrayList" %> 
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Properties" %>
+<%@ page import="java.io.*" %>
+
    
 <%--
 Presentation page for query output from TestServlet. This JSP renders in a
@@ -10,6 +13,15 @@ more comprehensible way relevant information of query results.
 --%>
 
 <%
+
+// create and load xquery properties
+Properties xqueryConfig = new Properties();
+FileInputStream in = new FileInputStream("xqueryConfig.properties");
+xqueryConfig.load(in);
+in.close();
+
+String XQUERY_PATH = xqueryConfig.getProperty("DIR");
+
 
 XQueryWrapper xqA;
 XQueryWrapper xqB;
@@ -20,7 +32,7 @@ String projectName = "";
 String className = "";
 String score = "";
 
-xqA = new XQueryWrapper("C:/Users/Stefano/Desktop/Thesis/model-driven-information-retrieval/SolrInstance/xquery/testPresentation.xquery");
+xqA = new XQueryWrapper(XQUERY_PATH.concat("/testPresentation.xquery"));
 xqA.bindVariable("document", "resultA.xml");
 resultList = xqA.executeQuery();
 
@@ -76,7 +88,7 @@ score = resultList.get(i).split(" ")[2];
 
 <%
 
-xqB = new XQueryWrapper("C:/Users/Stefano/Desktop/Thesis/model-driven-information-retrieval/SolrInstance/xquery/testPresentation.xquery");
+xqB = new XQueryWrapper(XQUERY_PATH.concat("/testPresentation.xquery"));
 xqB.bindVariable("document", "resultB.xml");
 resultList = xqB.executeQuery();
 
@@ -122,7 +134,7 @@ score = resultList.get(i).split(" ")[2];
 
 <%
 
-xqC = new XQueryWrapper("C:/Users/Stefano/Desktop/Thesis/model-driven-information-retrieval/SolrInstance/xquery/testPresentation.xquery");
+xqC = new XQueryWrapper(XQUERY_PATH.concat("/testPresentation.xquery"));
 xqC.bindVariable("document", "resultC.xml");
 resultList = xqC.executeQuery();
 
