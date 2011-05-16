@@ -70,6 +70,8 @@ public class TestServlet extends HttpServlet {
 		      file.close();
 		    	  
 		      in.close();
+		      
+		      res.sendRedirect("./admin/testPresentation.jsp");
 		  }
 	  }
 	

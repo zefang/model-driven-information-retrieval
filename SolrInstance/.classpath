@@ -37,5 +37,6 @@
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/javax.servlet_2.5.0.v200806031605.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/wstx-asl-3.2.7.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/commons-lang-2.4.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/it.polimi.mdir.xquery"/>
 	<classpathentry kind="output" path="webapp/WEB-INF/classes"/>
 </classpath>
