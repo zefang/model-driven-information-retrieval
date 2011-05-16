@@ -48,13 +48,16 @@ resultList = xqA.executeQuery();
 
 <center><h1> Query Test Presentation Page </h1></center>
 
+<strong> Query string: </strong>
+<tt> <%=request.getParameter("queryString")%> </tt>
+
 <table border="0">
    <tr>
    <!-- EXPERIMENT A -->
       <td>
 
 <table border="1">
-   <caption><h2>EXPERIMENT A</h2></caption>
+   <caption><h3>EXPERIMENT A</h3></caption>
 <tr>
   <th>Ranking</th>
   <th>Project Name</th>
@@ -104,7 +107,7 @@ resultList = xqB.executeQuery();
 
 
 <table border="1">
-   <caption><h2>EXPERIMENT B</h2></caption>
+   <caption><h3>EXPERIMENT B</h3></caption>
 <tr>
   <th>Ranking</th>
   <th>Project Name</th>
@@ -152,7 +155,7 @@ resultList = xqC.executeQuery();
 %>
 
 <table border="1">
-   <caption><h2>EXPERIMENT C</h2></caption>
+   <caption><h3>EXPERIMENT C</h3></caption>
 <tr>
   <th>Ranking</th>
   <th>Project Name</th>
