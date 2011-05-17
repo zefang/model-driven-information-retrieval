@@ -38,3 +38,10 @@ td {
 	color: #333366;
 	padding: 8px;
 }
+
+div.detailedScore {
+	background: #FFFFCC;
+	border: 1px solid #000000;
+	padding: 4px;
+	
+}
