@@ -2,10 +2,12 @@ package it.polimi.mdir.graph;
 
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 
 import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Result;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -143,24 +145,30 @@ public class TranslateXMItoGraphML {
 		}
 		
 		
-		//Writes the file
-		DOMSource source = new DOMSource(graphml);
-
-        File file = new File(FILE_PATH + "result.xml");
-        Result result = new StreamResult(file);
-
-        Transformer transformer;
+		
+      //Writes the file
 		try {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			transformerFactory.setAttribute("indent-number", 2);
-			transformer = TransformerFactory.newInstance().newTransformer();
+			Transformer transformer = transformerFactory.newTransformer();
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			
+			StringWriter writer = new StringWriter();
+			StreamResult result = new StreamResult(writer);
+			DOMSource source = new DOMSource(graphml);
 			transformer.transform(source, result);
+			
+			File file = new File(FILE_PATH + "result.xml");
+			FileWriter outputWriter = new FileWriter(file);
+			outputWriter.write(writer.toString());
+			outputWriter.close();
 		} catch (TransformerConfigurationException e) {
 			e.printStackTrace();
 		} catch (TransformerFactoryConfigurationError e) {
 			e.printStackTrace();
 		} catch (TransformerException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
         
