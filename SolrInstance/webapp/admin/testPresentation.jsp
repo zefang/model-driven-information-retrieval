@@ -90,8 +90,7 @@ resultList = xqA.executeQuery();
 		var originalColors = new Array(2);
 		
 		function highlightClasses(classId) {
-			var rows = new Array();
-			rows = document.getElementsByTagName("tr");
+			var rows = document.getElementsByTagName("tr");
 			var k = 0;
 			var i = 0;
 			for (i = 0; i < rows.length; i++) {
@@ -116,11 +115,17 @@ resultList = xqA.executeQuery();
 		/*
 		* Toggle show/hide detailed score 
 		*/
-		function toggle(projectId) {
+		function toggle(id, experiment) {
 			var box = document.getElementById("detailedScoreBox");
-			var projectRow = document.getElementById(projectId);
-			var detailedScore = projectRow.cells[4].innerHTML;
-			box.innerHTML = detailedScore;
+			var table = document.getElementById("table"+experiment); 
+			var rows = table.getElementsByTagName("tr");
+			
+			for (i = 0; i < rows.length; i++) {
+				if (rows[i].id == id) {
+					var detailedScore = rows[i].cells[4].innerHTML;
+					box.innerHTML = detailedScore;
+				}
+			}
 		} 
 		
 	</script>
@@ -137,7 +142,7 @@ resultList = xqA.executeQuery();
    <!-- EXPERIMENT A -->
       <td>
 
-<table>
+<table id="tableA">
    <caption>EXPERIMENT A</caption>
    <thead>
 		<tr>
@@ -177,7 +182,7 @@ if (i % 2 == 0) {
   <td><%=i+1%></td>
   <td><%=projectName%></td>
   <td><%=className%></td>
-  <td onclick="toggle('<%=projectId %>')"><%=score%></td>
+  <td onclick="toggle('<%=projectId %>', 'A')"><%=score%></td>
   <td class="hidden"><%=detailedScore %></td>
 </tr> 
 <%
@@ -203,7 +208,7 @@ resultList = xqB.executeQuery();
 %>
 
 
-<table>
+<table id="tableB">
    <caption>EXPERIMENT B</caption>
    <thead>
 		<tr>
@@ -244,7 +249,7 @@ if (i % 2 == 0) {
   <td><%=i+1%></td>
   <td><%=projectName%></td>
   <td><%=className%></td>
-  <td onclick="toggle('<%=classId%>')"><%=score%></td>
+  <td onclick="toggle('<%=classId%>', 'B')"><%=score%></td>
   <td class="hidden"><%=detailedScore %></td>
 </tr> 
   
@@ -269,7 +274,7 @@ resultList = xqC.executeQuery();
 
 %>
 
-<table>
+<table id="tableC">
    <caption>EXPERIMENT C</caption>
    <thead>
 		<tr>
@@ -309,7 +314,7 @@ if (i % 2 == 0) {
   <td><%=i+1%></td>
   <td><%=projectName%></td>
   <td><%=className%></td>
-  <td onclick="toggle('<%=classId%>')"><%=score%></td>
+  <td onclick="toggle('<%=classId%>', 'C')"><%=score%></td>
   <td class="hidden"><%=detailedScore %></td>
 </tr> 
   
