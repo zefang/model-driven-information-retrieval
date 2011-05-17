@@ -88,7 +88,7 @@ public class TranslateXMItoGraphML {
 			edge.setAttribute("source", sourceId);
 			edge.setAttribute("target", targetId);
 				Element data = document.createElement("data");
-				data.setAttribute("id", "relationType");
+				data.setAttribute("key", "relationType");
 				Text text = document.createTextNode(RelationType.COMPOSITION_COMPOSITE_COMPONENT.toString());
 				data.appendChild(text);
 			edge.appendChild(data);
@@ -112,7 +112,7 @@ public class TranslateXMItoGraphML {
 			edge.setAttribute("source", sourceId);
 			edge.setAttribute("target", targetId);
 				Element data = document.createElement("data");
-				data.setAttribute("id", "relationType");
+				data.setAttribute("key", "relationType");
 				Text text = document.createTextNode(RelationType.ASSOCIATION.toString());
 				data.appendChild(text);
 			edge.appendChild(data);
@@ -137,7 +137,7 @@ public class TranslateXMItoGraphML {
 			edge.setAttribute("source", sourceId);
 			edge.setAttribute("target", targetId);
 				Element data = document.createElement("data");
-				data.setAttribute("id", "relationType");
+				data.setAttribute("key", "relationType");
 				Text text = document.createTextNode(RelationType.GENERALIZATION_CHILD_FATHER.toString());
 				data.appendChild(text);
 			edge.appendChild(data);
