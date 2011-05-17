@@ -26,12 +26,12 @@ public String correctIndentation(String s) {
 			spaceCount++;
 		} else {
 			startCounting = false;
-			if (spaceCount > 1) {
+			if (spaceCount > 1 && s.charAt(i-4) != 't') {
 				before = s.substring(0, i-spaceCount);
 				after = s.substring(i);
 				String spaces = "";
 				for (int j = 0; j < spaceCount; j++) {
-					spaces += "&nbsp;";
+					spaces += "&nbsp;&nbsp;";
 				}
 				s = before + "<br/>" + spaces + after;
 			}
