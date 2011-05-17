@@ -117,12 +117,9 @@ resultList = xqA.executeQuery();
 		* Toggle show/hide detailed score 
 		*/
 		function toggle(projectId) {
-			var hiddenRow = document.getElementById(projectId);
-			if (hiddenRow.style.display == "block") {
-				hiddenRow.style.display = "none";
-			} else {
-				hiddenRow.style.display = "block";
-			}	
+			var box = document.getElementById("detailedScoreBox");
+			var detailedScore = document.getElementById(projectId).innerHTML;
+			box.innerHTML = detailedScore;
 		} 
 		
 	</script>
@@ -181,8 +178,8 @@ if (i % 2 == 0) {
 		String detailedScore = xqDetailedScore.executeQuery().get(0);
 		detailedScore = correctIndentation(detailedScore);
 	%>
-<tr class="hidden" id="<%=projectId %>">
-	<td colspan="4">
+<tr class="hidden">
+	<td colspan="4" id="<%=projectId %>">
 		<%=detailedScore %>
 	</td>
 </tr>
@@ -314,6 +311,10 @@ if (i % 2 == 0) {
       </td>    
    </tr>
 </table>
+
+<div class="detailedScore" id="detailedScoreBox">
+	as
+</div>
 
 </body>
 </html>
