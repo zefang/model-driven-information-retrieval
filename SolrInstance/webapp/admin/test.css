@@ -29,14 +29,14 @@ tr.odd {
 	background: #FFFFEE;
 }
 
-tr.hidden  {
-	display: none;
-}
-
 td {
 	vertical-align: top;
 	color: #333366;
 	padding: 8px;
+}
+
+td.hidden  {
+	display: none;
 }
 
 div.detailedScore {
