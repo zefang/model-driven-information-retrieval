@@ -118,7 +118,8 @@ resultList = xqA.executeQuery();
 		*/
 		function toggle(projectId) {
 			var box = document.getElementById("detailedScoreBox");
-			var detailedScore = document.getElementById(projectId).innerHTML;
+			var projectRow = document.getElementById(projectId);
+			var detailedScore = projectRow.cells[4].innerHTML;
 			box.innerHTML = detailedScore;
 		} 
 		
@@ -147,6 +148,7 @@ resultList = xqA.executeQuery();
 		</tr>
 	</thead>
 	
+	<tbody>
 <%
 
 for (int i=0; i<resultList.size(); i++) {
@@ -157,6 +159,13 @@ classId = resultList.get(i).split(" ")[2];
 className = resultList.get(i).split(" ")[3];
 score = resultList.get(i).split(" ")[4];
 
+//Get detailedScore of the project
+XQueryWrapper xqDetailedScore = new XQueryWrapper(XQUERY_PATH.concat("/getDetailedScore.xquery"));
+xqDetailedScore.bindVariable("document", "resultA.xml");
+xqDetailedScore.bindVariable("projectId", projectId);
+String detailedScore = xqDetailedScore.executeQuery().get(0);
+detailedScore = correctIndentation(detailedScore);
+
 String trClass = "";
 if (i % 2 == 0) {
 	trClass = "even";
@@ -164,32 +173,19 @@ if (i % 2 == 0) {
 	trClass = "odd";
 }
 %>
-<tr class="<%=trClass %>">
+<tr class="<%=trClass %>" id="<%=projectId %>">
   <td><%=i+1%></td>
   <td><%=projectName%></td>
   <td><%=className%></td>
   <td onclick="toggle('<%=projectId %>')"><%=score%></td>
+  <td class="hidden" id="detailedScore"><%=detailedScore %></td>
 </tr> 
-
-	<%
-		XQueryWrapper xqDetailedScore = new XQueryWrapper(XQUERY_PATH.concat("/getDetailedScore.xquery"));
-		xqDetailedScore.bindVariable("document", "resultA.xml");
-		xqDetailedScore.bindVariable("projectId", projectId);
-		String detailedScore = xqDetailedScore.executeQuery().get(0);
-		detailedScore = correctIndentation(detailedScore);
-	%>
-<tr class="hidden">
-	<td colspan="4" id="<%=projectId %>">
-		<%=detailedScore %>
-	</td>
-</tr>
-  
 <%
 
 }
 
 %>
-  
+  </tbody>
 </table>
       
       </td>
