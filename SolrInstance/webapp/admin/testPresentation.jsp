@@ -7,6 +7,42 @@
 <%@ page import="java.io.*" %>
 
    
+<%!
+/*
+*Corrects the indentation of the detailed score
+*/
+public String correctIndentation(String s) {
+	String before;
+	String after;
+	boolean startCounting = false;
+	int spaceCount = 0;
+	for (int i = 0; i < s.length(); i ++) {
+		if (!startCounting) {
+			spaceCount = 0;
+		}
+		
+		if (s.charAt(i) == ' ') {
+			startCounting = true;
+			spaceCount++;
+		} else {
+			startCounting = false;
+			if (spaceCount > 1) {
+				before = s.substring(0, i-spaceCount);
+				after = s.substring(i);
+				String spaces = "";
+				for (int j = 0; j < spaceCount; j++) {
+					spaces += "&nbsp;";
+				}
+				s = before + "<br/>" + spaces + after;
+			}
+		}
+	}
+	//s = s.replaceAll(" ", "&nbsp;");
+	return s;
+};
+
+%>   
+   
 <%--
 Presentation page for query output from TestServlet. This JSP renders in a
 more comprehensible way relevant information of query results.
@@ -143,6 +179,7 @@ if (i % 2 == 0) {
 		xqDetailedScore.bindVariable("document", "resultA.xml");
 		xqDetailedScore.bindVariable("projectId", projectId);
 		String detailedScore = xqDetailedScore.executeQuery().get(0);
+		detailedScore = correctIndentation(detailedScore);
 	%>
 <tr class="hidden" id="<%=projectId %>">
 	<td colspan="4">
@@ -201,8 +238,8 @@ if (i % 2 == 0) {
 	trClass = "odd";
 }
 %>
-<tr class="<%=trClass %>" id="<%=classId %>" onmouseover="highlightClasses('<%=classId %>')"
-											 onmouseout="disableHighlightClasses('<%=classId %>')">
+<tr class="<%=trClass %>" id="<%=classId %>" onmouseover="highlightClasses(this.id)"
+											 onmouseout="disableHighlightClasses(this.id)">
   <td><%=i+1%></td>
   <td><%=projectName%></td>
   <td><%=className%></td>
@@ -258,8 +295,8 @@ if (i % 2 == 0) {
 	trClass = "odd";
 }
 %>
-<tr class="<%=trClass %>" id="<%=classId %>" onmouseover="highlightClasses('<%=classId %>')"
-											 onmouseout="disableHighlightClasses('<%=classId %>')">
+<tr class="<%=trClass %>" id="<%=classId %>" onmouseover="highlightClasses(this.id)"
+											 onmouseout="disableHighlightClasses(this.id)">
   <td><%=i+1%></td>
   <td><%=projectName%></td>
   <td><%=className%></td>
