@@ -162,7 +162,7 @@ score = resultList.get(i).split(" ")[4];
 //Get detailedScore of the project
 XQueryWrapper xqDetailedScore = new XQueryWrapper(XQUERY_PATH.concat("/getDetailedScore.xquery"));
 xqDetailedScore.bindVariable("document", "resultA.xml");
-xqDetailedScore.bindVariable("projectId", projectId);
+xqDetailedScore.bindVariable("id", projectId);
 String detailedScore = xqDetailedScore.executeQuery().get(0);
 detailedScore = correctIndentation(detailedScore);
 
@@ -178,7 +178,7 @@ if (i % 2 == 0) {
   <td><%=projectName%></td>
   <td><%=className%></td>
   <td onclick="toggle('<%=projectId %>')"><%=score%></td>
-  <td class="hidden" id="detailedScore"><%=detailedScore %></td>
+  <td class="hidden"><%=detailedScore %></td>
 </tr> 
 <%
 
@@ -213,7 +213,8 @@ resultList = xqB.executeQuery();
   		<th>Score</th>
 		</tr>
 	</thead>
-
+	
+	<tbody>
 <%
 
 for (int i=0; i<resultList.size(); i++) {
@@ -223,6 +224,13 @@ projectName = resultList.get(i).split(" ")[1];
 classId = resultList.get(i).split(" ")[2];
 className = resultList.get(i).split(" ")[3];
 score = resultList.get(i).split(" ")[4];
+
+//Get detailedScore of the class
+XQueryWrapper xqDetailedScore = new XQueryWrapper(XQUERY_PATH.concat("/getDetailedScore.xquery"));
+xqDetailedScore.bindVariable("document", "resultB.xml");
+xqDetailedScore.bindVariable("id", classId);
+String detailedScore = xqDetailedScore.executeQuery().get(0);
+detailedScore = correctIndentation(detailedScore);
 
 String trClass = "";
 if (i % 2 == 0) {
@@ -236,7 +244,8 @@ if (i % 2 == 0) {
   <td><%=i+1%></td>
   <td><%=projectName%></td>
   <td><%=className%></td>
-  <td><%=score%></td>
+  <td onclick="toggle('<%=classId%>')"><%=score%></td>
+  <td class="hidden"><%=detailedScore %></td>
 </tr> 
   
 <%
@@ -244,7 +253,7 @@ if (i % 2 == 0) {
 }
 
 %>
-  
+  </tbody>
 </table>
       
       </td>
@@ -270,7 +279,7 @@ resultList = xqC.executeQuery();
   		<th>Score</th>
 		</tr>
 	</thead>
-
+	<tbody>
 <%
 
 for (int i=0; i<resultList.size(); i++) {
@@ -280,6 +289,13 @@ projectName = resultList.get(i).split(" ")[1];
 classId = resultList.get(i).split(" ")[2];
 className = resultList.get(i).split(" ")[3];
 score = resultList.get(i).split(" ")[4];
+
+//Get detailedScore of the class
+XQueryWrapper xqDetailedScore = new XQueryWrapper(XQUERY_PATH.concat("/getDetailedScore.xquery"));
+xqDetailedScore.bindVariable("document", "resultC.xml");
+xqDetailedScore.bindVariable("id", classId);
+String detailedScore = xqDetailedScore.executeQuery().get(0);
+detailedScore = correctIndentation(detailedScore);
 
 String trClass = "";
 if (i % 2 == 0) {
@@ -293,7 +309,8 @@ if (i % 2 == 0) {
   <td><%=i+1%></td>
   <td><%=projectName%></td>
   <td><%=className%></td>
-  <td><%=score%></td>
+  <td onclick="toggle('<%=classId%>')"><%=score%></td>
+  <td class="hidden"><%=detailedScore %></td>
 </tr> 
   
 <%
@@ -301,7 +318,7 @@ if (i % 2 == 0) {
 }
 
 %>
-  
+  </tbody>
 </table>
       
       </td>    
@@ -309,7 +326,6 @@ if (i % 2 == 0) {
 </table>
 
 <div class="detailedScore" id="detailedScoreBox">
-	as
 </div>
 
 </body>
