@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlnshttp://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+<key attr.name="relationType" attr.type="string" for="edge" id="relationType"/>
+<graph edgedefault="directed" id="GRAPH">
+<node id="_fvqyI-iaEd6gMtZRCjS81g"/>
+<node id="_fvqyJOiaEd6gMtZRCjS81g"/>
+<node id="_fvqyJeiaEd6gMtZRCjS81g"/>
+<node id="_fvqyJuiaEd6gMtZRCjS81g"/>
+<node id="_fvqyJ-iaEd6gMtZRCjS81g"/>
+<node id="_fvqyKOiaEd6gMtZRCjS81g"/>
+<node id="_fvqyKeiaEd6gMtZRCjS81g"/>
+<node id="_fvqyKuiaEd6gMtZRCjS81g"/>
+<node id="_fvqyK-iaEd6gMtZRCjS81g"/>
+<node id="_fvqyLOiaEd6gMtZRCjS81g"/>
+<node id="_fvqyLeiaEd6gMtZRCjS81g"/>
+<node id="_fvqyLuiaEd6gMtZRCjS81g"/>
+<node id="_fvqyL-iaEd6gMtZRCjS81g"/>
+<edge id="composition0" source="_fvqyJeiaEd6gMtZRCjS81g" target="_fvqyJuiaEd6gMtZRCjS81g">
+<data id="relationType">COMPOSITION_COMPOSITE_COMPONENT</data>
+</edge>
+<edge id="composition1" source="_fvqyJeiaEd6gMtZRCjS81g" target="_fvqyKeiaEd6gMtZRCjS81g">
+<data id="relationType">COMPOSITION_COMPOSITE_COMPONENT</data>
+</edge>
+<edge id="composition2" source="_fvqyLOiaEd6gMtZRCjS81g" target="_fvqyLuiaEd6gMtZRCjS81g">
+<data id="relationType">COMPOSITION_COMPOSITE_COMPONENT</data>
+</edge>
+<edge id="composition3" source="_fvqyLOiaEd6gMtZRCjS81g" target="_fvqyL-iaEd6gMtZRCjS81g">
+<data id="relationType">COMPOSITION_COMPOSITE_COMPONENT</data>
+</edge>
+<edge id="composition4" source="_fvqyLuiaEd6gMtZRCjS81g" target="_fvqyLeiaEd6gMtZRCjS81g">
+<data id="relationType">COMPOSITION_COMPOSITE_COMPONENT</data>
+</edge>
+<edge id="association0" source="_fvqyJeiaEd6gMtZRCjS81g" target="_fvqyLOiaEd6gMtZRCjS81g">
+<data id="relationType">ASSOCIATION</data>
+</edge>
+<edge id="association1" source="_fvqyJ-iaEd6gMtZRCjS81g" target="_fvqyK-iaEd6gMtZRCjS81g">
+<data id="relationType">ASSOCIATION</data>
+</edge>
+<edge id="association2" source="_fvqyJ-iaEd6gMtZRCjS81g" target="_fvqyKuiaEd6gMtZRCjS81g">
+<data id="relationType">ASSOCIATION</data>
+</edge>
+<edge id="association3" source="_fvqyKOiaEd6gMtZRCjS81g" target="_fvqyKuiaEd6gMtZRCjS81g">
+<data id="relationType">ASSOCIATION</data>
+</edge>
+<edge id="association4" source="_fvqyKOiaEd6gMtZRCjS81g" target="_fvqyK-iaEd6gMtZRCjS81g">
+<data id="relationType">ASSOCIATION</data>
+</edge>
+<edge id="association5" source="_fvqyLeiaEd6gMtZRCjS81g" target="_fvqyJ-iaEd6gMtZRCjS81g">
+<data id="relationType">ASSOCIATION</data>
+</edge>
+<edge id="association6" source="_fvqyL-iaEd6gMtZRCjS81g" target="_fvqyKOiaEd6gMtZRCjS81g">
+<data id="relationType">ASSOCIATION</data>
+</edge>
+<edge id="association7" source="_fvqyL-iaEd6gMtZRCjS81g" target="_fvqyLuiaEd6gMtZRCjS81g">
+<data id="relationType">ASSOCIATION</data>
+</edge>
+<edge id="association8" source="_fvqyL-iaEd6gMtZRCjS81g" target="_fvqyLuiaEd6gMtZRCjS81g">
+<data id="relationType">ASSOCIATION</data>
+</edge>
+<edge id="generalization0" source="_fvqyJOiaEd6gMtZRCjS81g" target="_fvqyI-iaEd6gMtZRCjS81g">
+<data id="relationType">GENERALIZATION_CHILD_FATHER</data>
+</edge>
+<edge id="generalization1" source="_fvqyJeiaEd6gMtZRCjS81g" target="_fvqyJOiaEd6gMtZRCjS81g">
+<data id="relationType">GENERALIZATION_CHILD_FATHER</data>
+</edge>
+<edge id="generalization2" source="_fvqyJuiaEd6gMtZRCjS81g" target="_fvqyJOiaEd6gMtZRCjS81g">
+<data id="relationType">GENERALIZATION_CHILD_FATHER</data>
+</edge>
+<edge id="generalization3" source="_fvqyJ-iaEd6gMtZRCjS81g" target="_fvqyJuiaEd6gMtZRCjS81g">
+<data id="relationType">GENERALIZATION_CHILD_FATHER</data>
+</edge>
+<edge id="generalization4" source="_fvqyKOiaEd6gMtZRCjS81g" target="_fvqyJuiaEd6gMtZRCjS81g">
+<data id="relationType">GENERALIZATION_CHILD_FATHER</data>
+</edge>
+<edge id="generalization5" source="_fvqyKeiaEd6gMtZRCjS81g" target="_fvqyJOiaEd6gMtZRCjS81g">
+<data id="relationType">GENERALIZATION_CHILD_FATHER</data>
+</edge>
+<edge id="generalization6" source="_fvqyKuiaEd6gMtZRCjS81g" target="_fvqyKeiaEd6gMtZRCjS81g">
+<data id="relationType">GENERALIZATION_CHILD_FATHER</data>
+</edge>
+<edge id="generalization7" source="_fvqyK-iaEd6gMtZRCjS81g" target="_fvqyKeiaEd6gMtZRCjS81g">
+<data id="relationType">GENERALIZATION_CHILD_FATHER</data>
+</edge>
+</graph>
+</graphml>
