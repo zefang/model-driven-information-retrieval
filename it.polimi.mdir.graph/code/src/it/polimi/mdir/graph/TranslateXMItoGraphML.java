@@ -56,7 +56,6 @@ public class TranslateXMItoGraphML {
 	    ASSOCIATION 
 	}
 	
-	
 	public static void main(String[] args) throws IOException {
 		
 		initialization();
@@ -117,26 +116,41 @@ public class TranslateXMItoGraphML {
 			graph.setAttribute("projectName", projectName);
 			graphml.appendChild(graph);
 			
-			//Get Class Ids and Name (format: classId$className)
-			ArrayList<String> classIdAndNameList = new ArrayList<String>(); 
-			XQueryWrapper xq1 = new XQueryWrapper(XQUERY_PATH + "/getClassIds.xquery");
+			//Get Ids, Name and Attributes ot the class (format: classId$className$attributeName)
+			ArrayList<String> complexList = new ArrayList<String>(); 
+			XQueryWrapper xq1 = new XQueryWrapper(XQUERY_PATH + "/getClassIdsNamesAttributes.xquery");
 			xq1.bindVariable("document", FILE_PATH + "/" + currentDoc);
-			classIdAndNameList = xq1.executeQuery();
-			String classIdAndNameString = "";
+			complexList = xq1.executeQuery();
+			String complexString = "";
 			String classId = "";
-			String className = "";
+			String className = "";	
+			String attributeString = "";
 			
-			for (int i = 0; i < classIdAndNameList.size(); i++) {
+			int countAttributes = 0;
+			while(countAttributes < complexList.size()) {
 				Element node = document.createElement("node");
-				classIdAndNameString = classIdAndNameList.get(i);
-				classId = classIdAndNameString.split("\\$")[0]; 
-				className = classIdAndNameString.split("\\$")[1]; 
+				complexString = complexList.get(countAttributes);
+				classId = complexString.split("\\$")[0]; 
+				className = complexString.split("\\$")[1];
 				node.setAttribute("id", classId);		
 					Element data = document.createElement("data");
 					data.setAttribute("key", "className");
 					Text text = document.createTextNode(className);
-					data.appendChild(text);
-				node.appendChild(data);
+					data.appendChild(text);		
+					node.appendChild(data);
+				//Adding attributes to node
+				while(countAttributes < complexList.size() && complexString.contains(classId)) {
+					attributeString = complexString.split("\\$")[2];
+					
+					Element attribute = document.createElement("attribute");
+					Text attributeText = document.createTextNode(attributeString);
+					attribute.appendChild(attributeText);
+					node.appendChild(attribute);
+					
+					countAttributes++;
+					if(countAttributes < complexList.size())
+						complexString = complexList.get(countAttributes);
+				}		
 				graph.appendChild(node);
 			}
 			
