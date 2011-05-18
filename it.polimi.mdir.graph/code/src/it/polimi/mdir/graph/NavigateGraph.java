@@ -53,7 +53,7 @@ public class NavigateGraph {
 		
 		while (!_nodeQueue.isEmpty()) {
 			String nodeId = _nodeQueue.remove(); 
-			visitNode(_graphId, nodeId, MAX_HOPS, nodeId, new ImportAttributes()); 
+			visitNode(_graphId, nodeId, 0, nodeId, new ImportAttributes()); 
 		}
 	}
 	
@@ -71,20 +71,17 @@ public class NavigateGraph {
 	 * id of the node that started it all. Used to copy the attributes to the right node.
 	 * 
 	 */
-	public void visitNode(String graphId, String nodeId, int residualHops, String rootNode, OperationFunction function) {
-		if (residualHops == 0) 
-			return;
-		
-		//TODO Do ya thang here
-		function.importAttributes(nodeId, rootNode);
+	public String visitNode(String graphId, String nodeId, int numHops, String rootNode, OperationFunction function) {
+		if (numHops > MAX_HOPS) 
+			return "";
 		
 		//visit the neighbours
-		residualHops -= 1;
+		numHops += 1;
 		LinkedList<String> neighboursQueue = getNeighbours(nodeId, FILE_NAME);
 		try {
 			
 			while (!neighboursQueue.isEmpty()) {
-				visitNode(graphId, neighboursQueue.remove(), residualHops, rootNode, function.getClass().newInstance());
+				visitNode(graphId, neighboursQueue.remove(), numHops, rootNode, function.getClass().newInstance());
 			}
 			
 		} catch (InstantiationException e) {
@@ -92,6 +89,9 @@ public class NavigateGraph {
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
+		
+		//TODO Do ya thang here
+		return function.importAttributes(nodeId, rootNode);
 	}
 	
 	/**
