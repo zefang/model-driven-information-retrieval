@@ -3,7 +3,7 @@ package it.polimi.mdir.graph;
 public class ImportAttributes extends OperationFunction {
 
 	@Override
-	public void importAttributes(String from, String rootNode) {
+	public String importAttributes(String from, String rootNode) {
 		
 		System.out.println("I'm importing the attributes from "+ from +" to: " + rootNode);
 		
@@ -25,6 +25,8 @@ public class ImportAttributes extends OperationFunction {
 			// TODO attenzione!!! bisogna prima risolverre i cicli! o forse no? 
 			// se non lo facciamo è sbagliatissimo o cambia poco?
 		}
+		
+		return "";
 	}
 	
 }
