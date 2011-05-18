@@ -26,8 +26,10 @@ import org.w3c.dom.Text;
 
 public class TranslateXMItoGraphML {
 	
-	private static final String XQUERY_PATH = "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/xquery";
-	private static final String FILE_PATH = "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/exampledocs/";
+	//private static final String XQUERY_PATH = "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/xquery";
+	//private static final String FILE_PATH = "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/exampledocs/";
+	private static final String XQUERY_PATH = "C:/Users/Stefano/Desktop/Thesis/model-driven-information-retrieval/it.polimi.mdir.graph/xquery";
+	private static final String FILE_PATH = "C:/Users/Stefano/Desktop/Thesis/model-driven-information-retrieval/it.polimi.mdir.graph/exampledocs/";	
 	
 	public enum RelationType {
 	    GENERALIZATION_FATHER_CHILD, GENERALIZATION_CHILD_FATHER,
@@ -47,7 +49,7 @@ public class TranslateXMItoGraphML {
 		graphml.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 		graphml.setAttribute("xsi:schemaLocation", "http://graphml.graphdrawing.org/xmlnshttp://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd");
 		
-		//Create attributes for nodes and edges
+		//Create GraphML compliant Attributes for nodes and edges
 		Element key = document.createElement("key");
 		key.setAttribute("id", "relationType");
 		key.setAttribute("for", "edge");
@@ -55,16 +57,27 @@ public class TranslateXMItoGraphML {
 		key.setAttribute("attr.type", "string");
 		graphml.appendChild(key);
 		
+		//Get Project (Model) Id and Project (Model) Name
+		ArrayList<String> projectIdAndName = new ArrayList<String>(); 
+		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "/getProjectIdAndName.xquery");
+		xq.bindVariable("document", FILE_PATH + "PetriNet_extended.uml");
+		projectIdAndName = xq.executeQuery();		
+		String projectIdAndNameString  = projectIdAndName.get(0);
+		String projectId = projectIdAndNameString.split("\\$")[0];
+		String projectName = projectIdAndNameString.split("\\$")[1];
+			
+		//Create graph element to append to the root element
 		Element graph = document.createElement("graph");
-		graph.setAttribute("id", "GRAPH"); //TODO usare projectName (-> non è più giusto il projectId?)
+		graph.setAttribute("id", projectId); //TODO usare projectName (-> non è più giusto il projectId? -> attributo id nell'elemento Model)
 		graph.setAttribute("edgedefault", "directed");
+		graph.setAttribute("projectName", projectName); //TODO: non è conforme alla sintassi dei grafi graph, trovargli un posto
 		graphml.appendChild(graph);
 		
 		//Get Class Ids
 		ArrayList<String> classIdList = new ArrayList<String>(); 
-		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "/getClassIds.xquery");
-		xq.bindVariable("document", FILE_PATH + "PetriNet_extended.uml");
-		classIdList = xq.executeQuery();
+		XQueryWrapper xq1 = new XQueryWrapper(XQUERY_PATH + "/getClassIds.xquery");
+		xq1.bindVariable("document", FILE_PATH + "PetriNet_extended.uml");
+		classIdList = xq1.executeQuery();
 		
 		for (int i = 0; i < classIdList.size(); i++) {
 			Element node = document.createElement("node");
@@ -144,7 +157,7 @@ public class TranslateXMItoGraphML {
 		
 		
 		
-      //Writes the file
+        //Writes the file
 		try {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			transformerFactory.setAttribute("indent-number", 2);
