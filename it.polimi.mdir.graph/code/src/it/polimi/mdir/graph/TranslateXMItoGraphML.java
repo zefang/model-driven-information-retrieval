@@ -74,9 +74,9 @@ public class TranslateXMItoGraphML {
 			
 		//Create graph element to append to the root element
 		Element graph = document.createElement("graph");
-		graph.setAttribute("id", projectId); //TODO usare projectName (-> non è più giusto il projectId? -> attributo id nell'elemento Model)
+		graph.setAttribute("id", projectId);
 		graph.setAttribute("edgedefault", "directed");
-		graph.setAttribute("projectName", projectName); //TODO: non è conforme alla sintassi dei grafi graph, trovargli un posto
+		graph.setAttribute("projectName", projectName);
 		graphml.appendChild(graph);
 		
 		//Get Class Ids and Name (format: classId$className)
@@ -103,6 +103,7 @@ public class TranslateXMItoGraphML {
 		}
 		
 		//Get edges
+		
 		//Compositions are returned in the format sourceId$targetId
 		ArrayList<String> compositionList = new ArrayList<String>(); 
 		XQueryWrapper xq2 = new XQueryWrapper(XQUERY_PATH + "/getCompositions.xquery");
@@ -122,7 +123,20 @@ public class TranslateXMItoGraphML {
 				Text text = document.createTextNode(RelationType.COMPOSITION_COMPOSITE_COMPONENT.toString());
 				data.appendChild(text);
 			edge.appendChild(data);
+			
+			//Create the opposite edge
+			Element edgeOpposite = document.createElement("edge");
+			edgeOpposite.setAttribute("id", "composition"+i+"-opposite");
+			edgeOpposite.setAttribute("source", targetId);
+			edgeOpposite.setAttribute("target", sourceId);
+				Element dataOpposite = document.createElement("data");
+				dataOpposite.setAttribute("key", "relationType");
+				Text textOpposite = document.createTextNode(RelationType.COMPOSITION_COMPONENT_COMPOSITE.toString());
+				dataOpposite.appendChild(textOpposite);
+			edgeOpposite.appendChild(dataOpposite);
+			
 			graph.appendChild(edge);
+			graph.appendChild(edgeOpposite);
 		}
 		
 		//Associations
@@ -145,7 +159,22 @@ public class TranslateXMItoGraphML {
 				Text text = document.createTextNode(RelationType.ASSOCIATION.toString());
 				data.appendChild(text);
 			edge.appendChild(data);
+	
+			//Create the opposite edge
+			Element edgeOpposite = document.createElement("edge");
+			edgeOpposite.setAttribute("id", "association"+i+"-opposite");
+			edgeOpposite.setAttribute("source", targetId);
+			edgeOpposite.setAttribute("target", sourceId);
+				Element dataOpposite = document.createElement("data");
+				dataOpposite.setAttribute("key", "relationType");
+				Text textOpposite = document.createTextNode(RelationType.ASSOCIATION.toString());
+				dataOpposite.appendChild(textOpposite);
+			edgeOpposite.appendChild(dataOpposite);				
+				
+				
 			graph.appendChild(edge);
+			graph.appendChild(edgeOpposite);
+
 		}
 		
 		
@@ -169,7 +198,20 @@ public class TranslateXMItoGraphML {
 				Text text = document.createTextNode(RelationType.GENERALIZATION_CHILD_FATHER.toString());
 				data.appendChild(text);
 			edge.appendChild(data);
+			
+			//Create the opposite edge
+			Element edgeOpposite = document.createElement("edge");
+			edgeOpposite.setAttribute("id", "generalization"+i+"-opposite");
+			edgeOpposite.setAttribute("source", targetId);
+			edgeOpposite.setAttribute("target", sourceId);
+				Element dataOpposite = document.createElement("data");
+				dataOpposite.setAttribute("key", "relationType");
+				Text textOpposite = document.createTextNode(RelationType.GENERALIZATION_FATHER_CHILD.toString());
+				dataOpposite.appendChild(textOpposite);
+			edgeOpposite.appendChild(dataOpposite);
+			
 			graph.appendChild(edge);
+			graph.appendChild(edgeOpposite);
 		}
 		
 		
