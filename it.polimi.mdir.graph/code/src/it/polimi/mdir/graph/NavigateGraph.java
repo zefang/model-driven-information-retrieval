@@ -63,17 +63,24 @@ public class NavigateGraph {
 
 	/**
 	 * 	Visits recursively the node and its neighbours. 
-	 *  
+	 *  Note that the business logic gets executed after visiting the neighbours so actually 
+	 *  it gets executed for the furthest nodes first, going upwards.
+	 * 
+	 * @param graphId
+	 * The id of the graph in which there is the node I'm processing. 
 	 * @param nodeId
 	 * the id of the node to visit.
-	 * @param residualHops
-	 * Tells us how much hops are left before stopping. 
-	 * It's how deep we are in the visiting.
-	 * @param rootNode
-	 * id of the node that started it all. Used to copy the attributes to the right node.
+	 * @param numHops
+	 * Tells us how deep we are in the visiting. It's 0 when I just started and gets incremented
+	 * as you get further from the initial node. 
+	 * @param callerNode
+	 * id of the node that "called" this one. In the case of the first node, starternode is 
+	 * equal to nodeId.
+	 * @param function
+	 * Reperesent the business logic that I have to do during the visit of the node.
 	 * 
 	 */
-	public void visitNode(String graphId, String nodeId, int numHops, String rootNode, OperationFunction function) {
+	public void visitNode(String graphId, String nodeId, int numHops, String callerNode, OperationFunction function) {
 		if (numHops > MAX_HOPS) 
 			return;
 		
@@ -83,7 +90,7 @@ public class NavigateGraph {
 		try {
 			
 			while (!neighboursQueue.isEmpty()) {
-				visitNode(graphId, neighboursQueue.remove(), numHops, rootNode, function.getClass().newInstance());
+				visitNode(graphId, neighboursQueue.remove(), numHops, nodeId, function.getClass().newInstance());
 			}
 			
 		} catch (InstantiationException e) {
@@ -93,7 +100,7 @@ public class NavigateGraph {
 		}
 		
 		//TODO Do ya thang here
-		function.importAttributes(nodeId, rootNode);
+		function.importAttributes(nodeId, callerNode);
 	}
 	
 	/**
@@ -146,9 +153,11 @@ public class NavigateGraph {
 	
 	
 	/**
-	 * Returns the graphId that is also the project id 
+	 * Returns the graphId that is also the project id.
 	 * @param filename
+	 * filename of the file containing the graph.
 	 * @return
+	 * The id of the graph.
 	 */
 	private String getGraphId(String filename) {
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "/getGraphId.xquery");
