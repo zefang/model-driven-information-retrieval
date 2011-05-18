@@ -6,23 +6,25 @@ import java.util.LinkedList;
 
 import it.polimi.mdir.xquery.XQueryWrapper;
 
+
 public class NavigateGraph {
 
 	
 	private static final String XQUERY_PATH = "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/xquery";
-	private static final String FILE_PATH = "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/exampledocs/"; 
+	private static final String FILE_PATH = "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/exampledocs/";
+	
+	private static final String FILE_NAME = "result.xml";//TODO ciclare
 	
 	private static final int MAX_HOPS = 1;
 	
 	private LinkedList<String> _nodeQueue = new LinkedList<String>();
-
+	
 	public void startNavigation() {
 		
-		int residualHops = MAX_HOPS;
-		_nodeQueue = getAllNodes();
+		_nodeQueue = getAllNodes(FILE_NAME); 
 		
 		while (!_nodeQueue.isEmpty()) {
-			visitNode(_nodeQueue.remove(), --residualHops); 
+			visitNode(_nodeQueue.remove(), MAX_HOPS); 
 			//TODO aggiungere parametro per dire a quale nodo fare riferimento 
 			// (eg, a quale nodo passare gli attributi raccolti)
 		}
@@ -42,12 +44,12 @@ public class NavigateGraph {
 		if (residualHops == 0) 
 			return;
 		
-		residualHops -= 1;
-		LinkedList<String> neighboursQueue = getNeighbours(nodeId);
-		
-		//TODO visit this node
-		
+		//Do ya thang
+		System.out.println(nodeId + residualHops);
+			
 		//visit the neighbours
+		residualHops -= 1;
+		LinkedList<String> neighboursQueue = getNeighbours(nodeId, FILE_NAME);
 		while (!neighboursQueue.isEmpty()) {
 			visitNode(neighboursQueue.remove(), residualHops);
 		}
@@ -57,12 +59,14 @@ public class NavigateGraph {
 	 * Gets All the nodes. 
 	 * The associated Xquery retrieves all the id attributes of the tag "node" 
 	 * 
+	 * @param filename
+	 * name of the file from which extract all the nodes
 	 * @return
 	 * A queue containing all the nodes ids.
 	 */
-	private LinkedList<String> getAllNodes() {
+	private LinkedList<String> getAllNodes(String filename) {
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "/getNodeIds.xquery");
-		xq.bindVariable("document", FILE_PATH + "result.xml"); //TODO ciclare
+		xq.bindVariable("document", FILE_PATH + filename);
 		ArrayList<String> nodesList = xq.executeQuery();
 		LinkedList<String> nodesQueue = new LinkedList<String>();
 		Iterator<String> itr = nodesList.iterator();
@@ -81,12 +85,14 @@ public class NavigateGraph {
 	 * 
 	 * @param nodeId
 	 * The id of the node.
+	 * @param filename
+	 * name of the file of the graph.
 	 * @return
 	 * A queue of the neighbours of the node.
 	 */
-	private static LinkedList<String> getNeighbours(String nodeId) {
+	private static LinkedList<String> getNeighbours(String nodeId, String filename) {
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "/getNeighbours.xquery");
-		xq.bindVariable("document", FILE_PATH + "result.xml"); //TODO ciclare
+		xq.bindVariable("document", FILE_PATH + filename);
 		xq.bindVariable("nodeId", nodeId);
 		ArrayList<String> neighboursList = xq.executeQuery();
 		LinkedList<String> neighboursQueue = new LinkedList<String>();
