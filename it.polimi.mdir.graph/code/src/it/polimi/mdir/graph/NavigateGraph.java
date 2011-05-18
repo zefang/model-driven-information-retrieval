@@ -20,9 +20,10 @@ public class NavigateGraph {
 	
 	private static final String FILE_NAME = "/result.xml";//TODO ciclare
 	
-	private static final int MAX_HOPS = 1;
+	private static final int MAX_HOPS = 2;
 	
 	private LinkedList<String> _nodeQueue = new LinkedList<String>();
+	private String _graphId = "";
 	
 	
 	private static void initialization() {
@@ -48,14 +49,16 @@ public class NavigateGraph {
 		initialization();
 		
 		_nodeQueue = getAllNodes(FILE_NAME); 
+		_graphId = getGraphId(FILE_NAME);
 		
 		while (!_nodeQueue.isEmpty()) {
-			visitNode(_nodeQueue.remove(), MAX_HOPS); 
-			//TODO aggiungere parametro per dire a quale nodo fare riferimento 
-			// (eg, a quale nodo passare gli attributi raccolti)
+			String nodeId = _nodeQueue.remove(); 
+			visitNode(_graphId, nodeId, MAX_HOPS, nodeId, new ImportAttributes()); 
 		}
 	}
 	
+
+
 	/**
 	 * 	Visits recursively the node and its neighbours. 
 	 *  
@@ -64,20 +67,30 @@ public class NavigateGraph {
 	 * @param residualHops
 	 * Tells us how much hops are left before stopping. 
 	 * It's how deep we are in the visiting.
+	 * @param rootNode
+	 * id of the node that started it all. Used to copy the attributes to the right node.
 	 * 
 	 */
-	private void visitNode(String nodeId, int residualHops) {
+	public void visitNode(String graphId, String nodeId, int residualHops, String rootNode, OperationFunction function) {
 		if (residualHops == 0) 
 			return;
 		
 		//TODO Do ya thang here
-		
+		function.importAttributes(nodeId, rootNode);
 		
 		//visit the neighbours
 		residualHops -= 1;
 		LinkedList<String> neighboursQueue = getNeighbours(nodeId, FILE_NAME);
-		while (!neighboursQueue.isEmpty()) {
-			visitNode(neighboursQueue.remove(), residualHops);
+		try {
+			
+			while (!neighboursQueue.isEmpty()) {
+				visitNode(graphId, neighboursQueue.remove(), residualHops, rootNode, function.getClass().newInstance());
+			}
+			
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -127,6 +140,19 @@ public class NavigateGraph {
 			neighboursQueue.add(itr.next());
 		}
 		return neighboursQueue;
+	}
+	
+	
+	/**
+	 * Returns the graphId that is also the project id 
+	 * @param filename
+	 * @return
+	 */
+	private String getGraphId(String filename) {
+		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "/getGraphId.xquery");
+		xq.bindVariable("document", RESULT_PATH + filename);
+		ArrayList<String> neighboursList = xq.executeQuery();
+		return neighboursList.get(0);
 	}
 
 }
