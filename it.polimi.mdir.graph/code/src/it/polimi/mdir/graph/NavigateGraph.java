@@ -13,11 +13,12 @@ import it.polimi.mdir.xquery.XQueryWrapper;
 
 public class NavigateGraph {
 
+	//TODO fare classe statica di inizializzazione comune dove tenere le variabili?
 	
 	private static String XQUERY_PATH = "";
 	private static String RESULT_PATH = "";
 	
-	private static final String FILE_NAME = "result.xml";//TODO ciclare
+	private static final String FILE_NAME = "/result.xml";//TODO ciclare
 	
 	private static final int MAX_HOPS = 1;
 	
@@ -69,9 +70,9 @@ public class NavigateGraph {
 		if (residualHops == 0) 
 			return;
 		
-		//Do ya thang
-		System.out.println(nodeId + residualHops);
-			
+		//TODO Do ya thang here
+		
+		
 		//visit the neighbours
 		residualHops -= 1;
 		LinkedList<String> neighboursQueue = getNeighbours(nodeId, FILE_NAME);
