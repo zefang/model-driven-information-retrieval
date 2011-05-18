@@ -1,8 +1,12 @@
 package it.polimi.mdir.graph;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Properties;
 
 import it.polimi.mdir.xquery.XQueryWrapper;
 
@@ -10,8 +14,8 @@ import it.polimi.mdir.xquery.XQueryWrapper;
 public class NavigateGraph {
 
 	
-	private static final String XQUERY_PATH = "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/xquery";
-	private static final String FILE_PATH = "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/exampledocs/";
+	private static String XQUERY_PATH = "";
+	private static String RESULT_PATH = "";
 	
 	private static final String FILE_NAME = "result.xml";//TODO ciclare
 	
@@ -19,7 +23,28 @@ public class NavigateGraph {
 	
 	private LinkedList<String> _nodeQueue = new LinkedList<String>();
 	
+	
+	private static void initialization() {
+		// Configuration file
+		Properties config = new Properties();
+		FileInputStream in;
+		try {
+			in = new FileInputStream("configuration.properties");
+			config.load(in);
+			in.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		XQUERY_PATH = config.getProperty("XQUERY_PATH");
+		RESULT_PATH = config.getProperty("RESULT_PATH");	
+	}
+	
 	public void startNavigation() {
+		
+		initialization();
 		
 		_nodeQueue = getAllNodes(FILE_NAME); 
 		
@@ -66,7 +91,7 @@ public class NavigateGraph {
 	 */
 	private LinkedList<String> getAllNodes(String filename) {
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "/getNodeIds.xquery");
-		xq.bindVariable("document", FILE_PATH + filename);
+		xq.bindVariable("document", RESULT_PATH + filename);
 		ArrayList<String> nodesList = xq.executeQuery();
 		LinkedList<String> nodesQueue = new LinkedList<String>();
 		Iterator<String> itr = nodesList.iterator();
@@ -92,7 +117,7 @@ public class NavigateGraph {
 	 */
 	private static LinkedList<String> getNeighbours(String nodeId, String filename) {
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "/getNeighbours.xquery");
-		xq.bindVariable("document", FILE_PATH + filename);
+		xq.bindVariable("document", RESULT_PATH + filename);
 		xq.bindVariable("nodeId", nodeId);
 		ArrayList<String> neighboursList = xq.executeQuery();
 		LinkedList<String> neighboursQueue = new LinkedList<String>();
