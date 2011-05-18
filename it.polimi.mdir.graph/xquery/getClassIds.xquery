@@ -5,4 +5,4 @@ declare variable $document as xs:string external;
 
 for $x in doc($document)//packagedElement
 where $x/@xmi:type = "uml:Class"
-return data($x/@xmi:id)
+return concat(data($x/@xmi:id),'$',data($x/@name))

@@ -50,14 +50,20 @@ public class TranslateXMItoGraphML {
 		graphml.setAttribute("xsi:schemaLocation", "http://graphml.graphdrawing.org/xmlnshttp://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd");
 		
 		//Create GraphML compliant Attributes for nodes and edges
+		//Relation Type
 		Element key = document.createElement("key");
 		key.setAttribute("id", "relationType");
 		key.setAttribute("for", "edge");
 		key.setAttribute("attr.name", "relationType");
 		key.setAttribute("attr.type", "string");
 		graphml.appendChild(key);
+		//Class Name
+		key.setAttribute("id", "className");
+		key.setAttribute("for", "node");
+		key.setAttribute("attr.name", "className");
+		key.setAttribute("attr.type", "string");		
 		
-		//Get Project (Model) Id and Project (Model) Name
+		//Get Project (Model) Id and Project (Model) Name (format: projectId$projectName)
 		ArrayList<String> projectIdAndName = new ArrayList<String>(); 
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "/getProjectIdAndName.xquery");
 		xq.bindVariable("document", FILE_PATH + "PetriNet_extended.uml");
@@ -73,15 +79,26 @@ public class TranslateXMItoGraphML {
 		graph.setAttribute("projectName", projectName); //TODO: non è conforme alla sintassi dei grafi graph, trovargli un posto
 		graphml.appendChild(graph);
 		
-		//Get Class Ids
-		ArrayList<String> classIdList = new ArrayList<String>(); 
+		//Get Class Ids and Name (format: classId$className)
+		ArrayList<String> classIdAndNameList = new ArrayList<String>(); 
 		XQueryWrapper xq1 = new XQueryWrapper(XQUERY_PATH + "/getClassIds.xquery");
 		xq1.bindVariable("document", FILE_PATH + "PetriNet_extended.uml");
-		classIdList = xq1.executeQuery();
+		classIdAndNameList = xq1.executeQuery();
+		String classIdAndNameString = "";
+		String classId = "";
+		String className = "";
 		
-		for (int i = 0; i < classIdList.size(); i++) {
+		for (int i = 0; i < classIdAndNameList.size(); i++) {
 			Element node = document.createElement("node");
-			node.setAttribute("id", classIdList.get(i));
+			classIdAndNameString = classIdAndNameList.get(i);
+			classId = classIdAndNameString.split("\\$")[0]; 
+			className = classIdAndNameString.split("\\$")[1]; 
+			node.setAttribute("id", classId);		
+				Element data = document.createElement("data");
+				data.setAttribute("key", "className");
+				Text text = document.createTextNode(className);
+				data.appendChild(text);
+			node.appendChild(data);
 			graph.appendChild(node);
 		}
 		
