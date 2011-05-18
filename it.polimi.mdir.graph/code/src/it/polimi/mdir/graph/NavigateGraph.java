@@ -18,7 +18,7 @@ public class NavigateGraph {
 	private static String XQUERY_PATH = "";
 	private static String RESULT_PATH = "";
 	
-	private static final String FILE_NAME = "/result.xml";//TODO ciclare
+	private static final String FILE_NAME = "/PetriNet_extended.uml.xml";//TODO ciclare
 	
 	private static final int MAX_HOPS = 2;
 	
@@ -51,9 +51,11 @@ public class NavigateGraph {
 		_nodeQueue = getAllNodes(FILE_NAME); 
 		_graphId = getGraphId(FILE_NAME);
 		
-		while (!_nodeQueue.isEmpty()) {
+		boolean justone = true;
+		while (!_nodeQueue.isEmpty() && justone) {
 			String nodeId = _nodeQueue.remove(); 
-			visitNode(_graphId, nodeId, 0, nodeId, new ImportAttributes()); 
+			visitNode(_graphId, nodeId, 0, nodeId, new ImportAttributes());
+			justone = false;
 		}
 	}
 	
@@ -71,9 +73,9 @@ public class NavigateGraph {
 	 * id of the node that started it all. Used to copy the attributes to the right node.
 	 * 
 	 */
-	public String visitNode(String graphId, String nodeId, int numHops, String rootNode, OperationFunction function) {
+	public void visitNode(String graphId, String nodeId, int numHops, String rootNode, OperationFunction function) {
 		if (numHops > MAX_HOPS) 
-			return "";
+			return;
 		
 		//visit the neighbours
 		numHops += 1;
@@ -91,7 +93,7 @@ public class NavigateGraph {
 		}
 		
 		//TODO Do ya thang here
-		return function.importAttributes(nodeId, rootNode);
+		function.importAttributes(nodeId, rootNode);
 	}
 	
 	/**
