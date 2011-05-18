@@ -43,7 +43,7 @@
     </Attribute>
   </Attributes>
   <Process>
-    <BaseDir>c:\UML_models_046</BaseDir>
+    <BaseDir>c:\UML_models</BaseDir>
     <Filter Recursive="true" CaseSensitive="false">
       <Include Name="*.uml"/>                  
     </Filter>
