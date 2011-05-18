@@ -14,7 +14,7 @@ import org.eclipse.smila.datamodel.filter.RecordFilterNotFoundException;
 import org.eclipse.smila.processing.Pipelet;
 import org.eclipse.smila.processing.ProcessingException;
 
-
+//TODO: DA MERGIARE CON EXPERIMENTS C
 
 
 /**
@@ -79,7 +79,7 @@ public class EnrichRecordsExperimentBPipelet implements Pipelet {
 
 					//Apply record filter
 					try {
-						copy = blackboard.filterRecord(copy, "experimentC");
+						copy = blackboard.filterRecord(copy, "experimentB");
 					} catch (RecordFilterNotFoundException e) {
 						e.printStackTrace();
 					}		
