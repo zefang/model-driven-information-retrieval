@@ -26,10 +26,10 @@ import org.w3c.dom.Text;
 
 public class TranslateXMItoGraphML {
 	
-	//private static final String XQUERY_PATH = "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/xquery";
-	//private static final String FILE_PATH = "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/exampledocs/";
-	private static final String XQUERY_PATH = "C:/Users/Stefano/Desktop/Thesis/model-driven-information-retrieval/it.polimi.mdir.graph/xquery";
-	private static final String FILE_PATH = "C:/Users/Stefano/Desktop/Thesis/model-driven-information-retrieval/it.polimi.mdir.graph/exampledocs/";	
+	private static final String XQUERY_PATH = "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/xquery";
+	private static final String FILE_PATH = "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/exampledocs/";
+	//private static final String XQUERY_PATH = "C:/Users/Stefano/Desktop/Thesis/model-driven-information-retrieval/it.polimi.mdir.graph/xquery";
+	//private static final String FILE_PATH = "C:/Users/Stefano/Desktop/Thesis/model-driven-information-retrieval/it.polimi.mdir.graph/exampledocs/";	
 	
 	public enum RelationType {
 	    GENERALIZATION_FATHER_CHILD, GENERALIZATION_CHILD_FATHER,
@@ -45,9 +45,9 @@ public class TranslateXMItoGraphML {
 		Element graphml = document.createElement("graphml");
 		
 		//Set namespaces
-		graphml.setAttribute("xmlns", "http://graphml.graphdrawing.org/xmlns");
-		graphml.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-		graphml.setAttribute("xsi:schemaLocation", "http://graphml.graphdrawing.org/xmlnshttp://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd");
+		//graphml.setAttribute("xmlns", "http://graphml.graphdrawing.org/xmlns");
+		//graphml.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+		//graphml.setAttribute("xsi:schemaLocation", "http://graphml.graphdrawing.org/xmlnshttp://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd");
 		
 		//Create GraphML compliant Attributes for nodes and edges
 		//Relation Type
@@ -58,11 +58,13 @@ public class TranslateXMItoGraphML {
 		key.setAttribute("attr.type", "string");
 		graphml.appendChild(key);
 		//Class Name
-		key.setAttribute("id", "className");
-		key.setAttribute("for", "node");
-		key.setAttribute("attr.name", "className");
-		key.setAttribute("attr.type", "string");		
-		
+		Element key2 = document.createElement("key");
+			key2.setAttribute("id", "className");
+			key2.setAttribute("for", "node");
+			key2.setAttribute("attr.name", "className");
+			key2.setAttribute("attr.type", "string");
+		graphml.appendChild(key2);
+			
 		//Get Project (Model) Id and Project (Model) Name (format: projectId$projectName)
 		ArrayList<String> projectIdAndName = new ArrayList<String>(); 
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "/getProjectIdAndName.xquery");
