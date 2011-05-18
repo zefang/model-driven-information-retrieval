@@ -42,12 +42,12 @@ public class TranslateXMItoGraphML {
 		final Document document = impl.createDocument(null, "graph", null);
 		Element graphml = document.createElement("graphml");
 		
-		//set namespaces
+		//Set namespaces
 		graphml.setAttribute("xmlns", "http://graphml.graphdrawing.org/xmlns");
 		graphml.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 		graphml.setAttribute("xsi:schemaLocation", "http://graphml.graphdrawing.org/xmlnshttp://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd");
 		
-		//create attributes for nodes and edges
+		//Create attributes for nodes and edges
 		Element key = document.createElement("key");
 		key.setAttribute("id", "relationType");
 		key.setAttribute("for", "edge");
@@ -56,11 +56,11 @@ public class TranslateXMItoGraphML {
 		graphml.appendChild(key);
 		
 		Element graph = document.createElement("graph");
-		graph.setAttribute("id", "GRAPH"); //TODO usare projectName
+		graph.setAttribute("id", "GRAPH"); //TODO usare projectName (-> non è più giusto il projectId?)
 		graph.setAttribute("edgedefault", "directed");
 		graphml.appendChild(graph);
 		
-		//get Class Ids
+		//Get Class Ids
 		ArrayList<String> classIdList = new ArrayList<String>(); 
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "/getClassIds.xquery");
 		xq.bindVariable("document", FILE_PATH + "PetriNet_extended.uml");
@@ -72,8 +72,8 @@ public class TranslateXMItoGraphML {
 			graph.appendChild(node);
 		}
 		
-		//get edges
-		// Compositions are returned in the format sourceId$targetId
+		//Get edges
+		//Compositions are returned in the format sourceId$targetId
 		ArrayList<String> compositionList = new ArrayList<String>(); 
 		XQueryWrapper xq2 = new XQueryWrapper(XQUERY_PATH + "/getCompositions.xquery");
 		xq2.bindVariable("document", FILE_PATH + "PetriNet_extended.uml");
@@ -96,8 +96,7 @@ public class TranslateXMItoGraphML {
 		}
 		
 		//Associations
-		// Associations are returned in the format sourceId$targetId
-		
+		//Associations are returned in the format sourceId$targetId
 		ArrayList<String> associationList = new ArrayList<String>(); 
 		XQueryWrapper xq3 = new XQueryWrapper(XQUERY_PATH + "/getAssociations.xquery");
 		xq3.bindVariable("document", FILE_PATH + "PetriNet_extended.uml");
@@ -121,8 +120,7 @@ public class TranslateXMItoGraphML {
 		
 		
 		//Generalizations
-		// Generalizations are returned in the format child$father
-		
+		//Generalizations are returned in the format child$father
 		ArrayList<String> generalizationList = new ArrayList<String>(); 
 		XQueryWrapper xq4 = new XQueryWrapper(XQUERY_PATH + "/getGeneralizations.xquery");
 		xq4.bindVariable("document", FILE_PATH + "PetriNet_extended.uml");
