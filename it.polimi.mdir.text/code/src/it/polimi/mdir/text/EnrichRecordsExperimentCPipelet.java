@@ -15,6 +15,7 @@ import org.eclipse.smila.processing.Pipelet;
 import org.eclipse.smila.processing.ProcessingException;
 
 
+//TODO: DA MERGIARE CON EXPERIMENTS B
 
 
 /**
@@ -67,7 +68,7 @@ public class EnrichRecordsExperimentCPipelet implements Pipelet {
 					copy.getMetadata().put("className", className);
 					
 					//extract attribute names for each class
-					//Every attributeNamesArray[j] is of the format classId$attribteName
+					//Every attributeNamesArray[j] is of the format classId$attribteName' 'attributeType
 					String attributesPerClass = "";
 					for (int j=0; j < attributeNamesArray.length; j++) {
 						String[] attrName = attributeNamesArray[j].split("\\$");
