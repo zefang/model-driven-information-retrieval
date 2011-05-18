@@ -2,10 +2,13 @@ package it.polimi.mdir.graph;
 
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -26,10 +29,26 @@ import org.w3c.dom.Text;
 
 public class TranslateXMItoGraphML {
 	
-	private static final String XQUERY_PATH = "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/xquery";
-	private static final String FILE_PATH = "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/exampledocs/";
+	private static String XQUERY_PATH = "";
+	private static String FILE_PATH = "";
+	private static String RESULT_PATH = "";
 	//private static final String XQUERY_PATH = "C:/Users/Stefano/Desktop/Thesis/model-driven-information-retrieval/it.polimi.mdir.graph/xquery";
 	//private static final String FILE_PATH = "C:/Users/Stefano/Desktop/Thesis/model-driven-information-retrieval/it.polimi.mdir.graph/exampledocs/";	
+	
+	private static void initialization() throws IOException {
+		
+		// Configuration file
+		Properties config = new Properties();
+		FileInputStream in = new FileInputStream("configuration.properties");
+		config.load(in);
+		in.close();
+
+		XQUERY_PATH = config.getProperty("XQUERY_PATH");
+		FILE_PATH = config.getProperty("FILE_PATH");
+		RESULT_PATH = config.getProperty("RESULT_PATH");
+		
+		
+	}
 	
 	public enum RelationType {
 	    GENERALIZATION_FATHER_CHILD, GENERALIZATION_CHILD_FATHER,
@@ -38,7 +57,9 @@ public class TranslateXMItoGraphML {
 	}
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+		
+		initialization();
 		
 		final DOMImplementation impl = DOMImplementationImpl.getDOMImplementation();
 		final Document document = impl.createDocument(null, "graph", null);
@@ -59,16 +80,16 @@ public class TranslateXMItoGraphML {
 		graphml.appendChild(key);
 		//Class Name
 		Element key2 = document.createElement("key");
-			key2.setAttribute("id", "className");
-			key2.setAttribute("for", "node");
-			key2.setAttribute("attr.name", "className");
-			key2.setAttribute("attr.type", "string");
+		key2.setAttribute("id", "className");
+		key2.setAttribute("for", "node");
+		key2.setAttribute("attr.name", "className");
+		key2.setAttribute("attr.type", "string");
 		graphml.appendChild(key2);
 			
 		//Get Project (Model) Id and Project (Model) Name (format: projectId$projectName)
 		ArrayList<String> projectIdAndName = new ArrayList<String>(); 
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "/getProjectIdAndName.xquery");
-		xq.bindVariable("document", FILE_PATH + "PetriNet_extended.uml");
+		xq.bindVariable("document", FILE_PATH + "/PetriNet_extended.uml");
 		projectIdAndName = xq.executeQuery();		
 		String projectIdAndNameString  = projectIdAndName.get(0);
 		String projectId = projectIdAndNameString.split("\\$")[0];
@@ -84,7 +105,7 @@ public class TranslateXMItoGraphML {
 		//Get Class Ids and Name (format: classId$className)
 		ArrayList<String> classIdAndNameList = new ArrayList<String>(); 
 		XQueryWrapper xq1 = new XQueryWrapper(XQUERY_PATH + "/getClassIds.xquery");
-		xq1.bindVariable("document", FILE_PATH + "PetriNet_extended.uml");
+		xq1.bindVariable("document", FILE_PATH + "/PetriNet_extended.uml");
 		classIdAndNameList = xq1.executeQuery();
 		String classIdAndNameString = "";
 		String classId = "";
@@ -109,7 +130,7 @@ public class TranslateXMItoGraphML {
 		//Compositions are returned in the format sourceId$targetId
 		ArrayList<String> compositionList = new ArrayList<String>(); 
 		XQueryWrapper xq2 = new XQueryWrapper(XQUERY_PATH + "/getCompositions.xquery");
-		xq2.bindVariable("document", FILE_PATH + "PetriNet_extended.uml");
+		xq2.bindVariable("document", FILE_PATH + "/PetriNet_extended.uml");
 		compositionList = xq2.executeQuery();
 		
 		for (int i = 0; i < compositionList.size(); i++) {
@@ -145,7 +166,7 @@ public class TranslateXMItoGraphML {
 		//Associations are returned in the format sourceId$targetId
 		ArrayList<String> associationList = new ArrayList<String>(); 
 		XQueryWrapper xq3 = new XQueryWrapper(XQUERY_PATH + "/getAssociations.xquery");
-		xq3.bindVariable("document", FILE_PATH + "PetriNet_extended.uml");
+		xq3.bindVariable("document", FILE_PATH + "/PetriNet_extended.uml");
 		associationList = xq3.executeQuery();
 		
 		for (int i = 0; i < associationList.size(); i++) {
@@ -184,7 +205,7 @@ public class TranslateXMItoGraphML {
 		//Generalizations are returned in the format child$father
 		ArrayList<String> generalizationList = new ArrayList<String>(); 
 		XQueryWrapper xq4 = new XQueryWrapper(XQUERY_PATH + "/getGeneralizations.xquery");
-		xq4.bindVariable("document", FILE_PATH + "PetriNet_extended.uml");
+		xq4.bindVariable("document", FILE_PATH + "/PetriNet_extended.uml");
 		generalizationList = xq4.executeQuery();
 		
 		for (int i = 0; i < generalizationList.size(); i++) {
@@ -230,7 +251,7 @@ public class TranslateXMItoGraphML {
 			DOMSource source = new DOMSource(graphml);
 			transformer.transform(source, result);
 			
-			File file = new File(FILE_PATH + "result.xml");
+			File file = new File(RESULT_PATH + "/result.xml");
 			FileWriter outputWriter = new FileWriter(file);
 			outputWriter.write(writer.toString());
 			outputWriter.close();
