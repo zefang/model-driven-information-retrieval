@@ -51,9 +51,14 @@ public class ImportAttributes extends OperationFunction {
 			penalty = WeightRules.penaltyMap.get(callerRelationType);
 		}
 		
+		//These are of the current Node
 		getClassName(currentNode);
 		getVanillaAttributes(currentNode);
 		getRelationAttributes(currentNode);
+		
+		//TODO apply relation type filter to decide what to import of this node
+		// in other nodes
+		//getGeneralizationAttributes(currentNode);
 		
 		if (numHops == 1) {
 			Iterator<String> itr = importedAttributes.iterator();
@@ -79,6 +84,7 @@ public class ImportAttributes extends OperationFunction {
 	private void getRelationAttributes(String currentNode) {
 		//get relations of the current node (i.e, edges that have sorceId = currentNode)
 		//But only the ones that have at least one attribute
+		//This function DOESN'T query doesn't get generalizations
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getRelationIds.xquery");
 		xq.bindVariable("document", RESULTS_PATH + "PetriNet_extended.uml.xml");
 		xq.bindVariable("source", currentNode);
@@ -136,7 +142,7 @@ public class ImportAttributes extends OperationFunction {
 		xq.bindVariable("document", RESULTS_PATH + "PetriNet_extended.uml.xml");
 		xq.bindVariable("id", currentNode);
 		String className = xq.executeQuery().get(0);
-		className += "|" + WeightRules.weightMap.get("class");
+		className += "|" + WeightRules.weightMap.get("class") * penalty;
 		importedClassNames.add(className);
 	}
 	

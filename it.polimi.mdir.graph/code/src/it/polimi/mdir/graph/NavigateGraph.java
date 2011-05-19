@@ -51,11 +51,12 @@ public class NavigateGraph {
 		_nodeQueue = getAllNodes(FILE_NAME); 
 		_graphId = getGraphId(FILE_NAME);
 		
-		boolean justone = true;
-		while (!_nodeQueue.isEmpty() && justone) {
+		while (!_nodeQueue.isEmpty()) {
 			String nodeId = _nodeQueue.remove(); 
-			visitNode(_graphId, nodeId, 0, nodeId, new ImportAttributes());
-			justone = false;
+			//select node that I want to visit
+			if (nodeId.equals("_fvqyI-iaEd6gMtZRCjS81g")) {//LocatedElement _fvqyI-iaEd6gMtZRCjS81g
+				visitNode(_graphId, nodeId, 0, nodeId, new ImportAttributes());
+			}
 		}
 	}
 	
