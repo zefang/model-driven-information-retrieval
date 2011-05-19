@@ -137,118 +137,9 @@ public class TranslateXMItoGraphML {
 			}
 			
 			//Get edges
-			
-			//Compositions are returned in the format sourceId$targetId
-			ArrayList<String> compositionList = new ArrayList<String>(); 
-			XQueryWrapper xq2 = new XQueryWrapper(XQUERY_PATH + "/getCompositions.xquery");
-			xq2.bindVariable("document", FILE_PATH + "/" + currentDoc);
-			compositionList = xq2.executeQuery();
-			
-			for (int i = 0; i < compositionList.size(); i++) {
-				String[] split = compositionList.get(i).split("\\$");
-				String sourceId = split[0]; 
-				String targetId = split[1];
-				Element edge = document.createElement("edge");
-				edge.setAttribute("id", "composition"+i);
-				edge.setAttribute("source", sourceId);
-				edge.setAttribute("target", targetId);
-					Element data = document.createElement("data");
-					data.setAttribute("key", "relationType");
-					Text text = document.createTextNode(RelationType.COMPOSITION_COMPOSITE_COMPONENT.toString());
-					data.appendChild(text);
-				edge.appendChild(data);
-				
-				//Create the opposite edge
-				Element edgeOpposite = document.createElement("edge");
-				edgeOpposite.setAttribute("id", "composition"+i+"-opposite");
-				edgeOpposite.setAttribute("source", targetId);
-				edgeOpposite.setAttribute("target", sourceId);
-					Element dataOpposite = document.createElement("data");
-					dataOpposite.setAttribute("key", "relationType");
-					Text textOpposite = document.createTextNode(RelationType.COMPOSITION_COMPONENT_COMPOSITE.toString());
-					dataOpposite.appendChild(textOpposite);
-				edgeOpposite.appendChild(dataOpposite);
-				
-				graph.appendChild(edge);
-				graph.appendChild(edgeOpposite);
-			}
-			
-			//Associations
-			//Associations are returned in the format sourceId$targetId
-			ArrayList<String> associationList = new ArrayList<String>(); 
-			XQueryWrapper xq3 = new XQueryWrapper(XQUERY_PATH + "/getAssociations.xquery");
-			xq3.bindVariable("document", FILE_PATH + "/" + currentDoc);
-			associationList = xq3.executeQuery();
-			
-			for (int i = 0; i < associationList.size(); i++) {
-				String[] split = associationList.get(i).split("\\$");
-				String sourceId = split[0]; 
-				String targetId = split[1];
-				Element edge = document.createElement("edge");
-				edge.setAttribute("id", "association"+i);
-				edge.setAttribute("source", sourceId);
-				edge.setAttribute("target", targetId);
-					Element data = document.createElement("data");
-					data.setAttribute("key", "relationType");
-					Text text = document.createTextNode(RelationType.ASSOCIATION.toString());
-					data.appendChild(text);
-				edge.appendChild(data);
-		
-				//Create the opposite edge
-				Element edgeOpposite = document.createElement("edge");
-				edgeOpposite.setAttribute("id", "association"+i+"-opposite");
-				edgeOpposite.setAttribute("source", targetId);
-				edgeOpposite.setAttribute("target", sourceId);
-					Element dataOpposite = document.createElement("data");
-					dataOpposite.setAttribute("key", "relationType");
-					Text textOpposite = document.createTextNode(RelationType.ASSOCIATION.toString());
-					dataOpposite.appendChild(textOpposite);
-				edgeOpposite.appendChild(dataOpposite);				
-					
-					
-				graph.appendChild(edge);
-				graph.appendChild(edgeOpposite);
-	
-			}
-			
-			
-			//Generalizations
-			//Generalizations are returned in the format child$father
-			ArrayList<String> generalizationList = new ArrayList<String>(); 
-			XQueryWrapper xq4 = new XQueryWrapper(XQUERY_PATH + "/getGeneralizations.xquery");
-			xq4.bindVariable("document", FILE_PATH + "/" + currentDoc);
-			generalizationList = xq4.executeQuery();
-			
-			for (int i = 0; i < generalizationList.size(); i++) {
-				String[] split = generalizationList.get(i).split("\\$");
-				String sourceId = split[0]; 
-				String targetId = split[1];
-				Element edge = document.createElement("edge");
-				edge.setAttribute("id", "generalization"+i);
-				edge.setAttribute("source", sourceId);
-				edge.setAttribute("target", targetId);
-					Element data = document.createElement("data");
-					data.setAttribute("key", "relationType");
-					Text text = document.createTextNode(RelationType.GENERALIZATION_CHILD_FATHER.toString());
-					data.appendChild(text);
-				edge.appendChild(data);
-				
-				//Create the opposite edge
-				Element edgeOpposite = document.createElement("edge");
-				edgeOpposite.setAttribute("id", "generalization"+i+"-opposite");
-				edgeOpposite.setAttribute("source", targetId);
-				edgeOpposite.setAttribute("target", sourceId);
-					Element dataOpposite = document.createElement("data");
-					dataOpposite.setAttribute("key", "relationType");
-					Text textOpposite = document.createTextNode(RelationType.GENERALIZATION_FATHER_CHILD.toString());
-					dataOpposite.appendChild(textOpposite);
-				edgeOpposite.appendChild(dataOpposite);
-				
-				graph.appendChild(edge);
-				graph.appendChild(edgeOpposite);
-			}
-			
-			
+			getEdges("composition", graph, document);
+			getEdges("association", graph, document);
+			getEdges("generalization", graph, document);
 			
 	        //Writes the file
 			try {
@@ -278,6 +169,68 @@ public class TranslateXMItoGraphML {
 					
         }
         
+	}
+	
+	
+	/**
+	 * 	Compositions are returned in the format sourceId$targetId.
+	 *  Associations are returned in the format sourceId$targetId.
+	 *  Generalizations are returned in the format child$father.
+	 *  
+	 * @param relation
+	 * can be either "composition", "association" or "generalization"
+	 * @param graph
+	 * @param document
+	 */
+	private static void getEdges(String relation, Element graph, Document document) {
+		String xquery ="";
+		String relationType = "";
+		String oppositeRelationType = "";
+		if ("composition".equals(relation)) {
+			xquery = "/getCompositions.xquery";
+			relationType = RelationType.COMPOSITION_COMPOSITE_COMPONENT.toString();
+			oppositeRelationType = RelationType.COMPOSITION_COMPONENT_COMPOSITE.toString();
+		} else
+		if ("association".equals(relation)) {
+			xquery = "/getAssociations.xquery";
+			relationType = RelationType.ASSOCIATION.toString();
+			oppositeRelationType = RelationType.ASSOCIATION.toString();
+		} else
+		if ("generalization".equals(relation)) {
+			xquery = "/getGeneralizations.xquery";
+			relationType = RelationType.GENERALIZATION_CHILD_FATHER.toString();
+			oppositeRelationType = RelationType.GENERALIZATION_FATHER_CHILD.toString();
+		}		
+		
+		ArrayList<String> relationList = new ArrayList<String>(); 
+		XQueryWrapper xq2 = new XQueryWrapper(XQUERY_PATH + xquery);
+		xq2.bindVariable("document", FILE_PATH + "/" + currentDoc);
+		relationList = xq2.executeQuery();
+		
+		for (int i = 0; i < relationList.size(); i++) {
+			String[] split = relationList.get(i).split("\\$");
+			String sourceId = split[0]; 
+			String targetId = split[1];
+			Element edge = document.createElement("edge");
+			edge.setAttribute("id", relation+i);
+			edge.setAttribute("source", sourceId);
+			edge.setAttribute("target", targetId);
+				Element relType = document.createElement("relType");
+				relType.appendChild(document.createTextNode(relationType));
+			edge.appendChild(relType);
+			
+			//Create the opposite edge
+			Element edgeOpposite = document.createElement("edge");
+			edgeOpposite.setAttribute("id", relation+i+"-opposite");
+			edgeOpposite.setAttribute("source", targetId);
+			edgeOpposite.setAttribute("target", sourceId);
+				Element relTypeOpposite = document.createElement("relType");
+				relTypeOpposite.appendChild(document.createTextNode(oppositeRelationType));
+			edgeOpposite.appendChild(relTypeOpposite);
+			
+			graph.appendChild(edge);
+			graph.appendChild(edgeOpposite);
+		}
 	}
 	
 	
