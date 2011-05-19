@@ -13,6 +13,8 @@ public class ImportAttributes extends OperationFunction {
 	@Override
 	public void importAttributes(String currentNode, String callerNode, int numHops) {
 		
+		//Debug lines
+		
 		//get currentNode Name
 		XQueryWrapper xq = new XQueryWrapper("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/xquerytry/getClassName.xquery");
 		xq.bindVariable("document", "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/result/PetriNet_extended.uml.xml");
@@ -27,6 +29,8 @@ public class ImportAttributes extends OperationFunction {
 		System.out.println("This is " + className + " called from: " + callerName);
 		
 		
+		/*************************************/
+		//implementation begins
 		
 		//1) importo attributi vanilla da "currentNode". 
 		//pesarli in base al numero di hop
@@ -41,7 +45,7 @@ public class ImportAttributes extends OperationFunction {
 		ArrayList<String> vanillaAttributes = xq3.executeQuery();
 		Iterator<String> vanillaAttributesIterator = vanillaAttributes.iterator();
 		while (vanillaAttributesIterator.hasNext()) {
-			attributes += vanillaAttributesIterator.next() + " "; //TODO mettere pesi
+			attributes += vanillaAttributesIterator.next() + "|" ; //TODO mettere pesi
 		}
 		
 		if (numHops == 1) {
