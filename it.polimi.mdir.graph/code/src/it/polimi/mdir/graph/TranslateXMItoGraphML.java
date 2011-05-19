@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Properties;
 
 import javax.xml.transform.OutputKeys;
@@ -24,7 +25,6 @@ import org.apache.xerces.dom.DOMImplementationImpl;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Text;
 
 public class TranslateXMItoGraphML {
 	
@@ -100,42 +100,46 @@ public class TranslateXMItoGraphML {
 			graph.setAttribute("projectName", projectName);
 			graphml.appendChild(graph);
 			
+			
 			//Get Ids, Name and Attributes ot the class (format: classId$className$attributeName)
-			ArrayList<String> complexList = new ArrayList<String>(); 
-			XQueryWrapper xq1 = new XQueryWrapper(XQUERY_PATH + "/getClassIdsNamesAttributes.xquery");
+			
+			//Get Ids and Names the classes (format: classId$className)
+			ArrayList<String> classList = new ArrayList<String>(); 
+			XQueryWrapper xq1 = new XQueryWrapper(XQUERY_PATH + "/getClassIdsNames.xquery");
 			xq1.bindVariable("document", FILE_PATH + "/" + currentDoc);
-			complexList = xq1.executeQuery();
-			String complexString = "";
+			classList = xq1.executeQuery();
 			String classId = "";
 			String className = "";	
 			String attributeString = "";
 			
-			int countAttributes = 0;
-			while(countAttributes < complexList.size()) {
+			Iterator<String> itr = classList.iterator();
+			while (itr.hasNext()) {
+				String classIdName = itr.next();
+				classId = classIdName.split("\\$")[0]; 
+				className = classIdName.split("\\$")[1];
 				Element node = document.createElement("node");
-				complexString = complexList.get(countAttributes);
-				classId = complexString.split("\\$")[0]; 
-				className = complexString.split("\\$")[1];
-				node.setAttribute("id", classId);		
+				node.setAttribute("id", classId);
 					Element classNameElement = document.createElement("className");
 					classNameElement.appendChild(document.createTextNode(className));
-					node.appendChild(classNameElement);
+				node.appendChild(classNameElement);
+				
 				//Adding attributes to node
-				while(countAttributes < complexList.size() && complexString.contains(classId)) {
-					attributeString = complexString.split("\\$")[2];
-					
+				XQueryWrapper xq2 = new XQueryWrapper(XQUERY_PATH + "/getAttributes.xquery");
+				xq2.bindVariable("document", FILE_PATH + "/" + currentDoc);
+				xq2.bindVariable("classId", classId);
+				ArrayList<String> attrList = xq2.executeQuery();
+				
+				Iterator<String> attrItr = attrList.iterator();
+				while (attrItr.hasNext()) {
+					attributeString = attrItr.next();
 					Element attribute = document.createElement("attribute");
-					Text attributeText = document.createTextNode(attributeString);
-					attribute.appendChild(attributeText);
+					attribute.appendChild(document.createTextNode(attributeString));
 					node.appendChild(attribute);
-					
-					countAttributes++;
-					if(countAttributes < complexList.size())
-						complexString = complexList.get(countAttributes);
-				}		
+				}
+				
 				graph.appendChild(node);
 			}
-			
+
 			//Get edges
 			getEdges("composition", graph, document);
 			getEdges("association", graph, document);
@@ -203,9 +207,9 @@ public class TranslateXMItoGraphML {
 		}		
 		
 		ArrayList<String> relationList = new ArrayList<String>(); 
-		XQueryWrapper xq2 = new XQueryWrapper(XQUERY_PATH + xquery);
-		xq2.bindVariable("document", FILE_PATH + "/" + currentDoc);
-		relationList = xq2.executeQuery();
+		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + xquery);
+		xq.bindVariable("document", FILE_PATH + "/" + currentDoc);
+		relationList = xq.executeQuery();
 		
 		for (int i = 0; i < relationList.size(); i++) {
 			String[] split = relationList.get(i).split("\\$");
