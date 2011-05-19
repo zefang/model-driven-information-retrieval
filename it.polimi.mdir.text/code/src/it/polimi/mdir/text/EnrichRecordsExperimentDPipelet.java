@@ -21,7 +21,7 @@ public class EnrichRecordsExperimentDPipelet implements Pipelet {
 		
 		NavigateGraph nv = new NavigateGraph();
 		
-		System.out.println(ImportAttributes.attributes); 
+		//System.out.println(ImportAttributes); 
 		
 		return null;
 	}

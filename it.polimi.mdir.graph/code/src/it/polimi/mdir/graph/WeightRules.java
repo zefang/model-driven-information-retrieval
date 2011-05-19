@@ -16,16 +16,16 @@ public class WeightRules {
 		weightMap.put("association", 2.5f);
 	}
 	
-	public final static HashMap<RelationType, Float> penaltyMap = new HashMap<RelationType, Float>();
+	public final static HashMap<String, Float> penaltyMap = new HashMap<String, Float>();
 	static
 	{
 		//penalties for relation types during navigation
 		penaltyMap.put(null, 1.0f); //default value
-		penaltyMap.put(RelationType.COMPOSITION_COMPOSITE_COMPONENT, 0.5f);
-		penaltyMap.put(RelationType.COMPOSITION_COMPONENT_COMPOSITE, 0.5f);
-		penaltyMap.put(RelationType.ASSOCIATION, 0.5f);
-		penaltyMap.put(RelationType.GENERALIZATION_FATHER_CHILD, 1.0f);
-		penaltyMap.put(RelationType.GENERALIZATION_CHILD_FATHER, 0.75f);
+		penaltyMap.put(RelationType.COMPOSITION_COMPOSITE_COMPONENT.toString(), 0.5f);
+		penaltyMap.put(RelationType.COMPOSITION_COMPONENT_COMPOSITE.toString(), 0.5f);
+		penaltyMap.put(RelationType.ASSOCIATION.toString(), 0.5f);
+		penaltyMap.put(RelationType.GENERALIZATION_FATHER_CHILD.toString(), 0.5f);
+		penaltyMap.put(RelationType.GENERALIZATION_CHILD_FATHER.toString(), 0.75f);
 	}
 	
 }

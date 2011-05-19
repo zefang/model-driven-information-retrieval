@@ -14,6 +14,8 @@ public class ImportAttributes extends OperationFunction {
 	
 	private static ArrayList<String> importedAttributes = new ArrayList<String>();
 	
+	float penalty = 1.0f;
+	
 	@Override
 	public void importAttributes(String currentNode, String callerNode, int numHops) {
 		
@@ -36,13 +38,21 @@ public class ImportAttributes extends OperationFunction {
 		/*************************************/
 		//implementation begins
 		
+		//get relation type from callerNode to currentNode.
+		// It's the one that has source=callerNode and target=currentNode
+		if (numHops != 1) {
+			XQueryWrapper xq3 = new XQueryWrapper(XQUERY_GRAPH_PATH + "getCallerRelationType.xquery");
+			xq3.bindVariable("document", RESULTS_PATH + "PetriNet_extended.uml.xml");
+			xq3.bindVariable("source", callerNode);
+			xq3.bindVariable("target", currentNode);
+			String callerRelationType = xq3.executeQuery().get(0);
+			penalty = WeightRules.penaltyMap.get(callerRelationType);
+		}
+		
+		
 		 getVanillaAttributes(currentNode);
 		 getRelationAttributes(currentNode);
 		 
-		 
-		//get relation type and its attributes
-		//  To get the type of relationship check for the relationship that has
-		// 	source = callerNode and target = currentNode
 		/*
 		XQueryWrapper xq6 = new XQueryWrapper("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/xquery-graph/getRelationType.xquery");
 		xq6.bindVariable("document", "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/result/PetriNet_extended.uml.xml");
@@ -66,11 +76,6 @@ public class ImportAttributes extends OperationFunction {
 			}
 			
 		}
-		
-		//2)importo attributi "importati" di "currentNode"
-		// guardare nell'edge che ha source=from
-		// a seconda del tipo dare una penalità diversa agli attributi che importo
-		//pesarli in base al numero di hop
 		
 		// TODO attenzione!!! bisogna prima risolverre i cicli! o forse no? 
 		// se non lo facciamo è sbagliatissimo o cambia poco?
@@ -107,7 +112,7 @@ public class ImportAttributes extends OperationFunction {
 				} else if (relationAttributeType.equals(RelationType.ASSOCIATION.toString())) {
 					relType = "association";
 				}
-				float weight = WeightRules.weightMap.get(relType);
+				float weight = WeightRules.weightMap.get(relType) * penalty;
 				relationAttributeName += "|" + weight;
 				importedAttributes.add(relationAttributeName);
 			}
@@ -129,7 +134,7 @@ public class ImportAttributes extends OperationFunction {
 		String attributeName = "";
 		while (vanillaAttributesIterator.hasNext()) {
 			attributeName = vanillaAttributesIterator.next();
-			float weight = WeightRules.weightMap.get("attribute"); //get weight
+			float weight = WeightRules.weightMap.get("attribute") * penalty;
 			attributeName += "|" + weight;
 			importedAttributes.add(attributeName);
 		}
