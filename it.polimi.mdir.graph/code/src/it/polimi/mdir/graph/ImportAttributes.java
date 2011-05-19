@@ -62,6 +62,12 @@ public class ImportAttributes extends OperationFunction {
 		getVanillaAttributes(currentNode);
 		getRelationAttributes(currentNode);
 		
+		//penalty of this callerNode->currentNode relation has already been applied
+		// to attributes (vanilla and imported) of this node.
+		//TODO apply this penalty also to the attributes coming from nodes under this branch.
+		//They are already in the imported attributes. Ma come facciamo a distinguere 
+		// quelli che provengono da questo branch e quali invece di un altro,
+		// a cui quindi non va applicata la penalty di questo?
 		
 		// Apply relation type filter to decide what of this node
 		// import in other nodes
@@ -119,7 +125,6 @@ public class ImportAttributes extends OperationFunction {
 		while (relationIdsIterator.hasNext()) {
 			//for every relation, given the relation id, we extract its attributes
 			//they get returned in the format attributeName$relationType
-			//TODO ritornare prima il type da solo e poi gli attribute ???
 			XQueryWrapper xq2 = new XQueryWrapper(XQUERY_GRAPH_PATH + "getRelationAttributes.xquery");
 			xq2.bindVariable("document", RESULTS_PATH + "PetriNet_extended.uml.xml");
 			xq2.bindVariable("relationId", relationIdsIterator.next());
