@@ -46,31 +46,36 @@ public class ImportAttributes extends OperationFunction {
 		String[] attribute = new String[2];
 		String attributeName = "";
 		String attributeType = "";
-		float weight = 0;
 		while (vanillaAttributesIterator.hasNext()) {
 			attribute = vanillaAttributesIterator.next().split("\\$");//TODO mettere pesi
 			attributeName = attribute[0];
 			attributeType = attribute[1];
-			weight = WeightRules.weightMap.get(attributeType); //get weight
-			
-			//get relation type
-			//  To get the type of relationship check for the relationship that has
-			// 	source = callerNode and target = currentNode
-			if (!"attribute".equals(attributeType)) {
-				XQueryWrapper xq4 = new XQueryWrapper("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/xquery-graph/getRelationType.xquery");
-				xq4.bindVariable("document", "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/result/PetriNet_extended.uml.xml");
-				xq4.bindVariable("source", callerNode);
-				xq4.bindVariable("target", currentNode);
-				String relType = xq4.executeQuery().get(0);
-			//	scale weight with respect to relation type
-				weight = weight * WeightRules.penaltyMap.get(RelationType.valueOf(relType));
-				System.out.println(weight);
-				attributeName += "|" + weight;
-				
-				allAttributes += attributeName + " ";
-			}
+			float weight = WeightRules.weightMap.get(attributeType); //get weight
+			attributeName += "|" + weight;
 		}
 		
+		/******************************/
+		//TODO WARNING: ora sto lavorando qui, il seguente codice è tutto W.I.P
+		// Te lo commento se no non compila.
+		/******************************/
+		/*
+			//get relation type and its attributes
+			//  To get the type of relationship check for the relationship that has
+			// 	source = callerNode and target = currentNode
+			XQueryWrapper xq4 = new XQueryWrapper("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/xquery-graph/getRelationType.xquery");
+			xq4.bindVariable("document", "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/result/PetriNet_extended.uml.xml");
+			xq4.bindVariable("source", callerNode);
+			xq4.bindVariable("target", currentNode);
+			String relType = xq4.executeQuery().get(0);
+			//scale weight with respect to relation type
+			weight = weight * WeightRules.penaltyMap.get(RelationType.valueOf(relType));
+			System.out.println(weight);
+			
+			
+			allAttributes += attributeName + " ";
+			
+		
+		*/
 		if (numHops == 1) {
 			System.out.println(allAttributes);
 		}
