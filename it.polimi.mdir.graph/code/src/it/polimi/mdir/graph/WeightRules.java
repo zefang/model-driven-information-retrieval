@@ -14,6 +14,7 @@ public class WeightRules {
 		weightMap.put("attribute", 1.0f); //vanilla attribute
 		weightMap.put("composition", 2.0f);
 		weightMap.put("association", 2.5f);
+		weightMap.put("class", 5.0f);
 	}
 	
 	public final static HashMap<String, Float> penaltyMap = new HashMap<String, Float>();
