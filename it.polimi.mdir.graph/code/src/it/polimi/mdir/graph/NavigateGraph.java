@@ -54,7 +54,10 @@ public class NavigateGraph {
 		while (!_nodeQueue.isEmpty()) {
 			String nodeId = _nodeQueue.remove(); 
 			//select node that I want to visit
-			if (nodeId.equals("_fvqyI-iaEd6gMtZRCjS81g")) {//LocatedElement _fvqyI-iaEd6gMtZRCjS81g
+			// LocatedElement _fvqyI-iaEd6gMtZRCjS81g
+			// PetriNet _fvqyJeiaEd6gMtZRCjS81g
+			// Element _fvqyJuiaEd6gMtZRCjS81g
+			if (nodeId.equals("_fvqyJuiaEd6gMtZRCjS81g")) {
 				visitNode(_graphId, nodeId, 0, nodeId, new ImportAttributes());
 			}
 		}

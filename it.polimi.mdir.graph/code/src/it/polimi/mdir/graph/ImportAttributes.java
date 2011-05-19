@@ -119,6 +119,7 @@ public class ImportAttributes extends OperationFunction {
 		while (relationIdsIterator.hasNext()) {
 			//for every relation, given the relation id, we extract its attributes
 			//they get returned in the format attributeName$relationType
+			//TODO ritornare prima il type da solo e poi gli attribute ???
 			XQueryWrapper xq2 = new XQueryWrapper(XQUERY_GRAPH_PATH + "getRelationAttributes.xquery");
 			xq2.bindVariable("document", RESULTS_PATH + "PetriNet_extended.uml.xml");
 			xq2.bindVariable("relationId", relationIdsIterator.next());

@@ -6,5 +6,5 @@ declare variable $document as xs:string external;
 for $class in doc($document)//packagedElement
 	for $generalization in $class/generalization
 where $class/@xmi:type = "uml:Class"
-return concat(data($class/@xmi:id),'$',data($generalization/@general))
+return concat(data($generalization/@xmi:id), '$', data($class/@xmi:id),'$', data($generalization/@general))
 		
