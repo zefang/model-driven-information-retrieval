@@ -13,6 +13,7 @@ public class ImportAttributes extends OperationFunction {
 	private static final String RESULTS_PATH = "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/result/";
 	
 	private static ArrayList<String> importedAttributes = new ArrayList<String>();
+	private static ArrayList<String> importedClassNames = new ArrayList<String>();
 	
 	float penalty = 1.0f;
 	
@@ -40,6 +41,7 @@ public class ImportAttributes extends OperationFunction {
 		
 		//get relation type from callerNode to currentNode.
 		// It's the one that has source=callerNode and target=currentNode
+		// This is to initialize the penalty, otherwise it is 1.0f by default.
 		if (numHops != 1) {
 			XQueryWrapper xq3 = new XQueryWrapper(XQUERY_GRAPH_PATH + "getCallerRelationType.xquery");
 			xq3.bindVariable("document", RESULTS_PATH + "PetriNet_extended.uml.xml");
@@ -49,32 +51,23 @@ public class ImportAttributes extends OperationFunction {
 			penalty = WeightRules.penaltyMap.get(callerRelationType);
 		}
 		
-		
-		 getVanillaAttributes(currentNode);
-		 getRelationAttributes(currentNode);
-		 
-		/*
-		XQueryWrapper xq6 = new XQueryWrapper("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/xquery-graph/getRelationType.xquery");
-		xq6.bindVariable("document", "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/result/PetriNet_extended.uml.xml");
-		xq6.bindVariable("source", callerNode);
-		xq6.bindVariable("target", currentNode);
-		String relType = xq6.executeQuery().get(0);
-		if (relType.equals(RelationType.COMPOSITION_COMPOSITE_COMPONENT)) {
-			attributeType = "composition";
-		} else if (relType.equals(RelationType.ASSOCIATION)) {
-			attributeType = "association";
-		}
-		//getWeights
-		float weight = WeightRules.weightMap.get(attributeType);
-		System.out.println(weight);
-*/
+		getClassName(currentNode);
+		getVanillaAttributes(currentNode);
+		getRelationAttributes(currentNode);
 		
 		if (numHops == 1) {
 			Iterator<String> itr = importedAttributes.iterator();
 			while (itr.hasNext()) {
-				System.out.println(itr.next());	
+				System.out.print(itr.next());
+				System.out.print(" ");
 			}
 			
+			System.out.println("");
+			Iterator<String> itr2 = importedClassNames.iterator();
+			while (itr2.hasNext()) {
+				System.out.print(itr2.next());
+				System.out.print(" ");
+			}
 		}
 		
 		// TODO attenzione!!! bisogna prima risolverre i cicli! o forse no? 
@@ -121,10 +114,7 @@ public class ImportAttributes extends OperationFunction {
 	}
 
 
-	//1) importo attributi vanilla da "currentNode". 
-	//pesarli in base al numero di hop
-	//if numHop==1 -> no penalty perchè sono nel nodo di partenza
-	//else multiply all normal weights by the penalty given by the type of relationship between currentNode and callerNode
+	//Importo attributi vanilla da "currentNode". 
 	private void getVanillaAttributes(String currentNode) {
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getVanillaAttributes.xquery");
 		xq.bindVariable("document", RESULTS_PATH + "PetriNet_extended.uml.xml");
@@ -138,6 +128,16 @@ public class ImportAttributes extends OperationFunction {
 			attributeName += "|" + weight;
 			importedAttributes.add(attributeName);
 		}
+	}
+	
+	//get className of the current node
+	private void getClassName(String currentNode) {
+		XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getClassName.xquery");
+		xq.bindVariable("document", RESULTS_PATH + "PetriNet_extended.uml.xml");
+		xq.bindVariable("id", currentNode);
+		String className = xq.executeQuery().get(0);
+		className += "|" + WeightRules.weightMap.get("class");
+		importedClassNames.add(className);
 	}
 	
 }
