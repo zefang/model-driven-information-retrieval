@@ -123,8 +123,7 @@ public class TranslateXMItoGraphML {
 				
 				// Adding attributes to node they get returned in the format attributeName$attributeType
 				// where attributeType can be 'association', 'composition' or 'attribute'.
-				// This, if they are different than 'attributes' are attached as attributes (no pun intended)
-				// to the xml element.
+				// This are attached as attributes to the attribute (no pun intended) xml element.
 				XQueryWrapper xq2 = new XQueryWrapper(XQUERY_PATH + "/getAttributes.xquery");
 				xq2.bindVariable("document", FILE_PATH + "/" + currentDoc);
 				xq2.bindVariable("classId", classId);
@@ -137,9 +136,7 @@ public class TranslateXMItoGraphML {
 					String attrType = attributeString[1];
 					
 					Element attribute = document.createElement("attribute");
-					if (!"attribute".equals(attrType)) {
-						attribute.setAttribute("relType", attrType);
-					}
+					attribute.setAttribute("relType", attrType);
 					attribute.appendChild(document.createTextNode(attrName));
 					node.appendChild(attribute);
 				}
