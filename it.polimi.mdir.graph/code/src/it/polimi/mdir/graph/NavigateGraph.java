@@ -88,11 +88,12 @@ public class NavigateGraph {
 		numHops += 1;
 		LinkedList<String> neighboursQueue = getNeighbours(nodeId, FILE_NAME);
 		try {
-			
 			while (!neighboursQueue.isEmpty()) {
-				visitNode(graphId, neighboursQueue.remove(), numHops, nodeId, function.getClass().newInstance());
+				String nextNode = neighboursQueue.remove(); 
+				if (!nextNode.equals(callerNode)) {
+					visitNode(graphId, nextNode, numHops, nodeId, function.getClass().newInstance());
+				}
 			}
-			
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
