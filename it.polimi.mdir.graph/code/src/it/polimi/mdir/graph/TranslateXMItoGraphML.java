@@ -226,6 +226,18 @@ public class TranslateXMItoGraphML {
 				Element relType = document.createElement("relType");
 				relType.appendChild(document.createTextNode(relationType));
 			edge.appendChild(relType);
+			//get attributes of that relation
+			XQueryWrapper xq2 = new XQueryWrapper(XQUERY_PATH + "/getRelationAttributes.xquery");
+			xq2.bindVariable("document", FILE_PATH + "/" + currentDoc);
+			xq2.bindVariable("relationSource", sourceId);
+			xq2.bindVariable("relationTarget", targetId);
+			ArrayList<String> relationAttributesList = xq2.executeQuery();
+			Iterator<String> itr = relationAttributesList.iterator();
+			while (itr.hasNext()) {
+				Element attribute = document.createElement("attribute");
+				attribute.appendChild(document.createTextNode(itr.next()));
+				edge.appendChild(attribute);
+			}
 			
 			//Create the opposite edge
 			Element edgeOpposite = document.createElement("edge");
