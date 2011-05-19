@@ -18,7 +18,7 @@ public class NavigateGraph {
 	private static String XQUERY_PATH = "";
 	private static String RESULT_PATH = "";
 	
-	private static final String FILE_NAME = "/PetriNet_extended.uml.xml";//TODO ciclare
+	private static final String FILE_NAME = "/PetriNet_extended.uml.xml";//da usare solo per esempio
 	
 	private static final int MAX_HOPS = 2;
 	
@@ -101,7 +101,7 @@ public class NavigateGraph {
 		}
 		
 		//TODO Do ya thang here
-		function.importAttributes(nodeId, callerNode);
+		function.importAttributes(nodeId, callerNode, numHops);
 	}
 	
 	/**
