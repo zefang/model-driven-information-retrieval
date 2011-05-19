@@ -3,4 +3,4 @@ declare variable $relationId as xs:string external;
 
 for $x in doc($document)//edge
 where $x/@id = $relationId
-return data($x/attribute)
+return concat(data($x/attribute),'$', data($x/relType))
