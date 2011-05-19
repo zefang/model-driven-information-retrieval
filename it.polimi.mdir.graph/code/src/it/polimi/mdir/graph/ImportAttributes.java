@@ -120,21 +120,16 @@ public class ImportAttributes extends OperationFunction {
 	//pesarli in base al numero di hop
 	//if numHop==1 -> no penalty perchè sono nel nodo di partenza
 	//else multiply all normal weights by the penalty given by the type of relationship between currentNode and callerNode
-	//(same for attributes at number 2) )
 	private void getVanillaAttributes(String currentNode) {
-		XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getAttributes.xquery");
+		XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getVanillaAttributes.xquery");
 		xq.bindVariable("document", RESULTS_PATH + "PetriNet_extended.uml.xml");
 		xq.bindVariable("id", currentNode);
 		ArrayList<String> vanillaAttributes = xq.executeQuery();
 		Iterator<String> vanillaAttributesIterator = vanillaAttributes.iterator();
-		String[] attribute = new String[2];
 		String attributeName = "";
-		String attributeType = "";
 		while (vanillaAttributesIterator.hasNext()) {
-			attribute = vanillaAttributesIterator.next().split("\\$");
-			attributeName = attribute[0];
-			attributeType = attribute[1];
-			float weight = WeightRules.weightMap.get(attributeType); //get weight
+			attributeName = vanillaAttributesIterator.next();
+			float weight = WeightRules.weightMap.get("attribute"); //get weight
 			attributeName += "|" + weight;
 			importedAttributes.add(attributeName);
 		}
