@@ -35,6 +35,12 @@ public class TranslateXMItoGraphML {
 	private static File	  currentFile;
 	private static String currentDoc = "";
 	
+	public enum RelationType {
+	    GENERALIZATION_FATHER_CHILD, GENERALIZATION_CHILD_FATHER,
+	    COMPOSITION_COMPOSITE_COMPONENT, COMPOSITION_COMPONENT_COMPOSITE, 
+	    ASSOCIATION 
+	}
+	
 	private static void initialization() throws IOException {
 		
 		// Configuration file
@@ -48,12 +54,6 @@ public class TranslateXMItoGraphML {
 		RESULT_PATH = config.getProperty("RESULT_PATH");
 		
 		
-	}
-	
-	public enum RelationType {
-	    GENERALIZATION_FATHER_CHILD, GENERALIZATION_CHILD_FATHER,
-	    COMPOSITION_COMPOSITE_COMPONENT, COMPOSITION_COMPONENT_COMPOSITE, 
-	    ASSOCIATION 
 	}
 	
 	public static void main(String[] args) throws IOException {
@@ -83,22 +83,6 @@ public class TranslateXMItoGraphML {
 			//graphml.setAttribute("xmlns", "http://graphml.graphdrawing.org/xmlns");
 			//graphml.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			//graphml.setAttribute("xsi:schemaLocation", "http://graphml.graphdrawing.org/xmlnshttp://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd");
-			
-			//Create GraphML compliant Attributes for nodes and edges
-			//Relation Type
-			Element key = document.createElement("key");
-			key.setAttribute("id", "relationType");
-			key.setAttribute("for", "edge");
-			key.setAttribute("attr.name", "relationType");
-			key.setAttribute("attr.type", "string");
-			graphml.appendChild(key);
-			//Class Name
-			Element key2 = document.createElement("key");
-			key2.setAttribute("id", "className");
-			key2.setAttribute("for", "node");
-			key2.setAttribute("attr.name", "className");
-			key2.setAttribute("attr.type", "string");
-			graphml.appendChild(key2);
 				
 			//Get Project (Model) Id and Project (Model) Name (format: projectId$projectName)
 			ArrayList<String> projectIdAndName = new ArrayList<String>(); 
@@ -133,11 +117,9 @@ public class TranslateXMItoGraphML {
 				classId = complexString.split("\\$")[0]; 
 				className = complexString.split("\\$")[1];
 				node.setAttribute("id", classId);		
-					Element data = document.createElement("data");
-					data.setAttribute("key", "className");
-					Text text = document.createTextNode(className);
-					data.appendChild(text);		
-					node.appendChild(data);
+					Element classNameElement = document.createElement("className");
+					classNameElement.appendChild(document.createTextNode(className));
+					node.appendChild(classNameElement);
 				//Adding attributes to node
 				while(countAttributes < complexList.size() && complexString.contains(classId)) {
 					attributeString = complexString.split("\\$")[2];
