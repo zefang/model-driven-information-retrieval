@@ -20,7 +20,7 @@ public class WeightRules {
 	{
 		//penalties for relation types during navigation
 		penaltyMap.put(RelationType.COMPOSITION_COMPOSITE_COMPONENT, 0.5f);
-		penaltyMap.put(RelationType.COMPOSITION_COMPONENT_COMPOSITE, 0.6f);
+		penaltyMap.put(RelationType.COMPOSITION_COMPONENT_COMPOSITE, 0.5f);
 		penaltyMap.put(RelationType.ASSOCIATION, 0.5f);
 		penaltyMap.put(RelationType.GENERALIZATION_FATHER_CHILD, 1.0f);
 		penaltyMap.put(RelationType.GENERALIZATION_CHILD_FATHER, 0.75f);
