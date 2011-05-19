@@ -3,6 +3,7 @@ package it.polimi.mdir.graph;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import it.polimi.mdir.graph.TranslateXMItoGraphML.RelationType;
 import it.polimi.mdir.xquery.XQueryWrapper;
 
 
@@ -36,8 +37,6 @@ public class ImportAttributes extends OperationFunction {
 		//pesarli in base al numero di hop
 		//if numHop==1 -> no penalty perchè sono nel nodo di partenza
 		//else multiply all normal weights by the penalty given by the type of relationship between currentNode and callerNode
-		// To get the type of relationship check for the relationship that has
-		// 	source = callerNode and target = currentNode
 		//(same for attributes at number 2) )
 		XQueryWrapper xq3 = new XQueryWrapper("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/xquery-graph/getAttributes.xquery");
 		xq3.bindVariable("document", "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/result/PetriNet_extended.uml.xml");
@@ -54,9 +53,22 @@ public class ImportAttributes extends OperationFunction {
 			attributeType = attribute[1];
 			weight = WeightRules.weightMap.get(attributeType); //get weight
 			
-			attributeName += "|" + weight;
-			
-			allAttributes += attributeName + " ";
+			//get relation type
+			//  To get the type of relationship check for the relationship that has
+			// 	source = callerNode and target = currentNode
+			if (!"attribute".equals(attributeType)) {
+				XQueryWrapper xq4 = new XQueryWrapper("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/xquery-graph/getRelationType.xquery");
+				xq4.bindVariable("document", "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/result/PetriNet_extended.uml.xml");
+				xq4.bindVariable("source", callerNode);
+				xq4.bindVariable("target", currentNode);
+				String relType = xq4.executeQuery().get(0);
+			//	scale weight with respect to relation type
+				weight = weight * WeightRules.penaltyMap.get(RelationType.valueOf(relType));
+				System.out.println(weight);
+				attributeName += "|" + weight;
+				
+				allAttributes += attributeName + " ";
+			}
 		}
 		
 		if (numHops == 1) {
