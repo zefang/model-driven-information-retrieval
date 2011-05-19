@@ -101,8 +101,6 @@ public class TranslateXMItoGraphML {
 			graphml.appendChild(graph);
 			
 			
-			//Get Ids, Name and Attributes ot the class (format: classId$className$attributeName)
-			
 			//Get Ids and Names the classes (format: classId$className)
 			ArrayList<String> classList = new ArrayList<String>(); 
 			XQueryWrapper xq1 = new XQueryWrapper(XQUERY_PATH + "/getClassIdsNames.xquery");
@@ -110,7 +108,7 @@ public class TranslateXMItoGraphML {
 			classList = xq1.executeQuery();
 			String classId = "";
 			String className = "";	
-			String attributeString = "";
+			String[] attributeString = new String[2];
 			
 			Iterator<String> itr = classList.iterator();
 			while (itr.hasNext()) {
@@ -123,7 +121,10 @@ public class TranslateXMItoGraphML {
 					classNameElement.appendChild(document.createTextNode(className));
 				node.appendChild(classNameElement);
 				
-				//Adding attributes to node
+				// Adding attributes to node they get returned in the format attributeName$attributeType
+				// where attributeType can be 'association', 'composition' or 'attribute'.
+				// This, if they are different than 'attributes' are attached as attributes (no pun intended)
+				// to the xml element.
 				XQueryWrapper xq2 = new XQueryWrapper(XQUERY_PATH + "/getAttributes.xquery");
 				xq2.bindVariable("document", FILE_PATH + "/" + currentDoc);
 				xq2.bindVariable("classId", classId);
@@ -131,9 +132,15 @@ public class TranslateXMItoGraphML {
 				
 				Iterator<String> attrItr = attrList.iterator();
 				while (attrItr.hasNext()) {
-					attributeString = attrItr.next();
+					attributeString = attrItr.next().split("\\$");
+					String attrName = attributeString[0];
+					String attrType = attributeString[1];
+					
 					Element attribute = document.createElement("attribute");
-					attribute.appendChild(document.createTextNode(attributeString));
+					if (!"attribute".equals(attrType)) {
+						attribute.setAttribute("relType", attrType);
+					}
+					attribute.appendChild(document.createTextNode(attrName));
 					node.appendChild(attribute);
 				}
 				
