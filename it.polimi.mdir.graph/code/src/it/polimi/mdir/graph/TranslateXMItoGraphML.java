@@ -181,9 +181,9 @@ public class TranslateXMItoGraphML {
 	
 	
 	/**
-	 * 	Compositions are returned in the format sourceId$targetId.
-	 *  Associations are returned in the format sourceId$targetId.
-	 *  Generalizations are returned in the format child$father.
+	 * 	Compositions are returned in the format relationId$sourceId$targetId.
+	 *  Associations are returned in the format relationId$sourceId$targetId.
+	 *  Generalizations are returned in the format relationId$child$father.
 	 *  
 	 * @param relation
 	 * can be either "composition", "association" or "generalization"
@@ -215,12 +215,14 @@ public class TranslateXMItoGraphML {
 		xq.bindVariable("document", FILE_PATH + "/" + currentDoc);
 		relationList = xq.executeQuery();
 		
-		for (int i = 0; i < relationList.size(); i++) {
-			String[] split = relationList.get(i).split("\\$");
-			String sourceId = split[0]; 
-			String targetId = split[1];
+		Iterator<String> relationIterator = relationList.iterator();
+		while (relationIterator.hasNext()) {
+			String[] split = relationIterator.next().split("\\$");
+			String relationId = split[0];
+			String sourceId = split[1]; 
+			String targetId = split[2];
 			Element edge = document.createElement("edge");
-			edge.setAttribute("id", relation+i);
+			edge.setAttribute("id", relationId);
 			edge.setAttribute("source", sourceId);
 			edge.setAttribute("target", targetId);
 				Element relType = document.createElement("relType");
@@ -229,8 +231,7 @@ public class TranslateXMItoGraphML {
 			//get attributes of that relation
 			XQueryWrapper xq2 = new XQueryWrapper(XQUERY_PATH + "/getRelationAttributes.xquery");
 			xq2.bindVariable("document", FILE_PATH + "/" + currentDoc);
-			xq2.bindVariable("relationSource", sourceId);
-			xq2.bindVariable("relationTarget", targetId);
+			xq2.bindVariable("relationId", relationId);
 			ArrayList<String> relationAttributesList = xq2.executeQuery();
 			Iterator<String> itr = relationAttributesList.iterator();
 			while (itr.hasNext()) {
@@ -241,7 +242,7 @@ public class TranslateXMItoGraphML {
 			
 			//Create the opposite edge
 			Element edgeOpposite = document.createElement("edge");
-			edgeOpposite.setAttribute("id", relation+i+"-opposite");
+			edgeOpposite.setAttribute("id", relationId + "-opposite");
 			edgeOpposite.setAttribute("source", targetId);
 			edgeOpposite.setAttribute("target", sourceId);
 				Element relTypeOpposite = document.createElement("relType");
@@ -250,6 +251,7 @@ public class TranslateXMItoGraphML {
 			
 			graph.appendChild(edge);
 			graph.appendChild(edgeOpposite);
+			
 		}
 	}
 	
