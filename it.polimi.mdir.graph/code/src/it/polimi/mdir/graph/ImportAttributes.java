@@ -12,8 +12,13 @@ public class ImportAttributes extends OperationFunction {
 	private static final String XQUERY_GRAPH_PATH = "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/xquery-graph/";
 	private static final String RESULTS_PATH = "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/result/";
 	
+	private static final String NO_RELATION_TYPE = "none";
+	
 	private static ArrayList<String> importedAttributes = new ArrayList<String>();
 	private static ArrayList<String> importedClassNames = new ArrayList<String>();
+	
+	private ArrayList<String> importCandidateAttributes = new ArrayList<String>();
+	private ArrayList<String> importCandidatesClassNames = new ArrayList<String>();
 	
 	float penalty = 1.0f;
 	
@@ -41,13 +46,14 @@ public class ImportAttributes extends OperationFunction {
 		
 		//get relation type from callerNode to currentNode.
 		// It's the one that has source=callerNode and target=currentNode
-		// This is to initialize the penalty, otherwise it is 1.0f by default.
-		if (numHops != 1) {
+		// Then initialize the penalty, otherwise it is 1.0f by default.
+		String callerRelationType = NO_RELATION_TYPE;
+		if (!callerNode.equals(currentNode)) {
 			XQueryWrapper xq3 = new XQueryWrapper(XQUERY_GRAPH_PATH + "getCallerRelationType.xquery");
 			xq3.bindVariable("document", RESULTS_PATH + "PetriNet_extended.uml.xml");
 			xq3.bindVariable("source", callerNode);
 			xq3.bindVariable("target", currentNode);
-			String callerRelationType = xq3.executeQuery().get(0);
+			callerRelationType = xq3.executeQuery().get(0);
 			penalty = WeightRules.penaltyMap.get(callerRelationType);
 		}
 		
@@ -56,10 +62,30 @@ public class ImportAttributes extends OperationFunction {
 		getVanillaAttributes(currentNode);
 		getRelationAttributes(currentNode);
 		
-		//TODO apply relation type filter to decide what to import of this node
-		// in other nodes
-		//getGeneralizationAttributes(currentNode);
 		
+		// Apply relation type filter to decide what of this node
+		// import in other nodes
+		if (callerRelationType.equals(RelationType.COMPOSITION_COMPONENT_COMPOSITE.toString()) 
+				|| callerRelationType.equals(RelationType.GENERALIZATION_FATHER_CHILD.toString())) {
+			//import just classNames
+			Iterator<String> itr = importCandidatesClassNames.iterator();
+			while (itr.hasNext()) {
+				importedClassNames.add(itr.next());
+			}
+		} else {
+			//import everything
+			Iterator<String> itr = importCandidatesClassNames.iterator();
+			while (itr.hasNext()) {
+				importedClassNames.add(itr.next());
+			}
+			Iterator<String> itr2 = importCandidateAttributes.iterator();
+			while (itr2.hasNext()) {
+				importedAttributes.add(itr2.next());
+			}
+		}
+		
+		
+		//Print final imported attributes and classes
 		if (numHops == 1) {
 			Iterator<String> itr = importedAttributes.iterator();
 			while (itr.hasNext()) {
@@ -84,7 +110,7 @@ public class ImportAttributes extends OperationFunction {
 	private void getRelationAttributes(String currentNode) {
 		//get relations of the current node (i.e, edges that have sorceId = currentNode)
 		//But only the ones that have at least one attribute
-		//This function DOESN'T query doesn't get generalizations
+		//This function DOESN'T doesn't get generalizations
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getRelationIds.xquery");
 		xq.bindVariable("document", RESULTS_PATH + "PetriNet_extended.uml.xml");
 		xq.bindVariable("source", currentNode);
@@ -113,7 +139,7 @@ public class ImportAttributes extends OperationFunction {
 				}
 				float weight = WeightRules.weightMap.get(relType) * penalty;
 				relationAttributeName += "|" + weight;
-				importedAttributes.add(relationAttributeName);
+				importCandidateAttributes.add(relationAttributeName);
 			}
 			
 		}
@@ -132,7 +158,7 @@ public class ImportAttributes extends OperationFunction {
 			attributeName = vanillaAttributesIterator.next();
 			float weight = WeightRules.weightMap.get("attribute") * penalty;
 			attributeName += "|" + weight;
-			importedAttributes.add(attributeName);
+			importCandidateAttributes.add(attributeName);
 		}
 	}
 	
@@ -143,7 +169,7 @@ public class ImportAttributes extends OperationFunction {
 		xq.bindVariable("id", currentNode);
 		String className = xq.executeQuery().get(0);
 		className += "|" + WeightRules.weightMap.get("class") * penalty;
-		importedClassNames.add(className);
+		importCandidatesClassNames.add(className);
 	}
 	
 }
