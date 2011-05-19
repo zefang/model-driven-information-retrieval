@@ -10,6 +10,7 @@ public class WeightRules {
 	static
 	{
 		//weights for imported attributes
+		weightMap.put(null, 1.0f); //default value
 		weightMap.put("attribute", 1.0f); //vanilla attribute
 		weightMap.put("composition", 2.0f);
 		weightMap.put("association", 2.5f);
@@ -19,6 +20,7 @@ public class WeightRules {
 	static
 	{
 		//penalties for relation types during navigation
+		penaltyMap.put(null, 1.0f); //default value
 		penaltyMap.put(RelationType.COMPOSITION_COMPOSITE_COMPONENT, 0.5f);
 		penaltyMap.put(RelationType.COMPOSITION_COMPONENT_COMPOSITE, 0.5f);
 		penaltyMap.put(RelationType.ASSOCIATION, 0.5f);
