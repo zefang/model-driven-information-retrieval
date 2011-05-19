@@ -8,7 +8,7 @@ import it.polimi.mdir.xquery.XQueryWrapper;
 
 public class ImportAttributes extends OperationFunction {
 
-	public static String attributes = "";
+	public static String allAttributes = "";
 	
 	@Override
 	public void importAttributes(String currentNode, String callerNode, int numHops) {
@@ -16,13 +16,13 @@ public class ImportAttributes extends OperationFunction {
 		//Debug lines
 		
 		//get currentNode Name
-		XQueryWrapper xq = new XQueryWrapper("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/xquerytry/getClassName.xquery");
+		XQueryWrapper xq = new XQueryWrapper("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/xquery-graph/getClassName.xquery");
 		xq.bindVariable("document", "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/result/PetriNet_extended.uml.xml");
 		xq.bindVariable("id", currentNode);
 		String className = xq.executeQuery().get(0);
 		
 		//get callernode Name
-		XQueryWrapper xq2 = new XQueryWrapper("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/xquerytry/getClassName.xquery");
+		XQueryWrapper xq2 = new XQueryWrapper("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/xquery-graph/getClassName.xquery");
 		xq2.bindVariable("document", "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/result/PetriNet_extended.uml.xml");
 		xq2.bindVariable("id", callerNode);
 		String callerName = xq2.executeQuery().get(0);
@@ -39,17 +39,28 @@ public class ImportAttributes extends OperationFunction {
 		// To get the type of relationship check for the relationship that has
 		// 	source = callerNode and target = currentNode
 		//(same for attributes at number 2) )
-		XQueryWrapper xq3 = new XQueryWrapper("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/xquerytry/getVanillaAttributes.xquery");
+		XQueryWrapper xq3 = new XQueryWrapper("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/xquery-graph/getAttributes.xquery");
 		xq3.bindVariable("document", "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/result/PetriNet_extended.uml.xml");
 		xq3.bindVariable("id", currentNode);
 		ArrayList<String> vanillaAttributes = xq3.executeQuery();
 		Iterator<String> vanillaAttributesIterator = vanillaAttributes.iterator();
+		String[] attribute = new String[2];
+		String attributeName = "";
+		String attributeType = "";
+		float weight = 0;
 		while (vanillaAttributesIterator.hasNext()) {
-			attributes += vanillaAttributesIterator.next() + "|" ; //TODO mettere pesi
+			attribute = vanillaAttributesIterator.next().split("\\$");//TODO mettere pesi
+			attributeName = attribute[0];
+			attributeType = attribute[1];
+			weight = WeightRules.weightMap.get(attributeType); //get weight
+			
+			attributeName += "|" + weight;
+			
+			allAttributes += attributeName + " ";
 		}
 		
 		if (numHops == 1) {
-			System.out.println(attributes);
+			System.out.println(allAttributes);
 		}
 		
 		//2)importo attributi "importati" di "currentNode"
