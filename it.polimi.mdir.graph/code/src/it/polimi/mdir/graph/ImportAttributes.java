@@ -1,5 +1,7 @@
 package it.polimi.mdir.graph;
 
+import it.polimi.mdir.xquery.XQueryWrapper;
+
 
 public class ImportAttributes extends OperationFunction {
 
@@ -8,7 +10,12 @@ public class ImportAttributes extends OperationFunction {
 	@Override
 	public void importAttributes(String currentNode, String callerNode) {
 		
-		System.out.println("This is " + currentNode + "called from: " + callerNode);
+		XQueryWrapper xq = new XQueryWrapper("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/xquerytry/getClassName.xquery");
+		xq.bindVariable("document", "C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/result/PetriNet_extended.uml.xml");
+		xq.bindVariable("id", currentNode);
+		System.out.println(currentNode);
+		String className = xq.executeQuery().get(0);
+		System.out.println("This is " + className + " called from: " + callerNode);
 		attributes += "!";
 		System.out.println(attributes);
 		
