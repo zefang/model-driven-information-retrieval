@@ -35,7 +35,6 @@ private static int count = 0;
 				System.out.println("Start D -> " + className);
 				
 				ImportAttributes function = new ImportAttributes();
-				ImportAttributes.clear();
 				nv.visitNode(projectId, fileName+".xml", classId, 0, classId, function);
 				ArrayList<String> attributes = function.getImportedAttributes();
 				ArrayList<String> classes = function.getImportedClassNames();
@@ -53,7 +52,6 @@ private static int count = 0;
 				blackboard.getRecord(id).getMetadata().put("attributeNames", newAttributes.trim());
 				
 				blackboard.commit();
-				System.out.println("");
 				System.out.println(newAttributes);
 				System.out.println(className +": TUTTO OK");
 				System.out.println(++count);
