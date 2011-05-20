@@ -75,17 +75,12 @@ public class NavigateGraph {
 		//visit the neighbours
 		numHops += 1;
 		LinkedList<String> neighboursQueue = getNeighbours(nodeId, fileName);
-		try {
-			while (!neighboursQueue.isEmpty()) {
-				String nextNode = neighboursQueue.remove(); 
-				if (!nextNode.equals(callerNode)) {
-					visitNode(graphId, fileName, nextNode, numHops, nodeId, function.getClass().newInstance());
-				}
+		
+		while (!neighboursQueue.isEmpty()) {
+			String nextNode = neighboursQueue.remove(); 
+			if (!nextNode.equals(callerNode)) {
+				visitNode(graphId, fileName, nextNode, numHops, nodeId, function);
 			}
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
 		}
 		
 		//TODO Do ya thang here

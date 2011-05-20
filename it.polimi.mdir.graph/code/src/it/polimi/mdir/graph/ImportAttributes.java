@@ -14,13 +14,13 @@ public class ImportAttributes extends OperationFunction {
 	
 	private static final String NO_RELATION_TYPE = "none";
 	
-	private static ArrayList<ImportCandidate> importedAttributes = new ArrayList<ImportCandidate>();
-	private static ArrayList<ImportCandidate> importedClassNames = new ArrayList<ImportCandidate>();
+	private ArrayList<ImportCandidate> importedAttributes = new ArrayList<ImportCandidate>();
+	private ArrayList<ImportCandidate> importedClassNames = new ArrayList<ImportCandidate>();
 	
 	private ArrayList<ImportCandidate> importCandidateAttributes = new ArrayList<ImportCandidate>();
 	private ArrayList<ImportCandidate> importCandidatesClassNames = new ArrayList<ImportCandidate>();
 	
-	float penalty = 1.0f;
+	private float penalty = 1.0f;
 	
 	@Override
 	public void importAttributes(String currentNode, String callerNode, int numHops, String fileName) {
@@ -43,6 +43,12 @@ public class ImportAttributes extends OperationFunction {
 		
 		/*************************************/
 		//implementation begins
+		
+		//reset variables
+		penalty = 1.0f;
+		importCandidateAttributes.clear();
+		importCandidatesClassNames.clear();
+		
 		
 		//get relation type from callerNode to currentNode.
 		// It's the one that has source=callerNode and target=currentNode
@@ -87,7 +93,6 @@ public class ImportAttributes extends OperationFunction {
 			}
 		}
 		
-		
 		// Apply relation type filter to decide what of this node import in other nodes
 		// Also apply penalty of this node to attributes of the branches under this
 		if (callerRelationType.equals(RelationType.COMPOSITION_COMPONENT_COMPOSITE.toString()) 
@@ -106,23 +111,6 @@ public class ImportAttributes extends OperationFunction {
 			Iterator<ImportCandidate> itr2 = importCandidateAttributes.iterator();
 			while (itr2.hasNext()) {
 				importedAttributes.add(itr2.next());
-			}
-		}
-		
-		
-		//Print final imported attributes and classes
-		if (false && numHops == 1) {
-			Iterator<ImportCandidate> itr = importedAttributes.iterator();
-			while (itr.hasNext()) {
-				System.out.print(itr.next().getNameWeight());
-				System.out.print(" ");
-			}
-			
-			System.out.println("");
-			Iterator<ImportCandidate> itr2 = importedClassNames.iterator();
-			while (itr2.hasNext()) {
-				System.out.print(itr2.next().getNameWeight());
-				System.out.print(" ");
 			}
 		}
 		
@@ -196,12 +184,6 @@ public class ImportAttributes extends OperationFunction {
 		float weight = WeightRules.weightMap.get("class") * penalty;
 		ImportCandidate classNameCandidate = new ImportCandidate(className, weight, callerNode);
 		importCandidatesClassNames.add(classNameCandidate);
-	}
-	
-	
-	public static void clear() {
-		importedAttributes.clear();
-		importedClassNames.clear();
 	}
 	
 	public ArrayList<String> getImportedAttributes() {
