@@ -3,8 +3,8 @@ package it.polimi.mdir.text;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import it.polimi.mdir.graph.ImportAttributes;
-import it.polimi.mdir.graph.NavigateGraph;
+import it.polimi.mdir.graph.processing.ImportAttributes;
+import it.polimi.mdir.graph.processing.NavigateGraph;
 
 import org.eclipse.smila.blackboard.Blackboard;
 import org.eclipse.smila.blackboard.BlackboardAccessException;

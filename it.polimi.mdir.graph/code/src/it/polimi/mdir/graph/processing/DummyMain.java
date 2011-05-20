@@ -1,4 +1,4 @@
-package it.polimi.mdir.graph;
+package it.polimi.mdir.graph.processing;
 
 public class DummyMain {
 
