@@ -150,7 +150,7 @@ public class TranslateXMItoGraphML {
 				outputWriter.write(writer.toString());
 				outputWriter.close();
 				
-				System.out.println("Processed successfully: " + outputName);
+				System.out.println(docCount + " -> Processed successfully: " + outputName);
 			} catch (TransformerConfigurationException e) {
 				e.printStackTrace();
 			} catch (TransformerFactoryConfigurationError e) {
