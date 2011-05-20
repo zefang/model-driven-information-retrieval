@@ -16,7 +16,7 @@ public class NavigateGraph {
 	private static String XQUERY_PATH = "";
 	private static String GRAPHML_PATH = "";
 	
-	private static final String FILE_NAME = "/PetriNet_extended.uml.xml";//da usare solo per esempio
+	private static final String FILE_NAME = "PetriNet_extended.uml.xml";//da usare solo per esempio
 	
 	private static final int MAX_HOPS = 2;
 	
@@ -119,7 +119,7 @@ public class NavigateGraph {
 	 * A queue containing all the nodes ids.
 	 */
 	private LinkedList<String> getAllNodes(String filename) {
-		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "/getNodeIds.xquery");
+		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "getNodeIds.xquery");
 		xq.bindVariable("document", GRAPHML_PATH + filename);
 		ArrayList<String> nodesList = xq.executeQuery();
 		LinkedList<String> nodesQueue = new LinkedList<String>();
@@ -145,7 +145,7 @@ public class NavigateGraph {
 	 * A queue of the neighbours of the node.
 	 */
 	private static LinkedList<String> getNeighbours(String nodeId, String filename) {
-		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "/getNeighbours.xquery");
+		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "getNeighbours.xquery");
 		xq.bindVariable("document", GRAPHML_PATH + filename);
 		xq.bindVariable("nodeId", nodeId);
 		ArrayList<String> neighboursList = xq.executeQuery();
@@ -166,7 +166,7 @@ public class NavigateGraph {
 	 * The id of the graph.
 	 */
 	private String getGraphId(String filename) {
-		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "/getGraphId.xquery");
+		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "getGraphId.xquery");
 		xq.bindVariable("document", GRAPHML_PATH + filename);
 		ArrayList<String> neighboursList = xq.executeQuery();
 		return neighboursList.get(0);
