@@ -6,4 +6,4 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: it.polimi.mdir.xquery,
  org.apache.xerces.dom;version="2.9.0"
-Export-Package: it.polimi.mdir.graph
+Export-Package: it.polimi.mdir.graph.processing

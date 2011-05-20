@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Text
 Bundle-SymbolicName: it.polimi.mdir.text
 Bundle-Version: 1.0.0.qualifier
-Import-Package: it.polimi.mdir.graph,
+Import-Package: it.polimi.mdir.graph.processing,
  org.eclipse.smila.blackboard,
  org.eclipse.smila.datamodel,
  org.eclipse.smila.datamodel.filter,
