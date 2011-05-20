@@ -37,7 +37,7 @@
     <Element name="classId" />
     <Element name="attributeNames" />
     
-    <Element name="fileName" />
+    <Element name="FileName" />
   </Filter>  
   
   <Filter name="experimentC">
@@ -48,7 +48,7 @@
     <Element name="classId" />
 	<Element name="attributeNames" />
 	
-	<Element name="fileName" />    
+	<Element name="FileName" />    
   </Filter>  
   
 </RecordFilters>
