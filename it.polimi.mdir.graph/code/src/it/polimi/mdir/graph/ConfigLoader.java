@@ -23,7 +23,7 @@ public class ConfigLoader {
 			in.close();
 			
 			XQUERY_PATH = config.getProperty("XQUERY_PATH");
-			UML_PATH = config.getProperty("FILE_PATH");
+			UML_PATH = config.getProperty("UML_PATH");
 			RESULT_PATH = config.getProperty("RESULT_PATH");
 			GRAPHML_PATH = config.getProperty("GRAPHML_PATH");
 			XQUERY_GRAPH_PATH = config.getProperty("XQUERY_GRAPH_PATH");
