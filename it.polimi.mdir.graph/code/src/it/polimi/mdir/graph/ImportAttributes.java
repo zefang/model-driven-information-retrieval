@@ -70,9 +70,6 @@ public class ImportAttributes extends OperationFunction {
 		// If it is equal to the currentNode, than they come under this.
 		// We also update their callerNode so that they will be seen as childs of 
 		// this node up the tree.
-		
-		// Apply relation type filter to decide what of this node import in other nodes
-		// Also apply penalty of this node to attributes of the branches under this
 		Iterator<ImportCandidate> importedAttributesItr = importedAttributes.iterator();
 		while (importedAttributesItr.hasNext()) {
 			ImportCandidate candidate = importedAttributesItr.next();
@@ -81,7 +78,7 @@ public class ImportAttributes extends OperationFunction {
 				candidate.setCallerNode(callerNode);
 			}
 		}
-		Iterator<ImportCandidate> importedClassesItr = importedAttributes.iterator();
+		Iterator<ImportCandidate> importedClassesItr = importedClassNames.iterator();
 		while (importedClassesItr.hasNext()) {
 			ImportCandidate candidate = importedClassesItr.next();
 			if (candidate.getCallerNode().equals(currentNode)) {
@@ -91,6 +88,8 @@ public class ImportAttributes extends OperationFunction {
 		}
 		
 		
+		// Apply relation type filter to decide what of this node import in other nodes
+		// Also apply penalty of this node to attributes of the branches under this
 		if (callerRelationType.equals(RelationType.COMPOSITION_COMPONENT_COMPOSITE.toString()) 
 				|| callerRelationType.equals(RelationType.GENERALIZATION_FATHER_CHILD.toString())) {
 			//import just classNames
