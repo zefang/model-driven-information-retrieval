@@ -13,10 +13,8 @@ import it.polimi.mdir.xquery.XQueryWrapper;
 
 public class NavigateGraph {
 
-	//TODO fare classe statica di inizializzazione comune dove tenere le variabili?
-	
 	private static String XQUERY_PATH = "";
-	private static String RESULT_PATH = "";
+	private static String GRAPHML_PATH = "";
 	
 	private static final String FILE_NAME = "/PetriNet_extended.uml.xml";//da usare solo per esempio
 	
@@ -25,6 +23,9 @@ public class NavigateGraph {
 	private LinkedList<String> _nodeQueue = new LinkedList<String>();
 	private String _graphId = "";
 	
+	public NavigateGraph() {
+		initialization();
+	}
 	
 	private static void initialization() {
 		// Configuration file
@@ -41,7 +42,7 @@ public class NavigateGraph {
 		}
 		
 		XQUERY_PATH = config.getProperty("XQUERY_PATH");
-		RESULT_PATH = config.getProperty("RESULT_PATH");	
+		GRAPHML_PATH = config.getProperty("RESULT_PATH");	
 	}
 	
 	public void startNavigation() {
@@ -58,7 +59,7 @@ public class NavigateGraph {
 			// PetriNet _fvqyJeiaEd6gMtZRCjS81g
 			// Element _fvqyJuiaEd6gMtZRCjS81g
 			if (nodeId.equals("_fvqyJuiaEd6gMtZRCjS81g")) {
-				visitNode(_graphId, nodeId, 0, nodeId, new ImportAttributes());
+				visitNode(_graphId, FILE_NAME, nodeId, 0, nodeId, new ImportAttributes());
 			}
 		}
 	}
@@ -84,18 +85,18 @@ public class NavigateGraph {
 	 * Reperesent the business logic that I have to do during the visit of the node.
 	 * 
 	 */
-	public void visitNode(String graphId, String nodeId, int numHops, String callerNode, OperationFunction function) {
+	public void visitNode(String graphId, String fileName, String nodeId, int numHops, String callerNode, OperationFunction function) {
 		if (numHops > MAX_HOPS) 
 			return;
 		
 		//visit the neighbours
 		numHops += 1;
-		LinkedList<String> neighboursQueue = getNeighbours(nodeId, FILE_NAME);
+		LinkedList<String> neighboursQueue = getNeighbours(nodeId, fileName);
 		try {
 			while (!neighboursQueue.isEmpty()) {
 				String nextNode = neighboursQueue.remove(); 
 				if (!nextNode.equals(callerNode)) {
-					visitNode(graphId, nextNode, numHops, nodeId, function.getClass().newInstance());
+					visitNode(graphId, fileName, nextNode, numHops, nodeId, function.getClass().newInstance());
 				}
 			}
 		} catch (InstantiationException e) {
@@ -119,7 +120,7 @@ public class NavigateGraph {
 	 */
 	private LinkedList<String> getAllNodes(String filename) {
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "/getNodeIds.xquery");
-		xq.bindVariable("document", RESULT_PATH + filename);
+		xq.bindVariable("document", GRAPHML_PATH + filename);
 		ArrayList<String> nodesList = xq.executeQuery();
 		LinkedList<String> nodesQueue = new LinkedList<String>();
 		Iterator<String> itr = nodesList.iterator();
@@ -145,7 +146,7 @@ public class NavigateGraph {
 	 */
 	private static LinkedList<String> getNeighbours(String nodeId, String filename) {
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "/getNeighbours.xquery");
-		xq.bindVariable("document", RESULT_PATH + filename);
+		xq.bindVariable("document", GRAPHML_PATH + filename);
 		xq.bindVariable("nodeId", nodeId);
 		ArrayList<String> neighboursList = xq.executeQuery();
 		LinkedList<String> neighboursQueue = new LinkedList<String>();
@@ -166,7 +167,7 @@ public class NavigateGraph {
 	 */
 	private String getGraphId(String filename) {
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "/getGraphId.xquery");
-		xq.bindVariable("document", RESULT_PATH + filename);
+		xq.bindVariable("document", GRAPHML_PATH + filename);
 		ArrayList<String> neighboursList = xq.executeQuery();
 		return neighboursList.get(0);
 	}

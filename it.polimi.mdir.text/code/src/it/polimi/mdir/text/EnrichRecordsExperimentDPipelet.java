@@ -20,10 +20,11 @@ public class EnrichRecordsExperimentDPipelet implements Pipelet {
 			throws ProcessingException {
 		
 		NavigateGraph nv = new NavigateGraph();
+		for (String id : recordIds)  {
+			
+		}
 		
-		//System.out.println(ImportAttributes); 
-		
-		return null;
+		return recordIds;
 	}
 
 }
