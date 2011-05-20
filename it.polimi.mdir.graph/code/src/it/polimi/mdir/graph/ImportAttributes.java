@@ -26,19 +26,20 @@ public class ImportAttributes extends OperationFunction {
 	public void importAttributes(String currentNode, String callerNode, int numHops, String fileName) {
 		
 		//Debug lines
-		
-		//get currentNode Name
-		XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getClassName.xquery");
-		xq.bindVariable("document", GRAPHML_PATH + fileName);
-		xq.bindVariable("id", currentNode);
-		String className = xq.executeQuery().get(0);
-		
-		//get callernode Name
-		XQueryWrapper xq2 = new XQueryWrapper(XQUERY_GRAPH_PATH + "getClassName.xquery");
-		xq2.bindVariable("document", GRAPHML_PATH + fileName);
-		xq2.bindVariable("id", callerNode);
-		String callerName = xq2.executeQuery().get(0);
-		System.out.println("This is " + className + " called from: " + callerName);
+		if (false) {
+			//get currentNode Name
+			XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getClassName.xquery");
+			xq.bindVariable("document", GRAPHML_PATH + fileName);
+			xq.bindVariable("id", currentNode);
+			String className = xq.executeQuery().get(0);
+			
+			//get callernode Name
+			XQueryWrapper xq2 = new XQueryWrapper(XQUERY_GRAPH_PATH + "getClassName.xquery");
+			xq2.bindVariable("document", GRAPHML_PATH + fileName);
+			xq2.bindVariable("id", callerNode);
+			String callerName = xq2.executeQuery().get(0);
+			System.out.println("This is " + className + " called from: " + callerName);
+		}
 		
 		/*************************************/
 		//implementation begins
@@ -110,7 +111,7 @@ public class ImportAttributes extends OperationFunction {
 		
 		
 		//Print final imported attributes and classes
-		if (numHops == 1) {
+		if (false && numHops == 1) {
 			Iterator<ImportCandidate> itr = importedAttributes.iterator();
 			while (itr.hasNext()) {
 				System.out.print(itr.next().getNameWeight());
