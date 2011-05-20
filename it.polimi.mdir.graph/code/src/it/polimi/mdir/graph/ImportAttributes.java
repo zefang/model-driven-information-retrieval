@@ -14,11 +14,11 @@ public class ImportAttributes extends OperationFunction {
 	
 	private static final String NO_RELATION_TYPE = "none";
 	
-	private static ArrayList<String> importedAttributes = new ArrayList<String>();
-	private static ArrayList<String> importedClassNames = new ArrayList<String>();
+	private static ArrayList<ImportCandidate> importedAttributes = new ArrayList<ImportCandidate>();
+	private static ArrayList<ImportCandidate> importedClassNames = new ArrayList<ImportCandidate>();
 	
-	private ArrayList<String> importCandidateAttributes = new ArrayList<String>();
-	private ArrayList<String> importCandidatesClassNames = new ArrayList<String>();
+	private ArrayList<ImportCandidate> importCandidateAttributes = new ArrayList<ImportCandidate>();
+	private ArrayList<ImportCandidate> importCandidatesClassNames = new ArrayList<ImportCandidate>();
 	
 	float penalty = 1.0f;
 	
@@ -58,33 +58,53 @@ public class ImportAttributes extends OperationFunction {
 		}
 		
 		//These are of the current Node
-		getClassName(currentNode);
-		getVanillaAttributes(currentNode);
-		getRelationAttributes(currentNode);
+		getClassName(currentNode, callerNode);
+		getVanillaAttributes(currentNode, callerNode);
+		getRelationAttributes(currentNode, callerNode);
 		
-		//penalty of this callerNode->currentNode relation has already been applied
+		// penalty of this callerNode->currentNode relation has already been applied
 		// to attributes (vanilla and imported) of this node.
-		//TODO apply this penalty also to the attributes coming from nodes under this branch.
-		//They are already in the imported attributes. Ma come facciamo a distinguere 
-		// quelli che provengono da questo branch e quali invece di un altro,
-		// a cui quindi non va applicata la penalty di questo?
+		// Apply this penalty also to the attributes coming from nodes under this branch.
+		// They are already in the imported attributes. 
+		// To distinguish these nodes, we look at their callerNode.
+		// If it is equal to the currentNode, than they come under this.
+		// We also update their callerNode so that they will be seen as childs of 
+		// this node up the tree.
 		
-		// Apply relation type filter to decide what of this node
-		// import in other nodes
+		// Apply relation type filter to decide what of this node import in other nodes
+		// Also apply penalty of this node to attributes of the branches under this
+		Iterator<ImportCandidate> importedAttributesItr = importedAttributes.iterator();
+		while (importedAttributesItr.hasNext()) {
+			ImportCandidate candidate = importedAttributesItr.next();
+			if (candidate.getCallerNode().equals(currentNode)) {
+				candidate.setWeight( candidate.getWeight() * penalty );
+				candidate.setCallerNode(callerNode);
+			}
+		}
+		Iterator<ImportCandidate> importedClassesItr = importedAttributes.iterator();
+		while (importedClassesItr.hasNext()) {
+			ImportCandidate candidate = importedClassesItr.next();
+			if (candidate.getCallerNode().equals(currentNode)) {
+				candidate.setWeight( candidate.getWeight() * penalty );
+				candidate.setCallerNode(callerNode);
+			}
+		}
+		
+		
 		if (callerRelationType.equals(RelationType.COMPOSITION_COMPONENT_COMPOSITE.toString()) 
 				|| callerRelationType.equals(RelationType.GENERALIZATION_FATHER_CHILD.toString())) {
 			//import just classNames
-			Iterator<String> itr = importCandidatesClassNames.iterator();
+			Iterator<ImportCandidate> itr = importCandidatesClassNames.iterator();
 			while (itr.hasNext()) {
 				importedClassNames.add(itr.next());
 			}
 		} else {
 			//import everything
-			Iterator<String> itr = importCandidatesClassNames.iterator();
+			Iterator<ImportCandidate> itr = importCandidatesClassNames.iterator();
 			while (itr.hasNext()) {
 				importedClassNames.add(itr.next());
 			}
-			Iterator<String> itr2 = importCandidateAttributes.iterator();
+			Iterator<ImportCandidate> itr2 = importCandidateAttributes.iterator();
 			while (itr2.hasNext()) {
 				importedAttributes.add(itr2.next());
 			}
@@ -93,16 +113,16 @@ public class ImportAttributes extends OperationFunction {
 		
 		//Print final imported attributes and classes
 		if (numHops == 1) {
-			Iterator<String> itr = importedAttributes.iterator();
+			Iterator<ImportCandidate> itr = importedAttributes.iterator();
 			while (itr.hasNext()) {
-				System.out.print(itr.next());
+				System.out.print(itr.next().getNameWeight());
 				System.out.print(" ");
 			}
 			
 			System.out.println("");
-			Iterator<String> itr2 = importedClassNames.iterator();
+			Iterator<ImportCandidate> itr2 = importedClassNames.iterator();
 			while (itr2.hasNext()) {
-				System.out.print(itr2.next());
+				System.out.print(itr2.next().getNameWeight());
 				System.out.print(" ");
 			}
 		}
@@ -113,7 +133,7 @@ public class ImportAttributes extends OperationFunction {
 	}
 	
 	
-	private void getRelationAttributes(String currentNode) {
+	private void getRelationAttributes(String currentNode, String callerNode) {
 		//get relations of the current node (i.e, edges that have sorceId = currentNode)
 		//But only the ones that have at least one attribute
 		//This function DOESN'T doesn't get generalizations
@@ -144,8 +164,8 @@ public class ImportAttributes extends OperationFunction {
 					relType = "association";
 				}
 				float weight = WeightRules.weightMap.get(relType) * penalty;
-				relationAttributeName += "|" + weight;
-				importCandidateAttributes.add(relationAttributeName);
+				ImportCandidate relationAttributeCandidate = new ImportCandidate(relationAttributeName, weight, callerNode);
+				importCandidateAttributes.add(relationAttributeCandidate);
 			}
 			
 		}
@@ -153,7 +173,7 @@ public class ImportAttributes extends OperationFunction {
 
 
 	//Importo attributi vanilla da "currentNode". 
-	private void getVanillaAttributes(String currentNode) {
+	private void getVanillaAttributes(String currentNode, String callerNode) {
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getVanillaAttributes.xquery");
 		xq.bindVariable("document", RESULTS_PATH + "PetriNet_extended.uml.xml");
 		xq.bindVariable("id", currentNode);
@@ -163,19 +183,20 @@ public class ImportAttributes extends OperationFunction {
 		while (vanillaAttributesIterator.hasNext()) {
 			attributeName = vanillaAttributesIterator.next();
 			float weight = WeightRules.weightMap.get("attribute") * penalty;
-			attributeName += "|" + weight;
-			importCandidateAttributes.add(attributeName);
+			ImportCandidate attributeCandidate = new ImportCandidate(attributeName, weight, callerNode);
+			importCandidateAttributes.add(attributeCandidate);
 		}
 	}
 	
 	//get className of the current node
-	private void getClassName(String currentNode) {
+	private void getClassName(String currentNode, String callerNode) {
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getClassName.xquery");
 		xq.bindVariable("document", RESULTS_PATH + "PetriNet_extended.uml.xml");
 		xq.bindVariable("id", currentNode);
 		String className = xq.executeQuery().get(0);
-		className += "|" + WeightRules.weightMap.get("class") * penalty;
-		importCandidatesClassNames.add(className);
+		float weight = WeightRules.weightMap.get("class") * penalty;
+		ImportCandidate classNameCandidate = new ImportCandidate(className, weight, callerNode);
+		importCandidatesClassNames.add(classNameCandidate);
 	}
 	
 }
