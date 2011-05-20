@@ -14,7 +14,7 @@ public class NavigateGraph {
 	
 	private static final String FILE_NAME = "PetriNet_extended.uml.xml";//da usare solo per esempio
 	
-	private static final int MAX_HOPS = 2;
+	private static final int MAX_HOPS = 1;
 	
 	private LinkedList<String> _nodeQueue = new LinkedList<String>();
 	private String _graphId = "";
