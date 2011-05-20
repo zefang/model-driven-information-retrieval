@@ -36,8 +36,8 @@ import javax.xml.bind.annotation.XmlType;
 public enum FileAttributesType {
 	
 	
-	@XmlEnumValue("FileName")
-	FILENAME("FileName"),
+	@XmlEnumValue("fileName")
+	FILENAME("fileName"),
 	@XmlEnumValue("Path")
 	PATH("Path"),
     @XmlEnumValue("projectId")
