@@ -23,23 +23,22 @@ public class ImportAttributes extends OperationFunction {
 	float penalty = 1.0f;
 	
 	@Override
-	public void importAttributes(String currentNode, String callerNode, int numHops) {
+	public void importAttributes(String currentNode, String callerNode, int numHops, String fileName) {
 		
 		//Debug lines
 		
 		//get currentNode Name
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getClassName.xquery");
-		xq.bindVariable("document", RESULTS_PATH + "PetriNet_extended.uml.xml");
+		xq.bindVariable("document", RESULTS_PATH + fileName);
 		xq.bindVariable("id", currentNode);
 		String className = xq.executeQuery().get(0);
 		
 		//get callernode Name
 		XQueryWrapper xq2 = new XQueryWrapper(XQUERY_GRAPH_PATH + "getClassName.xquery");
-		xq2.bindVariable("document", RESULTS_PATH + "PetriNet_extended.uml.xml");
+		xq2.bindVariable("document", RESULTS_PATH + fileName);
 		xq2.bindVariable("id", callerNode);
 		String callerName = xq2.executeQuery().get(0);
 		System.out.println("This is " + className + " called from: " + callerName);
-		
 		
 		/*************************************/
 		//implementation begins
@@ -50,7 +49,7 @@ public class ImportAttributes extends OperationFunction {
 		String callerRelationType = NO_RELATION_TYPE;
 		if (!callerNode.equals(currentNode)) {
 			XQueryWrapper xq3 = new XQueryWrapper(XQUERY_GRAPH_PATH + "getCallerRelationType.xquery");
-			xq3.bindVariable("document", RESULTS_PATH + "PetriNet_extended.uml.xml");
+			xq3.bindVariable("document", RESULTS_PATH + fileName);
 			xq3.bindVariable("source", callerNode);
 			xq3.bindVariable("target", currentNode);
 			callerRelationType = xq3.executeQuery().get(0);
@@ -58,9 +57,9 @@ public class ImportAttributes extends OperationFunction {
 		}
 		
 		//These are of the current Node
-		getClassName(currentNode, callerNode);
-		getVanillaAttributes(currentNode, callerNode);
-		getRelationAttributes(currentNode, callerNode);
+		getClassName(currentNode, callerNode, fileName);
+		getVanillaAttributes(currentNode, callerNode, fileName);
+		getRelationAttributes(currentNode, callerNode, fileName);
 		
 		// penalty of this callerNode->currentNode relation has already been applied
 		// to attributes (vanilla and imported) of this node.
@@ -132,12 +131,12 @@ public class ImportAttributes extends OperationFunction {
 	}
 	
 	
-	private void getRelationAttributes(String currentNode, String callerNode) {
+	private void getRelationAttributes(String currentNode, String callerNode, String fileName) {
 		//get relations of the current node (i.e, edges that have sorceId = currentNode)
 		//But only the ones that have at least one attribute
 		//This function DOESN'T doesn't get generalizations
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getRelationIds.xquery");
-		xq.bindVariable("document", RESULTS_PATH + "PetriNet_extended.uml.xml");
+		xq.bindVariable("document", RESULTS_PATH + fileName);
 		xq.bindVariable("source", currentNode);
 		ArrayList<String> relationIdsList = xq.executeQuery();
 		Iterator<String> relationIdsIterator = relationIdsList.iterator();
@@ -145,7 +144,7 @@ public class ImportAttributes extends OperationFunction {
 			//for every relation, given the relation id, we extract its attributes
 			//they get returned in the format attributeName$relationType
 			XQueryWrapper xq2 = new XQueryWrapper(XQUERY_GRAPH_PATH + "getRelationAttributes.xquery");
-			xq2.bindVariable("document", RESULTS_PATH + "PetriNet_extended.uml.xml");
+			xq2.bindVariable("document", RESULTS_PATH + fileName);
 			xq2.bindVariable("relationId", relationIdsIterator.next());
 			ArrayList<String> relationAttributesList = xq2.executeQuery();
 			Iterator<String> relationAttributesIterator = relationAttributesList.iterator();
@@ -172,9 +171,9 @@ public class ImportAttributes extends OperationFunction {
 
 
 	//Importo attributi vanilla da "currentNode". 
-	private void getVanillaAttributes(String currentNode, String callerNode) {
+	private void getVanillaAttributes(String currentNode, String callerNode, String fileName) {
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getVanillaAttributes.xquery");
-		xq.bindVariable("document", RESULTS_PATH + "PetriNet_extended.uml.xml");
+		xq.bindVariable("document", RESULTS_PATH + fileName);
 		xq.bindVariable("id", currentNode);
 		ArrayList<String> vanillaAttributes = xq.executeQuery();
 		Iterator<String> vanillaAttributesIterator = vanillaAttributes.iterator();
@@ -188,9 +187,9 @@ public class ImportAttributes extends OperationFunction {
 	}
 	
 	//get className of the current node
-	private void getClassName(String currentNode, String callerNode) {
+	private void getClassName(String currentNode, String callerNode, String fileName) {
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getClassName.xquery");
-		xq.bindVariable("document", RESULTS_PATH + "PetriNet_extended.uml.xml");
+		xq.bindVariable("document", RESULTS_PATH + fileName);
 		xq.bindVariable("id", currentNode);
 		String className = xq.executeQuery().get(0);
 		float weight = WeightRules.weightMap.get("class") * penalty;

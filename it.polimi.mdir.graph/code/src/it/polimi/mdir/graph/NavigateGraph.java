@@ -32,7 +32,8 @@ public class NavigateGraph {
 		Properties config = new Properties();
 		FileInputStream in;
 		try {
-			in = new FileInputStream("configuration.properties");
+			in = new FileInputStream("configuration.properties"); //TODO questa line lancia un errore, usare absolute path
+			//in = new FileInputStream("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/configuration.properties");
 			config.load(in);
 			in.close();
 		} catch (FileNotFoundException e) {
@@ -106,7 +107,7 @@ public class NavigateGraph {
 		}
 		
 		//TODO Do ya thang here
-		function.importAttributes(nodeId, callerNode, numHops);
+		function.importAttributes(nodeId, callerNode, numHops, fileName);
 	}
 	
 	/**
@@ -144,9 +145,9 @@ public class NavigateGraph {
 	 * @return
 	 * A queue of the neighbours of the node.
 	 */
-	private static LinkedList<String> getNeighbours(String nodeId, String filename) {
+	private static LinkedList<String> getNeighbours(String nodeId, String fileName) {
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "getNeighbours.xquery");
-		xq.bindVariable("document", GRAPHML_PATH + filename);
+		xq.bindVariable("document", GRAPHML_PATH + fileName);
 		xq.bindVariable("nodeId", nodeId);
 		ArrayList<String> neighboursList = xq.executeQuery();
 		LinkedList<String> neighboursQueue = new LinkedList<String>();
@@ -165,9 +166,9 @@ public class NavigateGraph {
 	 * @return
 	 * The id of the graph.
 	 */
-	private String getGraphId(String filename) {
+	private String getGraphId(String fileName) {
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "getGraphId.xquery");
-		xq.bindVariable("document", GRAPHML_PATH + filename);
+		xq.bindVariable("document", GRAPHML_PATH + fileName);
 		ArrayList<String> neighboursList = xq.executeQuery();
 		return neighboursList.get(0);
 	}
