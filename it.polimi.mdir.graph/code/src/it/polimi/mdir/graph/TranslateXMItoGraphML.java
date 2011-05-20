@@ -2,13 +2,11 @@ package it.polimi.mdir.graph;
 
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Properties;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -42,16 +40,9 @@ public class TranslateXMItoGraphML {
 	}
 	
 	private static void initialization() throws IOException {
-		
-		// Configuration file
-		Properties config = new Properties();
-		FileInputStream in = new FileInputStream("configuration.properties");
-		config.load(in);
-		in.close();
-
-		XQUERY_PATH = config.getProperty("XQUERY_PATH");
-		FILE_PATH = config.getProperty("FILE_PATH");
-		RESULT_PATH = config.getProperty("RESULT_PATH");
+		XQUERY_PATH = ConfigLoader.XQUERY_PATH;
+		FILE_PATH = ConfigLoader.FILE_PATH;
+		RESULT_PATH = ConfigLoader.RESULT_PATH;
 	}
 	
 	public static void main(String[] args) throws IOException {

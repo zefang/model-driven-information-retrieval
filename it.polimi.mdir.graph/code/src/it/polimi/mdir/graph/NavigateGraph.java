@@ -1,12 +1,8 @@
 package it.polimi.mdir.graph;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Properties;
 
 import it.polimi.mdir.xquery.XQueryWrapper;
 
@@ -28,22 +24,8 @@ public class NavigateGraph {
 	}
 	
 	private static void initialization() {
-		// Configuration file
-		Properties config = new Properties();
-		FileInputStream in;
-		try {
-			in = new FileInputStream("configuration.properties"); //TODO questa line lancia un errore, usare absolute path
-			//in = new FileInputStream("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/configuration.properties");
-			config.load(in);
-			in.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		XQUERY_PATH = config.getProperty("XQUERY_PATH");
-		GRAPHML_PATH = config.getProperty("RESULT_PATH");	
+		XQUERY_PATH = ConfigLoader.XQUERY_PATH;
+		GRAPHML_PATH = ConfigLoader.GRAPHML_PATH;
 	}
 	
 	public void startNavigation() {
