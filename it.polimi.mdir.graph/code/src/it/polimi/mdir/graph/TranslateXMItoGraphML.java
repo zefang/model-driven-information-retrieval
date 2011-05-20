@@ -86,8 +86,8 @@ public class TranslateXMItoGraphML {
 				
 			//Get Project (Model) Id and Project (Model) Name (format: projectId$projectName)
 			ArrayList<String> projectIdAndName = new ArrayList<String>(); 
-			XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "/getProjectIdAndName.xquery");
-			xq.bindVariable("document", FILE_PATH + "/" + currentDoc);
+			XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "getProjectIdAndName.xquery");
+			xq.bindVariable("document", FILE_PATH + currentDoc);
 			projectIdAndName = xq.executeQuery();		
 			String projectIdAndNameString  = projectIdAndName.get(0);
 			String projectId = projectIdAndNameString.split("\\$")[0];
@@ -103,8 +103,8 @@ public class TranslateXMItoGraphML {
 			
 			//Get Ids and Names the classes (format: classId$className)
 			ArrayList<String> classList = new ArrayList<String>(); 
-			XQueryWrapper xq1 = new XQueryWrapper(XQUERY_PATH + "/getClassIdsNames.xquery");
-			xq1.bindVariable("document", FILE_PATH + "/" + currentDoc);
+			XQueryWrapper xq1 = new XQueryWrapper(XQUERY_PATH + "getClassIdsNames.xquery");
+			xq1.bindVariable("document", FILE_PATH + currentDoc);
 			classList = xq1.executeQuery();
 			String classId = "";
 			String className = "";	
@@ -124,8 +124,8 @@ public class TranslateXMItoGraphML {
 				// Adding vanilla attributes to node they get returned in the format attributeName$'attribute'.
 				//It may sound useless to add the attribute type now since I'm retrieving just the vanilla but
 				// trust me, it's not.
-				XQueryWrapper xq2 = new XQueryWrapper(XQUERY_PATH + "/getVanillaAttributes.xquery");
-				xq2.bindVariable("document", FILE_PATH + "/" + currentDoc);
+				XQueryWrapper xq2 = new XQueryWrapper(XQUERY_PATH + "getVanillaAttributes.xquery");
+				xq2.bindVariable("document", FILE_PATH + currentDoc);
 				xq2.bindVariable("classId", classId);
 				ArrayList<String> attrList = xq2.executeQuery();
 				
@@ -161,7 +161,7 @@ public class TranslateXMItoGraphML {
 				DOMSource source = new DOMSource(graphml);
 				transformer.transform(source, result);
 				
-				File resultFile = new File(RESULT_PATH + "/" + currentDoc + ".xml");
+				File resultFile = new File(RESULT_PATH + currentDoc + ".xml");
 				FileWriter outputWriter = new FileWriter(resultFile);
 				outputWriter.write(writer.toString());
 				outputWriter.close();
@@ -195,24 +195,24 @@ public class TranslateXMItoGraphML {
 		String relationType = "";
 		String oppositeRelationType = "";
 		if ("composition".equals(relation)) {
-			xquery = "/getCompositions.xquery";
+			xquery = "getCompositions.xquery";
 			relationType = RelationType.COMPOSITION_COMPOSITE_COMPONENT.toString();
 			oppositeRelationType = RelationType.COMPOSITION_COMPONENT_COMPOSITE.toString();
 		} else
 		if ("association".equals(relation)) {
-			xquery = "/getAssociations.xquery";
+			xquery = "getAssociations.xquery";
 			relationType = RelationType.ASSOCIATION.toString();
 			oppositeRelationType = RelationType.ASSOCIATION.toString();
 		} else
 		if ("generalization".equals(relation)) {
-			xquery = "/getGeneralizations.xquery";
+			xquery = "getGeneralizations.xquery";
 			relationType = RelationType.GENERALIZATION_CHILD_FATHER.toString();
 			oppositeRelationType = RelationType.GENERALIZATION_FATHER_CHILD.toString();
 		}		
 		
 		ArrayList<String> relationList = new ArrayList<String>(); 
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + xquery);
-		xq.bindVariable("document", FILE_PATH + "/" + currentDoc);
+		xq.bindVariable("document", FILE_PATH + currentDoc);
 		relationList = xq.executeQuery();
 		
 		Iterator<String> relationIterator = relationList.iterator();
@@ -229,8 +229,8 @@ public class TranslateXMItoGraphML {
 				relType.appendChild(document.createTextNode(relationType));
 			edge.appendChild(relType);
 			//get attributes of that relation
-			XQueryWrapper xq2 = new XQueryWrapper(XQUERY_PATH + "/getRelationAttributes.xquery");
-			xq2.bindVariable("document", FILE_PATH + "/" + currentDoc);
+			XQueryWrapper xq2 = new XQueryWrapper(XQUERY_PATH + "getRelationAttributes.xquery");
+			xq2.bindVariable("document", FILE_PATH + currentDoc);
 			xq2.bindVariable("relationId", relationId);
 			ArrayList<String> relationAttributesList = xq2.executeQuery();
 			Iterator<String> itr = relationAttributesList.iterator();
