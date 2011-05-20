@@ -198,4 +198,28 @@ public class ImportAttributes extends OperationFunction {
 		importCandidatesClassNames.add(classNameCandidate);
 	}
 	
+	
+	public static void clear() {
+		importedAttributes.clear();
+		importedClassNames.clear();
+	}
+	
+	public ArrayList<String> getImportedAttributes() {
+		ArrayList<String> importedAtt = new ArrayList<String>();
+		Iterator<ImportCandidate> importedAttItr = importedAttributes.iterator();
+		while (importedAttItr.hasNext()) {
+			importedAtt.add(importedAttItr.next().getNameWeight());
+		}
+		return importedAtt;
+	}
+	
+	public ArrayList<String> getImportedClassNames() {
+		ArrayList<String> importedClasses = new ArrayList<String>();
+		Iterator<ImportCandidate> importedClassesItr = importedClassNames.iterator();
+		while (importedClassesItr.hasNext()) {
+			importedClasses.add(importedClassesItr.next().getNameWeight());
+		}
+		return importedClasses;
+	}
+	
 }
