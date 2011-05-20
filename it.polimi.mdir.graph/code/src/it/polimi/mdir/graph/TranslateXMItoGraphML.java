@@ -52,8 +52,6 @@ public class TranslateXMItoGraphML {
 		XQUERY_PATH = config.getProperty("XQUERY_PATH");
 		FILE_PATH = config.getProperty("FILE_PATH");
 		RESULT_PATH = config.getProperty("RESULT_PATH");
-		
-		
 	}
 	
 	public static void main(String[] args) throws IOException {
@@ -61,18 +59,12 @@ public class TranslateXMItoGraphML {
 		initialization();
 		
 		File f = new File(FILE_PATH);
-		nDocs = f.listFiles().length;
-		File[] files = f.listFiles();
+		File[] files = f.listFiles(new UmlFileFilter());
+		nDocs = files.length;
 		
         for (int docCount=0; docCount<nDocs; docCount++) {      	
-        	
+
         	currentFile = files[docCount];
-        	                  
-        	if (!currentFile.isFile()) { 		
-        		docCount++;
-        		currentFile = files[docCount];
-        	}
-        	
         	currentDoc = currentFile.getName();
 			
 			final DOMImplementation impl = DOMImplementationImpl.getDOMImplementation();
@@ -161,10 +153,13 @@ public class TranslateXMItoGraphML {
 				DOMSource source = new DOMSource(graphml);
 				transformer.transform(source, result);
 				
-				File resultFile = new File(RESULT_PATH + currentDoc + ".xml");
+				String outputName = RESULT_PATH + currentDoc + ".xml";
+				File resultFile = new File(outputName);
 				FileWriter outputWriter = new FileWriter(resultFile);
 				outputWriter.write(writer.toString());
 				outputWriter.close();
+				
+				System.out.println("Processed successfully: " + outputName);
 			} catch (TransformerConfigurationException e) {
 				e.printStackTrace();
 			} catch (TransformerFactoryConfigurationError e) {
@@ -254,6 +249,5 @@ public class TranslateXMItoGraphML {
 			
 		}
 	}
-	
 	
 }

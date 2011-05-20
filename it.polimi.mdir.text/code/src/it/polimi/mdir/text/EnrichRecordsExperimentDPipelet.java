@@ -17,7 +17,7 @@ public class EnrichRecordsExperimentDPipelet implements Pipelet {
 	public void configure(AnyMap configuration) throws ProcessingException {
 		
 	}
-
+private static int count = 0;
 	@Override
 	public String[] process(Blackboard blackboard, String[] recordIds)
 			throws ProcessingException {
@@ -26,16 +26,19 @@ public class EnrichRecordsExperimentDPipelet implements Pipelet {
 		for (String id : recordIds)  {
 			try {
 				String projectId = blackboard.getRecord(id).getMetadata().getStringValue("projectId");
+				String className = blackboard.getRecord(id).getMetadata().getStringValue("className");
 				String classId = blackboard.getRecord(id).getMetadata().getStringValue("classId");
-				String fileName = blackboard.getRecord(id).getMetadata().getStringValue("fileName");
+				String fileName = blackboard.getRecord(id).getMetadata().getStringValue("FileName");
 				
-				
+				System.out.println(fileName);
 				ImportAttributes function = new ImportAttributes();
 				ImportAttributes.clear();
-				nv.visitNode(projectId, fileName, classId, 0, classId, function);
+				nv.visitNode(projectId, fileName+".xml", classId, 0, classId, function);
 				ArrayList<String> attributes = function.getImportedAttributes();
 				ArrayList<String> classes = function.getImportedClassNames();
-				System.out.println("Tutto ok");
+				System.out.println("");
+				System.out.println(className +"TUTTO OK");
+				System.out.println(++count);
 				
 			} catch (BlackboardAccessException e) {
 				e.printStackTrace();
