@@ -8,7 +8,7 @@ import java.util.Properties;
 public class ConfigLoader {
 
 	public static String XQUERY_PATH = "";
-	public static String FILE_PATH = "";
+	public static String UML_PATH = "";
 	public static String RESULT_PATH = "";
 	public static String GRAPHML_PATH = "";
 	public static String XQUERY_GRAPH_PATH = "";
@@ -23,7 +23,7 @@ public class ConfigLoader {
 			in.close();
 			
 			XQUERY_PATH = config.getProperty("XQUERY_PATH");
-			FILE_PATH = config.getProperty("FILE_PATH");
+			UML_PATH = config.getProperty("FILE_PATH");
 			RESULT_PATH = config.getProperty("RESULT_PATH");
 			GRAPHML_PATH = config.getProperty("GRAPHML_PATH");
 			XQUERY_GRAPH_PATH = config.getProperty("XQUERY_GRAPH_PATH");

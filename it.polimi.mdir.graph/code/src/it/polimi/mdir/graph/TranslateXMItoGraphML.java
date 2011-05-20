@@ -27,7 +27,7 @@ import org.w3c.dom.Element;
 public class TranslateXMItoGraphML {
 	
 	private static String XQUERY_PATH = "";
-	private static String FILE_PATH = "";
+	private static String UML_PATH = "";
 	private static String RESULT_PATH = "";
 	private static int	  nDocs;
 	private static File	  currentFile;
@@ -41,7 +41,7 @@ public class TranslateXMItoGraphML {
 	
 	private static void initialization() throws IOException {
 		XQUERY_PATH = ConfigLoader.XQUERY_PATH;
-		FILE_PATH = ConfigLoader.FILE_PATH;
+		UML_PATH = ConfigLoader.UML_PATH;
 		RESULT_PATH = ConfigLoader.RESULT_PATH;
 	}
 	
@@ -49,7 +49,7 @@ public class TranslateXMItoGraphML {
 		
 		initialization();
 		
-		File f = new File(FILE_PATH);
+		File f = new File(UML_PATH);
 		File[] files = f.listFiles(new UmlFileFilter());
 		nDocs = files.length;
 		
@@ -70,7 +70,7 @@ public class TranslateXMItoGraphML {
 			//Get Project (Model) Id and Project (Model) Name (format: projectId$projectName)
 			ArrayList<String> projectIdAndName = new ArrayList<String>(); 
 			XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "getProjectIdAndName.xquery");
-			xq.bindVariable("document", FILE_PATH + currentDoc);
+			xq.bindVariable("document", UML_PATH + currentDoc);
 			projectIdAndName = xq.executeQuery();		
 			String projectIdAndNameString  = projectIdAndName.get(0);
 			String projectId = projectIdAndNameString.split("\\$")[0];
@@ -87,7 +87,7 @@ public class TranslateXMItoGraphML {
 			//Get Ids and Names the classes (format: classId$className)
 			ArrayList<String> classList = new ArrayList<String>(); 
 			XQueryWrapper xq1 = new XQueryWrapper(XQUERY_PATH + "getClassIdsNames.xquery");
-			xq1.bindVariable("document", FILE_PATH + currentDoc);
+			xq1.bindVariable("document", UML_PATH + currentDoc);
 			classList = xq1.executeQuery();
 			String classId = "";
 			String className = "";	
@@ -108,7 +108,7 @@ public class TranslateXMItoGraphML {
 				//It may sound useless to add the attribute type now since I'm retrieving just the vanilla but
 				// trust me, it's not.
 				XQueryWrapper xq2 = new XQueryWrapper(XQUERY_PATH + "getVanillaAttributes.xquery");
-				xq2.bindVariable("document", FILE_PATH + currentDoc);
+				xq2.bindVariable("document", UML_PATH + currentDoc);
 				xq2.bindVariable("classId", classId);
 				ArrayList<String> attrList = xq2.executeQuery();
 				
@@ -198,7 +198,7 @@ public class TranslateXMItoGraphML {
 		
 		ArrayList<String> relationList = new ArrayList<String>(); 
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + xquery);
-		xq.bindVariable("document", FILE_PATH + currentDoc);
+		xq.bindVariable("document", UML_PATH + currentDoc);
 		relationList = xq.executeQuery();
 		
 		Iterator<String> relationIterator = relationList.iterator();
@@ -216,7 +216,7 @@ public class TranslateXMItoGraphML {
 			edge.appendChild(relType);
 			//get attributes of that relation
 			XQueryWrapper xq2 = new XQueryWrapper(XQUERY_PATH + "getRelationAttributes.xquery");
-			xq2.bindVariable("document", FILE_PATH + currentDoc);
+			xq2.bindVariable("document", UML_PATH + currentDoc);
 			xq2.bindVariable("relationId", relationId);
 			ArrayList<String> relationAttributesList = xq2.executeQuery();
 			Iterator<String> itr = relationAttributesList.iterator();
