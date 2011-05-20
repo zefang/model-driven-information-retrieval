@@ -32,7 +32,7 @@ private static int count = 0;
 				String classId = blackboard.getRecord(id).getMetadata().getStringValue("classId");
 				String fileName = blackboard.getRecord(id).getMetadata().getStringValue("FileName");
 				
-				System.out.println("Start D -> " + className);
+				System.out.println("Start D " +  ++count + " -> " + className);
 				
 				ImportAttributes function = new ImportAttributes();
 				nv.visitNode(projectId, fileName+".xml", classId, 0, classId, function);
@@ -54,7 +54,7 @@ private static int count = 0;
 				blackboard.commit();
 				System.out.println(newAttributes);
 				System.out.println(className +": TUTTO OK");
-				System.out.println(++count);
+				System.out.println("END: " + count);
 				System.out.println("");
 				
 			} catch (BlackboardAccessException e) {

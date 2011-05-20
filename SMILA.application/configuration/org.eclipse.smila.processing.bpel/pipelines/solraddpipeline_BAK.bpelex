@@ -270,6 +270,6 @@
   </extensions>
   <extensions>
     <extendedObject href="solraddpipeline_BAK.bpel#/"/>
-    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1305892084618"/>
+    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1305917510255"/>
   </extensions>
 </extensionmodel:ExtensionMap>
