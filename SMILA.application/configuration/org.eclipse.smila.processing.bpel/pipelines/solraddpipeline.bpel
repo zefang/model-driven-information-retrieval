@@ -35,7 +35,17 @@
       operation="process" variable="request" createInstance="yes" />
 	
         
-        <bpel:sequence><extensionActivity>
+        <bpel:sequence>
+            <bpel:extensionActivity>
+				<proc:invokePipelet name="invokeCreateGraph">
+					<proc:pipelet class="it.polimi.mdir.graph.pipelet.CreateGraphPipelet"></proc:pipelet>
+					<proc:variables input="request"></proc:variables>
+					<proc:configuration></proc:configuration>
+				</proc:invokePipelet>
+			</bpel:extensionActivity>
+			
+			<!--
+						<extensionActivity>
                         	<proc:invokePipelet name="invokeEnrichRecordsExperimentCPipelet">
 		        				<proc:pipelet class="it.polimi.mdir.text.EnrichRecordsExperimentCPipelet" />
 		        				<proc:variables input="request" />     
@@ -78,9 +88,11 @@
                     		</proc:invokePipelet>
                         </extensionActivity>
                      
+                      -->
+                     
         </bpel:sequence>
         
-        
+       
  
 <!--
 
