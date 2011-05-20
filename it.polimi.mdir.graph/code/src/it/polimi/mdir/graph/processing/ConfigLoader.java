@@ -1,4 +1,4 @@
-package it.polimi.mdir.graph;
+package it.polimi.mdir.graph.processing;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

@@ -1,6 +1,6 @@
-package it.polimi.mdir.graph;
+package it.polimi.mdir.graph.processing;
 
-import it.polimi.mdir.graph.TranslateXMItoGraphML.RelationType;
+import it.polimi.mdir.graph.processing.TranslateXMItoGraphML.RelationType;
 
 import java.util.HashMap;
 
