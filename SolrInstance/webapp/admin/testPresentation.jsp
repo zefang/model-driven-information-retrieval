@@ -118,10 +118,7 @@ in.close();
 
 String XQUERY_PATH = xqueryConfig.getProperty("DIR");
 
-
-XQueryWrapper xqA;
-XQueryWrapper xqB;
-XQueryWrapper xqC;
+String[] experiments = new String[]{"A", "B", "C", "D"};
 
 ArrayList<String> resultList = new ArrayList<String>();
 String projectId = "";
@@ -130,22 +127,22 @@ String classId = "";
 String className = "";
 String score = "";
 
-xqA = new XQueryWrapper(XQUERY_PATH.concat("/testPresentation.xquery"));
-xqA.bindVariable("document", "resultA.xml");
-resultList = xqA.executeQuery();
-
 %>
 
 <table>
    <tr>
    
 <%
-
+for (String experiment : experiments) {
+	resultList.clear();
+	XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH.concat("/testPresentation.xquery"));
+	xq.bindVariable("document", "result"+experiment+".xml");
+	resultList = xq.executeQuery();
 %>   
-   <!-- EXPERIMENT A -->
+   <!-- EXPERIMENT <%=experiment %> -->
       <td>
-<table id="tableA">
-   <caption>EXPERIMENT A</caption>
+<table id="table<%=experiment %>">
+   <caption>EXPERIMENT <%=experiment %></caption>
    <thead>
 		<tr>
   		<th>Ranking</th>
@@ -156,179 +153,55 @@ resultList = xqA.executeQuery();
 	</thead>
 	
 	<tbody>
-<%
+	<%
+	for (int i=0; i<resultList.size(); i++) {
+		projectId = resultList.get(i).split(" ")[0];	
+		projectName = resultList.get(i).split(" ")[1];
+		classId = resultList.get(i).split(" ")[2];
+		className = resultList.get(i).split(" ")[3];
+		score = resultList.get(i).split(" ")[4];
 
-for (int i=0; i<resultList.size(); i++) {
+		String rowId;
+		if ("A".equals(experiment)) {
+			rowId = projectId;
+		} else {
+			rowId = classId;
+		}
+		
+		//Get detailedScore of the project
+		XQueryWrapper xqDetailedScore = new XQueryWrapper(XQUERY_PATH.concat("/getDetailedScore.xquery"));
+		xqDetailedScore.bindVariable("document", "result"+experiment+".xml");
+		xqDetailedScore.bindVariable("id", rowId);
+		String detailedScore = xqDetailedScore.executeQuery().get(0);
+		detailedScore = correctIndentation(detailedScore);
 
-projectId = resultList.get(i).split(" ")[0];	
-projectName = resultList.get(i).split(" ")[1];
-classId = resultList.get(i).split(" ")[2];
-className = resultList.get(i).split(" ")[3];
-score = resultList.get(i).split(" ")[4];
-
-//Get detailedScore of the project
-XQueryWrapper xqDetailedScore = new XQueryWrapper(XQUERY_PATH.concat("/getDetailedScore.xquery"));
-xqDetailedScore.bindVariable("document", "resultA.xml");
-xqDetailedScore.bindVariable("id", projectId);
-String detailedScore = xqDetailedScore.executeQuery().get(0);
-detailedScore = correctIndentation(detailedScore);
-
-String trClass = "";
-if (i % 2 == 0) {
-	trClass = "even";
-} else {
-	trClass = "odd";
-}
-%>
-<tr class="<%=trClass %>" id="<%=projectId %>">
-  <td><%=i+1%></td>
-  <td><%=projectName%></td>
-  <td><%=className%></td>
-  <td onclick="toggle('<%=projectId %>', 'A')"><%=score%></td>
-  <td class="hidden"><%=detailedScore %></td>
-</tr> 
-<%
-
-}
-
-%>
+		String trClass = "";
+		if (i % 2 == 0) {
+			trClass = "even";
+		} else {
+			trClass = "odd";
+		}
+	%>
+		<tr class="<%=trClass %>" id="<%=rowId %>" onmouseover="highlightClasses(this.id)"
+											 	   onmouseout="disableHighlightClasses(this.id)">
+  			<td><%=i+1%></td>
+  			<td><%=projectName%></td>
+  			<td><%=className%></td>
+  			<td onclick="toggle('<%=rowId %>', '<%=experiment %>')"><%=score%></td>
+  			<td class="hidden"><%=detailedScore %></td>
+		</tr> 
+	<%
+	}
+	%>
   </tbody>
 </table>
       
-      </td>
-      
-   <!-- EXPERIMENT B -->   
-      <td>
-      
+	</td>
 <%
-
-xqB = new XQueryWrapper(XQUERY_PATH.concat("/testPresentation.xquery"));
-xqB.bindVariable("document", "resultB.xml");
-resultList = xqB.executeQuery();
-
-
-%>
-
-
-<table id="tableB">
-   <caption>EXPERIMENT B</caption>
-   <thead>
-		<tr>
-  		<th>Ranking</th>
-  		<th>Project Name</th>
-  		<th>Class Name</th>
-  		<th>Score</th>
-		</tr>
-	</thead>
-	
-	<tbody>
-<%
-
-for (int i=0; i<resultList.size(); i++) {
-
-projectId = resultList.get(i).split(" ")[0];
-projectName = resultList.get(i).split(" ")[1];
-classId = resultList.get(i).split(" ")[2];
-className = resultList.get(i).split(" ")[3];
-score = resultList.get(i).split(" ")[4];
-
-//Get detailedScore of the class
-XQueryWrapper xqDetailedScore = new XQueryWrapper(XQUERY_PATH.concat("/getDetailedScore.xquery"));
-xqDetailedScore.bindVariable("document", "resultB.xml");
-xqDetailedScore.bindVariable("id", classId);
-String detailedScore = xqDetailedScore.executeQuery().get(0);
-detailedScore = correctIndentation(detailedScore);
-
-String trClass = "";
-if (i % 2 == 0) {
-	trClass = "even";
-} else {
-	trClass = "odd";
 }
 %>
-<tr class="<%=trClass %>" id="<%=classId %>" onmouseover="highlightClasses(this.id)"
-											 onmouseout="disableHighlightClasses(this.id)">
-  <td><%=i+1%></td>
-  <td><%=projectName%></td>
-  <td><%=className%></td>
-  <td onclick="toggle('<%=classId%>', 'B')"><%=score%></td>
-  <td class="hidden"><%=detailedScore %></td>
-</tr> 
+
   
-<%
-
-}
-
-%>
-  </tbody>
-</table>
-      
-      </td>
-      
-   <!-- EXPERIMENT C -->   
-      <td>
-      
-<%
-
-xqC = new XQueryWrapper(XQUERY_PATH.concat("/testPresentation.xquery"));
-xqC.bindVariable("document", "resultC.xml");
-resultList = xqC.executeQuery();
-
-%>
-
-<table id="tableC">
-   <caption>EXPERIMENT C</caption>
-   <thead>
-		<tr>
-  		<th>Ranking</th>
-  		<th>Project Name</th>
-  		<th>Class Name</th>
-  		<th>Score</th>
-		</tr>
-	</thead>
-	<tbody>
-<%
-
-for (int i=0; i<resultList.size(); i++) {
-
-projectId = resultList.get(i).split(" ")[0];
-projectName = resultList.get(i).split(" ")[1];
-classId = resultList.get(i).split(" ")[2];
-className = resultList.get(i).split(" ")[3];
-score = resultList.get(i).split(" ")[4];
-
-//Get detailedScore of the class
-XQueryWrapper xqDetailedScore = new XQueryWrapper(XQUERY_PATH.concat("/getDetailedScore.xquery"));
-xqDetailedScore.bindVariable("document", "resultC.xml");
-xqDetailedScore.bindVariable("id", classId);
-String detailedScore = xqDetailedScore.executeQuery().get(0);
-detailedScore = correctIndentation(detailedScore);
-
-String trClass = "";
-if (i % 2 == 0) {
-	trClass = "even";
-} else {
-	trClass = "odd";
-}
-%>
-<tr class="<%=trClass %>" id="<%=classId %>" onmouseover="highlightClasses(this.id)"
-											 onmouseout="disableHighlightClasses(this.id)">
-  <td><%=i+1%></td>
-  <td><%=projectName%></td>
-  <td><%=className%></td>
-  <td onclick="toggle('<%=classId%>', 'C')"><%=score%></td>
-  <td class="hidden"><%=detailedScore %></td>
-</tr> 
-  
-<%
-
-}
-
-%>
-  </tbody>
-</table>
-      
-      </td>    
    </tr>
 </table>
 
