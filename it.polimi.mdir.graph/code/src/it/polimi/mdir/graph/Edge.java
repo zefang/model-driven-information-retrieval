@@ -6,6 +6,9 @@ public class Edge {
 	private String relationType;
 	private String associatedAttribute;
 	
+	private String sourceId;
+	private String targetId;
+	
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -29,6 +32,19 @@ public class Edge {
 	
 	public String toString() {
 		return this.relationType;
+	}
+	
+	public void setSourceId(String sourceId) {
+		this.sourceId = sourceId;
+	}
+	public String getSourceId() {
+		return sourceId;
+	}
+	public void setTargetId(String targetId) {
+		this.targetId = targetId;
+	}
+	public String getTargetId() {
+		return targetId;
 	}
 
 }
