@@ -33,7 +33,7 @@ private static int count = 0;
 				System.out.println("Start D " +  ++count + " -> " + className);
 				
 				ImportAttributes function = new ImportAttributes();
-				nv.visitNode(projectId, fileName+".xml", classId, 0, classId, function);
+				nv.visitNode(fileName+".xml", classId, 0, classId, function);
 				ArrayList<String> attributes = function.getImportedAttributes();
 				ArrayList<String> classes = function.getImportedClassNames();
 				String newAttributes = "";
