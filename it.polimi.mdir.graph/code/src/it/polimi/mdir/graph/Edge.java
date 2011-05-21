@@ -4,7 +4,7 @@ public class Edge {
 	
 	private String id;
 	private String relationType;
-	private String associatedAttribute;
+	private String associatedAttribute = null;
 	
 	private String sourceId;
 	private String targetId;

@@ -1,8 +1,13 @@
 package it.polimi.mdir.graph.processing;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 
+import edu.uci.ics.jung.graph.Graph;
+
+import it.polimi.mdir.graph.Edge;
+import it.polimi.mdir.graph.Node;
 import it.polimi.mdir.graph.processing.TranslateXMItoGraphML.RelationType;
 import it.polimi.mdir.xquery.XQueryWrapper;
 
@@ -23,21 +28,23 @@ public class ImportAttributes extends OperationFunction {
 	private float penalty = 1.0f;
 	
 	@Override
-	public void importAttributes(String currentNode, String callerNode, int numHops, String fileName) {
+	public void importAttributes(Node currentNode, Node callerNode, int numHops, Graph<Node, Edge> g) {
 		
 		//Debug lines
 		if (false) {
 			//get currentNode Name
-			XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getClassName.xquery");
-			xq.bindVariable("document", GRAPHML_PATH + fileName);
-			xq.bindVariable("id", currentNode);
-			String className = xq.executeQuery().get(0);
+			//XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getClassName.xquery");
+			//xq.bindVariable("document", GRAPHML_PATH + fileName);
+			//xq.bindVariable("id", currentNode);
+		//	String className = xq.executeQuery().get(0);
+			String className = currentNode.getClassName();
 			
 			//get callernode Name
-			XQueryWrapper xq2 = new XQueryWrapper(XQUERY_GRAPH_PATH + "getClassName.xquery");
-			xq2.bindVariable("document", GRAPHML_PATH + fileName);
-			xq2.bindVariable("id", callerNode);
-			String callerName = xq2.executeQuery().get(0);
+		//	XQueryWrapper xq2 = new XQueryWrapper(XQUERY_GRAPH_PATH + "getClassName.xquery");
+		//	xq2.bindVariable("document", GRAPHML_PATH + fileName);
+		//	xq2.bindVariable("id", callerNode);
+		//	String callerName = xq2.executeQuery().get(0);
+			String callerName = callerNode.getClassName();
 			System.out.println("This is " + className + " called from: " + callerName);
 		}
 		
@@ -49,24 +56,36 @@ public class ImportAttributes extends OperationFunction {
 		importCandidateAttributes.clear();
 		importCandidatesClassNames.clear();
 		
-		
 		//get relation type from callerNode to currentNode.
 		// It's the one that has source=callerNode and target=currentNode
 		// Then initialize the penalty, otherwise it is 1.0f by default.
 		String callerRelationType = NO_RELATION_TYPE;
 		if (!callerNode.equals(currentNode)) {
-			XQueryWrapper xq3 = new XQueryWrapper(XQUERY_GRAPH_PATH + "getCallerRelationType.xquery");
-			xq3.bindVariable("document", GRAPHML_PATH + fileName);
-			xq3.bindVariable("source", callerNode);
-			xq3.bindVariable("target", currentNode);
-			callerRelationType = xq3.executeQuery().get(0);
+			//XQueryWrapper xq3 = new XQueryWrapper(XQUERY_GRAPH_PATH + "getCallerRelationType.xquery");
+			//xq3.bindVariable("document", GRAPHML_PATH + fileName);
+			//xq3.bindVariable("source", callerNode);
+			//xq3.bindVariable("target", currentNode);
+			//callerRelationType = xq3.executeQuery().get(0);
+			
+			Collection<Edge> edgeCollection = g.getEdges();
+			Iterator<Edge> itr = edgeCollection.iterator();
+			Edge thisRelation = null;
+			while (itr.hasNext()) {
+				Edge e = itr.next();
+				if (e.getSourceId().equals(callerNode.getId()) && 
+						e.getTargetId().equals(currentNode.getId())) {
+					thisRelation = e;
+				} 
+			} 
+			//Edge thiRelation = g.findEdgeSet(callerNode, currentNode);
+			callerRelationType = thisRelation.getRelationType();
 			penalty = WeightRules.penaltyMap.get(callerRelationType);
 		}
 		
 		//These are of the current Node
-		getClassName(currentNode, callerNode, fileName);
-		getVanillaAttributes(currentNode, callerNode, fileName);
-		getRelationAttributes(currentNode, callerNode, fileName);
+		getClassName(currentNode, callerNode, g);
+		getVanillaAttributes(currentNode, callerNode, g);
+		getRelationAttributes(currentNode, callerNode, g);
 		
 		// penalty of this callerNode->currentNode relation has already been applied
 		// to attributes (vanilla and imported) of this node.
@@ -79,17 +98,17 @@ public class ImportAttributes extends OperationFunction {
 		Iterator<ImportCandidate> importedAttributesItr = importedAttributes.iterator();
 		while (importedAttributesItr.hasNext()) {
 			ImportCandidate candidate = importedAttributesItr.next();
-			if (candidate.getCallerNode().equals(currentNode)) {
+			if (candidate.getCallerNode().equals(currentNode.getId())) {
 				candidate.setWeight( candidate.getWeight() * penalty );
-				candidate.setCallerNode(callerNode);
+				candidate.setCallerNode(callerNode.getId());
 			}
 		}
 		Iterator<ImportCandidate> importedClassesItr = importedClassNames.iterator();
 		while (importedClassesItr.hasNext()) {
 			ImportCandidate candidate = importedClassesItr.next();
-			if (candidate.getCallerNode().equals(currentNode)) {
+			if (candidate.getCallerNode().equals(currentNode.getId())) {
 				candidate.setWeight( candidate.getWeight() * penalty );
-				candidate.setCallerNode(callerNode);
+				candidate.setCallerNode(callerNode.getId());
 			}
 		}
 		
@@ -120,30 +139,36 @@ public class ImportAttributes extends OperationFunction {
 	}
 	
 	
-	private void getRelationAttributes(String currentNode, String callerNode, String fileName) {
-		//get relations of the current node (i.e, edges that have sorceId = currentNode)
+	private void getRelationAttributes(Node currentNode, Node callerNode, Graph<Node, Edge> g) {
+		//get relations of the current node (i.e, edges that have sourceId = currentNode)
 		//But only the ones that have at least one attribute
 		//This function DOESN'T doesn't get generalizations
-		XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getRelationIds.xquery");
-		xq.bindVariable("document", GRAPHML_PATH + fileName);
-		xq.bindVariable("source", currentNode);
-		ArrayList<String> relationIdsList = xq.executeQuery();
-		Iterator<String> relationIdsIterator = relationIdsList.iterator();
-		while (relationIdsIterator.hasNext()) {
+		//XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getRelationIds.xquery");
+		//xq.bindVariable("document", GRAPHML_PATH + fileName);
+		//xq.bindVariable("source", currentNode);
+		//ArrayList<String> relationIdsList = xq.executeQuery();
+		Collection<Edge> relationCollection = g.getOutEdges(currentNode);
+		Iterator<Edge> relationCollectionIterator = relationCollection.iterator();
+		while (relationCollectionIterator.hasNext()) {
 			//for every relation, given the relation id, we extract its attributes
 			//they get returned in the format attributeName$relationType
-			XQueryWrapper xq2 = new XQueryWrapper(XQUERY_GRAPH_PATH + "getRelationAttributes.xquery");
-			xq2.bindVariable("document", GRAPHML_PATH + fileName);
-			xq2.bindVariable("relationId", relationIdsIterator.next());
-			ArrayList<String> relationAttributesList = xq2.executeQuery();
-			Iterator<String> relationAttributesIterator = relationAttributesList.iterator();
-			String[] relationAttributes = new String[2];
-			String relationAttributeName = "";
-			String relationAttributeType = "";
-			while (relationAttributesIterator.hasNext()) {
-				relationAttributes = relationAttributesIterator.next().split("\\$");
-				relationAttributeName = relationAttributes[0];
-				relationAttributeType = relationAttributes[1];
+			//XQueryWrapper xq2 = new XQueryWrapper(XQUERY_GRAPH_PATH + "getRelationAttributes.xquery");
+			//xq2.bindVariable("document", GRAPHML_PATH + fileName);
+			//xq2.bindVariable("relationId", relationIdsIterator.next());
+			//ArrayList<String> relationAttributesList = xq2.executeQuery();
+			//Iterator<String> relationAttributesIterator = relationAttributesList.iterator();
+			//String[] relationAttributes = new String[2];
+			//String relationAttributeName = "";
+			//String relationAttributeType = "";
+			//Sempre e solo 1.
+			Edge e = relationCollectionIterator.next();
+			String relationAttributeName = e.getAssociatedAttribute();
+			String relationAttributeType = e.getRelationType();
+			
+			if (relationAttributeName != null && 
+					!relationAttributeType.equals(RelationType.GENERALIZATION_CHILD_FATHER.toString()) &&
+					!relationAttributeType.equals( RelationType.GENERALIZATION_FATHER_CHILD.toString())
+				) {
 				String relType = null;
 				if (relationAttributeType.equals(RelationType.COMPOSITION_COMPOSITE_COMPONENT.toString())) {
 					relType = "composition";
@@ -151,38 +176,39 @@ public class ImportAttributes extends OperationFunction {
 					relType = "association";
 				}
 				float weight = WeightRules.weightMap.get(relType) * penalty;
-				ImportCandidate relationAttributeCandidate = new ImportCandidate(relationAttributeName, weight, callerNode);
+				ImportCandidate relationAttributeCandidate = new ImportCandidate(relationAttributeName, weight, callerNode.getId());
 				importCandidateAttributes.add(relationAttributeCandidate);
 			}
-			
 		}
 	}
 
 
 	//Importo attributi vanilla da "currentNode". 
-	private void getVanillaAttributes(String currentNode, String callerNode, String fileName) {
-		XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getVanillaAttributes.xquery");
-		xq.bindVariable("document", GRAPHML_PATH + fileName);
-		xq.bindVariable("id", currentNode);
-		ArrayList<String> vanillaAttributes = xq.executeQuery();
+	private void getVanillaAttributes(Node currentNode, Node callerNode, Graph<Node, Edge> g) {
+		//XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getVanillaAttributes.xquery");
+		//xq.bindVariable("document", GRAPHML_PATH + fileName);
+		//xq.bindVariable("id", currentNode);
+		//ArrayList<String> vanillaAttributes = xq.executeQuery();
+		ArrayList<String> vanillaAttributes = currentNode.getAttributes();
 		Iterator<String> vanillaAttributesIterator = vanillaAttributes.iterator();
 		String attributeName = "";
 		while (vanillaAttributesIterator.hasNext()) {
 			attributeName = vanillaAttributesIterator.next();
 			float weight = WeightRules.weightMap.get("attribute") * penalty;
-			ImportCandidate attributeCandidate = new ImportCandidate(attributeName, weight, callerNode);
+			ImportCandidate attributeCandidate = new ImportCandidate(attributeName, weight, callerNode.getId());
 			importCandidateAttributes.add(attributeCandidate);
 		}
 	}
 	
 	//get className of the current node
-	private void getClassName(String currentNode, String callerNode, String fileName) {
-		XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getClassName.xquery");
-		xq.bindVariable("document", GRAPHML_PATH + fileName);
-		xq.bindVariable("id", currentNode);
-		String className = xq.executeQuery().get(0);
+	private void getClassName(Node currentNode, Node callerNode, Graph<Node, Edge> g) {
+		//XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getClassName.xquery");
+		//xq.bindVariable("document", GRAPHML_PATH + fileName);
+		//xq.bindVariable("id", currentNode);
+		//String className = xq.executeQuery().get(0);
+		String className = currentNode.getClassName();
 		float weight = WeightRules.weightMap.get("class") * penalty;
-		ImportCandidate classNameCandidate = new ImportCandidate(className, weight, callerNode);
+		ImportCandidate classNameCandidate = new ImportCandidate(className, weight, callerNode.getId());
 		importCandidatesClassNames.add(classNameCandidate);
 	}
 	
