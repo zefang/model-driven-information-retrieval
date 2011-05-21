@@ -47,35 +47,6 @@ public String correctIndentation(String s) {
 Presentation page for query output from TestServlet. This JSP renders in a
 more comprehensible way relevant information of query results.
 --%>
-
-<%
-
-// create and load xquery properties
-Properties xqueryConfig = new Properties();
-FileInputStream in = new FileInputStream("xqueryConfig.properties");
-xqueryConfig.load(in);
-in.close();
-
-String XQUERY_PATH = xqueryConfig.getProperty("DIR");
-
-
-XQueryWrapper xqA;
-XQueryWrapper xqB;
-XQueryWrapper xqC;
-
-ArrayList<String> resultList = new ArrayList<String>();
-String projectId = "";
-String projectName = "";
-String classId = "";
-String className = "";
-String score = "";
-
-xqA = new XQueryWrapper(XQUERY_PATH.concat("/testPresentation.xquery"));
-xqA.bindVariable("document", "resultA.xml");
-resultList = xqA.executeQuery();
-
-%>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -137,11 +108,42 @@ resultList = xqA.executeQuery();
 <strong> Query string: </strong>
 <tt> <%=request.getParameter("queryString")%> </tt>
 
+<%
+
+// create and load xquery properties
+Properties xqueryConfig = new Properties();
+FileInputStream in = new FileInputStream("xqueryConfig.properties");
+xqueryConfig.load(in);
+in.close();
+
+String XQUERY_PATH = xqueryConfig.getProperty("DIR");
+
+
+XQueryWrapper xqA;
+XQueryWrapper xqB;
+XQueryWrapper xqC;
+
+ArrayList<String> resultList = new ArrayList<String>();
+String projectId = "";
+String projectName = "";
+String classId = "";
+String className = "";
+String score = "";
+
+xqA = new XQueryWrapper(XQUERY_PATH.concat("/testPresentation.xquery"));
+xqA.bindVariable("document", "resultA.xml");
+resultList = xqA.executeQuery();
+
+%>
+
 <table>
    <tr>
+   
+<%
+
+%>   
    <!-- EXPERIMENT A -->
       <td>
-
 <table id="tableA">
    <caption>EXPERIMENT A</caption>
    <thead>
