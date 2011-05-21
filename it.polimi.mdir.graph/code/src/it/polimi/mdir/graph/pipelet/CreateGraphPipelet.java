@@ -1,5 +1,6 @@
 package it.polimi.mdir.graph.pipelet;
 import java.io.File;
+import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -30,6 +31,8 @@ import edu.uci.ics.jung.graph.Graph;
  */
 public class CreateGraphPipelet implements Pipelet {
 
+	private HashMap<String, Node> nodeMap = new HashMap<String, Node>();
+	
 	@Override
 	public void configure(AnyMap configuration) throws ProcessingException {
 		
@@ -80,12 +83,42 @@ public class CreateGraphPipelet implements Pipelet {
 								}
 							}
 						}
+						nodeMap.put(n.getId(), n);
+						g.addVertex(n);
 					}
 					
 					//get edges
 					NodeList edgeList = doc.getElementsByTagName("edge");
 					for (int i = 0; i < edgeList.getLength(); i++) {
-						//TODO get edges
+						Edge e = new Edge();
+						org.w3c.dom.Node node = edgeList.item(i);
+						if (node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+							Element elem = (Element) node;
+							e.setId(elem.getAttribute("id"));
+							e.setSourceId(elem.getAttribute("source"));
+							e.setTargetId(elem.getAttribute("target"));
+							
+							//set relationtype
+							NodeList childNodes = elem.getElementsByTagName("relType");
+							for (int j = 0; j < childNodes.getLength(); j++) {
+								org.w3c.dom.Node child = childNodes.item(j);
+								if (child.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+									Element childElement = (Element) child;
+									e.setRelationType(childElement.getFirstChild().getNodeValue());
+								}
+							}
+							
+							//set relationtype
+							NodeList attributeNodes = elem.getElementsByTagName("attribute");
+							for (int j = 0; j < attributeNodes.getLength(); j++) {
+								org.w3c.dom.Node child = attributeNodes.item(j);
+								if (child.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+									Element childElement = (Element) child;
+									e.setAssociatedAttribute(childElement.getFirstChild().getNodeValue());
+								}
+							}
+						}
+						g.addEdge(e, nodeMap.get(e.getSourceId()), nodeMap.get(e.getTargetId()));
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
