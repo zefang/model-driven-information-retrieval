@@ -11,7 +11,7 @@ public class ConfigLoader {
 	public static String UML_PATH = "";
 	public static String RESULT_PATH = "";
 	public static String GRAPHML_PATH = "";
-	public static String XQUERY_GRAPH_PATH = "";
+	public static String XQUERY_GRAPH_PATH = ""; //TODO This has become obsolete.
 	
 	private static Properties config;
 	static {
