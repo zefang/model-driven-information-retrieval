@@ -44,7 +44,7 @@
 				</proc:invokePipelet>
 			</bpel:extensionActivity>
 			
-			<!--
+			
 						<extensionActivity>
                         	<proc:invokePipelet name="invokeEnrichRecordsExperimentCPipelet">
 		        				<proc:pipelet class="it.polimi.mdir.text.EnrichRecordsExperimentCPipelet" />
@@ -87,8 +87,7 @@
             					</proc:configuration>
                     		</proc:invokePipelet>
                         </extensionActivity>
-                     
-                      -->
+                      
                      
         </bpel:sequence>
         

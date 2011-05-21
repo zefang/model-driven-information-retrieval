@@ -10,7 +10,9 @@ Import-Package: it.polimi.mdir.xquery,
  org.eclipse.smila.datamodel;version="0.8.0",
  org.eclipse.smila.processing;version="0.8.0"
 SMILA-Pipelets: it.polimi.mdir.graph.pipelet.CreateGraphPipelet
-Export-Package: it.polimi.mdir.graph.processing
+Export-Package: edu.uci.ics.jung.graph,
+ it.polimi.mdir.graph,
+ it.polimi.mdir.graph.processing
 Bundle-ClassPath: .,
  lib/jung-api-2.0.1.jar,
  lib/jung-graph-impl-2.0.1.jar,
