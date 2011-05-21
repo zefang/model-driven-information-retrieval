@@ -124,8 +124,7 @@ public class CreateGraphPipelet implements Pipelet {
 					e.printStackTrace();
 				}
 				
-				
-				GraphCollection.collection.add(g);
+				GraphCollection.graphMap.put(fileName, g);
 				
 			} catch (BlackboardAccessException e) {
 				e.printStackTrace();

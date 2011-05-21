@@ -33,7 +33,6 @@ public class NavigateGraph {
 		initialization();
 		
 		_nodeQueue = getAllNodes(FILE_NAME); 
-		_graphId = getGraphId(FILE_NAME);
 		
 		while (!_nodeQueue.isEmpty()) {
 			String nodeId = _nodeQueue.remove(); 
@@ -42,7 +41,7 @@ public class NavigateGraph {
 			// PetriNet _fvqyJeiaEd6gMtZRCjS81g
 			// Element _fvqyJuiaEd6gMtZRCjS81g
 			if (nodeId.equals("_fvqyJuiaEd6gMtZRCjS81g")) {
-				visitNode(_graphId, FILE_NAME, nodeId, 0, nodeId, new ImportAttributes());
+				visitNode(FILE_NAME, nodeId, 0, nodeId, new ImportAttributes());
 			}
 		}
 	}
@@ -68,7 +67,7 @@ public class NavigateGraph {
 	 * Reperesent the business logic that I have to do during the visit of the node.
 	 * 
 	 */
-	public void visitNode(String graphId, String fileName, String nodeId, int numHops, String callerNode, OperationFunction function) {
+	public void visitNode(String fileName, String nodeId, int numHops, String callerNode, OperationFunction function) {
 		if (numHops > MAX_HOPS) 
 			return;
 		
@@ -79,7 +78,7 @@ public class NavigateGraph {
 		while (!neighboursQueue.isEmpty()) {
 			String nextNode = neighboursQueue.remove(); 
 			if (!nextNode.equals(callerNode)) {
-				visitNode(graphId, fileName, nextNode, numHops, nodeId, function);
+				visitNode(fileName, nextNode, numHops, nodeId, function);
 			}
 		}
 		
@@ -135,19 +134,5 @@ public class NavigateGraph {
 		return neighboursQueue;
 	}
 	
-	
-	/**
-	 * Returns the graphId that is also the project id.
-	 * @param filename
-	 * filename of the file containing the graph.
-	 * @return
-	 * The id of the graph.
-	 */
-	private String getGraphId(String fileName) {
-		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "getGraphId.xquery");
-		xq.bindVariable("document", GRAPHML_PATH + fileName);
-		ArrayList<String> neighboursList = xq.executeQuery();
-		return neighboursList.get(0);
-	}
 
 }
