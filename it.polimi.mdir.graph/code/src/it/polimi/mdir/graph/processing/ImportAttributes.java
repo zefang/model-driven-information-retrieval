@@ -9,14 +9,10 @@ import edu.uci.ics.jung.graph.Graph;
 import it.polimi.mdir.graph.Edge;
 import it.polimi.mdir.graph.Node;
 import it.polimi.mdir.graph.processing.TranslateXMItoGraphML.RelationType;
-import it.polimi.mdir.xquery.XQueryWrapper;
 
 
 public class ImportAttributes extends OperationFunction {
 
-	private static final String XQUERY_GRAPH_PATH = ConfigLoader.XQUERY_GRAPH_PATH;
-	private static final String GRAPHML_PATH = ConfigLoader.GRAPHML_PATH;
-	
 	private static final String NO_RELATION_TYPE = "none";
 	
 	private ArrayList<ImportCandidate> importedAttributes = new ArrayList<ImportCandidate>();
@@ -32,20 +28,7 @@ public class ImportAttributes extends OperationFunction {
 		
 		//Debug lines
 		if (false) {
-			//get currentNode Name
-			//XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getClassName.xquery");
-			//xq.bindVariable("document", GRAPHML_PATH + fileName);
-			//xq.bindVariable("id", currentNode);
-		//	String className = xq.executeQuery().get(0);
-			String className = currentNode.getClassName();
-			
-			//get callernode Name
-		//	XQueryWrapper xq2 = new XQueryWrapper(XQUERY_GRAPH_PATH + "getClassName.xquery");
-		//	xq2.bindVariable("document", GRAPHML_PATH + fileName);
-		//	xq2.bindVariable("id", callerNode);
-		//	String callerName = xq2.executeQuery().get(0);
-			String callerName = callerNode.getClassName();
-			System.out.println("This is " + className + " called from: " + callerName);
+			System.out.println("This is " + currentNode.getClassName() + " called from: " + callerNode.getClassName());
 		}
 		
 		/*************************************/
@@ -61,15 +44,9 @@ public class ImportAttributes extends OperationFunction {
 		// Then initialize the penalty, otherwise it is 1.0f by default.
 		String callerRelationType = NO_RELATION_TYPE;
 		if (!callerNode.equals(currentNode)) {
-			//XQueryWrapper xq3 = new XQueryWrapper(XQUERY_GRAPH_PATH + "getCallerRelationType.xquery");
-			//xq3.bindVariable("document", GRAPHML_PATH + fileName);
-			//xq3.bindVariable("source", callerNode);
-			//xq3.bindVariable("target", currentNode);
-			//callerRelationType = xq3.executeQuery().get(0);
-			
 			Collection<Edge> edgeCollection = g.getEdges();
 			Iterator<Edge> itr = edgeCollection.iterator();
-			Edge thisRelation = null;
+			Edge thisRelation = null;  //TODO provare g.findEdgeSet();
 			while (itr.hasNext()) {
 				Edge e = itr.next();
 				if (e.getSourceId().equals(callerNode.getId()) && 
@@ -77,7 +54,6 @@ public class ImportAttributes extends OperationFunction {
 					thisRelation = e;
 				} 
 			} 
-			//Edge thiRelation = g.findEdgeSet(callerNode, currentNode);
 			callerRelationType = thisRelation.getRelationType();
 			penalty = WeightRules.penaltyMap.get(callerRelationType);
 		}
@@ -113,7 +89,6 @@ public class ImportAttributes extends OperationFunction {
 		}
 		
 		// Apply relation type filter to decide what of this node import in other nodes
-		// Also apply penalty of this node to attributes of the branches under this
 		if (callerRelationType.equals(RelationType.COMPOSITION_COMPONENT_COMPOSITE.toString()) 
 				|| callerRelationType.equals(RelationType.GENERALIZATION_FATHER_CHILD.toString())) {
 			//import just classNames
@@ -139,28 +114,22 @@ public class ImportAttributes extends OperationFunction {
 	}
 	
 	
+	/**
+	 * Gets relations of the current node (i.e, edges that have source = currentNode).
+	 * Considers only the ones that have at least one attribute.
+	 * This function DOESN'T consider generalizations.
+	 * @param currentNode
+	 * Node of which we want the attributes of the relations.
+	 * @param callerNode
+	 * It's needed to mark the imported attributes. To tell that they come from this branch.
+	 * @param g
+	 * The graph this node is in.
+	 */
 	private void getRelationAttributes(Node currentNode, Node callerNode, Graph<Node, Edge> g) {
-		//get relations of the current node (i.e, edges that have sourceId = currentNode)
-		//But only the ones that have at least one attribute
-		//This function DOESN'T doesn't get generalizations
-		//XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getRelationIds.xquery");
-		//xq.bindVariable("document", GRAPHML_PATH + fileName);
-		//xq.bindVariable("source", currentNode);
-		//ArrayList<String> relationIdsList = xq.executeQuery();
 		Collection<Edge> relationCollection = g.getOutEdges(currentNode);
 		Iterator<Edge> relationCollectionIterator = relationCollection.iterator();
 		while (relationCollectionIterator.hasNext()) {
-			//for every relation, given the relation id, we extract its attributes
-			//they get returned in the format attributeName$relationType
-			//XQueryWrapper xq2 = new XQueryWrapper(XQUERY_GRAPH_PATH + "getRelationAttributes.xquery");
-			//xq2.bindVariable("document", GRAPHML_PATH + fileName);
-			//xq2.bindVariable("relationId", relationIdsIterator.next());
-			//ArrayList<String> relationAttributesList = xq2.executeQuery();
-			//Iterator<String> relationAttributesIterator = relationAttributesList.iterator();
-			//String[] relationAttributes = new String[2];
-			//String relationAttributeName = "";
-			//String relationAttributeType = "";
-			//Sempre e solo 1.
+			//Il relationAttribute è sempre e solo 1.
 			Edge e = relationCollectionIterator.next();
 			String relationAttributeName = e.getAssociatedAttribute();
 			String relationAttributeType = e.getRelationType();
@@ -183,12 +152,16 @@ public class ImportAttributes extends OperationFunction {
 	}
 
 
-	//Importo attributi vanilla da "currentNode". 
+	/**
+	 * Import vanilla attributes from current node
+	 * @param currentNode
+	 * The node of which we want the vanilla attributes.
+	 * @param callerNode
+	 * It's needed to mark the imported attributes. To tell that they come from this branch.
+	 * @param g
+	 * The graph this node is in.
+	 */
 	private void getVanillaAttributes(Node currentNode, Node callerNode, Graph<Node, Edge> g) {
-		//XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getVanillaAttributes.xquery");
-		//xq.bindVariable("document", GRAPHML_PATH + fileName);
-		//xq.bindVariable("id", currentNode);
-		//ArrayList<String> vanillaAttributes = xq.executeQuery();
 		ArrayList<String> vanillaAttributes = currentNode.getAttributes();
 		Iterator<String> vanillaAttributesIterator = vanillaAttributes.iterator();
 		String attributeName = "";
@@ -200,12 +173,16 @@ public class ImportAttributes extends OperationFunction {
 		}
 	}
 	
-	//get className of the current node
+	/**
+	 * Gets className of the current node
+	 * @param currentNode
+	 * The node of which we want the className.
+	 * @param callerNode
+	 * It's needed to mark the imported attributes. To tell that they come from this branch.
+	 * @param g
+	 * The graph this node is in.
+	 */
 	private void getClassName(Node currentNode, Node callerNode, Graph<Node, Edge> g) {
-		//XQueryWrapper xq = new XQueryWrapper(XQUERY_GRAPH_PATH + "getClassName.xquery");
-		//xq.bindVariable("document", GRAPHML_PATH + fileName);
-		//xq.bindVariable("id", currentNode);
-		//String className = xq.executeQuery().get(0);
 		String className = currentNode.getClassName();
 		float weight = WeightRules.weightMap.get("class") * penalty;
 		ImportCandidate classNameCandidate = new ImportCandidate(className, weight, callerNode.getId());

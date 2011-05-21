@@ -7,9 +7,7 @@ public class Node {
 	private String id;
 	private String className;
 	private ArrayList<String> attributes = new ArrayList<String>();
-	
-	
-	
+
 	
 	public void setId(String id) {
 		this.id = id;
