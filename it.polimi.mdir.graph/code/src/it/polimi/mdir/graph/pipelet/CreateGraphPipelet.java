@@ -33,6 +33,8 @@ public class CreateGraphPipelet implements Pipelet {
 
 	private HashMap<String, Node> nodeMap = new HashMap<String, Node>();
 	
+	private static int count = 0;
+	
 	@Override
 	public void configure(AnyMap configuration) throws ProcessingException {
 		
@@ -47,6 +49,8 @@ public class CreateGraphPipelet implements Pipelet {
 			try {
 				String fileName = blackboard.getRecord(id).getMetadata().getStringValue("FileName");
 				fileName += ".xml";
+			
+				System.out.println(count++ + ": Creating graph for: " + fileName);
 				
 				Graph<Node, Edge> g = new DirectedSparseMultigraph<Node, Edge>();
 				
@@ -125,6 +129,8 @@ public class CreateGraphPipelet implements Pipelet {
 				}
 				
 				GraphCollection.graphMap.put(fileName, g);
+				
+				System.out.println(count +": Graph for: " + fileName + " successfully created.");
 				
 			} catch (BlackboardAccessException e) {
 				e.printStackTrace();
