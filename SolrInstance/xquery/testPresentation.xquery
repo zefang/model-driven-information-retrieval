@@ -10,4 +10,3 @@ return concat(data($doc/str[@name="projectId"]),' ' ,
 				data($doc/str[@name="classId"]),' ',
 				data($doc/str[@name="className"]),' ',
 				data($doc/float[@name="score"]))
-	
