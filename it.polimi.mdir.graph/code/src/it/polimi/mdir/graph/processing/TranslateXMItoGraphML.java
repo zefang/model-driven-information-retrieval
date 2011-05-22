@@ -54,9 +54,10 @@ public class TranslateXMItoGraphML {
 		nDocs = files.length;
 		
         for (int docCount=0; docCount<nDocs; docCount++) {      	
-
         	currentFile = files[docCount];
         	currentDoc = currentFile.getName();
+        	
+        	System.out.print(docCount + "-> Processing: " + currentDoc);
 			
 			final DOMImplementation impl = DOMImplementationImpl.getDOMImplementation();
 			final Document document = impl.createDocument(null, "graph", null);
@@ -150,7 +151,7 @@ public class TranslateXMItoGraphML {
 				outputWriter.write(writer.toString());
 				outputWriter.close();
 				
-				System.out.println(docCount + " -> Processed successfully: " + outputName);
+				System.out.println("...DONE!");
 			} catch (TransformerConfigurationException e) {
 				e.printStackTrace();
 			} catch (TransformerFactoryConfigurationError e) {
