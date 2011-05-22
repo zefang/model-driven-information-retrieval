@@ -423,11 +423,11 @@ public class ModelCrawler extends AbstractCrawler {
 	  ArrayList<String> resultList = new ArrayList<String>();
 	  String resultListString = new String();
     switch (attribute.getFileAttributes()) {
-      case FILENAME:
+      case FILE_NAME:
         return file.getName();
       case PATH:
         return file.getAbsolutePath();
-      case PROJECTID:
+      case PROJECT_ID:
     	xq = new XQueryWrapper(XQUERY_PATH.concat("/getProjectId.xquery"));
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
@@ -438,19 +438,19 @@ public class ModelCrawler extends AbstractCrawler {
     	 * (the one which encloses the whole model), since the actual projectName is
     	 * not significative (it's always 'MetaModel')
     	 */
-      case PROJECTNAME:
+      case PROJECT_NAME:
     	xq = new XQueryWrapper(XQUERY_PATH.concat("/getProjectName.xquery"));
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         String projectName = resultList.get(0);
     	return projectName;
-      case CLASSNAMES:
+      case CLASS_NAMES:
         xq = new XQueryWrapper(XQUERY_PATH.concat("/getClassNames.xquery"));
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         resultListString = arrayListToString(resultList);
         return resultListString; 
-      case CLASSIDS:
+      case CLASS_IDS:
       	xq = new XQueryWrapper(XQUERY_PATH.concat("/getClassIds.xquery"));
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
@@ -462,7 +462,7 @@ public class ModelCrawler extends AbstractCrawler {
          * - the conceptType (attribute, composition, association)
     	 * The format is "'classIdVALUE'$'attributeNameVALUE'+'conceptType:VALUE'"
     	 */
-      case ATTRIBUTENAMES:
+      case ATTRIBUTE_NAMES:
         xq = new XQueryWrapper(XQUERY_PATH.concat("/getAttributeNames.xquery"));
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
