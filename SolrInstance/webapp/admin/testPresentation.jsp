@@ -1,3 +1,4 @@
+<%@page import="java.util.LinkedList"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     
@@ -8,6 +9,14 @@
 
    
 <%!
+public String switchCSSclass(String oldClass) {
+	if (oldClass.equals("even")) {
+		return "odd";
+	} else {
+		return "even";
+	}
+}
+
 /*
 *Corrects the indentation of the detailed score
 */
@@ -154,13 +163,16 @@ for (String experiment : experiments) {
 	
 	<tbody>
 	<%
+	String previousScore = null;
+	String trClass = "odd";
 	for (int i=0; i<resultList.size(); i++) {
-		projectId = resultList.get(i).split(" ")[0];	
-		projectName = resultList.get(i).split(" ")[1];
-		classId = resultList.get(i).split(" ")[2];
-		className = resultList.get(i).split(" ")[3];
-		score = resultList.get(i).split(" ")[4];
-
+		String[] splittedResult = resultList.get(i).split(" ");
+		projectId = splittedResult[0];	
+		projectName = splittedResult[1];
+		classId = splittedResult[2];
+		className = splittedResult[3];
+		score = splittedResult[4];
+		
 		String rowId;
 		if ("A".equals(experiment)) {
 			rowId = projectId;
@@ -175,11 +187,9 @@ for (String experiment : experiments) {
 		String detailedScore = xqDetailedScore.executeQuery().get(0);
 		detailedScore = correctIndentation(detailedScore);
 
-		String trClass = "";
-		if (i % 2 == 0) {
-			trClass = "even";
-		} else {
-			trClass = "odd";
+		if (!score.equals(previousScore)) {
+			trClass = switchCSSclass(trClass);
+			previousScore = score;
 		}
 	%>
 		<tr class="<%=trClass %>" id="<%=rowId %>" onmouseover="highlightClasses(this.id)"
