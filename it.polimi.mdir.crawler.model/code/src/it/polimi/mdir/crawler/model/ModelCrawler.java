@@ -433,17 +433,11 @@ public class ModelCrawler extends AbstractCrawler {
         resultList = xq.executeQuery();
         String id = resultList.get(0);
     	return id;
-    	
-    	/* Note: the projectName is actually the name of the first package 
-    	 * (the one which encloses the whole model), since the actual projectName is
-    	 * not significative (it's always 'MetaModel')
-    	 */
+
+    	/*We use the file name minus the .uml extension as the project name*/
       case PROJECT_NAME:
-    	xq = new XQueryWrapper(XQUERY_PATH.concat("/getProjectName.xquery"));
-        xq.bindVariable("document", file.getAbsolutePath());
-        resultList = xq.executeQuery();
-        String projectName = resultList.get(0);
-    	return projectName;
+    	  String projectName = file.getName();
+    	  return projectName.substring(0, projectName.length()-4);
       case CLASS_NAMES:
         xq = new XQueryWrapper(XQUERY_PATH.concat("/getClassNames.xquery"));
         xq.bindVariable("document", file.getAbsolutePath());
