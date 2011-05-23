@@ -14,7 +14,7 @@ public class TestServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String[] experiments = {"A", "B", "C", "D"};
+	private static final String[] experiments = {"A", "B", "C", "D"};
 	
 	String query;
 	String mm;
@@ -94,7 +94,7 @@ public class TestServlet extends HttpServlet {
 	  }
 	  
 	  // Write XML to file keeping indentation
-	  public static String writeXML(String input, int indent) {
+	  private static String writeXML(String input, int indent) {
 		    try {
 		        Source xmlInput = new StreamSource(new StringReader(input));
 		        StringWriter stringWriter = new StringWriter();
@@ -110,7 +110,7 @@ public class TestServlet extends HttpServlet {
 		    }
 		}
 
-		public static String writeXML(String input) {
+		private static String writeXML(String input) {
 		    return writeXML(input, 2);
 		}
 	
