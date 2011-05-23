@@ -256,13 +256,14 @@
     <fieldtype name="ignored" stored="false" indexed="false" multiValued="true" class="solr.StrField" /> 
 
 	
-	<fieldType name="text_A" class="solr.TextField" positionIncrementGap="100" stored="false" indexed="true">
+	<fieldType name="text_D" class="solr.TextField" positionIncrementGap="100" stored="false" indexed="true">
       <analyzer type="index">		
 		<tokenizer class="solr.WhitespaceTokenizerFactory"/>
 		<filter class="solr.DelimitedPayloadTokenFilterFactory" encoder="float"/>
 		<filter class="solr.PatternReplaceFilterFactory"
                 pattern="^[a-z]{2,5}[0-9]{1,4}?([.]|[a-z])?(.*)" replacement="" replace="all"
         />
+		<filter class="solr.WordDelimiterFilterFactory" preserveOriginal="1"/>
 		<filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"
                 enablePositionIncrements="true" />	
         <filter class="solr.TrimFilterFactory" />	
@@ -276,6 +277,7 @@
 		<filter class="solr.PatternReplaceFilterFactory"
                 pattern="^[a-z]{2,5}[0-9]{1,4}?([.]|[a-z])?(.*)" replacement="" replace="all"
         />
+		<filter class="solr.WordDelimiterFilterFactory" preserveOriginal="1"/>
 		<filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"
                 enablePositionIncrements="true" />
         <filter class="solr.TrimFilterFactory" />
@@ -313,32 +315,46 @@
      default: a value that should be used if no value is specified
        when adding a document.
    -->
-   
+
    <field name="projectId" type="string" indexed="true" stored="true" required="true" /> 
-   <field name="text_A" type="text_A" indexed="true" stored="true"    
+   <field name="projectName" type="text_D" indexed="true" stored="true" required="true" /> 
+   <field name="conceptType" type="string" indexed="true" stored="true"  required="true" />
+   <field name="classId" type="string" indexed="true" stored="true"  required="true" />
+   <field name="className" type="text_D" indexed="true" stored="true" required="true" /> 
+   
+   <field name="attributeNames" type="text_D" indexed="true" stored="true"    
 			multiValued="true" termVectors="true" termOffsets="true" termPosition="true"/>
-			
-	<field name="conceptId" type="text_ws" indexed="true" stored="true"  />
-	<field name="conceptType" type="text_ws" indexed="true" stored="true"  />
+
+   <field name="content" type="text_D" indexed="true" stored="true"    
+			multiValued="true"/>				
    
  </fields>
 
  <!-- Field to use to determine and enforce document uniqueness. 
       Unless this field is marked with required="false", it will be a required field
    -->
- <uniqueKey>projectId</uniqueKey>
+ <uniqueKey>classId</uniqueKey>
 
  <!-- field for the QueryParser to use when an explicit fieldname is absent -->
- <defaultSearchField>text_A</defaultSearchField>
+ <defaultSearchField>content</defaultSearchField>
 
  <!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
  <solrQueryParser defaultOperator="OR"/>
+ 
+ <copyField source="className" dest="content" />
+ <copyField source="attributeNames" dest="content" />
+ <copyField source="projectName" dest="content" />
 
 
  <!-- Similarity is the scoring routine for each document vs. a query.
       A custom similarity may be specified here, but the default is fine
       for most applications.  -->
  <!-- <similarity class="org.apache.lucene.search.DefaultSimilarity"/> -->
+ 
+ <!-- <similarity class="it.polimi.mdir.solr.plugin.MyPerFieldSimilarityWrapper" /> -->
+ <!-- <similarity class="org.apache.solr.search.customSimilarity"/> -->
+ <similarity class="it.polimi.mdir.solr.plugin.PayloadSimilarity"/>
+
  <!-- ... OR ...
       Specify a SimilarityFactory class name implementation
       allowing parameters to be used.
@@ -348,6 +364,8 @@
    <str name="paramkey">param value</str>
  </similarity>
  -->
+
+<similarity class="org.apache.solr.search.PayloadSimilarity" />
 
 
 </schema>
