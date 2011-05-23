@@ -38,20 +38,20 @@ public class EnrichRecordsExperimentBPipelet implements Pipelet {
 		System.out.println("Start Enrich B: " + ++count);
 		System.out.println("B -> recordids.length: " + recordIds.length);
 		//This array will contain new id to pass through the framework
-		ArrayList<String> newRecordsIds = new ArrayList<String>();
-		int nNewRecords;	
+		final ArrayList<String> newRecordsIds = new ArrayList<String>();
+		final int nNewRecords;
 		for (final String id : recordIds) {
 			try {
 				System.out.println("B -> name: " + blackboard.getRecord(id).getMetadata().getStringValue("projectName"));
 				
 				//construct attributeNames field
-				String classIds = blackboard.getRecord(id).getMetadata().getStringValue("classIds");
-				String classNames = blackboard.getRecord(id).getMetadata().getStringValue("classNames");
-				String attributeNames = blackboard.getRecord(id).getMetadata().getStringValue("attributeNames");
+				final String classIds = blackboard.getRecord(id).getMetadata().getStringValue("classIds");
+				final String classNames = blackboard.getRecord(id).getMetadata().getStringValue("classNames");
+				final String attributeNames = blackboard.getRecord(id).getMetadata().getStringValue("attributeNames");
 				
-				String[] classIdsArray = classIds.split("\\s");
-				String[] classNamesArray = classNames.split("\\s");
-				String[] attributeNamesArray = attributeNames.split("\\s");
+				final String[] classIdsArray = classIds.split("\\s");
+				final String[] classNamesArray = classNames.split("\\s");
+				final String[] attributeNamesArray = attributeNames.split("\\s");
 				
 				//For each class create a new record (a copied one)
 				for (int i=0; i<classIdsArray.length; i++) {
@@ -66,8 +66,14 @@ public class EnrichRecordsExperimentBPipelet implements Pipelet {
 					copy.getMetadata().put("classId", classId);
 					copy.getMetadata().put("className", className);
 					
-					//extract attribute names for each class
-					//Every attributeNamesArray[j] is of the format classId$attribteName' 'attributeType
+					/*
+					* Extract attribute names for each class
+					* Every attributeNamesArray[j] is of the format classId$attribteName+conceptType:value
+					* conceptType value can be: association, composition or attribute
+					* In ExperimentB we don't need payloads, so we throw concept types away
+					* attrName[0] -> classId
+					* attrName[1] -> attributeName+conceptType
+					*/
 					String attributesPerClass = "";
 					for (int j=0; j < attributeNamesArray.length; j++) {
 						String[] attrName = attributeNamesArray[j].split("\\$");
@@ -94,7 +100,7 @@ public class EnrichRecordsExperimentBPipelet implements Pipelet {
 		}
 		
 		nNewRecords = newRecordsIds.size();
-		String[] newRecordsIdsArray = new String[nNewRecords];
+		final String[] newRecordsIdsArray = new String[nNewRecords];
 		newRecordsIds.toArray(newRecordsIdsArray);
 		return newRecordsIdsArray;
 	}
