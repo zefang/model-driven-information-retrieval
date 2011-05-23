@@ -10,6 +10,7 @@ import org.eclipse.smila.datamodel.AnyMap;
 import org.eclipse.smila.datamodel.Record;
 import org.eclipse.smila.processing.Pipelet;
 import org.eclipse.smila.processing.ProcessingException;
+import it.polimi.mdir.graph.processing.*;
 
 public class PayloadAdderPipelet implements Pipelet {
 		
@@ -28,7 +29,7 @@ public class PayloadAdderPipelet implements Pipelet {
 				String attributeName = "";
 				Record record = blackboard.getRecord(id);
 				String className = record.getMetadata().getStringValue("className");
-				className += "|5.0";
+				className += "|" + WeightRules.weightMap.get("class");
 				record.getMetadata().put("className", className);
 				
 				String attributeNamesString = record.getMetadata().getStringValue("attributeNames");
@@ -45,10 +46,10 @@ public class PayloadAdderPipelet implements Pipelet {
 						conceptType = attributeAndConceptTypeArray[1];
 					
 						if (conceptType.contains("attribute")) {
-							attributeNamesString += attributeName.concat("|1.0 ");	
+							attributeNamesString += attributeName.concat("|" + WeightRules.weightMap.get("attribute") + " ");	
 						} else if (conceptType.contains("association")) {
-							attributeNamesString += attributeName.concat("|2.5 ");
-						} else attributeNamesString += attributeName.concat("|2.0 ");
+							attributeNamesString += attributeName.concat("|" + WeightRules.weightMap.get("association") + " ");
+						} else attributeNamesString += attributeName.concat("|" + WeightRules.weightMap.get("composition") + " ");
 					}
 					attributeNamesString = attributeNamesString.trim();
 				}
