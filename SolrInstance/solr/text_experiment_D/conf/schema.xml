@@ -341,10 +341,8 @@
  <!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
  <solrQueryParser defaultOperator="OR"/>
  
- <copyField source="className" dest="content" />
  <copyField source="attributeNames" dest="content" />
  <copyField source="projectName" dest="content" />
-
 
  <!-- Similarity is the scoring routine for each document vs. a query.
       A custom similarity may be specified here, but the default is fine
