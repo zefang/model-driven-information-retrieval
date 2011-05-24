@@ -9,6 +9,8 @@ public class Edge {
 	private String sourceId;
 	private String targetId;
 	
+	private boolean hasBeenFollowed = false;
+	
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -45,6 +47,12 @@ public class Edge {
 	}
 	public String getTargetId() {
 		return targetId;
+	}
+	public void setFollowed(boolean hasBeenFollowed) {
+		this.hasBeenFollowed = hasBeenFollowed;
+	}
+	public boolean hasBeenFollowed() {
+		return hasBeenFollowed;
 	}
 
 }
