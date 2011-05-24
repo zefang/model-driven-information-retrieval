@@ -57,14 +57,12 @@ public class TestCrawlerControllerAgent extends DeclarativeServiceTestCase {
 
     String msg = cca.startCrawlerTask(dataSourceId);
     assertNotNull(msg);
-    assertEquals("Error loading DataSource with DataSourceId '" + dataSourceId
-      + "': org.eclipse.smila.utils.config.ConfigurationLoadException: Unable to find configuration resource "
-      + dataSourceId + ".xml in the bundle org.eclipse.smila.connectivity.framework", msg);
-
+    assertTrue(msg.contains("org.eclipse.smila.utils.config.ConfigurationLoadException"));
+    assertTrue(msg.contains(dataSourceId + ".xml"));
     try {
       msg = cca.startCrawlerTask(null);
       fail("Expected NullPointerException");
-    } catch (NullPointerException e) {
+    } catch (final NullPointerException e) {
       assertEquals("Parameter dataSourceId is null", e.getMessage());
     }
 
@@ -75,7 +73,7 @@ public class TestCrawlerControllerAgent extends DeclarativeServiceTestCase {
     try {
       msg = cca.stopCrawlerTask(null);
       fail("Expected NullPointerException");
-    } catch (NullPointerException e) {
+    } catch (final NullPointerException e) {
       assertEquals("Parameter dataSourceId is null", e.getMessage());
     }
   }
@@ -153,7 +151,7 @@ public class TestCrawlerControllerAgent extends DeclarativeServiceTestCase {
    * @throws Exception
    *           the Exception
    */
-  private void testStartCrawl(boolean interrupt) throws Exception {
+  private void testStartCrawl(final boolean interrupt) throws Exception {
     final CrawlerControllerAgent cca = getService(CrawlerControllerAgent.class);
     assertNotNull(cca);
 
@@ -195,10 +193,10 @@ public class TestCrawlerControllerAgent extends DeclarativeServiceTestCase {
   public void testAvailableCrawlers() throws Exception {
     final CrawlerControllerAgent cca = getService(CrawlerControllerAgent.class);
     final String[] availCrawlers = cca.getAvailableCrawlers();
-    assert (availCrawlers.length == 2);
+    assert availCrawlers.length == 2;
     final List<String> a = Arrays.asList(availCrawlers);
-    assert (a.indexOf("FileSystemCrawler") > 0);
-    assert (a.indexOf("WebCrawler") > 0);
+    assert a.indexOf("FileSystemCrawler") > 0;
+    assert a.indexOf("WebCrawler") > 0;
   }
 
 }

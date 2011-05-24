@@ -9,7 +9,6 @@ package org.eclipse.smila.utils.config;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -17,7 +16,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Properties;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -85,15 +86,15 @@ public final class ConfigUtils {
     if (file != null) {
       if (file.exists()) {
         if (log.isInfoEnabled()) {
-          log.info("CONFIGURATION_FOLDER = " + file.getPath());
+          log.info("CONFIGURATION_FOLDER = " + file.getAbsolutePath());
         } else {
-          System.out.println("CONFIGURATION_FOLDER = " + file.getPath());
+          System.out.println("CONFIGURATION_FOLDER = " + file.getAbsolutePath());
         }
       } else {
         if (log.isInfoEnabled()) {
-          log.info("CONFIGURATION_FOLDER ( " + file.getPath() + " ) is not found");
+          log.info("CONFIGURATION_FOLDER ( " + file.getAbsolutePath() + " ) is not found");
         } else {
-          System.out.println("CONFIGURATION_FOLDER ( " + file.getPath() + " ) is not found");
+          System.out.println("CONFIGURATION_FOLDER ( " + file.getAbsolutePath() + " ) is not found");
         }
         file = null;
       }
@@ -108,49 +109,57 @@ public final class ConfigUtils {
   }
 
   /**
-   * Gets the configuration stream.
+   * Gets the configuration stream for the denoted config file. The stream is to be closed by the caller.
+   * <p>
+   * <strong>Note</strong>: While this methods supports the bundle name to be an arbitrary string that is not the name
+   * of the bundle for "normal" configs the defaultConfigPath will only work if the given bundle name is actually the
+   * name of the bundle.
    * 
    * @param bundleName
    *          the bundle name
    * @param configPath
-   *          the config name
+   *          the path which may be either relative or absolute. <br/>
+   *          <em>While absolute paths are supported they are strongly discurraged.</em>
    * @param defaultConfigPath
-   *          the default config name
+   *          the default config path to a resource that is contained in the bundle itself if the configPath doesnt
+   *          resolve to an existing file.
    * 
-   * @return the configuration stream
+   * @throws ConfigurationLoadException
+   *           if the denoted config file doesnt exist or cannot be opened.
    */
   public static InputStream getConfigStream(final String bundleName, final String configPath,
     final String defaultConfigPath) {
-    if (getConfigurationFolder() != null) {
-      File file = new File(getConfigurationFolder(), bundleName);
-      if (file.exists()) {
-        if (configPath.contains(":")) {
-          file = new File(configPath);
-        } else {
-          file = new File(file, configPath);
-        }
 
-        if (file.exists()) {
+    String effectivePath = "<ConfigRoot>" + File.pathSeparator + new File(bundleName, configPath).getAbsolutePath();
+    if (getConfigurationFolder() != null) {
+      final File bundleConfigRoot = new File(getConfigurationFolder(), bundleName);
+      if (bundleConfigRoot.exists()) {
+        final File configFile = new File(configPath);
+        final File effectiveConfigFile =
+          configFile.isAbsolute() ? configFile : new File(bundleConfigRoot, configPath);
+        effectivePath = effectiveConfigFile.getAbsolutePath();
+        if (effectiveConfigFile.exists()) {
           try {
-            return new FileInputStream(file);
-          } catch (final FileNotFoundException e) {
-            ;// nothing
+            return new FileInputStream(effectiveConfigFile);
+          } catch (final Exception e) {
+            throw new ConfigurationLoadException("Failed to open config file: " + effectivePath);
           }
         }
       }
     }
     if (defaultConfigPath == null) {
-      throw new ConfigurationLoadException(String.format(
-        "Configuration resource %s is for the bundle %s not found", configPath, bundleName));
+      throw new ConfigurationLoadException(String.format("Configuration resource %s for the bundle %s not found",
+        configPath, bundleName));
     }
     final Bundle bundle = Platform.getBundle(bundleName);
     if (bundle == null) {
-      throw new ConfigurationLoadException("Unable to fing bundle " + bundleName);
+      throw new ConfigurationLoadException("Unable to find bundle: " + bundleName);
     }
     final URL url = bundle.getEntry(defaultConfigPath);
     if (url == null) {
       throw new ConfigurationLoadException(String.format(
-        "Unable to find configuration resource %s in the bundle %s", defaultConfigPath, bundleName));
+        "Unable to find config file '%s' nor fallback config '%s' in bundle '%s'", effectivePath,
+        defaultConfigPath, bundleName));
     }
     try {
       return url.openStream();
@@ -168,8 +177,24 @@ public final class ConfigUtils {
    *          the configuration name
    * 
    * @return the configuration folder
+   * @deprecated use the more correctly named {@link #getConfigFile(String, String)} as this may also return
+   *             non-directory entries.
    */
+  @Deprecated
   public static File getConfigFolder(final String bundleName, final String configPath) {
+    return getConfigFile(bundleName, configPath);
+  }
+
+  /**
+   * Gets the config file as denoted by the relative path.
+   * 
+   * @param bundleName
+   *          the bundle name
+   * @param configPath
+   *          the config path
+   * @return the config file which may be either a direcory or a file
+   */
+  public static File getConfigFile(final String bundleName, final String configPath) {
     if (CONFIGURATION_FOLDER != null) {
       File file = new File(CONFIGURATION_FOLDER, bundleName);
       if (file.exists()) {
@@ -197,7 +222,7 @@ public final class ConfigUtils {
   }
 
   /**
-   * Gets the configuration stream.
+   * Gets the files
    * 
    * @param bundleName
    *          the bundle name
@@ -212,6 +237,10 @@ public final class ConfigUtils {
       if (file.exists()) {
         file = new File(file, configPath);
         if (file.exists()) {
+          if (!file.isDirectory()) {
+            throw new ConfigurationLoadException("configPath does not denote a directory: "
+              + file.getAbsolutePath());
+          }
           final String[] files = file.list();
           return Arrays.asList(files);
         }
@@ -237,12 +266,30 @@ public final class ConfigUtils {
   }
 
   /**
-   * Gets the configuration folder.
+   * Gets the root configuration folder as set thru the env var/system propery {@value #PROPERTY_CONFIG_ROOT}.
    * 
    * @return the cONFIGURATION_FOLDER
    */
   public static File getConfigurationFolder() {
     return CONFIGURATION_FOLDER;
+  }
+
+  /**
+   * Gets the config properties.
+   * 
+   * @see {@link #getConfigStream(String, String)} as it is called.
+   * 
+   */
+  public static Properties getConfigProperties(final String bundleName, final String configPath) throws IOException {
+    final Properties properties = new Properties();
+    final InputStream configStream = getConfigStream(bundleName, configPath);
+    try {
+      properties.load(configStream);
+    } finally {
+      IOUtils.closeQuietly(configStream);
+    }
+    return properties;
+
   }
 
 }

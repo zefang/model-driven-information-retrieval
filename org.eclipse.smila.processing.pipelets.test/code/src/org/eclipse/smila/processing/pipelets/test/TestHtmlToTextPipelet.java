@@ -40,8 +40,8 @@ public class TestHtmlToTextPipelet extends ATransformationPipeletTest {
    */
   public static final String CONFIG_ATTACHMENT = "html-to-text-by-attachment.xml";
 
-  /**createAttributesConfiguration
-   * name of configuration to work on attributes.
+  /**
+   * createAttributesConfiguration name of configuration to work on attributes.
    */
   public static final String CONFIG_ATTRIBUTE = "html-to-text-by-attribute.xml";
 
@@ -152,6 +152,138 @@ public class TestHtmlToTextPipelet extends ATransformationPipeletTest {
   }
 
   /**
+   * a test with real umlauts.
+   */
+  public void testCorrectMetaEncodingAttachment() throws Exception {
+    final AnyMap configuration = createAttachmentsConfiguration();
+    final String id = createBlackboardRecord("htmltotext", "default-encoding-attachment");
+    final byte[] html =
+      "<html><meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1' />H\u00e4llo W\u00f6rld!</html>"
+        .getBytes("iso-8859-1");
+    HtmlToTextPipelet pipelet = createPipelet(configuration);
+    getBlackboard().setAttachment(id, pipelet.getInputName(), html);
+    pipelet.process(getBlackboard(), new String[] { id });
+    String text =
+      new String(getBlackboard().getAttachment(id, pipelet.getOutputName()),
+        ATransformationPipelet.ENCODING_ATTACHMENT);
+    assertEquals("H\u00e4llo W\u00f6rld!", text);
+
+    configuration.put("defaultEncoding", "utf-8");
+    pipelet = createPipelet(configuration);
+    getBlackboard().setAttachment(id, pipelet.getInputName(), html);
+    pipelet.process(getBlackboard(), new String[] { id });
+    text =
+      new String(getBlackboard().getAttachment(id, pipelet.getOutputName()),
+        ATransformationPipelet.ENCODING_ATTACHMENT);
+    assertEquals("H\u00e4llo W\u00f6rld!", text);
+  }
+
+  /**
+   * a test with real umlauts.
+   */
+  public void testNoMetaEncodingUtfAttachment() throws Exception {
+    final AnyMap configuration = createAttachmentsConfiguration();
+    final String id = createBlackboardRecord("htmltotext", "default-encoding-attachment");
+    final byte[] html = "<html>H\u00e4llo W\u00f6rld!</html>".getBytes("utf-8");
+    HtmlToTextPipelet pipelet = createPipelet(configuration);
+    getBlackboard().setAttachment(id, pipelet.getInputName(), html);
+    pipelet.process(getBlackboard(), new String[] { id });
+    String text =
+      new String(getBlackboard().getAttachment(id, pipelet.getOutputName()),
+        ATransformationPipelet.ENCODING_ATTACHMENT);
+    assertFalse("H\u00e4llo W\u00f6rld!".equals(text));
+
+    configuration.put("defaultEncoding", "utf-8");
+    pipelet = createPipelet(configuration);
+    getBlackboard().setAttachment(id, pipelet.getInputName(), html);
+    pipelet.process(getBlackboard(), new String[] { id });
+    text =
+      new String(getBlackboard().getAttachment(id, pipelet.getOutputName()),
+        ATransformationPipelet.ENCODING_ATTACHMENT);
+    assertEquals("H\u00e4llo W\u00f6rld!", text);
+
+    configuration.put("defaultEncoding", "iso-8859-1");
+    pipelet = createPipelet(configuration);
+    getBlackboard().setAttachment(id, pipelet.getInputName(), html);
+    pipelet.process(getBlackboard(), new String[] { id });
+    text =
+      new String(getBlackboard().getAttachment(id, pipelet.getOutputName()),
+        ATransformationPipelet.ENCODING_ATTACHMENT);
+    assertFalse("H\u00e4llo W\u00f6rld!".equals(text));
+  }
+
+  /**
+   * a test with real umlauts.
+   */
+  public void testIncorrectMetaEncodingAttachment() throws Exception {
+    final AnyMap configuration = createAttachmentsConfiguration();
+    final String id = createBlackboardRecord("htmltotext", "default-encoding-attachment");
+    final byte[] html =
+      "<html><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />H\u00e4llo W\u00f6rld!</html>"
+        .getBytes("iso-8859-1");
+    HtmlToTextPipelet pipelet = createPipelet(configuration);
+    getBlackboard().setAttachment(id, pipelet.getInputName(), html);
+    pipelet.process(getBlackboard(), new String[] { id });
+    String text =
+      new String(getBlackboard().getAttachment(id, pipelet.getOutputName()),
+        ATransformationPipelet.ENCODING_ATTACHMENT);
+    assertFalse("H\u00e4llo W\u00f6rld!".equals(text));
+
+    configuration.put("defaultEncoding", "iso-8859-1");
+    pipelet = createPipelet(configuration);
+    getBlackboard().setAttachment(id, pipelet.getInputName(), html);
+    pipelet.process(getBlackboard(), new String[] { id });
+    text =
+      new String(getBlackboard().getAttachment(id, pipelet.getOutputName()),
+        ATransformationPipelet.ENCODING_ATTACHMENT);
+    assertFalse("H\u00e4llo W\u00f6rld!".equals(text));
+
+    configuration.put("defaultEncoding", "utf-8");
+    pipelet = createPipelet(configuration);
+    getBlackboard().setAttachment(id, pipelet.getInputName(), html);
+    pipelet.process(getBlackboard(), new String[] { id });
+    text =
+      new String(getBlackboard().getAttachment(id, pipelet.getOutputName()),
+        ATransformationPipelet.ENCODING_ATTACHMENT);
+    assertFalse("H\u00e4llo W\u00f6rld!".equals(text));
+  }
+
+  /**
+   * a test with real umlauts.
+   */
+  public void testIsoDefaultEncodingAttachment() throws Exception {
+    final AnyMap configuration = createAttachmentsConfiguration();
+    final String id = createBlackboardRecord("htmltotext", "default-encoding-attachment");
+    final byte[] html = "<html>H\u00e4llo W\u00f6rld!</html>".getBytes("iso-8859-1");
+
+    HtmlToTextPipelet pipelet = createPipelet(configuration);
+    getBlackboard().setAttachment(id, pipelet.getInputName(), html);
+    pipelet.process(getBlackboard(), new String[] { id });
+    String text =
+      new String(getBlackboard().getAttachment(id, pipelet.getOutputName()),
+        ATransformationPipelet.ENCODING_ATTACHMENT);
+    assertEquals("H\u00e4llo W\u00f6rld!", text);
+
+    configuration.put("defaultEncoding", "iso-8859-1");
+    pipelet = createPipelet(configuration);
+    getBlackboard().setAttachment(id, pipelet.getInputName(), html);
+    pipelet.process(getBlackboard(), new String[] { id });
+    text =
+      new String(getBlackboard().getAttachment(id, pipelet.getOutputName()),
+        ATransformationPipelet.ENCODING_ATTACHMENT);
+    assertEquals("H\u00e4llo W\u00f6rld!", text);
+
+    configuration.put("defaultEncoding", "utf-8");
+    pipelet = createPipelet(configuration);
+    getBlackboard().setAttachment(id, pipelet.getInputName(), html);
+    pipelet.process(getBlackboard(), new String[] { id });
+    text =
+      new String(getBlackboard().getAttachment(id, pipelet.getOutputName()),
+        ATransformationPipelet.ENCODING_ATTACHMENT);
+    assertFalse("H\u00e4llo W\u00f6rld!".equals(text));
+  }
+
+  /**
    * a test of configurable content removing.
    * 
    * @throws Exception
@@ -226,7 +358,7 @@ public class TestHtmlToTextPipelet extends ATransformationPipeletTest {
 
     final HtmlToTextPipelet pipelet = createPipelet(createAttributesConfiguration());
     final List<String> htmlfiles = ConfigUtils.getConfigEntries(CONFIG_BUNDLE, CONFIG_DATADIR);
-    for (String filename : htmlfiles) {
+    for (final String filename : htmlfiles) {
       if (!filename.startsWith(".")) { // exclude .svn directory.
         final String id = createBlackboardRecord("htmltotext", filename);
         final InputStream htmlStream = ConfigUtils.getConfigStream(CONFIG_BUNDLE, CONFIG_DATADIR + "/" + filename);
@@ -255,7 +387,7 @@ public class TestHtmlToTextPipelet extends ATransformationPipeletTest {
   public void testDataDirAttachment() throws Exception {
     final HtmlToTextPipelet pipelet = createPipelet(createAttachmentsConfiguration());
     final List<String> htmlfiles = ConfigUtils.getConfigEntries(CONFIG_BUNDLE, CONFIG_DATADIR);
-    for (String filename : htmlfiles) {
+    for (final String filename : htmlfiles) {
       if (!filename.startsWith(".")) { // exclude .svn directory.
         final String id = createBlackboardRecord("htmltotext", filename);
         final InputStream htmlStream = ConfigUtils.getConfigStream(CONFIG_BUNDLE, CONFIG_DATADIR + "/" + filename);

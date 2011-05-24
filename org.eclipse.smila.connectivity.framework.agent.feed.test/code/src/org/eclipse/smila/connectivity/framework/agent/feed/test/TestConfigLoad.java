@@ -48,7 +48,7 @@ public class TestConfigLoad extends TestCase {
     _log.info("DataConnectionID ID=" + dataConnectionID.getId());
     // attributes check
     final List<IAttribute> attrs = configuration.getAttributes().getAttribute();
-    final int expectedNoOfAttributes = 7;
+    final int expectedNoOfAttributes = 8;
     assertEquals(expectedNoOfAttributes, attrs.size());
     // process check
     final Process process = (Process) configuration.getProcess();

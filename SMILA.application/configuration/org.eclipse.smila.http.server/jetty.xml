@@ -58,9 +58,9 @@
 	        <Item>
 	          <New class="org.eclipse.jetty.webapp.WebAppContext">
 	            <Set name="contextPath">/SMILA</Set>
-	            <Set name="resourceBase">configuration/org.eclipse.smila.search.servlet/webapp</Set>
-	            <Set name="descriptor">configuration/org.eclipse.smila.search.servlet/webapp/WEB-INF/web.xml</Set>
-	            <Set name="defaultsDescriptor">configuration/org.eclipse.smila.http.server/webdefault.xml</Set>
+	            <Set name="resourceBase"><SystemProperty name="org.eclipse.smila.utils.config.root" default="configuration"/>/org.eclipse.smila.search.servlet/webapp</Set>
+	            <Set name="descriptor"><SystemProperty name="org.eclipse.smila.utils.config.root" default="configuration"/>/org.eclipse.smila.search.servlet/webapp/WEB-INF/web.xml</Set>
+	            <Set name="defaultsDescriptor"><SystemProperty name="org.eclipse.smila.utils.config.root" default="configuration"/>/org.eclipse.smila.http.server/webdefault.xml</Set>
 	            <Set name="parentLoaderPriority">true</Set>
               </New>
 	        </Item>

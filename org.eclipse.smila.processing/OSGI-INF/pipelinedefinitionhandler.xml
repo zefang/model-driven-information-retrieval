@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="PipelineDefinitionHandler" immediate="true">
+    <implementation class="org.eclipse.smila.processing.httphandler.PipelineDefinitionHandler" />
+    <service>
+       <provide interface="org.eclipse.smila.http.server.util.RequestHandler"/>
+    </service>
+    <reference 
+        name="processor"
+        interface="org.eclipse.smila.processing.WorkflowProcessor"
+        bind="setProcessor"
+        unbind="unsetProcessor"
+        policy="static" />
+    <property name="rootContextPath" type="String" value="/smila"/>
+    <property name="uriPattern" type="String" value="/pipeline/([^/]+)/?$"/>      
+</component>

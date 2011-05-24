@@ -43,6 +43,7 @@ public final class AllTests {
     suite.addTestSuite(TestCollections.class);
     suite.addTestSuite(TestCompression.class);
     suite.addTestSuite(TestConfigUtils.class);
+    suite.addTestSuite(TestConfigUtils_NoBundleFallback.class);
     suite.addTestSuite(TestConversion.class);
     suite.addTestSuite(TestDigestHelper.class);
     suite.addTestSuite(TestExtensions.class);

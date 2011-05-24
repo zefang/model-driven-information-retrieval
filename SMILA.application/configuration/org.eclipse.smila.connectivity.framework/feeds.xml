@@ -34,6 +34,9 @@
     <Attribute Type="MObject" Name="Contents">
       <FeedAttributes>Contents</FeedAttributes>
     </Attribute>
+    <Attribute Type="MObject" Name="Description">
+      <FeedAttributes>Description</FeedAttributes>
+    </Attribute>
     <Attribute Type="String" Name="Title">
       <FeedAttributes>Title</FeedAttributes>
     </Attribute>
@@ -43,7 +46,7 @@
   </Attributes>
   <Process>
     <UpdateInterval>300</UpdateInterval>
-    <FeedUrl>http://dev.eclipse.org/newslists/news.eclipse.rt.smila/maillist.rss</FeedUrl>
+    <FeedUrl>http://www.eclipse.org/forums/feed.php?mode=m&amp;l=1&amp;basic=1&amp;frm=36&amp;n=100</FeedUrl>
     <FeedUrl>http://search.twitter.com/search.atom?q=smila</FeedUrl>
   </Process>
 </DataSourceConnectionConfig>

@@ -61,6 +61,11 @@ public class HtmlToTextPipelet extends ATransformationPipelet {
   private static final String PROP_REMOVE_CONTENT_TAGS = "removeContentTags";
 
   /**
+   * property to configure the default encoding of HTML documents to convert.
+   */
+  private static final String PROP_DEFAULT_ENCODING = "defaultEncoding";
+
+  /**
    * property to configure attribute targets for HTML meta tag contents.
    */
   private static final String PROP_META = "meta:";
@@ -80,6 +85,11 @@ public class HtmlToTextPipelet extends ATransformationPipelet {
    */
   private final Map<String, String> _metaAttributeMapping = new HashMap<String, String>();
 
+  /**
+   * default encoding parameter.
+   */
+  private String _defaultEncoding;
+
   /** The log. */
   private final Log _log = LogFactory.getLog(getClass());
 
@@ -88,8 +98,9 @@ public class HtmlToTextPipelet extends ATransformationPipelet {
    * 
    */
   @Override
-  public void configure(AnyMap configuration) throws ProcessingException {
+  public void configure(final AnyMap configuration) throws ProcessingException {
     super.configure(configuration);
+    _defaultEncoding = configuration.getStringValue(PROP_DEFAULT_ENCODING);
     final Any removeContentTagValue = configuration.get(PROP_REMOVE_CONTENT_TAGS);
     if (removeContentTagValue != null && removeContentTagValue.isString()) {
       final String removeContentTagList = ((Value) removeContentTagValue).asString().trim();
@@ -117,9 +128,9 @@ public class HtmlToTextPipelet extends ATransformationPipelet {
    * 
    */
   @Override
-  public String[] process(Blackboard blackboard, String[] recordIds) throws ProcessingException {
+  public String[] process(final Blackboard blackboard, final String[] recordIds) throws ProcessingException {
     if (recordIds != null) {
-      for (String id : recordIds) {
+      for (final String id : recordIds) {
         try {
           final MultiValueMap metadata = new MultiValueMap();
           final List<String> results = new ArrayList<String>();
@@ -133,7 +144,7 @@ public class HtmlToTextPipelet extends ATransformationPipelet {
           }
           storeResults(blackboard, id, results);
           storeMetadata(blackboard, id, metadata);
-        } catch (BlackboardAccessException ex) {
+        } catch (final BlackboardAccessException ex) {
           _log.error("Error processing ID " + id, ex);
         }
       }
@@ -157,11 +168,11 @@ public class HtmlToTextPipelet extends ATransformationPipelet {
    * @throws ProcessingException
    *           error parsing the HTML.
    */
-  private void processAttributeValues(Blackboard blackboard, String id, final List<String> results,
+  private void processAttributeValues(final Blackboard blackboard, final String id, final List<String> results,
     final MultiValueMap metadata) throws BlackboardAccessException, ProcessingException {
     final AnyMap anyMap = blackboard.getMetadata(id);
     final Any any = anyMap.get(_inputName);
-    for (Any value : any) {
+    for (final Any value : any) {
       if (value.isValue()) {
         final String content = ((Value) value).asString();
         if (content != null) {
@@ -169,7 +180,7 @@ public class HtmlToTextPipelet extends ATransformationPipelet {
         }
       } else if (any.isSeq()) {
         final AnySeq sequence = (AnySeq) any;
-        for (Any element : sequence) {
+        for (final Any element : sequence) {
           if (element.isString()) {
             final String content = ((Value) element).asString();
             if (content != null) {
@@ -193,7 +204,7 @@ public class HtmlToTextPipelet extends ATransformationPipelet {
    * @throws BlackboardAccessException
    *           error writing values.
    */
-  private void storeMetadata(Blackboard blackboard, String id, MultiValueMap metadata)
+  private void storeMetadata(final Blackboard blackboard, final String id, final MultiValueMap metadata)
     throws BlackboardAccessException {
     if (!metadata.isEmpty()) {
       for (final Iterator<?> attributeNames = metadata.keySet().iterator(); attributeNames.hasNext();) {
@@ -226,12 +237,13 @@ public class HtmlToTextPipelet extends ATransformationPipelet {
    * @throws ProcessingException
    *           error in parsing
    */
-  private String extractText(String id, InputStream stream, MultiValueMap metadata) throws ProcessingException {
+  private String extractText(final String id, final InputStream stream, final MultiValueMap metadata)
+    throws ProcessingException {
     final StringBuilder result = new StringBuilder();
     final XMLParserConfiguration parser = createParser(result, metadata);
     try {
       parser.parse(new XMLInputSource(null, id, null, stream, null));
-    } catch (Exception e) {
+    } catch (final Exception e) {
       _log.error("error parsing HTML document in record " + id, e);
       throw new ProcessingException("error parsing HTML document in record " + id + ": " + e.toString(), e);
     }
@@ -251,13 +263,14 @@ public class HtmlToTextPipelet extends ATransformationPipelet {
    * @throws ProcessingException
    *           error in parsing
    */
-  private String extractText(String id, String content, MultiValueMap metadata) throws ProcessingException {
+  private String extractText(final String id, final String content, final MultiValueMap metadata)
+    throws ProcessingException {
     final StringBuilder result = new StringBuilder();
     final XMLParserConfiguration parser = createParser(result, metadata);
 
     try {
       parser.parse(new XMLInputSource(null, id, null, new StringReader(content), null));
-    } catch (Exception e) {
+    } catch (final Exception e) {
       _log.error("error parsing HTML document in record " + id, e);
       throw new ProcessingException("error parsing HTML document in record " + id + ": " + e.toString(), e);
     }
@@ -275,7 +288,7 @@ public class HtmlToTextPipelet extends ATransformationPipelet {
    */
   private XMLParserConfiguration createParser(final StringBuilder result, final MultiValueMap metadata) {
     final ElementRemover elementRemover = new ElementRemover();
-    for (String tag : _removeContentTags) {
+    for (final String tag : _removeContentTags) {
       elementRemover.removeElement(tag);
     }
     final CommentRemover commentRemover = new CommentRemover();
@@ -284,6 +297,9 @@ public class HtmlToTextPipelet extends ATransformationPipelet {
     final XMLDocumentFilter[] filters = { commentRemover, metadataExtractor, elementRemover, writer };
     final XMLParserConfiguration parser = new HTMLConfiguration();
     parser.setProperty("http://cyberneko.org/html/properties/filters", filters);
+    if (_defaultEncoding != null) {
+      parser.setProperty("http://cyberneko.org/html/properties/default-encoding", _defaultEncoding);
+    }
     return parser;
   }
 
@@ -303,7 +319,7 @@ public class HtmlToTextPipelet extends ATransformationPipelet {
      * @param target
      *          the StringBuilder to write to
      */
-    public PlainTextWriter(StringBuilder target) {
+    public PlainTextWriter(final StringBuilder target) {
       super();
       _target = target;
     }
@@ -315,7 +331,7 @@ public class HtmlToTextPipelet extends ATransformationPipelet {
      *      org.apache.xerces.xni.Augmentations)
      */
     @Override
-    public void characters(XMLString text, Augmentations augs) {
+    public void characters(final XMLString text, final Augmentations augs) {
       _target.append(text.ch, text.offset, text.length);
       super.characters(text, augs);
     }
@@ -335,7 +351,7 @@ public class HtmlToTextPipelet extends ATransformationPipelet {
      *      org.apache.xerces.xni.Augmentations)
      */
     @Override
-    public void comment(XMLString text, Augmentations augs) {
+    public void comment(final XMLString text, final Augmentations augs) {
       // do nothing
     }
   }
@@ -366,7 +382,7 @@ public class HtmlToTextPipelet extends ATransformationPipelet {
      * @param metadata
      *          map to use as target for storing the attribute-value lists.
      */
-    public MetadataExtractor(MultiValueMap metadata) {
+    public MetadataExtractor(final MultiValueMap metadata) {
       super();
       _metadata = metadata;
     }
@@ -378,7 +394,7 @@ public class HtmlToTextPipelet extends ATransformationPipelet {
      *      org.apache.xerces.xni.XMLAttributes, org.apache.xerces.xni.Augmentations)
      */
     @Override
-    public void startElement(QName element, XMLAttributes attributes, Augmentations augs) {
+    public void startElement(final QName element, final XMLAttributes attributes, final Augmentations augs) {
       super.startElement(element, attributes, augs);
       if ("meta".equalsIgnoreCase(element.localpart)) {
         extractMetadata(element, attributes);
@@ -395,7 +411,7 @@ public class HtmlToTextPipelet extends ATransformationPipelet {
      *      org.apache.xerces.xni.XMLAttributes, org.apache.xerces.xni.Augmentations)
      */
     @Override
-    public void emptyElement(QName element, XMLAttributes attributes, Augmentations augs) {
+    public void emptyElement(final QName element, final XMLAttributes attributes, final Augmentations augs) {
       super.emptyElement(element, attributes, augs);
       if ("meta".equalsIgnoreCase(element.localpart)) {
         extractMetadata(element, attributes);
@@ -409,7 +425,7 @@ public class HtmlToTextPipelet extends ATransformationPipelet {
      *      org.apache.xerces.xni.Augmentations)
      */
     @Override
-    public void endElement(QName element, Augmentations augs) {
+    public void endElement(final QName element, final Augmentations augs) {
       super.endElement(element, augs);
       if ("title".equalsIgnoreCase(element.localpart)) {
         _inTitleTag = false;
@@ -423,7 +439,7 @@ public class HtmlToTextPipelet extends ATransformationPipelet {
      * @see org.cyberneko.html.filters.DefaultFilter#endElement(XMLString text, org.apache.xerces.xni.Augmentations)
      */
     @Override
-    public void characters(XMLString text, Augmentations augs) {
+    public void characters(final XMLString text, final Augmentations augs) {
       super.characters(text, augs);
       if (_inTitleTag) {
         _titleBuffer.append(text.toString());
@@ -438,7 +454,7 @@ public class HtmlToTextPipelet extends ATransformationPipelet {
      * @param attributes
      *          attributes of tag.
      */
-    private void extractMetadata(QName element, XMLAttributes attributes) {
+    private void extractMetadata(final QName element, final XMLAttributes attributes) {
       String metaName = null;
       String metaValue = null;
       for (int i = 0; i < attributes.getLength(); i++) {

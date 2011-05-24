@@ -44,6 +44,9 @@ public final class AllTests {
     suite.addTestSuite(TestXmlSerializationUtils.class);
 
     suite.addTestSuite(TestJsonSerializationUtils.class);
+
+    suite.addTestSuite(MetadataUtils_Test.class);
+
     // $JUnit-END$
     return suite;
   }

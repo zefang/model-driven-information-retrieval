@@ -21,6 +21,18 @@ import org.eclipse.smila.ipc.IpcFactory;
  * 
  */
 public class JsonFactory implements IpcFactory {
+  /** enable pretty-printing on created StreamWriters? */
+  private final boolean _printPretty;
+
+  /** create instance with pretty-printing enabled. */
+  public JsonFactory() {
+    this(true);
+  }
+
+  /** create instance with specified pretty-printing option. */
+  public JsonFactory(final boolean printPretty) {
+    _printPretty = printPretty;
+  }
 
   /**
    * Create a new JSON stream reader.
@@ -39,7 +51,7 @@ public class JsonFactory implements IpcFactory {
    */
   @Override
   public JsonStreamWriter newStreamWriter(final OutputStream stream) throws IOException {
-    return new JsonStreamWriter(stream);
+    return new JsonStreamWriter(stream, _printPretty);
   }
 
 }

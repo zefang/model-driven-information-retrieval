@@ -110,17 +110,20 @@ public final class MessageHelper {
    *          blackboard to read records from.
    * @param recordIds
    *          IDs of workflow objects in message
+   *          @param requestId internal requset id.
    * @return DOM representation of workflow objects
    * @throws ProcessingException
    *           error creating workflow record.
    */
-  public Element createMessage(final Blackboard blackboard, final String[] recordIds) throws ProcessingException {
+  public Element createMessage(final Blackboard blackboard, final String[] recordIds, final String requestId)
+    throws ProcessingException {
     final List<Record> workflowRecords = createWorkflowObjects(blackboard, recordIds);
     final Document doc = DOMUtils.newDocument();
     final Element message = doc.createElementNS(null, BPELConstants.NAME_MESSAGE);
     final Element part = doc.createElementNS(null, BPELConstants.PART_RECORDS);
     message.appendChild(part);
     _recordWriter.appendRecordList(part, workflowRecords);
+    addRequestId(message, requestId, BPELConstants.TYPE_PROCESSORMESSAGE);
     return message;
   }
 

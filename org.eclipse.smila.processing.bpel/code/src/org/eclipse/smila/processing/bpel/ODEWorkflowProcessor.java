@@ -3,8 +3,8 @@
  * accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this
  * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
  * 
- * Contributors: Juergen Schumacher (empolis GmbH) - initial API and implementation
- *               Andreas Weber (Attensity Europe GmbH) - removed processing services as BPEL pipeline extensions 
+ * Contributors: Juergen Schumacher (empolis GmbH) - initial API and implementation Andreas Weber (Attensity Europe
+ * GmbH) - removed processing services as BPEL pipeline extensions
  **********************************************************************************************************************/
 package org.eclipse.smila.processing.bpel;
 
@@ -32,6 +32,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ode.utils.DOMUtils;
 import org.eclipse.smila.blackboard.Blackboard;
+import org.eclipse.smila.datamodel.Any;
+import org.eclipse.smila.datamodel.DataFactory;
+import org.eclipse.smila.datamodel.DataFactoryCreator;
 import org.eclipse.smila.ode.ODEConfigProperties;
 import org.eclipse.smila.ode.ODEServer;
 import org.eclipse.smila.ode.ODEServerException;
@@ -103,6 +106,11 @@ public class ODEWorkflowProcessor implements WorkflowProcessor {
   private final ReadWriteLock _lock = new ReentrantReadWriteLock(true);
 
   /**
+   * the data factory used in this blackboard for creating new records.
+   */
+  private final DataFactory _dataFactory = DataFactoryCreator.createDefaultFactory();
+
+  /**
    * create processor. BPEL server is initialized in activate method.
    */
   public ODEWorkflowProcessor() {
@@ -130,13 +138,11 @@ public class ODEWorkflowProcessor implements WorkflowProcessor {
       if (_bpelServer == null) {
         throw new ProcessingException("Cannot process request, because BPEL engine is not yet initialised");
       }
-      final Element message = _messageHelper.createMessage(blackboard, recordIds);
-      _messageHelper.addRequestId(message, requestId, BPELConstants.TYPE_PROCESSORMESSAGE);
+      final Element message = _messageHelper.createMessage(blackboard, recordIds, requestId);
       if (_log.isTraceEnabled()) {
         _log.trace("Request: " + DOMUtils.domToString(message));
       }
-      final QName processQName = new QName(NAMESPACE_PROCESSOR, workflowName);
-
+      final QName processQName = getProcessId(workflowName);
       try {
         final Element result = _bpelServer.invoke(processQName, BPELConstants.OPERATION_NAME, message);
         if (result != null) {
@@ -190,6 +196,23 @@ public class ODEWorkflowProcessor implements WorkflowProcessor {
     }
     return new ArrayList<String>(_pipelinePerformanceCounter.keySet());
 
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Any getWorkflowDefinition(final String workflowName) throws ProcessingException {
+    final QName processId = getProcessId(workflowName);
+    try {
+      final String bpelContent = _bpelServer.getBpelDocument(processId);
+      if (bpelContent != null) {
+        return _dataFactory.createStringValue(bpelContent);
+      }
+    } catch (final Exception ex) {
+      throw new ProcessingException("Error reading BPEL definition for workflow '" + workflowName + "'", ex);
+    }
+    return null;
   }
 
   /**
@@ -304,6 +327,12 @@ public class ODEWorkflowProcessor implements WorkflowProcessor {
     _bpelServer.registerExtensionBundle(new SMILAExtensionBundle());
     deployPipelines();
     _log.debug("Initialization of BPEL engine successful");
+  }
+
+  /** @return process id for workflowname. */
+  private QName getProcessId(final String workflowName) {
+    final QName processQName = new QName(NAMESPACE_PROCESSOR, workflowName);
+    return processQName;
   }
 
   /**

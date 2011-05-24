@@ -48,7 +48,7 @@ public class ValueFormatHelper {
   private final DateFormat _formatDate = new SimpleDateFormat("yyyy-MM-dd");
 
   /** valid Datetime value pattern with milliseconds and time zone (default for printing). */
-  private final DateFormat _formatDateTimePatternDefault = getDefaulDateTimeFormat();
+  private final DateFormat _formatDateTimePatternDefault = getDefaultDateTimeFormat();
 
   /** valid Datetime value pattern with time zone. */
   private final DateFormat _formatDateTimePattern2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
@@ -68,7 +68,7 @@ public class ValueFormatHelper {
   /**
    * @return the default format for datetime values.
    */
-  public static SimpleDateFormat getDefaulDateTimeFormat() {
+  public static SimpleDateFormat getDefaultDateTimeFormat() {
     return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
   }
 

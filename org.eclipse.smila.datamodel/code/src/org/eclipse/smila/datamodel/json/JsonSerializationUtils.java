@@ -44,10 +44,25 @@ public class JsonSerializationUtils {
   protected final DataFactory _dataFactory = DataFactoryCreator.createDefaultFactory();
 
   /** JSON IPC factory. */
-  protected final IpcFactory _jsonFactory = new JsonFactory();
+  protected final IpcFactory _jsonFactory;
 
   /** helper for parsing date/datetimes. */
   protected final ValueFormatHelper _formatHelper = new ValueFormatHelper();
+
+  /** create instance with pretty-printing enabled. */
+  public JsonSerializationUtils() {
+    this(true);
+  }
+
+  /** create instance with specified. */
+  public JsonSerializationUtils(final boolean printPretty) {
+    _jsonFactory = new JsonFactory(printPretty);
+  }
+
+  /** @returns JSON reader/writer factory. */
+  public IpcFactory getJsonFactory() {
+    return _jsonFactory;
+  }
 
   /**
    * Converts JSON string to record object.
@@ -110,12 +125,17 @@ public class JsonSerializationUtils {
    * 
    * @param reader
    *          an ipc reader (binary/json)
-   * @return a record with no Id set
+   * @return record parsed from stream, or null if end-of-stream reached.
    * @throws IOException
-   *           in case of conversion error
+   *           IO errors from underlying stream.
+   * @throws IllegalStateException
+   *           parse errors.
    */
   public Record stream2record(final IpcStreamReader reader) throws IOException {
     IpcToken token = reader.nextToken();
+    if (token == null) {
+      return null;
+    }
     if (token != IpcToken.OBJECT_START) {
       throw new IllegalStateException("Expected OBJECT_START Token; Token = " + token);
     }
@@ -138,12 +158,15 @@ public class JsonSerializationUtils {
    * 
    * @param reader
    *          an ipc reader (binary/json)
-   * @return an Any
+   * @return an Any, or null if end-of-stream reached.
    * @throws IOException
    *           in case of conversion error
    */
   public Any stream2any(final IpcStreamReader reader) throws IOException {
     IpcToken token = reader.nextToken();
+    if (token == null) {
+      return null;
+    }
     if (token != IpcToken.OBJECT_START) {
       throw new IllegalStateException("Expected OBJECT_START Token; Token = " + token);
     }

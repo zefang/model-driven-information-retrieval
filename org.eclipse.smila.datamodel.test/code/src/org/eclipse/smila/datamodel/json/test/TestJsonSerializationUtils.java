@@ -68,6 +68,9 @@ public class TestJsonSerializationUtils extends TestCase {
   /** for record<->JSON serialization. */
   protected final JsonSerializationUtils _jsonSerializationUtils = new JsonSerializationUtils();
 
+  /** for record<->JSON serialization. */
+  protected final JsonSerializationUtils _jsonSerializationUtilsNoPretty = new JsonSerializationUtils(false);
+
   /**
    * @throws Exception
    *           unexpected error
@@ -132,6 +135,23 @@ public class TestJsonSerializationUtils extends TestCase {
     final Any boolVal = _jsonSerializationUtils.jsonStream2any(boolInput);
     assertTrue(boolVal.isBoolean());
     assertTrue(((Value) boolVal).asBoolean());
+  }
+
+  /**
+   * @throws Exception
+   *           unexpected error
+   */
+  public void testJSONPrettyPrinting() throws Exception {
+    System.out.println("=== testJSON ===");
+    final Record record = createRecord();
+    System.out.println(XmlSerializationUtils.serialize2string(record));
+
+    final String prettyString = _jsonSerializationUtils.record2JsonObject(record);
+    assertTrue(prettyString.indexOf('\n') > 0);
+    assertTrue(prettyString.indexOf("  ") > 0);
+    final String oneLineString = _jsonSerializationUtilsNoPretty.record2JsonObject(record);
+    assertTrue(oneLineString.indexOf('\n') < 0);
+    assertTrue(oneLineString.indexOf("  ") < 0);
   }
 
   /**
