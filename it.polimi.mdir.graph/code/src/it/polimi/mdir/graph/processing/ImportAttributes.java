@@ -15,8 +15,8 @@ public class ImportAttributes extends OperationFunction {
 
 	private static final String NO_RELATION_TYPE = "none";
 	
-	private ArrayList<ImportCandidate> importedAttributes = new ArrayList<ImportCandidate>();
-	private ArrayList<ImportCandidate> importedClassNames = new ArrayList<ImportCandidate>();
+	protected ArrayList<ImportCandidate> importedAttributes = new ArrayList<ImportCandidate>();
+	protected ArrayList<ImportCandidate> importedClassNames = new ArrayList<ImportCandidate>();
 	
 	private ArrayList<ImportCandidate> importCandidateAttributes = new ArrayList<ImportCandidate>();
 	private ArrayList<ImportCandidate> importCandidatesClassNames = new ArrayList<ImportCandidate>();
