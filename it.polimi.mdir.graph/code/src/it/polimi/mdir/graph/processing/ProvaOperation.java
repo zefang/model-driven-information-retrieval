@@ -14,10 +14,11 @@ class ProvaOperation extends ImportAttributes {
 		super.importAttributes(currentNode, currentNode, 0, g);
 		
 		Iterator<ImportCandidate> itr = importedAttributes.iterator();
+		System.out.print("ho importato: ");
 		while (itr.hasNext()) {
-			System.out.println("Ho importato: " + itr.next().getNameWeight());
+			System.out.print(itr.next().getNameWeight() + " ");
 		}
-		
+		System.out.println(" ");
 	}
 	
 }
