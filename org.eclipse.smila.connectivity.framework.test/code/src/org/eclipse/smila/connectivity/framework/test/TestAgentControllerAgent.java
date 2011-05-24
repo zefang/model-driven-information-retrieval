@@ -56,14 +56,12 @@ public class TestAgentControllerAgent extends DeclarativeServiceTestCase {
     final String dataSourceId = "dummy";
     String msg = aca.startAgentTask(dataSourceId);
     assertNotNull(msg);
-    assertEquals("Error loading DataSource with DataSourceId '" + dataSourceId
-      + "': org.eclipse.smila.utils.config.ConfigurationLoadException: Unable to find configuration resource "
-      + dataSourceId + ".xml in the bundle org.eclipse.smila.connectivity.framework", msg);
-
+    assertTrue(msg.contains("org.eclipse.smila.utils.config.ConfigurationLoadException"));
+    assertTrue(msg.contains(dataSourceId + ".xml"));
     try {
       msg = aca.startAgentTask(null);
       fail("Expected NullPointerException");
-    } catch (NullPointerException e) {
+    } catch (final NullPointerException e) {
       assertEquals("Parameter dataSourceId is null", e.getMessage());
     }
 
@@ -75,7 +73,7 @@ public class TestAgentControllerAgent extends DeclarativeServiceTestCase {
     try {
       msg = aca.stopAgentTask(null);
       fail("Expected NullPointerException");
-    } catch (NullPointerException e) {
+    } catch (final NullPointerException e) {
       assertEquals("Parameter dataSourceId is null", e.getMessage());
     }
   }
@@ -160,9 +158,9 @@ public class TestAgentControllerAgent extends DeclarativeServiceTestCase {
   public void testAvailableAgents() throws Exception {
     final AgentControllerAgent aca = getService(AgentControllerAgent.class);
     final String[] availAgents = aca.getAvailableAgents();
-    assert (availAgents.length == 1);
+    assert availAgents.length == 1;
     final List<String> a = Arrays.asList(availAgents);
-    assert (a.indexOf("MockAgent") > 0);
+    assert a.indexOf("MockAgent") > 0;
   }
 
 }

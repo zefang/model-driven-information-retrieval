@@ -239,7 +239,6 @@ public final class PipeletManager implements PipeletTrackerListener {
 
     try {
       final Element inputVariable = (Element) context.readVariable(inputVariableName);
-      final QName varType = getVariableType(context, inputVariableName);
       if (_log.isDebugEnabled()) {
         final String inputVariableString = DOMUtils.domToString(inputVariable);
         _log.debug(key + ": input = " + inputVariableString);
@@ -253,9 +252,7 @@ public final class PipeletManager implements PipeletTrackerListener {
       final String[] request = messageHelper.parseMessage(blackboard, inputVariable);
 
       final String[] result = doInvoke(pipeletHolder, processor, blackboard, request);
-      final Element outputVariable = messageHelper.createMessage(blackboard, result);
-
-      messageHelper.addRequestId(outputVariable, requestId, varType);
+      final Element outputVariable = messageHelper.createMessage(blackboard, result, requestId);
       if (_log.isDebugEnabled()) {
         final String outputVariableString = DOMUtils.domToString(outputVariable);
         _log.debug(key + ": output = " + outputVariableString);

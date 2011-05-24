@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Utils Plug-in (Incubation)
 Bundle-SymbolicName: org.eclipse.smila.utils;singleton:=true
-Bundle-Version: 0.8.0
+Bundle-Version: 0.9.0
 Bundle-Vendor: empolis GmbH and brox IT Solutions GmbH
 Import-Package: org.apache.commons.beanutils;version="1.7.0",
  org.apache.commons.beanutils.converters;version="1.7.0",
@@ -21,6 +21,7 @@ Export-Package: org.eclipse.smila.utils;version="0.8.0";x-friends:="org.eclipse.
  org.eclipse.smila.utils.digest;version="0.8.0",
  org.eclipse.smila.utils.extensions;version="0.8.0",
  org.eclipse.smila.utils.file;version="0.8.0",
+ org.eclipse.smila.utils.http;version="0.9.0",
  org.eclipse.smila.utils.jaxb;version="0.8.0",
  org.eclipse.smila.utils.log;version="0.8.0",
  org.eclipse.smila.utils.scriptexecution;version="0.8.0",

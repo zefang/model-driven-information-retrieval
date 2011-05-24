@@ -17,6 +17,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import javax.sql.DataSource;
@@ -24,6 +26,7 @@ import javax.transaction.SystemException;
 import javax.transaction.TransactionManager;
 import javax.xml.namespace.QName;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ode.bpel.dao.BpelDAOConnectionFactory;
@@ -49,90 +52,63 @@ import org.w3c.dom.Element;
 
 /**
  * very simple ODE integration.
- *
+ * 
  * @author jschumacher
- *
+ * 
  */
 public class ODEServer {
 
-  /**
-   * config property for transaction timeout = "pipeline.timeout".
-   */
+  /** config property for transaction timeout = "pipeline.timeout". */
   public static final String PROP_PIPELINE_TIMEOUT = "pipeline.timeout";
 
-  /**
-   * default transaction timeout for transaction manager in seconds = 5 minutes.
-   */
+  /** default transaction timeout for transaction manager in seconds = 5 minutes. */
   public static final String DEFAULT_PIPELINE_TIMEOUT = "300";
 
-  /**
-   * for conversion of timeout seconds to millis ... prevent a magic number.
-   */
+  /** for conversion of timeout seconds to millis ... prevent a magic number. */
   public static final int MILLIS_PER_SECOND = 1000;
 
-  /**
-   * path to SQL script that prepares the in-memory HSQLDB instance for the scheduler.
-   */
+  /** path to SQL script that prepares the in-memory HSQLDB instance for the scheduler. */
   private static final String RESOURCE_SCHEDULER_HSQLDB_SQL = "/sql/scheduler-hsqldb.sql";
 
-  /**
-   * path to SQL script that prepares the in-memory Derby instance for the scheduler.
-   */
+  /** path to SQL script that prepares the in-memory Derby instance for the scheduler. */
   private static final String RESOURCE_SCHEDULER_DERBY_SQL = "/sql/scheduler-derby.sql";
 
-  /**
-   * logger for this class.
-   */
+  /** logger for this class. */
   private final Log _log = LogFactory.getLog(getClass());
 
-  /**
-   * configuration of ODE.
-   */
+  /** configuration of ODE. */
   private ODEConfigProperties _odeConfig;
 
-  /**
-   * the BPEL server.
-   */
+  /** the BPEL server. */
   private BpelServerImpl _server;
 
-  /**
-   * store for deployed processes.
-   */
+  /** store for deployed processes. */
   private ProcessStoreImpl _store;
 
-  /**
-   * transaction manager.
-   */
+  /** transaction manager. */
   private TransactionManager _txManager;
 
-  /**
-   * factory for database related objects (datasources, DAO connection factories, etc.).
-   */
+  /** factory for database related objects (datasources, DAO connection factories, etc.). */
   private Database _database;
 
-  /**
-   * . data source to use by BPEL engine
-   */
+  /** data source to use by BPEL engine. */
   private DataSource _dataSource;
 
-  /**
-   * BPEL job scheduler.
-   */
+  /** BPEL job scheduler. */
   private Scheduler _scheduler;
 
-  /**
-   * DAO connection factory for BPEL objects.
-   */
+  /** DAO connection factory for BPEL objects. */
   private BpelDAOConnectionFactory _daoCF;
 
-  /**
-   * timeout for BPEL pipelines in seconds.
-   */
+  /** timeout for BPEL pipelines in seconds. */
   private int _txTimeoutMillis;
+
+  /** mapping of workflow names to BPEl files. */
+  private final Map<QName, File> _bpelFiles = new HashMap<QName, File>();
 
   /**
    * initialize ODE BPEL engine with settings in specified config properties.
-   *
+   * 
    * @param odeConfig
    *          config properties for engine.
    * @param contextFactory
@@ -163,7 +139,7 @@ public class ODEServer {
 
   /**
    * deploy BPEL processes in given directory.
-   *
+   * 
    * @param deploymentUnitDirectory
    *          directory to search for BPEL processes.
    * @return names of deployed processes
@@ -176,9 +152,12 @@ public class ODEServer {
       final Collection<QName> names = new ArrayList<QName>(pids.size());
       for (final QName pid : pids) {
         final ProcessConf processConf = _store.getProcessConfiguration(pid);
-        names.add(processConf.getType());
+        final QName processName = processConf.getType();
+        names.add(processName);
+        _bpelFiles.put(processName, new File(deploymentUnitDirectory, processConf.getBpelDocument()));
         _server.register(processConf);
       }
+      _log.info("Deployed BPEL processes: " + _bpelFiles);
       return names;
     } finally {
       Thread.currentThread().setContextClassLoader(tcclBackup);
@@ -186,8 +165,22 @@ public class ODEServer {
   }
 
   /**
+   * @param processId
+   *          a process Id as returned by {@link #deploy(File)}.
+   * @return the BPEL document defining this process, if it exists. Else null.
+   * @throws IOException error reading file. 
+   */
+  public String getBpelDocument(final QName processId) throws IOException {
+    final File bpelFile = _bpelFiles.get(processId);
+    if (bpelFile == null) {
+      return null;
+    }
+    return FileUtils.readFileToString(bpelFile);
+  }
+
+  /**
    * get the configuration of the named process.
-   *
+   * 
    * @param processId
    *          qname of proces
    * @return definition of process.
@@ -198,7 +191,7 @@ public class ODEServer {
 
   /**
    * register an extension bundle with the BPEL server.
-   *
+   * 
    * @param bundle
    *          an extension bundle.
    */
@@ -209,7 +202,7 @@ public class ODEServer {
 
   /**
    * register an extension bundle with the BPEL server.
-   *
+   * 
    * @param bundle
    *          an extension bundle.
    */
@@ -220,7 +213,7 @@ public class ODEServer {
   /**
    * register an listener to {@link org.apache.ode.bpel.evt.BpelEvent} issued by the ODE engine during execution of
    * processes.
-   *
+   * 
    * @param listener
    *          BPEL event listener
    */
@@ -231,7 +224,7 @@ public class ODEServer {
   /**
    * unregister an listener to {@link org.apache.ode.bpel.evt.BpelEvent} issued by the ODE engine during execution of
    * processes.
-   *
+   * 
    * @param listener
    *          BPEL event listener
    */
@@ -241,7 +234,7 @@ public class ODEServer {
 
   /**
    * invoke a BPEL process.
-   *
+   * 
    * @param serviceName
    *          name of BPEL process as returned by deploy()
    * @param opName
@@ -279,7 +272,7 @@ public class ODEServer {
 
   /**
    * invoke process.
-   *
+   * 
    * @param serviceName
    *          service name
    * @param opName
@@ -317,7 +310,7 @@ public class ODEServer {
 
   /**
    * process response of invocation.
-   *
+   * 
    * @param mex
    *          invocation mex
    * @return result content.
@@ -355,7 +348,7 @@ public class ODEServer {
 
   /**
    * shutdown the BPEL engine and all used resources.
-   *
+   * 
    */
   public void shutdown() {
     try {
@@ -392,7 +385,7 @@ public class ODEServer {
 
   /**
    * intialize BPEL server.
-   *
+   * 
    * @param contextFactory
    *          context factory creating necessary context objects.
    */
@@ -421,7 +414,7 @@ public class ODEServer {
 
   /**
    * create a store for BPEL process management.
-   *
+   * 
    * @param contextFactory
    *          context factory to create the needed context objects.
    */
@@ -434,7 +427,7 @@ public class ODEServer {
   /**
    * create a TransactionManager for the BPEL engine. Currently hardcoded to use the Geronimo implementation of
    * transactions.
-   *
+   * 
    * @return a new transaction manager
    * @throws SystemException
    *           error in initialisation.
@@ -447,7 +440,7 @@ public class ODEServer {
 
   /**
    * create a data source for persistence operations of the BPEL engine.
-   *
+   * 
    * @throws DatabaseConfigException
    *           invalid database configuration.
    */
@@ -477,7 +470,7 @@ public class ODEServer {
 
   /**
    * create a scheduler for the BPEL engine.
-   *
+   * 
    * @return a new scheduler
    * @throws ODEServerException
    *           error initializing the scheduler database.
@@ -505,7 +498,7 @@ public class ODEServer {
 
   /**
    * create tables and aliases in in-memory HSQLDB.
-   *
+   * 
    * @throws ODEServerException
    *           error creating tables
    */

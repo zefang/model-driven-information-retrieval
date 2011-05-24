@@ -51,6 +51,7 @@ Import-Package: com.ibm.wsdl,
  org.apache.commons.httpclient.params;version="3.1.0",
  org.apache.commons.httpclient.protocol;version="3.1.0",
  org.apache.commons.httpclient.util;version="3.1.0",
+ org.apache.commons.io;version="1.4.0",
  org.apache.commons.lang;version="2.4.0",
  org.apache.commons.lang.exception;version="2.4.0",
  org.apache.commons.logging;version="1.1.1",
@@ -192,6 +193,6 @@ Export-Package: org.apache.ode.axis2;version="2.0.0",
  org.apache.ode.utils.xml.capture;version="2.0.0",
  org.apache.ode.utils.xsd;version="2.0.0",
  org.apache.ode.utils.xsl;version="2.0.0",
- org.eclipse.smila.ode;version="0.8.0"
+ org.eclipse.smila.ode;version="0.9.0"
 JPA-PersistenceUnits: ode-dao-el,ode-store-el,ode-dao,ode-store
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

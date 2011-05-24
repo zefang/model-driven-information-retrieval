@@ -2,22 +2,24 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Eclipse SMILA data model: Any and Record
 Bundle-SymbolicName: org.eclipse.smila.datamodel
-Bundle-Version: 0.8.0
-Import-Package: org.apache.commons.collections.iterators;version="3.2.0",
+Bundle-Version: 0.9.0
+Import-Package: org.apache.commons.collections;version="3.2.0",
+ org.apache.commons.collections.iterators;version="3.2.0",
  org.apache.commons.io;version="1.4.0",
  org.apache.commons.lang;version="2.4.0",
+ org.apache.commons.logging;version="1.1.1",
  org.eclipse.smila.ipc;version="0.8.0",
  org.eclipse.smila.ipc.json;version="0.8.0",
- org.eclipse.smila.utils.collections,
+ org.eclipse.smila.utils.collections;version="0.8",
  org.eclipse.smila.utils.digest;version="0.8.0",
  org.eclipse.smila.utils.jaxb;version="0.8.0",
  org.eclipse.smila.utils.xml;version="0.8.0",
  org.osgi.framework;version="1.5.0"
-Export-Package: org.eclipse.smila.datamodel;version="0.8.0",
+Export-Package: org.eclipse.smila.datamodel;version="0.9.0",
  org.eclipse.smila.datamodel.filter;version="0.8.0",
  org.eclipse.smila.datamodel.filter.messages;version="0.8.0",
  org.eclipse.smila.datamodel.impl;version="0.8.0",
- org.eclipse.smila.datamodel.json;version="0.8.0",
+ org.eclipse.smila.datamodel.json;version="0.9.0",
  org.eclipse.smila.datamodel.xml;version="0.8.0"
 Bundle-Vendor: Attensity Europe GmbH and brox IT Solutions GmbH
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

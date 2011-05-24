@@ -16,7 +16,8 @@ import org.eclipse.smila.utils.config.ConfigUtils;
 import org.eclipse.smila.utils.config.ConfigurationLoadException;
 
 /**
- * The Class TestConfigUtils.
+ * the test scenario is that the requested resource doesnt exist in the config folder but in the bundle's resources as a
+ * fallback.
  */
 public class TestConfigUtils extends TestCase {
 

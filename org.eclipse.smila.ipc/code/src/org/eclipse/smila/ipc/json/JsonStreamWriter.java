@@ -15,6 +15,7 @@ import org.codehaus.jackson.JsonEncoding;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.util.MinimalPrettyPrinter;
 import org.eclipse.smila.ipc.IpcStreamWriter;
 
 /**
@@ -31,19 +32,18 @@ public class JsonStreamWriter implements IpcStreamWriter {
   private JsonGenerator _generator;
 
   /**
-   * create instance.
-   * 
-   * @param stream
-   *          target stream.
-   * @throws IOException
-   *           error creating the JSON generator.
+   * create JSON writer with optional pretty-printing.
    */
-  JsonStreamWriter(final OutputStream stream) throws IOException {
+  JsonStreamWriter(final OutputStream stream, final boolean printPretty) throws IOException {
     try {
       _generator = FACTORY.createJsonGenerator(stream, JsonEncoding.UTF8);
       // default: do close underlying source (stream) on _generator.close():
       _generator.enable(JsonGenerator.Feature.AUTO_CLOSE_TARGET);
-      _generator.useDefaultPrettyPrinter(); // enable pretty printing (costs are insignificant for small JSON docs)
+      if (printPretty) {
+        _generator.useDefaultPrettyPrinter();
+      } else {
+        _generator.setPrettyPrinter(new MinimalPrettyPrinter());
+      }
     } catch (final JsonParseException e) {
       throw new IOException(e);
     }

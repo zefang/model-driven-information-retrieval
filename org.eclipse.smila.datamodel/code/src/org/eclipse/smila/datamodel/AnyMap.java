@@ -36,7 +36,7 @@ public interface AnyMap extends Any, Map<String, Any> {
    *          The key
    * @param value
    *          String value
-   * @return true, if key value pair has been successfully putted to the map, false else
+   * @return the previous value or null
    */
   Any put(String key, String value);
 
@@ -48,7 +48,7 @@ public interface AnyMap extends Any, Map<String, Any> {
    *          The key
    * @param value
    *          Number value, will be converted
-   * @return true, if key value pair has been successfully putted to the map, false else
+   * @return the previous value or null
    */
   Any put(String key, Number value);
 
@@ -57,15 +57,15 @@ public interface AnyMap extends Any, Map<String, Any> {
    *          The key
    * @param value
    *          Boolean value
-   * @return true, if key value pair has been successfully putted to the map, false else
+   * @return the previous value or null
    */
   Any put(String key, Boolean value);
 
   /**
    * @param key
    *          The key
-   * @return The AnyMap matching the key, an InvalidValueTypeException is thrown if the value is not of type AnyMap,
-   *         or null
+   * @return The AnyMap matching the key, an InvalidValueTypeException is thrown if the value is not of type AnyMap, or
+   *         null
    */
   AnyMap getMap(String key);
 

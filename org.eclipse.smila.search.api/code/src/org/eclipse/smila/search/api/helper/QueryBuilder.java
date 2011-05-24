@@ -54,7 +54,7 @@ public class QueryBuilder {
   }
 
   /**
-   * name of pipeline to use for search.
+   * name of pipeline to use for search, only needed for {@link #executeRequest()}
    */
   private final String _workflowName;
 

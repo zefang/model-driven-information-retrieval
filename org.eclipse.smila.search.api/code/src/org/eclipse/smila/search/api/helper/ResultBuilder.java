@@ -31,7 +31,7 @@ public class ResultBuilder extends ResultAccessor {
   }
 
   /**
-   * Adds a new result item to the list. the given args a mandatory and will be set at the item.
+   * Adds a new result item to the list. the given args are mandatory and will be set at the item.
    * 
    * @return the map containing the id and score/weight under their proper names.
    */

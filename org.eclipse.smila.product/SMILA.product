@@ -24,20 +24,26 @@ SMILA is an extensible framework for building search solutions to access unstruc
 -XX:MaxPermSize=256m
 -Declipse.ignoreApp=true 
 -Dosgi.noShutdown=true 
--Dorg.apache.commons.logging.Log=org.apache.commons.logging.impl.Log4JLogger 
--Dlog4j.configuration=file:log4j.properties 
 -Dosgi.requiredJavaVersion=1.6
 -Dcom.sun.management.jmxremote 
 -Dcom.sun.management.jmxremote.ssl=false 
 -Dcom.sun.management.jmxremote.authenticate=false 
--Dcom.sun.management.jmxremote.port=9004</vmArgs>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+-Dcom.sun.management.jmxremote.port=9004
+-Dorg.apache.commons.logging.Log=org.apache.commons.logging.impl.Log4JLogger</vmArgs>
+      <vmArgsLin>-Dlog4j.configuration=file:log4j.properties</vmArgsLin>
+      <vmArgsMac>-Dlog4j.configuration=file:../../../log4j.properties
+-Dorg.eclipse.smila.utils.config.root=../../../configuration
+-Dorg.eclipse.swt.internal.carbon.smallFonts
+-XstartOnFirstThread</vmArgsMac>
+      <vmArgsSol>-Dlog4j.configuration=file:log4j.properties</vmArgsSol>
+      <vmArgsWin>-Dlog4j.configuration=file:log4j.properties</vmArgsWin>
    </launcherArgs>
 
    <windowImages i16="/org.eclipse.smila.product/icons/smila-icon-16.png" i32="/org.eclipse.smila.product/icons/smila-icon-32.png" i48="/org.eclipse.smila.product/icons/smila-icon-48.png" i64="/org.eclipse.smila.product/icons/smila-icon-64.png" i128="/org.eclipse.smila.product/icons/smila-icon-128.png"/>
 
    <launcher name="SMILA">
       <linux icon="/org.eclipse.smila.product/icons/smila-icon-48.xpm"/>
+      <macosx icon="/org.eclipse.smila.product/icons/smila-icon.icns"/>
       <solaris/>
       <win useIco="false">
          <bmp
@@ -49,7 +55,6 @@ SMILA is an extensible framework for building search solutions to access unstruc
             winLargeLow="/org.eclipse.smila.product/icons/smila-icon-48-8.bmp"/>
       </win>
    </launcher>
-
 
    <vm>
    </vm>

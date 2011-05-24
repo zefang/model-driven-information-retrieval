@@ -30,6 +30,7 @@ public final class AllTests {
   public static Test suite() {
     final TestSuite suite = new TestSuite("Test for org.eclipse.smila.processing.bpel");
     // $JUnit-BEGIN$
+    suite.addTestSuite(TestWorkflowProcessorService.class);
     suite.addTestSuite(TestEchoPipeline.class);
     suite.addTestSuite(TestSimplePipeline.class);
     suite.addTestSuite(TestSplitterPipeline.class);
@@ -39,6 +40,8 @@ public final class AllTests {
     suite.addTestSuite(TestLocalHelloWorldPipeline.class);
     suite.addTestSuite(TestSearchPipeletPipeline.class);
     suite.addTestSuite(TestHelloWorldPipeline.class);
+    suite.addTestSuite(TestPipelineHandler.class);
+    suite.addTestSuite(TestPipelineDefinitionHandler.class);
     // $JUnit-END$
     return suite;
   }
