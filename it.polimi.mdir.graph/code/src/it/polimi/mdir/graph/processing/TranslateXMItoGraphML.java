@@ -2,8 +2,10 @@ package it.polimi.mdir.graph.processing;
 
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,6 +19,8 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import it.polimi.mdir.graph.Edge;
+import it.polimi.mdir.graph.Node;
 import it.polimi.mdir.xquery.XQueryWrapper;
 
 import org.apache.xerces.dom.DOMImplementationImpl;
@@ -24,11 +28,13 @@ import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import edu.uci.ics.jung.graph.Graph;
+
 public class TranslateXMItoGraphML {
 	
 	private static String XQUERY_PATH = "";
 	private static String UML_PATH = "";
-	private static String RESULT_PATH = "";
+	private static String GRAPHML_PATH = "";
 	private static int	  nDocs;
 	private static File	  currentFile;
 	private static String currentDoc = "";
@@ -42,7 +48,7 @@ public class TranslateXMItoGraphML {
 	private static void initialization() throws IOException {
 		XQUERY_PATH = ConfigLoader.XQUERY_PATH;
 		UML_PATH = ConfigLoader.UML_PATH;
-		RESULT_PATH = ConfigLoader.RESULT_PATH;
+		GRAPHML_PATH = ConfigLoader.GRAPHML_PATH;
 	}
 	
 	public static void main(String[] args) throws IOException {
@@ -139,7 +145,7 @@ public class TranslateXMItoGraphML {
 				DOMSource source = new DOMSource(graphml);
 				transformer.transform(source, result);
 				
-				String outputName = RESULT_PATH + removeExtension(currentDoc) + ".gml";
+				String outputName = GRAPHML_PATH + removeExtension(currentDoc) + ".gml";
 				File resultFile = new File(outputName);
 				FileWriter outputWriter = new FileWriter(resultFile);
 				outputWriter.write(writer.toString());
@@ -152,6 +158,17 @@ public class TranslateXMItoGraphML {
 				e.printStackTrace();
 			} catch (TransformerException e) {
 				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			Graph<Node, Edge> g = GraphFactory.createGraphFromGraphML(GRAPHML_PATH + removeExtension(currentDoc)+".gml");
+			try {
+				FileOutputStream fileOut = new FileOutputStream(ConfigLoader.SERIALIZATION_PATH + removeExtension(currentDoc)+".ser");
+				ObjectOutputStream out = new ObjectOutputStream(fileOut);
+				out.writeObject(g);
+				out.close();
+					fileOut.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
