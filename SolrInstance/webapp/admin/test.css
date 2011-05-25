@@ -43,5 +43,17 @@ div.detailedScore {
 	background: #FFFFCC;
 	border: 1px solid #000000;
 	padding: 4px;
-	
+}
+
+div.tipBox {
+	  display: none; 
+      position: absolute; 
+      border:solid 2px #003300; 
+      background: #66FF66;
+	  color: #003300;
+	  text-align: center;
+	  font-family: Lucida Sans Unicode;
+	  font-size: 12px;
+	  font-weight: bold;
+	  padding: 8px;	
 }
