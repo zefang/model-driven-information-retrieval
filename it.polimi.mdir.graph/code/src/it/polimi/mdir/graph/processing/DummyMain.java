@@ -24,7 +24,7 @@ public class DummyMain {
 			}
 		}
 
-		nv.visitNode(g, toVisit, 0, toVisit, new ProvaOperation());
+		nv.visitNode(g, toVisit, 2, toVisit, new ProvaOperation());
 	}
 	
 	
