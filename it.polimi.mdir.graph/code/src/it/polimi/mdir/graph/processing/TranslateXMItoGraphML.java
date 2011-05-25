@@ -92,7 +92,7 @@ public class TranslateXMItoGraphML {
 			classList = xq1.executeQuery();
 			String classId = "";
 			String className = "";	
-			String[] attributeString = new String[2];
+			String attributeName = "";
 			
 			Iterator<String> itr = classList.iterator();
 			while (itr.hasNext()) {
@@ -105,9 +105,7 @@ public class TranslateXMItoGraphML {
 					classNameElement.appendChild(document.createTextNode(className));
 				node.appendChild(classNameElement);
 				
-				// Adding vanilla attributes to node they get returned in the format attributeName$'attribute'.
-				//It may sound useless to add the attribute type now since I'm retrieving just the vanilla but
-				// trust me, it's not.
+				// Adding vanilla attributes to node
 				XQueryWrapper xq2 = new XQueryWrapper(XQUERY_PATH + "getVanillaAttributes.xquery");
 				xq2.bindVariable("document", UML_PATH + currentDoc);
 				xq2.bindVariable("classId", classId);
@@ -115,13 +113,9 @@ public class TranslateXMItoGraphML {
 				
 				Iterator<String> attrItr = attrList.iterator();
 				while (attrItr.hasNext()) {
-					attributeString = attrItr.next().split("\\$");
-					String attrName = attributeString[0];
-					String attrType = attributeString[1];
-					
+					attributeName = attrItr.next();					
 					Element attribute = document.createElement("attribute");
-					attribute.setAttribute("relType", attrType);
-					attribute.appendChild(document.createTextNode(attrName));
+					attribute.appendChild(document.createTextNode(attributeName));
 					node.appendChild(attribute);
 				}
 				
