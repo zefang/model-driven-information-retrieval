@@ -44,6 +44,14 @@
 </tr>
 <tr>
   <td>
+	<strong>Campo qf (Query Field)</strong>
+  </td>
+  <td>
+	<input name="qf" type="text" value="content" size="20"  />
+  </td>
+</tr>
+<tr>
+  <td>
   </td>
   <td>
     <input class="stdbutton" type="submit" value="search" onclick="if (queryForm.q.value.length==0) { alert('no empty queries, please'); return false; } else { queryForm.submit(); } ">
