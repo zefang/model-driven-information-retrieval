@@ -139,7 +139,7 @@ public class TranslateXMItoGraphML {
 				DOMSource source = new DOMSource(graphml);
 				transformer.transform(source, result);
 				
-				String outputName = RESULT_PATH + currentDoc + ".xml";
+				String outputName = RESULT_PATH + removeExtension(currentDoc) + ".gml";
 				File resultFile = new File(outputName);
 				FileWriter outputWriter = new FileWriter(resultFile);
 				outputWriter.write(writer.toString());
@@ -234,6 +234,10 @@ public class TranslateXMItoGraphML {
 			graph.appendChild(edgeOpposite);
 			
 		}
+	}
+	
+	private static String removeExtension(String fileName) {
+		return fileName.substring(0,fileName.length()-4);
 	}
 	
 }

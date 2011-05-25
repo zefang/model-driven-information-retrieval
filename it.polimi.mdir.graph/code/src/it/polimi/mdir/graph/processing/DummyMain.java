@@ -1,6 +1,5 @@
 package it.polimi.mdir.graph.processing;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,22 +8,20 @@ import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.Iterator;
 
-import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
-
 import it.polimi.mdir.graph.Edge;
 import it.polimi.mdir.graph.Node;
 import edu.uci.ics.jung.graph.Graph;
 
 public class DummyMain {
 	
-	private static String fileName = "prova.uml.xml";
+	private static String fileName = "prova.gml";
 	
 	public static void main(String[] args) {
 		
 		NavigateGraph nv = new NavigateGraph();
 		
 		Graph<Node, Edge> g = GraphFactory.createGraphFromGraphML(ConfigLoader.GRAPHML_PATH + fileName);
-		//serializinf graph
+		//serializing graph
 		try {
 			FileOutputStream fileOut = new FileOutputStream(ConfigLoader.SERIALIZATION_PATH + fileName+".ser");
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -77,7 +74,6 @@ public class DummyMain {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return graph;
