@@ -1,5 +1,8 @@
 package it.polimi.mdir.text;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -7,7 +10,7 @@ import java.util.Iterator;
 
 import it.polimi.mdir.graph.Edge;
 import it.polimi.mdir.graph.Node;
-import it.polimi.mdir.graph.processing.GraphCollection;
+import it.polimi.mdir.graph.processing.ConfigLoader;
 import it.polimi.mdir.graph.processing.ImportAttributes;
 import it.polimi.mdir.graph.processing.NavigateGraph;
 import org.eclipse.smila.blackboard.Blackboard;
@@ -30,6 +33,7 @@ public class EnrichRecordsExperimentDPipelet implements Pipelet {
 	
 	private static int count = 0;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public String[] process(Blackboard blackboard, String[] recordIds)
 			throws ProcessingException {
@@ -41,11 +45,30 @@ public class EnrichRecordsExperimentDPipelet implements Pipelet {
 				String className = blackboard.getRecord(id).getMetadata().getStringValue("className");
 				String classId = blackboard.getRecord(id).getMetadata().getStringValue("classId");
 				String fileName = blackboard.getRecord(id).getMetadata().getStringValue("FileName");
+				fileName = fileName.substring(0, fileName.length()-4);
 				
 				System.out.println("Start D " +  ++count + " -> " + className);
 				
-				Graph<Node, Edge> g = GraphCollection.graphMap.get(fileName + ".gml");
+				//Graph<Node, Edge> g = GraphCollection.graphMap.get(fileName + ".gml");
 				//g.clone() sarebbe l'ideale però  non c'è quindi...
+				Graph<Node, Edge> g = null;
+				try {
+					FileInputStream fileIn = new FileInputStream(ConfigLoader.SERIALIZATION_PATH +fileName + ".ser");
+					ObjectInputStream in = new ObjectInputStream(fileIn);
+					g = (Graph<Node, Edge>) in.readObject();
+					in.close();
+						fileIn.close();
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				Collection<Edge> edges = g.getEdges();
+				Iterator<Edge> edgeItr = edges.iterator();
+				while (edgeItr.hasNext()) {
+					assert(!edgeItr.next().hasBeenFollowed());
+				}
 				
 				Collection<Node> nodes = g.getVertices();
 				Iterator<Node> nodeItr = nodes.iterator();

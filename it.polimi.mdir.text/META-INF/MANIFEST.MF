@@ -4,6 +4,7 @@ Bundle-Name: Text
 Bundle-SymbolicName: it.polimi.mdir.text
 Bundle-Version: 1.0.0.qualifier
 Import-Package: edu.uci.ics.jung.graph,
+ edu.uci.ics.jung.graph.util,
  it.polimi.mdir.graph,
  it.polimi.mdir.graph.processing,
  org.eclipse.smila.blackboard,

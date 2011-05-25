@@ -12,6 +12,7 @@ Import-Package: it.polimi.mdir.xquery,
  org.eclipse.smila.processing;version="0.8.0"
 SMILA-Pipelets: it.polimi.mdir.graph.pipelet.CreateGraphPipelet
 Export-Package: edu.uci.ics.jung.graph,
+ edu.uci.ics.jung.graph.util,
  it.polimi.mdir.graph,
  it.polimi.mdir.graph.processing
 Bundle-ClassPath: .,
