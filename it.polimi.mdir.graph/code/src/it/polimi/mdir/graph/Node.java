@@ -1,9 +1,12 @@
 package it.polimi.mdir.graph;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Node {
+public class Node implements Serializable {
 
+	private static final long serialVersionUID = -3496537477960329525L;
+	
 	private String id;
 	private String className;
 	private ArrayList<String> attributes = new ArrayList<String>();

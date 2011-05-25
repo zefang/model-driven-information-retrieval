@@ -45,6 +45,8 @@ public class EnrichRecordsExperimentDPipelet implements Pipelet {
 				System.out.println("Start D " +  ++count + " -> " + className);
 				
 				Graph<Node, Edge> g = GraphCollection.graphMap.get(fileName + ".xml");
+				//g.clone() sarebbe l'ideale però  non c'è quindi...
+				
 				Collection<Node> nodes = g.getVertices();
 				Iterator<Node> nodeItr = nodes.iterator();
 				boolean found = false;

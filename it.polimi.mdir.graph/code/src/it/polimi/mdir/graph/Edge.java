@@ -1,6 +1,10 @@
 package it.polimi.mdir.graph;
 
-public class Edge {
+import java.io.Serializable;
+
+public class Edge implements Serializable {
+	
+	private static final long serialVersionUID = -862792027650369073L;
 	
 	private String id;
 	private String relationType;
