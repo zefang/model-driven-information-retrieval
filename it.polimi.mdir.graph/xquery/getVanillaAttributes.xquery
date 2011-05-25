@@ -8,5 +8,5 @@ for $class in doc($document)//packagedElement
 	for $attribute in $class/ownedAttribute
 where $class/@xmi:type = "uml:Class" and $class/@xmi:id = $classId
 return if (not(exists($attribute/@association)) and not(exists($attribute/@aggregation)))
-		then concat(data($attribute/@name),'$', 'attribute')
+		then data($attribute/@name)
 		else  ()
