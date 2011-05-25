@@ -21,6 +21,7 @@ public class DummyMain {
 		NavigateGraph nv = new NavigateGraph();
 		
 		Graph<Node, Edge> g = GraphFactory.createGraphFromGraphML(ConfigLoader.GRAPHML_PATH + fileName);
+		fileName = fileName.substring(0, fileName.length()-4);
 		//serializing graph
 		try {
 			FileOutputStream fileOut = new FileOutputStream(ConfigLoader.SERIALIZATION_PATH + fileName+".ser");
@@ -78,7 +79,6 @@ public class DummyMain {
 		}
 		return graph;
 	}
-	
 	
 
 }

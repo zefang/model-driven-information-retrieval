@@ -47,8 +47,8 @@ public class CreateGraphPipelet implements Pipelet {
 				
 				Graph<Node, Edge> g = GraphFactory.createGraphFromGraphML(GRAPHML_PATH + fileName);
 				
-				//serialize
-				GraphCollection.graphMap.put(fileName, g);
+				//GraphCollection.graphMap.put(fileName, g);
+				//TODO serialize
 				
 			} catch (BlackboardAccessException e) {
 				e.printStackTrace();
