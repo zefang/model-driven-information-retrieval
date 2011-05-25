@@ -1,5 +1,6 @@
 package it.polimi.mdir.graph.processing;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -66,40 +67,30 @@ public class NavigateGraph {
 		
 		//visit the neighbours
 		numHops -= 1;
-		LinkedList<Node> neighboursQueue = getNeighbours(nodeToVisit, g);
 		
-		while (!neighboursQueue.isEmpty()) {
-			Node nextNode = neighboursQueue.remove(); 
-			if (!nextNode.equals(callerNode) && !nextNode.equals(rootNode)) {
-				visitNode(g, numHops, nextNode, nodeToVisit, rootNode, function);
+		Collection<Edge> outgoingEdgesList = g.getOutEdges(nodeToVisit); 
+		Iterator<Edge> outgoingEdgesItr = outgoingEdgesList.iterator();
+		while (outgoingEdgesItr.hasNext()) {
+			Edge nextEdge = outgoingEdgesItr.next();
+			if (!nextEdge.getTargetId().equals(callerNode.getId()) &&
+				!nextEdge.getTargetId().equals(rootNode.getId()) &&
+				!nextEdge.hasBeenFollowed()) {
+				
+				Collection<Node> nodesList = g.getVertices();
+				Iterator<Node> nodeItr = nodesList.iterator();
+				Node nextNode = null;
+				while (nodeItr.hasNext()) {
+					Node nextNodeCandidate = nodeItr.next();
+					if (nextNodeCandidate.getId().equals(nextEdge.getTargetId())) {
+						nextNode = nextNodeCandidate;
+					}
+				}
+				visitNode(g, numHops, nextNode, nodeToVisit, rootNode, function);	
 			}
 		}
 		
 		//TODO Do ya thang here
 		function.importAttributes(nodeToVisit, callerNode, numHops, g);
 	}
-	
-	
-	/**
-	 * 
-	 * Gets the neighbours of a node and puts them in a queue. 
-	 * 
-	 * @param n
-	 * The node which I want to retrieve the neighbours of.
-	 * @param g
-	 * The graph in which the node is in.
-	 * @return
-	 * A queue of the neighbours of the node.
-	 */
-	private static LinkedList<Node> getNeighbours(Node n, Graph<Node, Edge> g) {
-		Collection<Node> neighbours = g.getNeighbors(n);
-		LinkedList<Node> neighboursQueue = new LinkedList<Node>();
-		Iterator<Node> itr = neighbours.iterator();
-		while (itr.hasNext()) {
-			neighboursQueue.add(itr.next());
-		}
-		return neighboursQueue;
-	}
-	
 
 }
