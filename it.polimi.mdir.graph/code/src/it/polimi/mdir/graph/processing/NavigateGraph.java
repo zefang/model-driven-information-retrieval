@@ -43,7 +43,9 @@ public class NavigateGraph {
 	}
 	
 	/**
-	 *  Visits recursively the node and its neighbours. 
+	 *  Visits recursively the node and its neighbours.
+	 *  Note that we look at the outgoing edges, so if a node is reference by more than one 
+	 *  outgoing edge, we will process that node more times.
 	 *  Note that the business logic gets executed after visiting the neighbours so actually 
 	 *  it gets executed for the furthest nodes first, going upwards.
 	 *  
@@ -76,6 +78,7 @@ public class NavigateGraph {
 				!nextEdge.getTargetId().equals(rootNode.getId()) &&
 				!nextEdge.hasBeenFollowed()) {
 				
+				nextEdge.setFollowed(true);
 				Collection<Node> nodesList = g.getVertices();
 				Iterator<Node> nodeItr = nodesList.iterator();
 				Node nextNode = null;
