@@ -64,21 +64,14 @@ public class EnrichRecordsExperimentDPipelet implements Pipelet {
 					e.printStackTrace();
 				}
 				
-				Collection<Edge> edges = g.getEdges();
-				Iterator<Edge> edgeItr = edges.iterator();
-				while (edgeItr.hasNext()) {
-					assert(!edgeItr.next().hasBeenFollowed());
-				}
-				
 				Collection<Node> nodes = g.getVertices();
 				Iterator<Node> nodeItr = nodes.iterator();
-				boolean found = false;
 				Node toVisit = null;
-				while (nodeItr.hasNext() && !found) {
+				while (nodeItr.hasNext()) {
 					Node n = nodeItr.next();
 					if (n.getId().equals(classId)) {
-						found = true;
 						toVisit = n;
+						break;
 					}
 				}
 				ImportAttributes function = new ImportAttributes();
