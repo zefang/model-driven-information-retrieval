@@ -41,11 +41,13 @@ public class CreateGraphPipelet implements Pipelet {
 			
 			try {
 				String fileName = blackboard.getRecord(id).getMetadata().getStringValue("FileName");
-				fileName += ".xml";
+				fileName += ".gml";
 			
 				System.out.println(++count + "-> Creating graph: " + fileName);
 				
 				Graph<Node, Edge> g = GraphFactory.createGraphFromGraphML(GRAPHML_PATH + fileName);
+				
+				//serialize
 				GraphCollection.graphMap.put(fileName, g);
 				
 			} catch (BlackboardAccessException e) {
