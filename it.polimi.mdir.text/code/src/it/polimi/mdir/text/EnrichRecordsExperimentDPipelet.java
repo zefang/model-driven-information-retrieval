@@ -19,11 +19,16 @@ import edu.uci.ics.jung.graph.Graph;
 
 public class EnrichRecordsExperimentDPipelet implements Pipelet {
 
+	private static final int MAX_HOPS = 2;
+	
 	@Override
 	public void configure(AnyMap configuration) throws ProcessingException {
 		
 	}
-private static int count = 0;
+	
+	
+	private static int count = 0;
+	
 	@Override
 	public String[] process(Blackboard blackboard, String[] recordIds)
 			throws ProcessingException {
@@ -51,7 +56,7 @@ private static int count = 0;
 					}
 				}
 				ImportAttributes function = new ImportAttributes();
-				nv.visitNode(g, toVisit, 0, toVisit, function);
+				nv.visitNode(g, toVisit, MAX_HOPS, toVisit, function);
 				ArrayList<String> attributes = function.getImportedAttributes();
 				ArrayList<String> classes = function.getImportedClassNames();
 				String newAttributes = "";

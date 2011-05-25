@@ -11,7 +11,7 @@ class ProvaOperation extends ImportAttributes {
 	@Override
 	public void importAttributes(Node currentNode, Node callerNode,
 			int numHops, Graph<Node, Edge> g) {
-		//super.importAttributes(currentNode, callerNode, 0, g);
+		super.importAttributes(currentNode, callerNode, 0, g);
 		
 		Iterator<ImportCandidate> itr = importedAttributes.iterator();
 		System.out.print("ho importato: ");

@@ -12,8 +12,6 @@ import it.polimi.mdir.graph.Node;
 
 public class NavigateGraph {
 	
-	private static final int MAX_HOPS = 2;
-	
 	private LinkedList<String> _nodeQueue = new LinkedList<String>();
 	
 	public NavigateGraph() {
@@ -33,7 +31,7 @@ public class NavigateGraph {
 			// PetriNet _fvqyJeiaEd6gMtZRCjS81g
 			// Element _fvqyJuiaEd6gMtZRCjS81g
 			if (nodeId.equals("_fvqyJuiaEd6gMtZRCjS81g")) {
-		//		visitNode(FILE_NAME, nodeId, 0, nodeId, new ImportAttributes());
+		//		visitNode(FILE_NAME, nodeId, 2, nodeId, new ImportAttributes());
 			}
 		}
 	}
@@ -48,8 +46,7 @@ public class NavigateGraph {
 	 * @param nodeToVisit
 	 * The node to visit.
 	 * @param numHops
-	 * Tells us how deep we are in the visiting. It's 0 when I just started and gets incremented
-	 * as you get further from the initial node. 
+	 * Tells us how many hops are left to finish the navigation.
 	 * @param callerNode
 	 * Node that "called" this one. In the case of the first node, callerNode is 
 	 * equal to nodeToVisit.
@@ -57,11 +54,11 @@ public class NavigateGraph {
 	 * Reperesents the business logic that I have to do during the visit of the node.
 	 */
 	public void visitNode(Graph<Node, Edge> g, Node nodeToVisit, int numHops, Node callerNode, OperationFunction function) {
-		if (numHops > MAX_HOPS) 
+		if (numHops < 0) 
 			return;
 		
 		//visit the neighbours
-		numHops += 1;
+		numHops -= 1;
 		LinkedList<Node> neighboursQueue = getNeighbours(nodeToVisit, g);
 		
 		while (!neighboursQueue.isEmpty()) {
