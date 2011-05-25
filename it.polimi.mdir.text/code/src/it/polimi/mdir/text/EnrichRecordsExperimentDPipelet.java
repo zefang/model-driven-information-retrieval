@@ -56,7 +56,7 @@ public class EnrichRecordsExperimentDPipelet implements Pipelet {
 					}
 				}
 				ImportAttributes function = new ImportAttributes();
-				nv.visitNode(g, toVisit, MAX_HOPS, toVisit, function);
+				nv.visitNode(g, MAX_HOPS, toVisit, function);
 				ArrayList<String> attributes = function.getImportedAttributes();
 				ArrayList<String> classes = function.getImportedClassNames();
 				String newAttributes = "";

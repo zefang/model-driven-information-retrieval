@@ -31,9 +31,14 @@ public class NavigateGraph {
 			// PetriNet _fvqyJeiaEd6gMtZRCjS81g
 			// Element _fvqyJuiaEd6gMtZRCjS81g
 			if (nodeId.equals("_fvqyJuiaEd6gMtZRCjS81g")) {
-		//		visitNode(FILE_NAME, nodeId, 2, nodeId, new ImportAttributes());
+		//		visitNode(FILE_NAME, 2, nodeId, new ImportAttributes());
 			}
 		}
+	}
+	
+	
+	public void visitNode(Graph<Node, Edge> g, int numHops, Node rootNode, OperationFunction function) {
+		visitNode(g, numHops, rootNode, rootNode, rootNode, function);
 	}
 	
 	/**
@@ -43,17 +48,19 @@ public class NavigateGraph {
 	 *  
 	 * @param g
 	 * The graph to which the node to visit belongs.
+	 * @param numHops
+	 * Tells us how many hops are left to finish the navigation. 
 	 * @param nodeToVisit
 	 * The node to visit.
-	 * @param numHops
-	 * Tells us how many hops are left to finish the navigation.
 	 * @param callerNode
 	 * Node that "called" this one. In the case of the first node, callerNode is 
 	 * equal to nodeToVisit.
+	 * @param rootNode
+	 * The starting node.
 	 * @param function
 	 * Reperesents the business logic that I have to do during the visit of the node.
 	 */
-	public void visitNode(Graph<Node, Edge> g, Node nodeToVisit, int numHops, Node callerNode, OperationFunction function) {
+	public void visitNode(Graph<Node, Edge> g, int numHops, Node nodeToVisit, Node callerNode, Node rootNode, OperationFunction function) {
 		if (numHops < 0) 
 			return;
 		
@@ -63,8 +70,8 @@ public class NavigateGraph {
 		
 		while (!neighboursQueue.isEmpty()) {
 			Node nextNode = neighboursQueue.remove(); 
-			if (!nextNode.equals(callerNode)) {
-				visitNode(g, nextNode, numHops, nodeToVisit, function);
+			if (!nextNode.equals(callerNode) && !nextNode.equals(rootNode)) {
+				visitNode(g, numHops, nextNode, nodeToVisit, rootNode, function);
 			}
 		}
 		
