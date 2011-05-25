@@ -19,7 +19,7 @@ public class ImportAttributes extends OperationFunction {
 	protected ArrayList<ImportCandidate> importedClassNames = new ArrayList<ImportCandidate>();
 	
 	private ArrayList<ImportCandidate> importCandidateAttributes = new ArrayList<ImportCandidate>();
-	private ArrayList<ImportCandidate> importCandidatesClassNames = new ArrayList<ImportCandidate>();
+	private ImportCandidate importCandidateClassName = null;
 	
 	private float penalty = 1.0f;
 	
@@ -30,6 +30,7 @@ public class ImportAttributes extends OperationFunction {
 		if (false) {
 			System.out.println("This is " + currentNode.getClassName() + " called from: " + callerNode.getClassName());
 		}
+		int numAttributes = currentNode.getAttributes().size();
 		
 		/*************************************/
 		//implementation begins
@@ -37,7 +38,7 @@ public class ImportAttributes extends OperationFunction {
 		//reset variables
 		penalty = 1.0f;
 		importCandidateAttributes.clear();
-		importCandidatesClassNames.clear();
+		importCandidateClassName = null;
 		
 		//get relation type from callerNode to currentNode.
 		// It's the one that has source=callerNode and target=currentNode
@@ -59,8 +60,8 @@ public class ImportAttributes extends OperationFunction {
 		}
 		
 		//These are of the current Node
-		getClassName(currentNode, callerNode, g);
 		getVanillaAttributes(currentNode, callerNode, g);
+		getClassName(currentNode, callerNode, g);
 		getRelationAttributes(currentNode, callerNode, g);
 		
 		// penalty of this callerNode->currentNode relation has already been applied
@@ -91,20 +92,14 @@ public class ImportAttributes extends OperationFunction {
 		// Apply relation type filter to decide what of this node import in other nodes
 		if (callerRelationType.equals(RelationType.COMPOSITION_COMPONENT_COMPOSITE.toString()) 
 				|| callerRelationType.equals(RelationType.GENERALIZATION_FATHER_CHILD.toString())) {
-			//import just classNames
-			Iterator<ImportCandidate> itr = importCandidatesClassNames.iterator();
-			while (itr.hasNext()) {
-				importedClassNames.add(itr.next());
-			}
+			//import just the className
+			importedClassNames.add(importCandidateClassName);
 		} else {
 			//import everything
-			Iterator<ImportCandidate> itr = importCandidatesClassNames.iterator();
+			importedClassNames.add(importCandidateClassName);
+			Iterator<ImportCandidate> itr = importCandidateAttributes.iterator();
 			while (itr.hasNext()) {
-				importedClassNames.add(itr.next());
-			}
-			Iterator<ImportCandidate> itr2 = importCandidateAttributes.iterator();
-			while (itr2.hasNext()) {
-				importedAttributes.add(itr2.next());
+				importedAttributes.add(itr.next());
 			}
 		}
 		
@@ -185,8 +180,7 @@ public class ImportAttributes extends OperationFunction {
 	private void getClassName(Node currentNode, Node callerNode, Graph<Node, Edge> g) {
 		String className = currentNode.getClassName();
 		float weight = WeightRules.weightMap.get("class") * penalty;
-		ImportCandidate classNameCandidate = new ImportCandidate(className, weight, callerNode.getId());
-		importCandidatesClassNames.add(classNameCandidate);
+		importCandidateClassName = new ImportCandidate(className, weight, callerNode.getId());
 	}
 	
 	public ArrayList<String> getImportedAttributes() {
