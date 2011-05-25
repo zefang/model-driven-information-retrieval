@@ -1,9 +1,12 @@
 package it.polimi.mdir.graph.pipelet;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 import it.polimi.mdir.graph.Edge;
 import it.polimi.mdir.graph.Node;
 import it.polimi.mdir.graph.processing.ConfigLoader;
-import it.polimi.mdir.graph.processing.GraphCollection;
 import it.polimi.mdir.graph.processing.GraphFactory;
 
 import org.eclipse.smila.blackboard.Blackboard;
@@ -41,14 +44,25 @@ public class CreateGraphPipelet implements Pipelet {
 			
 			try {
 				String fileName = blackboard.getRecord(id).getMetadata().getStringValue("FileName");
-				fileName += ".gml";
+				fileName = fileName.substring(0, fileName.length()-4) + ".gml";
 			
 				System.out.println(++count + "-> Creating graph: " + fileName);
 				
 				Graph<Node, Edge> g = GraphFactory.createGraphFromGraphML(GRAPHML_PATH + fileName);
 				
 				//GraphCollection.graphMap.put(fileName, g);
-				//TODO serialize
+				//serialize TODO:check if file already exists so to don't do it. 
+				//				 Remember a parameter to force rewriting though.
+				fileName = fileName.substring(0, fileName.length()-4);
+				try {
+					FileOutputStream fileOut = new FileOutputStream(ConfigLoader.SERIALIZATION_PATH + fileName+".ser");
+					ObjectOutputStream out = new ObjectOutputStream(fileOut);
+					out.writeObject(g);
+					out.close();
+						fileOut.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				
 			} catch (BlackboardAccessException e) {
 				e.printStackTrace();
