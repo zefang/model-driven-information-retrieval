@@ -52,13 +52,14 @@
                             </bpel:copy>
                         </bpel:assign>
                         
+                        <!-- 
 						<extensionActivity>
                 			<proc:invokePipelet name="invokeCreateGraph">
 		        				<proc:pipelet class="it.polimi.mdir.graph.pipelet.CreateGraphPipelet" />
 								<proc:variables input="recordsD" />     
 		    				</proc:invokePipelet>
                 		</extensionActivity>
-                		
+                		 -->
                         <extensionActivity>
                         	<proc:invokePipelet name="invokeEnrichRecordsExperimentCPipelet_ExpD">
 		        				<proc:pipelet class="it.polimi.mdir.text.EnrichRecordsExperimentCPipelet" />
