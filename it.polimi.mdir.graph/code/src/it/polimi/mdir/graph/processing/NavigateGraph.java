@@ -71,12 +71,7 @@ public class NavigateGraph {
 		numHops -= 1;
 		
 		Collection<Edge> outgoingEdgesList = g.getOutEdges(nodeToVisit);
-		Collection<Edge> outgoingSortedEdgesList = null;
-		if (outgoingEdgesList.isEmpty()) {
-			outgoingSortedEdgesList = outgoingEdgesList;
-		} else {
-			outgoingSortedEdgesList = sortEdges(outgoingEdgesList);
-		}
+		Collection<Edge> outgoingSortedEdgesList = sortEdges(outgoingEdgesList);
 		Iterator<Edge> outgoingSortedEdgesItr = outgoingSortedEdgesList.iterator();
 		while (outgoingSortedEdgesItr.hasNext()) {
 			Edge nextEdge = outgoingSortedEdgesItr.next();
@@ -105,6 +100,9 @@ public class NavigateGraph {
 	}
 
 	private Collection<Edge> sortEdges(Collection<Edge> edgesList) {
+		if (edgesList.isEmpty())
+			return edgesList;
+		
 		int numEdges = edgesList.size();
 		Edge[] edgeArray = new Edge[numEdges];
 		Iterator<Edge> itr = edgesList.iterator();
