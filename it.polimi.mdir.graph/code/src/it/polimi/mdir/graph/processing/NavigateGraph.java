@@ -116,7 +116,7 @@ public class NavigateGraph {
 		boolean swapped = true;
 		while (swapped) {
 			swapped = false;
-			for (i = 1; i < numEdges-1; i++) {
+			for (i = 1; i < numEdges; i++) {
 				if (edgeArray[i-1].getId().compareTo(edgeArray[i].getId()) > 0) {
 					swap(edgeArray, i-1, i);
 					swapped = true;
