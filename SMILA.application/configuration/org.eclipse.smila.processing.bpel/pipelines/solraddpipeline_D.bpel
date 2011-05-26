@@ -36,6 +36,8 @@
 	
         
         <bpel:sequence>
+        
+        <!-- 
             <bpel:extensionActivity>
 				<proc:invokePipelet name="invokeCreateGraph">
 					<proc:pipelet class="it.polimi.mdir.graph.pipelet.CreateGraphPipelet"></proc:pipelet>
@@ -43,7 +45,7 @@
 					<proc:configuration></proc:configuration>
 				</proc:invokePipelet>
 			</bpel:extensionActivity>
-			
+			 -->
 			
 						<extensionActivity>
                         	<proc:invokePipelet name="invokeEnrichRecordsExperimentCPipelet">
