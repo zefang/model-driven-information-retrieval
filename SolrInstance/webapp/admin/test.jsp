@@ -87,7 +87,7 @@ else { dd.style.display = "none"; }
 <table>
 <tr>
   <td>
-	<strong>Solr/Lucene Statement</strong>
+	<strong>Query string</strong>
   </td>
   <td>
 	<textarea rows="5" cols="60" name="q"></textarea>
@@ -95,8 +95,7 @@ else { dd.style.display = "none"; }
 </tr>
 <tr>
   <td>
-	<strong>Campo mm (Minimum 'Should' Match)</strong><br />
-	100% = AND, 0% = OR
+	<strong>mm (Minimum 'Should' Match)</strong><br />
   </td>
   <td>
 	<input name="mm" type="text" value="100%" size="20" onmouseover="ShowContent('mm'); return true;"
@@ -105,13 +104,38 @@ else { dd.style.display = "none"; }
 </tr>
 <tr>
   <td>
-	<strong>Campo qf (Query Field)</strong>
+	<strong>qf (Query Field)</strong>
   </td>
   <td>
 	<input name="qf" type="text" value="content" size="20" onmouseover="ShowContent('qf'); return true;"
    onmouseout="HideContent('qf'); return true;"
   />
   </td>
+</tr>
+<tr>
+	<td>
+		<strong> bq (Boost Query) </strong>
+	</td>
+	<td>
+		<tr>
+			<td>
+				Project Name:
+			</td>
+			<td>
+				<input name="bq-projectName" type="text" value="" size="20" onmouseover="ShowContent('bq-projectName'); return true;"
+   onmouseout="HideContent('bq-projectName'); return true;" />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Class Name:
+			</td>
+			<td>
+				<input name="bq-className" type="text" value="" size="20" onmouseover="ShowContent('bq-className'); return true;"
+   onmouseout="HideContent('bq-className'); return true;" />
+			</td>
+		</tr>
+	</td>
 </tr>
 <tr>
   <td>
@@ -125,14 +149,21 @@ else { dd.style.display = "none"; }
 
 
 <div id="qf" class="tipBox">
-List of fields and the "boosts" to associate with each of them.
-Ex: fieldOne^2.3 fieldTwo fieldThree^0.4, which indicates that fieldOne has a boost of 2.3, fieldTwo has the default boost, and fieldThree has a boost of 0.4.
+List of fields in which search for the query string above and the "boosts" to associate with each field.
+E.g. fieldOne^2.3 fieldTwo fieldThree^0.4, which indicates that fieldOne has a boost of 2.3, fieldTwo has the default boost, and fieldThree has a boost of 0.4.
 </div>
 
 <div id="mm" class="tipBox">
 	AND => mm=100%; OR => mm=0%
 </div>
 
+<div id="bq-className" class="tipBox">
+	You can boost results that have a class name that matches a specific value. E.g. 'int^10' indicates that documents with class name field matching the string 'int' has a boost of 10.
+</div>
+
+<div id="bq-projectName" class="tipBox">
+	You can boost results that have a project name that matches a specific value. E.g. 'java^20' indicates that documents with project name filed matching 'java' has a boost of 20.
+</div>
 
 </body>
 </html>
