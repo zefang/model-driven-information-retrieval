@@ -11,6 +11,7 @@ import java.util.Iterator;
 import it.polimi.mdir.graph.Edge;
 import it.polimi.mdir.graph.Node;
 import it.polimi.mdir.graph.processing.ConfigLoader;
+import it.polimi.mdir.graph.processing.GraphFactory;
 import it.polimi.mdir.graph.processing.ImportAttributes;
 import it.polimi.mdir.graph.processing.NavigateGraph;
 import org.eclipse.smila.blackboard.Blackboard;

@@ -19,9 +19,9 @@ public class DummyMain {
 	public static void main(String[] args) {
 		
 		NavigateGraph nv = new NavigateGraph();
-		
-		Graph<Node, Edge> g = GraphFactory.createGraphFromGraphML(ConfigLoader.GRAPHML_PATH + fileName);
 		fileName = fileName.substring(0, fileName.length()-4);
+		/*
+		Graph<Node, Edge> g = GraphFactory.createGraphFromGraphML(ConfigLoader.GRAPHML_PATH + fileName+".gml");
 		//serializing graph
 		try {
 			FileOutputStream fileOut = new FileOutputStream(ConfigLoader.SERIALIZATION_PATH + fileName+".ser");
@@ -32,20 +32,20 @@ public class DummyMain {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+		*/
 		//deserialize
-		g = retrieve();
+		Graph<Node, Edge> g = retrieve();
 		Collection<Node> nodes = g.getVertices();
 		Iterator<Node> nodeItr = nodes.iterator();
 		Node toVisit = null;
 		while (nodeItr.hasNext()) {
 			Node nextNode = nodeItr.next();
-			if (nextNode.getClassName().equals("NamedElement")) {
+			if (nextNode.getClassName().equals("Marking")) {
 				toVisit = nextNode;
 				break;
 			}
 		}
-		nv.visitNode(g, 2, toVisit, new ProvaOperation());
+		nv.visitNode(g, 1, toVisit, new ImportAttributes());
 		/*
 		g = retrieve();
 		Collection<Node> nodes2 = g.getVertices();

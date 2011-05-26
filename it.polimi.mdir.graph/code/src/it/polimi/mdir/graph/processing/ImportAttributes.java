@@ -15,8 +15,8 @@ public class ImportAttributes extends OperationFunction {
 
 	private static final String NO_RELATION_TYPE = "none";
 	
-	protected ArrayList<ImportCandidate> importedAttributes = new ArrayList<ImportCandidate>();
-	protected ArrayList<ImportCandidate> importedClassNames = new ArrayList<ImportCandidate>();
+	private ArrayList<ImportCandidate> importedAttributes = new ArrayList<ImportCandidate>();
+	private ArrayList<ImportCandidate> importedClassNames = new ArrayList<ImportCandidate>();
 	
 	private ArrayList<ImportCandidate> importCandidateAttributes = new ArrayList<ImportCandidate>();
 	private ImportCandidate importCandidateClassName = null;
@@ -77,7 +77,7 @@ public class ImportAttributes extends OperationFunction {
 			ImportCandidate candidate = importedAttributesItr.next();
 			if (candidate.getCallerNode().equals(currentNode.getId())) {
 				candidate.setWeight( candidate.getWeight() * penalty );
-				candidate.setCallerNode(callerNode.getId()); //TODO forse questo va fuoru dall'IF?
+				candidate.setCallerNode(callerNode.getId()); //TODO forse questo va fuori dall'IF?
 			}
 		}
 		Iterator<ImportCandidate> importedClassesItr = importedClassNames.iterator();
@@ -94,7 +94,16 @@ public class ImportAttributes extends OperationFunction {
 				|| callerRelationType.equals(RelationType.GENERALIZATION_FATHER_CHILD.toString())) {
 			//import just the className
 			importedClassNames.add(importCandidateClassName);
-			importedAttributes.clear();
+			//remove from importedAttributes the ones with this callerNode
+			ArrayList<ImportCandidate> removeList = new ArrayList<ImportCandidate>();
+			Iterator<ImportCandidate> itr = importedAttributes.iterator();
+			while (itr.hasNext()) {
+				ImportCandidate removalCandidate = itr.next();
+				if (removalCandidate.getCallerNode().equals(callerNode.getId())) {
+					removeList.add(removalCandidate);	
+				}
+			}
+			importedAttributes.removeAll(removeList);
 		} else {
 			//import everything
 			importedClassNames.add(importCandidateClassName);
@@ -106,6 +115,19 @@ public class ImportAttributes extends OperationFunction {
 		
 		// TODO attenzione!!! bisogna prima risolverre i cicli! o forse no? 
 		// se non lo facciamo è sbagliatissimo o cambia poco?
+		
+		
+		/*************/ //debug code
+		if (true) {
+			Iterator<ImportCandidate> itr = importedAttributes.iterator();
+			//Iterator<ImportCandidate> itr = importedClassNames.iterator();
+			System.out.print("ho importato: ");
+			while (itr.hasNext()) {
+				System.out.print(itr.next().getNameWeight() + " ");
+				//System.out.print(itr.next().getName() + " ");
+			}
+			System.out.println(" ");
+		}
 
 	}
 	
