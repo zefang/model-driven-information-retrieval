@@ -16,6 +16,7 @@ import it.polimi.mdir.graph.processing.NavigateGraph;
 import org.eclipse.smila.blackboard.Blackboard;
 import org.eclipse.smila.blackboard.BlackboardAccessException;
 import org.eclipse.smila.datamodel.AnyMap;
+import org.eclipse.smila.datamodel.Record;
 import org.eclipse.smila.processing.Pipelet;
 import org.eclipse.smila.processing.ProcessingException;
 
@@ -38,13 +39,12 @@ public class EnrichRecordsExperimentDPipelet implements Pipelet {
 	public String[] process(Blackboard blackboard, String[] recordIds)
 			throws ProcessingException {
 		
-		NavigateGraph nv = new NavigateGraph();
 		for (String id : recordIds)  {
 			try {
-				
-				String className = blackboard.getRecord(id).getMetadata().getStringValue("className");
-				String classId = blackboard.getRecord(id).getMetadata().getStringValue("classId");
-				String fileName = blackboard.getRecord(id).getMetadata().getStringValue("FileName");
+				Record rec = blackboard.getRecord(id);
+				String className = rec.getMetadata().getStringValue("className");
+				String classId = rec.getMetadata().getStringValue("classId");
+				String fileName = rec.getMetadata().getStringValue("FileName");
 				fileName = fileName.substring(0, fileName.length()-4);
 				
 				System.out.println("Start D " +  ++count + " -> " + className);
@@ -74,6 +74,8 @@ public class EnrichRecordsExperimentDPipelet implements Pipelet {
 						break;
 					}
 				}
+				
+				NavigateGraph nv = new NavigateGraph();
 				ImportAttributes function = new ImportAttributes();
 				nv.visitNode(g, MAX_HOPS, toVisit, function);
 				ArrayList<String> attributes = function.getImportedAttributes();
@@ -85,13 +87,12 @@ public class EnrichRecordsExperimentDPipelet implements Pipelet {
 				newAttributes = averageWeight(newAttributes.trim(), hm);
 				
 				//copia tutto, anche gli importati,  nel campo attributeNames
-				blackboard.getRecord(id).getMetadata().put("attributeNames", newAttributes.trim());
+				rec.getMetadata().put("attributeNames", newAttributes.trim());
+				blackboard.setRecord(rec);
 				
-				blackboard.commit();
-				System.out.println(newAttributes);
+				//blackboard.commit();
 				System.out.println(className +": TUTTO OK");
 				System.out.println("END: " + count);
-				System.out.println("");
 				
 			} catch (BlackboardAccessException e) {
 				e.printStackTrace();

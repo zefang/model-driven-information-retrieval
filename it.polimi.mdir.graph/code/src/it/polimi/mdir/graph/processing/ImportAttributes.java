@@ -77,7 +77,7 @@ public class ImportAttributes extends OperationFunction {
 			ImportCandidate candidate = importedAttributesItr.next();
 			if (candidate.getCallerNode().equals(currentNode.getId())) {
 				candidate.setWeight( candidate.getWeight() * penalty );
-				candidate.setCallerNode(callerNode.getId());
+				candidate.setCallerNode(callerNode.getId()); //TODO forse questo va fuoru dall'IF?
 			}
 		}
 		Iterator<ImportCandidate> importedClassesItr = importedClassNames.iterator();
@@ -94,6 +94,7 @@ public class ImportAttributes extends OperationFunction {
 				|| callerRelationType.equals(RelationType.GENERALIZATION_FATHER_CHILD.toString())) {
 			//import just the className
 			importedClassNames.add(importCandidateClassName);
+			importedAttributes.clear();
 		} else {
 			//import everything
 			importedClassNames.add(importCandidateClassName);
