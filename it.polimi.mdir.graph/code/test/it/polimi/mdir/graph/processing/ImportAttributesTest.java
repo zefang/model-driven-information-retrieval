@@ -1,6 +1,11 @@
 package it.polimi.mdir.graph.processing;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
@@ -19,7 +24,7 @@ public class ImportAttributesTest extends TestCase {
 		NavigateGraph nv = new NavigateGraph();
 		Graph<Node, Edge> g = null;
 		try {
-			FileInputStream fileIn = new FileInputStream(ConfigLoader.SERIALIZATION_PATH + "prova" + ".ser");
+			FileInputStream fileIn = new FileInputStream(ConfigLoader.SERIALIZATION_PATH + "PetriNet_extended" + ".ser");
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 			g = (Graph<Node, Edge>) in.readObject();
 			in.close();
@@ -30,30 +35,49 @@ public class ImportAttributesTest extends TestCase {
 			e.printStackTrace();
 		}
 		
+		String toWrite = "";
 		ImportAttributes tester = new ImportAttributes();
-		
-		Collection<Node> nodes = g.getVertices();
-		Iterator<Node> nodeItr = nodes.iterator();
-		Node toVisit = null;
-		while (nodeItr.hasNext()) {
-			Node nextNode = nodeItr.next();
-			if (nextNode.getClassName().equals("A")) {
-				toVisit = nextNode;
-				break;
+		Collection<Node> nodeCollection = g.getVertices();
+		Iterator<Node> nodeCollectionItr = nodeCollection.iterator();
+		while (nodeCollectionItr.hasNext()) {
+			Node toVisit = nodeCollectionItr.next();
+			if (toVisit.getClassName().equals("Marking")) {
+				nv.visitNode(g, 2, toVisit, tester);
+				ArrayList<String> attributes = tester.getImportedAttributes();
+				ArrayList<String> classes = tester.getImportedClassNames();
+				
+				HashMap<String, SumCount> hm = new HashMap<String, SumCount>();
+				String newAttributes = "";
+				newAttributes += constructHashMapAndNewAttributes(attributes, hm);
+				newAttributes += constructHashMapAndNewAttributes(classes, hm);
+				newAttributes = averageWeight(newAttributes.trim(), hm);
+				
+				toWrite += newAttributes.trim() +" ";
 			}
 		}
-		nv.visitNode(g, 4, toVisit, tester);
+		toWrite = toWrite.trim();
 		
-		ArrayList<String> attributes = tester.getImportedAttributes();
-		ArrayList<String> classes = tester.getImportedClassNames();
+		String toConfront = "";
+		try {
+		    BufferedReader in = new BufferedReader(new FileReader("C:/tester.txt"));
+		    String str = "";
+		    while ((str = in.readLine()) != null) {
+		        toConfront += str;
+		    }
+		    in.close();
+		} catch (IOException e) {
+		}
+		System.out.println(toConfront);
+		System.out.println(toWrite);
 		
-		HashMap<String, SumCount> hm = new HashMap<String, SumCount>();
-		String newAttributes = "";
-		newAttributes += constructHashMapAndNewAttributes(attributes, hm);
-		//newAttributes += constructHashMapAndNewAttributes(classes, hm);
-		newAttributes = averageWeight(newAttributes.trim(), hm);
-		System.out.println(newAttributes);
-		assertEquals("Result:", "attributoD|0.7739999 attributoC|0.765 attributoB|0.76449996 attributoA|1.0", newAttributes);
+//		try {
+//			FileWriter fw = new FileWriter("C:/tester.txt");
+//			BufferedWriter out = new BufferedWriter(fw);
+//			out.write(toWrite);
+//			out.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		
 	}
 	

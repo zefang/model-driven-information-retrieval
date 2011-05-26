@@ -118,7 +118,7 @@ public class ImportAttributes extends OperationFunction {
 		
 		
 		/*************/ //debug code
-		if (true) {
+		if (false) {
 			Iterator<ImportCandidate> itr = importedAttributes.iterator();
 			//Iterator<ImportCandidate> itr = importedClassNames.iterator();
 			System.out.print("ho importato: ");
@@ -144,7 +144,8 @@ public class ImportAttributes extends OperationFunction {
 	 * The graph this node is in.
 	 */
 	private void getRelationAttributes(Node currentNode, Node callerNode, Graph<Node, Edge> g) {
-		Collection<Edge> relationCollection = g.getOutEdges(currentNode);
+		Collection<Edge> relationCollection = GraphUtils.sortEdges(g.getOutEdges(currentNode));
+		
 		Iterator<Edge> relationCollectionIterator = relationCollection.iterator();
 		while (relationCollectionIterator.hasNext()) {
 			//Il relationAttribute è sempre e solo 1.

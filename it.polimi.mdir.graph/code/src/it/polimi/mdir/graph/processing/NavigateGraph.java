@@ -71,7 +71,7 @@ public class NavigateGraph {
 		numHops -= 1;
 		
 		Collection<Edge> outgoingEdgesList = g.getOutEdges(nodeToVisit);
-		Collection<Edge> outgoingSortedEdgesList = sortEdges(outgoingEdgesList);
+		Collection<Edge> outgoingSortedEdgesList = GraphUtils.sortEdges(outgoingEdgesList);
 		Iterator<Edge> outgoingSortedEdgesItr = outgoingSortedEdgesList.iterator();
 		while (outgoingSortedEdgesItr.hasNext()) {
 			Edge nextEdge = outgoingSortedEdgesItr.next();
@@ -97,41 +97,6 @@ public class NavigateGraph {
 		
 		//TODO Do ya thang here
 		function.importAttributes(nodeToVisit, callerNode, numHops, g);
-	}
-
-	private Collection<Edge> sortEdges(Collection<Edge> edgesList) {
-		if (edgesList.isEmpty())
-			return edgesList;
-		
-		int numEdges = edgesList.size();
-		Edge[] edgeArray = new Edge[numEdges];
-		Iterator<Edge> itr = edgesList.iterator();
-		int i = 0;
-		while (itr.hasNext()) {
-			edgeArray[i++] = itr.next();
-		}
-		ArrayList<Edge> toReturn = new ArrayList<Edge>();
-		boolean swapped = true;
-		while (swapped) {
-			swapped = false;
-			for (i = 1; i < numEdges; i++) {
-				if (edgeArray[i-1].getId().compareTo(edgeArray[i].getId()) > 0) {
-					swap(edgeArray, i-1, i);
-					swapped = true;
-				}
-			}	
-		}
-		for (i = 0; i < numEdges; i++) {
-			toReturn.add(edgeArray[i]);
-		}
-		return toReturn;
-	}
-	
-	private void swap(Edge[] edgeArray, int loc1, int loc2) {
-		Edge temp = null;
-		temp = edgeArray[loc1];
-		edgeArray[loc1] = edgeArray[loc2];
-		edgeArray[loc2] = temp;
 	}
 
 }
