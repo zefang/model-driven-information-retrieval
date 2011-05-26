@@ -141,7 +141,16 @@ else { dd.style.display = "none"; }
   <td>
   </td>
   <td>
-    <input class="stdbutton" type="submit" value="search" onclick="if (queryForm.q.value.length==0) { alert('no empty queries, please'); return false; } else { queryForm.submit(); } ">
+    <input class="stdbutton" type="submit" value="search" 
+		onclick="if (queryForm.q.value.length==0) { 
+			alert('no empty queries, please'); 
+			return false; 
+			} else if (queryForm.qf.value.length==0) { 
+			alert('you MUST specify fields in which search for the query string above'); 
+			return false; 
+			} else {
+			queryForm.submit();
+			}">
   </td>
 </tr>
 </table>
