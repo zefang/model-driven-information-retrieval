@@ -19,6 +19,8 @@ public class TestServlet extends HttpServlet {
 	String query = "";
 	String mm = "";
 	String qf = "";
+	String bqProjectName = "";
+	String bqClassName = "";
 	
 	// This string will contain the lines coming from the servlet which is called
 	String line = "";
@@ -46,6 +48,8 @@ public class TestServlet extends HttpServlet {
 		  query = req.getParameter("q");
 		  mm = req.getParameter("mm");
 		  qf = req.getParameter("qf");
+		  bqProjectName = req.getParameter("bq-projectName");
+		  bqClassName = req.getParameter("bq-className");
 		  
 		  // Replacing spaces
 		  query = query.replaceAll(" ", "+");
@@ -53,8 +57,24 @@ public class TestServlet extends HttpServlet {
 		  
 		  // Preparing the urls
 		  for (int i=0; i<urls.length; i++) {
+			  // Query string
 			  urls[i] = urls[i].concat("&q=" + query);
+			  // Query fields
 			  urls[i] = urls[i].concat("&qf=" + qf);
+			  /*
+			   *  Boost query (NOTICE: exp. A has no field className!)
+			   *  both className and projectName
+			   */
+			  if(!bqClassName.isEmpty() && i != 0 && !bqProjectName.isEmpty()) {
+				  urls[i] = urls[i].concat("&bq=className:" + bqClassName + "+projectName:" + bqProjectName);
+			  // only projectName
+			  } else if (!bqProjectName.isEmpty()) {
+				  urls[i] = urls[i].concat("&bq=projectName:" + bqProjectName);
+			  // only className 
+			  } else if (!bqClassName.isEmpty() && i != 0) {
+				  urls[i] = urls[i].concat("&bq=className:" + bqClassName);
+			  }
+			  // Minimum match
 			  urls[i] = urls[i].concat("&mm=" + mm);
 		  }	    
 		  
