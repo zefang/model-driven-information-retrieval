@@ -27,7 +27,7 @@ public class GraphVisualizer {
 	
 	public static void main(String[] args) {
 		
-		String fileName = "prova.uml.xml";
+		String fileName = "PetriNet_extended.gml";
 		
 		Graph<Node, Edge> g = GraphFactory.createGraphFromGraphML(GRAPHML_PATH + fileName);
 		

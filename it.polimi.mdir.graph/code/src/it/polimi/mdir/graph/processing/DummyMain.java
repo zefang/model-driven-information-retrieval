@@ -14,7 +14,7 @@ import edu.uci.ics.jung.graph.Graph;
 
 public class DummyMain {
 	
-	private static String fileName = "prova.gml";
+	private static String fileName = "PetriNet_extended.gml";
 	
 	public static void main(String[] args) {
 		
@@ -40,13 +40,13 @@ public class DummyMain {
 		Node toVisit = null;
 		while (nodeItr.hasNext()) {
 			Node nextNode = nodeItr.next();
-			if (nextNode.getClassName().equals("A")) {
+			if (nextNode.getClassName().equals("NamedElement")) {
 				toVisit = nextNode;
 				break;
 			}
 		}
 		nv.visitNode(g, 2, toVisit, new ProvaOperation());
-		
+		/*
 		g = retrieve();
 		Collection<Node> nodes2 = g.getVertices();
 		Iterator<Node> nodeItr2 = nodes2.iterator();
@@ -58,6 +58,7 @@ public class DummyMain {
 			}
 		}
 		nv.visitNode(g, 2, toVisit, new ProvaOperation());
+		*/
 	}
 	
 	/**

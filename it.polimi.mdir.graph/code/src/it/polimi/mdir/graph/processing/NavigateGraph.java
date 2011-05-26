@@ -71,7 +71,7 @@ public class NavigateGraph {
 		numHops -= 1;
 		
 		Collection<Edge> outgoingEdgesList = g.getOutEdges(nodeToVisit);
-		Collection<Edge> outgoingSortedEdgesList;
+		Collection<Edge> outgoingSortedEdgesList = null;
 		if (outgoingEdgesList.isEmpty()) {
 			outgoingSortedEdgesList = outgoingEdgesList;
 		} else {
@@ -113,15 +113,19 @@ public class NavigateGraph {
 			edgeArray[i++] = itr.next();
 		}
 		ArrayList<Edge> toReturn = new ArrayList<Edge>();
-		for (i = 0; i < numEdges-1; i++) {
-			for (int j = 1; j < numEdges; j++) {
-				if (edgeArray[i].getId().compareTo(edgeArray[j].getId()) > 0) {
-					swap(edgeArray, i, j);
+		boolean swapped = true;
+		while (swapped) {
+			swapped = false;
+			for (i = 1; i < numEdges-1; i++) {
+				if (edgeArray[i-1].getId().compareTo(edgeArray[i].getId()) > 0) {
+					swap(edgeArray, i-1, i);
+					swapped = true;
 				}
-			}
+			}	
+		}
+		for (i = 0; i < numEdges; i++) {
 			toReturn.add(edgeArray[i]);
 		}
-		toReturn.add(edgeArray[numEdges-1]);
 		return toReturn;
 	}
 	
