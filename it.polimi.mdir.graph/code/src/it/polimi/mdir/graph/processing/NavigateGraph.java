@@ -1,5 +1,6 @@
 package it.polimi.mdir.graph.processing;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -69,13 +70,16 @@ public class NavigateGraph {
 		//visit the neighbours
 		numHops -= 1;
 		
-		Collection<Edge> outgoingEdgesList = g.getOutEdges(nodeToVisit); 
-		Iterator<Edge> outgoingEdgesItr = outgoingEdgesList.iterator();
-		while (outgoingEdgesItr.hasNext()) {
-			Edge nextEdge = outgoingEdgesItr.next();
-			if (!nextEdge.getTargetId().equals(callerNode.getId()) &&
+		Collection<Edge> outgoingEdgesList = g.getOutEdges(nodeToVisit);
+		Collection<Edge> outgoingSortedEdgesList = sortEdges(outgoingEdgesList);
+		Iterator<Edge> outgoingSortedEdgesItr = outgoingSortedEdgesList.iterator();
+		while (outgoingSortedEdgesItr.hasNext()) {
+			Edge nextEdge = outgoingSortedEdgesItr.next();
+			if (!nextEdge.hasBeenFollowed() &&
+				!nextEdge.getTargetId().equals(callerNode.getId()) &&
 				!nextEdge.getTargetId().equals(rootNode.getId()) &&
-				!nextEdge.hasBeenFollowed()) {
+				!nextEdge.getTargetId().equals(nodeToVisit.getId())
+				) {
 				
 				nextEdge.setFollowed(true);
 				Collection<Node> nodesList = g.getVertices();
@@ -93,6 +97,34 @@ public class NavigateGraph {
 		
 		//TODO Do ya thang here
 		function.importAttributes(nodeToVisit, callerNode, numHops, g);
+	}
+
+	private Collection<Edge> sortEdges(Collection<Edge> edgesList) {
+		int numEdges = edgesList.size();
+		Edge[] edgeArray = new Edge[numEdges];
+		Iterator<Edge> itr = edgesList.iterator();
+		int i = 0;
+		while (itr.hasNext()) {
+			edgeArray[i++] = itr.next();
+		}
+		ArrayList<Edge> toReturn = new ArrayList<Edge>();
+		for (i = 0; i < numEdges-1; i++) {
+			for (int j = 1; j < numEdges; j++) {
+				if (edgeArray[i].getId().compareTo(edgeArray[j].getId()) > 0) {
+					swap(edgeArray, i, j);
+				}
+			}
+			toReturn.add(edgeArray[i]);
+		}
+		toReturn.add(edgeArray[numEdges-1]);
+		return toReturn;
+	}
+	
+	private void swap(Edge[] edgeArray, int loc1, int loc2) {
+		Edge temp = null;
+		temp = edgeArray[loc1];
+		edgeArray[loc1] = edgeArray[loc2];
+		edgeArray[loc2] = temp;
 	}
 
 }
