@@ -35,7 +35,8 @@ public class TestServlet extends HttpServlet {
 		  
 		  System.out.println("Sono in TestServlet");
 		 
-		  String[] urls = {"http://localhost:8983/solr/text_experiment_A/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on", 
+		  String[] urls = 
+		  			{"http://localhost:8983/solr/text_experiment_A/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on", 
 					 "http://localhost:8983/solr/text_experiment_B/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on",
 					 "http://localhost:8983/solr/text_experiment_C/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on",
 					 "http://localhost:8983/solr/text_experiment_D/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on"};		  
