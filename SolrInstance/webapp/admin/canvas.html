@@ -24,6 +24,8 @@
 	
 	var xmlDoc = null;
 	var rootNodeId;
+	
+	var radius = 20;
 
 	function drawPopup(coordX, coordY) {
 		context.beginPath();
@@ -31,9 +33,9 @@
 		context.strokeStyle = "black";
 		context.fillStyle = "yellow";
 		context.rect(coordX, coordY, 100, 50);
-		context.closePath();
 		context.fill();
 		context.stroke();
+		context.closePath();
 	}
 	
 	function clearPopup(coordX, coordY) {
@@ -59,7 +61,7 @@
 		context.lineWidth = 1;
 		context.strokeStyle = "black";
 		context.fillStyle = "#8ED6FF";
-		context.arc(0, 0, 20, 0, 2*Math.PI, true);
+		context.arc(0, 0, radius, 0, 2*Math.PI, true);
 		context.closePath();
 		context.fill();
 		context.stroke();
@@ -106,8 +108,25 @@
 		for (var i = 0; i < outgoingEdges.length; i++) {
 			myStage.beginRegion();
 			context.save();
-			context.translate(canvas.width/2, canvas.height/2);
-			context.rotate(angle*i);
+				context.translate(canvas.width/2, canvas.height/2);
+				context.rotate(angle*i);
+				context.moveTo(radius, 0);
+				context.lineTo(100-radius, 0);
+				context.save();
+					context.translate(100-radius, 0);
+					context.rotate(5/6*Math.PI);
+					context.moveTo(0, 0);
+					context.lineTo(10, 0);
+					context.stroke();
+				context.restore();
+				context.save();
+					context.translate(100-radius, 0);
+					context.rotate(-5/6*Math.PI);
+					context.moveTo(0, 0);
+					context.lineTo(10, 0);
+					context.stroke();
+				context.restore();					
+				context.stroke();
 			context.translate(100, 0);
 			drawNode(outgoingEdges[i].getAttribute("target"), angle*i);
 			context.restore();
