@@ -21,7 +21,6 @@ import junit.framework.TestCase;
 public class ImportAttributesTest extends TestCase {
 
 	public void testImportAttributes() {
-		NavigateGraph nv = new NavigateGraph();
 		Graph<Node, Edge> g = null;
 		try {
 			FileInputStream fileIn = new FileInputStream(ConfigLoader.SERIALIZATION_PATH + "PetriNet_extended" + ".ser");
@@ -36,49 +35,52 @@ public class ImportAttributesTest extends TestCase {
 		}
 		
 		String toWrite = "";
+		NavigateGraph nv = new NavigateGraph();
 		ImportAttributes tester = new ImportAttributes();
 		Collection<Node> nodeCollection = g.getVertices();
 		Iterator<Node> nodeCollectionItr = nodeCollection.iterator();
 		while (nodeCollectionItr.hasNext()) {
 			Node toVisit = nodeCollectionItr.next();
-			if (toVisit.getClassName().equals("Marking")) {
-				nv.visitNode(g, 2, toVisit, tester);
-				ArrayList<String> attributes = tester.getImportedAttributes();
-				ArrayList<String> classes = tester.getImportedClassNames();
-				
-				HashMap<String, SumCount> hm = new HashMap<String, SumCount>();
-				String newAttributes = "";
-				newAttributes += constructHashMapAndNewAttributes(attributes, hm);
-				newAttributes += constructHashMapAndNewAttributes(classes, hm);
-				newAttributes = averageWeight(newAttributes.trim(), hm);
-				
-				toWrite += newAttributes.trim() +" ";
-			}
+			nv.visitNode(g, 2, toVisit, tester);
+			ArrayList<String> attributes = tester.getImportedAttributes();
+			ArrayList<String> classes = tester.getImportedClassNames();
+			HashMap<String, SumCount> hm = new HashMap<String, SumCount>();
+			String newAttributes = "";
+			newAttributes += constructHashMapAndNewAttributes(attributes, hm);
+			newAttributes += constructHashMapAndNewAttributes(classes, hm);
+			newAttributes = averageWeight(newAttributes.trim(), hm);
+			
+			toWrite += newAttributes +" ";
 		}
 		toWrite = toWrite.trim();
 		
-		String toConfront = "";
-		try {
-		    BufferedReader in = new BufferedReader(new FileReader("C:/tester.txt"));
-		    String str = "";
-		    while ((str = in.readLine()) != null) {
-		        toConfront += str;
-		    }
-		    in.close();
-		} catch (IOException e) {
+		boolean preparation = false;
+		if (preparation) {
+			//write file
+			try {
+				FileWriter fw = new FileWriter("C:/tester.txt");
+				BufferedWriter out = new BufferedWriter(fw);
+				out.write(toWrite);
+				out.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			//confront written file with output
+			String toConfront = "";
+			try {
+			    BufferedReader in = new BufferedReader(new FileReader("C:/tester.txt"));
+			    String str = "";
+			    while ((str = in.readLine()) != null) {
+			        toConfront += str;
+			    }
+			    in.close();
+			} catch (IOException e) {
+			}
+			System.out.println(toConfront);
+			System.out.println(toWrite);
+			assertEquals(toConfront, toWrite);
 		}
-		System.out.println(toConfront);
-		System.out.println(toWrite);
-		assertEquals(toConfront, toWrite);
-		
-//		try {
-//			FileWriter fw = new FileWriter("C:/tester.txt");
-//			BufferedWriter out = new BufferedWriter(fw);
-//			out.write(toWrite);
-//			out.close();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
 		
 	}
 	
