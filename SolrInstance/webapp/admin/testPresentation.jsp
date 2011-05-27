@@ -95,14 +95,17 @@ more comprehensible way relevant information of query results.
 		* Toggle show/hide detailed score 
 		*/
 		function toggle(id, experiment) {
-			var box = document.getElementById("detailedScoreBox");
+			var scoreBox = document.getElementById("detailedScoreBox");
+			var contentBox = document.getElementById("contentBox");
 			var table = document.getElementById("table"+experiment); 
 			var rows = table.getElementsByTagName("tr");
 			
 			for (i = 0; i < rows.length; i++) {
 				if (rows[i].id == id) {
 					var detailedScore = rows[i].cells[4].innerHTML;
-					box.innerHTML = detailedScore;
+					var content = rows[i].cells[5].innerHTML;
+					scoreBox.innerHTML = detailedScore;
+					contentBox.innerHTML = content;
 				}
 			}
 		} 
@@ -179,13 +182,22 @@ for (String experiment : experiments) {
 			rowId = classId;
 		}
 		
-		//Get detailedScore of the project
+		//Get detailedScore of the document
 		XQueryWrapper xqDetailedScore = new XQueryWrapper(XQUERY_PATH.concat("/getDetailedScore.xquery"));
 		xqDetailedScore.bindVariable("document", "result"+experiment+".xml");
 		xqDetailedScore.bindVariable("id", rowId);
 		String detailedScore = xqDetailedScore.executeQuery().get(0);
 		detailedScore = correctIndentation(detailedScore);
-
+		
+		//Get content of the document
+		XQueryWrapper xqContent = new XQueryWrapper(XQUERY_PATH.concat("/getContent.xquery"));
+		xqContent.bindVariable("document", "result"+experiment+".xml");
+		xqContent.bindVariable("id", rowId);
+		if ("A".equals(experiment)) {
+			xqContent.bindVariable("idType", "projectId");
+		} else xqContent.bindVariable("idType", "classId");
+		String content = xqContent.executeQuery().get(0);
+		
 		if (!score.equals(previousScore)) {
 			trClass = switchCSSclass(trClass);
 			previousScore = score;
@@ -198,6 +210,7 @@ for (String experiment : experiments) {
   			<td><%=className%></td>
   			<td onclick="toggle('<%=rowId %>', '<%=experiment %>')"><%=score%></td>
   			<td class="hidden"><%=detailedScore %></td>
+  			<td class="hidden"><%=content %></td>
 		</tr> 
 	<%
 	}
@@ -214,8 +227,18 @@ for (String experiment : experiments) {
    </tr>
 </table>
 
-<div class="detailedScore" id="detailedScoreBox">
+<div class="details">
+	<strong> Detailed score: </strong>
+	<div class="detailedScore" id="detailedScoreBox">
+	</div>
+	
+	</br>
+	
+	<strong> Content field: </strong>
+	<div class="content" id="contentBox">
+	</div>
 </div>
+
 
 </body>
 </html>
