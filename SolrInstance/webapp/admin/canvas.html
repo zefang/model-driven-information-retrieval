@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Canvas</title>
+<style type="text/css">
+#canvas {
+ 	background-color: #EEEEEE;
+ 	border: solid 1px black;
+}
+</style>
+<script src="kinetic-v1.0.0.js"></script>
+<script type="text/javascript">
+
+	var canvas = null;
+	var context = null;
+	var myStage = null;
+	var coordX = null;
+	var coordY = null;
+
+	function drawPopup(coordX, coordY) {
+		context.beginPath();
+		context.lineWidth = 1;
+		context.strokeStyle = "black";
+		context.fillStyle = "yellow";
+		context.rect(coordX, coordY, 100, 50);
+		context.closePath();
+		context.fill();
+		context.stroke();
+	}
+	
+	function clearPopup(coordX, coordY) {
+		context.clearRect(coordX, coordY, 100, 50);
+	}
+	
+	window.onload = function() {
+		canvas = document.getElementById("canvas");
+		context = canvas.getContext("2d");
+		myStage = new Kinetic.Stage(canvas);
+		
+		myStage.setDrawStage( function() {
+			
+			myStage.beginRegion();
+			context.beginPath();
+			context.lineWidth = 1;
+			context.strokeStyle = "black";
+			context.fillStyle = "#8ED6FF";
+			context.rect(100,100, 100, 50);
+			context.closePath();
+			context.fill();
+			context.stroke();
+			
+			myStage.addRegionEventListener("onmousemove", function() {
+				var mousePosition = myStage.getMousePos();
+				drawPopup(mousePosition.x, mousePosition.y);
+			});
+			myStage.addRegionEventListener("onmouseout", function() {
+				var mousePosition = myStage.getMousePos();
+				clearPopup(mousePosition.x, mousePosition.y);
+			});
+			myStage.closeRegion();
+			
+		});
+		
+		
+	}
+</script>
+</head>
+
+
+<body>
+<h1>Canvas here</h1>
+	<canvas id="canvas" width="500" height="300"></canvas>
+</body>
+</html>
