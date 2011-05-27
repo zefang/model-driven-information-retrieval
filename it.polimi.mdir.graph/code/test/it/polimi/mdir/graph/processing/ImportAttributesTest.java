@@ -69,6 +69,7 @@ public class ImportAttributesTest extends TestCase {
 		}
 		System.out.println(toConfront);
 		System.out.println(toWrite);
+		assertEquals(toConfront, toWrite);
 		
 //		try {
 //			FileWriter fw = new FileWriter("C:/tester.txt");
