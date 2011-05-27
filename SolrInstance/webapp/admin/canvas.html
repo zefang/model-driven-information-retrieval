@@ -9,6 +9,7 @@
  	border: solid 1px black;
 }
 </style>
+<script src="jquery-1.6.1.js"></script>
 <script src="kinetic-v1.0.0.js"></script>
 <script type="text/javascript">
 
@@ -20,6 +21,9 @@
 	
 	var coordX = null;
 	var coordY = null;
+	
+	var xmlDoc = null;
+	var rootNodeId;
 
 	function drawPopup(coordX, coordY) {
 		context.beginPath();
@@ -36,16 +40,36 @@
 		context.clearRect(coordX, coordY, 100, 50);
 	}
 	
-	function drawNodes() {
-		myStage.beginRegion();
+	function findNodeById(id, collection) {
+		for (var i = 0; i < collection.length; i++) {
+			if (collection[i].getAttribute("id") == id) {
+				return collection[i];
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param {Object} name
+	 * @param {Object} angle
+	 * The angle to compensate
+	 */
+	function drawNode(name, angle) {
 		context.beginPath();
 		context.lineWidth = 1;
 		context.strokeStyle = "black";
 		context.fillStyle = "#8ED6FF";
-		context.arc(canvas.width/2, canvas.height/2, 20, 0, 2*Math.PI, true);
+		context.arc(0, 0, 20, 0, 2*Math.PI, true);
 		context.closePath();
 		context.fill();
 		context.stroke();
+		context.save()
+			context.rotate(-angle);
+			context.translate(-6,6);
+			context.font = "20px sans-serif";
+			context.fillStyle = "#000000";
+			context.fillText(name, 0, 0);
+		context.restore();
 		
 		myStage.addRegionEventListener("onmousemove", function() {
 			var mousePosition = myStage.getMousePos();
@@ -55,24 +79,51 @@
 			var mousePosition = myStage.getMousePos();
 			clearPopup(mousePosition.x, mousePosition.y);
 		});
+	}
+	
+	function drawNodes(rootNodeId) {
+		
+		//get root node
+		var nodes = xmlDoc.documentElement.getElementsByTagName("node");
+		var rootNode = findNodeById(rootNodeId, nodes);
+		myStage.beginRegion();
+		context.save();
+		context.translate(canvas.width/2, canvas.height/2);
+		drawNode(rootNodeId, 0);
+		context.restore();
 		myStage.closeRegion();
 		
+		//get neighbours of the node
+		var edges = xmlDoc.documentElement.getElementsByTagName("edge");
+		var outgoingEdges = new Array();
+		var k = 0;
+		for (var i = 0; i < edges.length; i++) {
+			if (edges[i].getAttribute("source") == rootNodeId) {
+				outgoingEdges[k++] = edges[i]; 
+			}
+		}
+		var angle = 2*Math.PI / outgoingEdges.length;
+		for (var i = 0; i < outgoingEdges.length; i++) {
+			myStage.beginRegion();
+			context.save();
+			context.translate(canvas.width/2, canvas.height/2);
+			context.rotate(angle*i);
+			context.translate(100, 0);
+			drawNode(outgoingEdges[i].getAttribute("target"), angle*i);
+			context.restore();
+			myStage.closeRegion();
+		}
 	}
 	
 	function loadXMLDoc(url) {
-		var xmlDoc = null;
-		var nodes = null;
-		
 		xmlHttpReq = new XMLHttpRequest();
 		xmlHttpReq.onreadystatechange = function() {
 			if (xmlHttpReq.readyState == 4 && xmlHttpReq.status == 200) {
 				xmlDoc = xmlHttpReq.responseXML;
-				nodes = xmlDoc.documentElement.getElementsByTagName("node");
-				output = document.getElementById("console");
-				for (var i = 0; i < nodes.length; i++) {
-					var className = nodes[i].getElementsByTagName("className");
-					output.innerHTML += className[0].firstChild.nodeValue + "<br/>";
-				}
+				//drawNodes(rootNodeId);
+				myStage.setDrawStage( function() {
+					drawNodes(rootNodeId);
+				});
 			}
 		}
 		xmlHttpReq.open("GET",url,true);
@@ -83,13 +134,9 @@
 		canvas = document.getElementById("canvas");
 		context = canvas.getContext("2d");
 		myStage = new Kinetic.Stage(canvas);
-		//TODO parametrizzare
-		loadXMLDoc("../graphml/prova.gml");
-		myStage.setDrawStage( function() {
-			
-			drawNodes();
 		
-		});
+		rootNodeId="A";
+		loadXMLDoc("../graphml/prova.gml");
 		
 	}
 </script>
