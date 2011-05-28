@@ -107,9 +107,7 @@ public class TranslateXMItoGraphML {
 				className = classIdName.split("\\$")[1];
 				Element node = document.createElement("node");
 				node.setAttribute("id", classId);
-					Element classNameElement = document.createElement("className");
-					classNameElement.appendChild(document.createTextNode(className));
-				node.appendChild(classNameElement);
+				node.setAttribute("className", className);
 				
 				// Adding vanilla attributes to node
 				XQueryWrapper xq2 = new XQueryWrapper(XQUERY_PATH + "getVanillaAttributes.xquery");
@@ -223,9 +221,7 @@ public class TranslateXMItoGraphML {
 			edge.setAttribute("id", relationId);
 			edge.setAttribute("source", sourceId);
 			edge.setAttribute("target", targetId);
-				Element relType = document.createElement("relType");
-				relType.appendChild(document.createTextNode(relationType));
-			edge.appendChild(relType);
+			edge.setAttribute("relType", relationType);
 			//get attributes of that relation
 			XQueryWrapper xq2 = new XQueryWrapper(XQUERY_PATH + "getRelationAttributes.xquery");
 			xq2.bindVariable("document", UML_PATH + currentDoc);
@@ -243,9 +239,7 @@ public class TranslateXMItoGraphML {
 			edgeOpposite.setAttribute("id", relationId + "-opposite");
 			edgeOpposite.setAttribute("source", targetId);
 			edgeOpposite.setAttribute("target", sourceId);
-				Element relTypeOpposite = document.createElement("relType");
-				relTypeOpposite.appendChild(document.createTextNode(oppositeRelationType));
-			edgeOpposite.appendChild(relTypeOpposite);
+			edgeOpposite.setAttribute("relType", oppositeRelationType);
 			
 			graph.appendChild(edge);
 			graph.appendChild(edgeOpposite);

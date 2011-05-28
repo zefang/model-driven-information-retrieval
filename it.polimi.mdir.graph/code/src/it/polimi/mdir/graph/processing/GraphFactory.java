@@ -34,16 +34,7 @@ public class GraphFactory {
 				if (node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
 					Element el = (Element) node;
 					n.setId(el.getAttribute("id")); //set class id
-					
-					//set class name
-					NodeList childNodes = el.getElementsByTagName("className");
-					for (int j = 0; j < childNodes.getLength(); j++) {
-						org.w3c.dom.Node child = childNodes.item(j);
-						if (child.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
-							Element childElement = (Element) child;
-							n.setClassName(childElement.getFirstChild().getNodeValue());
-						}
-					}
+					n.setClassName(el.getAttribute("className"));
 					
 					//set attributes
 					NodeList attributeNodes = el.getElementsByTagName("attribute");
@@ -69,18 +60,9 @@ public class GraphFactory {
 					e.setId(elem.getAttribute("id"));
 					e.setSourceId(elem.getAttribute("source"));
 					e.setTargetId(elem.getAttribute("target"));
+					e.setRelationType(elem.getAttribute("relType"));
 					
-					//set relationtype
-					NodeList childNodes = elem.getElementsByTagName("relType");
-					for (int j = 0; j < childNodes.getLength(); j++) {
-						org.w3c.dom.Node child = childNodes.item(j);
-						if (child.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
-							Element childElement = (Element) child;
-							e.setRelationType(childElement.getFirstChild().getNodeValue());
-						}
-					}
-					
-					//set relationtype
+					//set Associated attribute
 					NodeList attributeNodes = elem.getElementsByTagName("attribute");
 					for (int j = 0; j < attributeNodes.getLength(); j++) {
 						org.w3c.dom.Node child = attributeNodes.item(j);
