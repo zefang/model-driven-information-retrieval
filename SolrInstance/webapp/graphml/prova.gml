@@ -20,7 +20,7 @@
 		<edge id="1" source="A" target="B">
 			<relType>COMPOSITION_COMPOSITE_COMPONENT</relType>
 		</edge>
-		<edge id="2" source="A" target="C">
+		<edge id="2" source="B" target="C">
 			<relType>ASSOCIATION</relType>
 		</edge>
 		<edge id="3" source="A" target="D">
