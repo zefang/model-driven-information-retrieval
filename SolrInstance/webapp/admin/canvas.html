@@ -50,6 +50,14 @@
 		}
 	}
 	
+	function findNodeByClassName(className, collection) {
+		for (var i = 0; i < collection.length; i++) {
+			if (collection[i].firstElementChild.firstChild.nodeValue == className) {
+				return collection[i];
+			}
+		}
+	}
+	
 	/**
 	 * 
 	 * @param {Object} name
@@ -67,8 +75,8 @@
 		context.stroke();
 		context.save()
 			context.rotate(-angle);
-			context.translate(-6,6);
-			context.font = "20px sans-serif";
+			context.translate(0,-1.2*radius);
+			context.font = "15px sans-serif";
 			context.fillStyle = "#000000";
 			context.fillText(name, 0, 0);
 		context.restore();
@@ -85,9 +93,9 @@
 	
 	function drawNodes(rootNodeId) {
 		
-		//get root node
+		//draw root node
 		var nodes = xmlDoc.documentElement.getElementsByTagName("node");
-		var rootNode = findNodeById(rootNodeId, nodes);
+		var rootNode = findNodeByClassName(rootNodeId, nodes);
 		myStage.beginRegion();
 		context.save();
 		context.translate(canvas.width/2, canvas.height/2);
@@ -95,12 +103,12 @@
 		context.restore();
 		myStage.closeRegion();
 		
-		//get neighbours of the node
+		//draw neighbours of the node
 		var edges = xmlDoc.documentElement.getElementsByTagName("edge");
 		var outgoingEdges = new Array();
 		var k = 0;
 		for (var i = 0; i < edges.length; i++) {
-			if (edges[i].getAttribute("source") == rootNodeId) {
+			if (edges[i].getAttribute("source") == rootNode.getAttribute("id")) {
 				outgoingEdges[k++] = edges[i]; 
 			}
 		}
@@ -128,18 +136,17 @@
 				context.restore();					
 				context.stroke();
 			context.translate(100, 0);
-			drawNode(outgoingEdges[i].getAttribute("target"), angle*i);
+			drawNode(findNodeById(outgoingEdges[i].getAttribute("target"),nodes).firstElementChild.firstChild.nodeValue, angle*i);
 			context.restore();
 			myStage.closeRegion();
 		}
 	}
 	
-	function loadXMLDoc(url) {
+	function loadXMLDoc(url, rootNodeId) {
 		xmlHttpReq = new XMLHttpRequest();
 		xmlHttpReq.onreadystatechange = function() {
 			if (xmlHttpReq.readyState == 4 && xmlHttpReq.status == 200) {
 				xmlDoc = xmlHttpReq.responseXML;
-				//drawNodes(rootNodeId);
 				myStage.setDrawStage( function() {
 					drawNodes(rootNodeId);
 				});
@@ -149,13 +156,25 @@
 		xmlHttpReq.send();
 	}
 	
+	var n = 0;
+	var allNodes = ["LocatedElement", "NamedElement", "Arc", "Marking"];
+	function changeNode() {
+		n = n+1;
+		if (n >= allNodes.length) {
+			n = 0;
+		}
+		myStage.clearCanvas();
+		rootNodeId = allNodes[n];
+		loadXMLDoc("../graphml/PetriNet_extended.gml", rootNodeId);
+	}
+	
 	window.onload = function() {
 		canvas = document.getElementById("canvas");
 		context = canvas.getContext("2d");
 		myStage = new Kinetic.Stage(canvas);
 		
-		rootNodeId="A";
-		loadXMLDoc("../graphml/prova.gml");
+		rootNodeId="NamedElement"; //default value
+		loadXMLDoc("../graphml/PetriNet_extended.gml", rootNodeId);
 		
 	}
 </script>
@@ -163,7 +182,13 @@
 
 
 <body>
-<h1>Canvas here</h1>
+	<table>
+		<tr>
+			<td onclick="changeNode()">
+				CLICCAMI E COSE BBELLE ACCADRANNO!!!
+			</td>
+		</tr>
+	</table>
 	<canvas id="canvas" width="500" height="300"></canvas>
 	<div id="console"></div>
 </body>
