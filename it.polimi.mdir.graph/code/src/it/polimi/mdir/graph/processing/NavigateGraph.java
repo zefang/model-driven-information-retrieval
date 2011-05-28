@@ -39,7 +39,7 @@ public class NavigateGraph {
 	
 	
 	public void visitNode(Graph<Node, Edge> g, int numHops, Node rootNode, OperationFunction function) {
-		visitNode(g, numHops, rootNode, rootNode, rootNode, function);
+		visitNode(g, numHops, rootNode, rootNode, rootNode, null, function);
 	}
 	
 	/**
@@ -60,10 +60,12 @@ public class NavigateGraph {
 	 * equal to nodeToVisit.
 	 * @param rootNode
 	 * The starting node.
+	 * @param followedEdge
+	 * Edge followed to reach this node.
 	 * @param function
 	 * Reperesents the business logic that I have to do during the visit of the node.
 	 */
-	public void visitNode(Graph<Node, Edge> g, int numHops, Node nodeToVisit, Node callerNode, Node rootNode, OperationFunction function) {
+	public void visitNode(Graph<Node, Edge> g, int numHops, Node nodeToVisit, Node callerNode, Node rootNode, Edge followeEdge, OperationFunction function) {
 		if (numHops < 0) 
 			return;
 		
@@ -91,12 +93,12 @@ public class NavigateGraph {
 						nextNode = nextNodeCandidate;
 					}
 				}
-				visitNode(g, numHops, nextNode, nodeToVisit, rootNode, function);	
+				visitNode(g, numHops, nextNode, nodeToVisit, rootNode, nextEdge, function);	
 			}
 		}
 		
 		//TODO Do ya thang here
-		function.importAttributes(nodeToVisit, callerNode, numHops, g);
+		function.importAttributes(nodeToVisit, callerNode, followeEdge, numHops, g);
 	}
 
 }

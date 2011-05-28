@@ -25,7 +25,7 @@ import edu.uci.ics.jung.graph.Graph;
 
 public class EnrichRecordsExperimentDPipelet implements Pipelet {
 
-	private static final int MAX_HOPS = 1;
+	private static final int MAX_HOPS = 2;
 	
 	@Override
 	public void configure(AnyMap configuration) throws ProcessingException {

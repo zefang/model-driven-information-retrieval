@@ -24,7 +24,7 @@ public class ImportAttributes extends OperationFunction {
 	private float penalty = 1.0f;
 	
 	@Override
-	public void importAttributes(Node currentNode, Node callerNode, int numHops, Graph<Node, Edge> g) {
+	public void importAttributes(Node currentNode, Node callerNode, Edge followedEdge, int numHops, Graph<Node, Edge> g) {
 		
 		//Debug lines
 		if (false) {
@@ -40,23 +40,8 @@ public class ImportAttributes extends OperationFunction {
 		importCandidateAttributes.clear();
 		importCandidateClassName = null;
 		
-		//get relation type from callerNode to currentNode.
-		// It's the one that has source=callerNode and target=currentNode
-		// Then initialize the penalty, otherwise it is 1.0f by default.
-		String callerRelationType = NO_RELATION_TYPE;
-		if (!callerNode.equals(currentNode)) {
-			Collection<Edge> edgeCollection = g.getEdges();
-			Iterator<Edge> itr = edgeCollection.iterator();
-			Edge thisRelation = null;  //TODO provare g.findEdgeSet();
-			while (itr.hasNext()) {
-				Edge e = itr.next();
-				if (e.getSourceId().equals(callerNode.getId()) && 
-						e.getTargetId().equals(currentNode.getId())) {
-					thisRelation = e;
-				} 
-			} 
-			callerRelationType = thisRelation.getRelationType();
-			penalty = WeightRules.penaltyMap.get(callerRelationType);
+		if (followedEdge != null) {
+			penalty = WeightRules.penaltyMap.get(followedEdge.getRelationType());	
 		}
 		
 		//These are of the current Node
@@ -90,8 +75,8 @@ public class ImportAttributes extends OperationFunction {
 		}
 		
 		// Apply relation type filter to decide what of this node import in other nodes
-		if (callerRelationType.equals(RelationType.COMPOSITION_COMPONENT_COMPOSITE.toString()) 
-				|| callerRelationType.equals(RelationType.GENERALIZATION_FATHER_CHILD.toString())) {
+		if (followedEdge != null && (followedEdge.getRelationType().equals(RelationType.COMPOSITION_COMPONENT_COMPOSITE.toString()) 
+										|| followedEdge.getRelationType().equals(RelationType.GENERALIZATION_FATHER_CHILD.toString()))) {
 			//import just the className
 			importedClassNames.add(importCandidateClassName);
 			//remove from importedAttributes the ones with this callerNode
