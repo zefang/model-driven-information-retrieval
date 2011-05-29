@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 
 import javax.xml.transform.OutputKeys;
@@ -159,8 +160,18 @@ public class TranslateXMItoGraphML {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
+			//TODO
+			//DEBUG CODE --> TO DELETE
 			Graph<Node, Edge> g = GraphFactory.createGraphFromGraphML(GRAPHML_PATH + removeExtension(currentDoc)+".gml");
+			Collection<Edge> edges = g.getEdges();
+			Iterator<Edge> it = edges.iterator();
+			while(it.hasNext()) {
+				Edge edge = it.next();		
+				if(edge.getRelationType().contains("ASSOCIATION") || edge.getRelationType().contains("COMPOSITION")) {
+					System.out.println("EDGE ID: " + edge.getId() + " LOWER VALUE: " + edge.getLowerValue() + " UPPER VALUE: " + edge.getUpperValue());
+				}
+			}
+			
 			try {
 				FileOutputStream fileOut = new FileOutputStream(ConfigLoader.SERIALIZATION_PATH + removeExtension(currentDoc)+".ser");
 				ObjectOutputStream out = new ObjectOutputStream(fileOut);

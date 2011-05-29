@@ -9,6 +9,8 @@ public class Edge implements Serializable {
 	private String id;
 	private String relationType;
 	private String associatedAttribute = null;
+	private String upperValue;
+	private String lowerValue;
 	
 	private String sourceId;
 	private String targetId;
@@ -57,6 +59,18 @@ public class Edge implements Serializable {
 	}
 	public boolean hasBeenFollowed() {
 		return hasBeenFollowed;
+	}
+	public void setLowerValue(String lowerValue) {
+		this.lowerValue = lowerValue;
+	}
+	public String getLowerValue() {
+		return lowerValue;
+	}
+	public void setUpperValue(String upperValue) {
+		this.upperValue = upperValue;
+	}
+	public String getUpperValue() {
+		return upperValue;
 	}
 
 }

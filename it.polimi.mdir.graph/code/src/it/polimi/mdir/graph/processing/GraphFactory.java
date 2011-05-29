@@ -34,7 +34,7 @@ public class GraphFactory {
 				if (node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
 					Element el = (Element) node;
 					n.setId(el.getAttribute("id")); //set class id
-					n.setClassName(el.getAttribute("className"));
+					n.setClassName(el.getAttribute("className"));					
 					
 					//set attributes
 					NodeList attributeNodes = el.getElementsByTagName("attribute");
@@ -62,12 +62,26 @@ public class GraphFactory {
 					e.setTargetId(elem.getAttribute("target"));
 					e.setRelationType(elem.getAttribute("relType"));
 					
+					/*
+					 * We need to retrieve also cardinalities stored
+					 * in opposite edges. These cardinalities are stored
+					 * as attributes of edge elements. Opposite edges for
+					 * generalization relations are not considered since
+					 * they have no cardinalities at all.
+					 */
+					if(elem.getAttribute("id").contains("opposite") && !(elem.getAttribute("relType").contains("GENERALIZATION_FATHER_CHILD"))) {
+						e.setUpperValue(elem.getAttribute("upperValue"));
+						e.setLowerValue(elem.getAttribute("lowerValue"));
+					}
+					
 					//set Associated attribute
 					NodeList attributeNodes = elem.getElementsByTagName("attribute");
 					for (int j = 0; j < attributeNodes.getLength(); j++) {
 						org.w3c.dom.Node child = attributeNodes.item(j);
 						if (child.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
 							Element childElement = (Element) child;
+							e.setLowerValue(childElement.getAttribute("lowerValue"));
+							e.setUpperValue(childElement.getAttribute("upperValue"));
 							e.setAssociatedAttribute(childElement.getFirstChild().getNodeValue());
 						}
 					}
