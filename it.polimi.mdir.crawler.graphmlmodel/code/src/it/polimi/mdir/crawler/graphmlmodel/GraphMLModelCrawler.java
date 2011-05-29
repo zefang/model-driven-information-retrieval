@@ -468,7 +468,9 @@ public class GraphMLModelCrawler extends AbstractCrawler {
         xq = new XQueryWrapper(XQUERY_PATH.concat("/getEdgeAttributes.xquery"));
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
-        resultListString += " " + arrayListToString(resultList);
+        if (!resultList.isEmpty()) {
+        	resultListString += " " + arrayListToString(resultList);
+        }
         
         //System.out.println("CRAWLER: [" + file.getName() + "]: " + resultListString);
         
