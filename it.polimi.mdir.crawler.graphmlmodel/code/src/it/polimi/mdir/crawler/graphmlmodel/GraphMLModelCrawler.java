@@ -152,6 +152,8 @@ public class GraphMLModelCrawler extends AbstractCrawler {
    */
   private static String XQUERY_PATH;
   
+  private static int crawlerCount = 0;
+  
   
   
   /**
@@ -422,6 +424,7 @@ public class GraphMLModelCrawler extends AbstractCrawler {
 	  XQueryWrapper xq;
 	  ArrayList<String> resultList = new ArrayList<String>();
 	  String resultListString = new String();
+
     switch (attribute.getFileAttributes()) {
       case FILE_NAME:
         return file.getName();
@@ -434,7 +437,7 @@ public class GraphMLModelCrawler extends AbstractCrawler {
         String id = resultList.get(0);
     	return id;
 
-    	/*We use the file name minus the .uml extension as the project name*/
+    	/*We use the file name minus the .gml extension as the project name*/
       case PROJECT_NAME:
     	  String projectName = file.getName();
     	  return projectName.substring(0, projectName.length()-4);
@@ -457,11 +460,19 @@ public class GraphMLModelCrawler extends AbstractCrawler {
     	 * The format is "'classIdVALUE'$'attributeNameVALUE'+'conceptType:VALUE'"
     	 */
       case ATTRIBUTE_NAMES:
-        xq = new XQueryWrapper(XQUERY_PATH.concat("/getAttributeNames.xquery"));
+        xq = new XQueryWrapper(XQUERY_PATH.concat("/getNodeAttributes.xquery"));
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         resultListString = arrayListToString(resultList);
-        return resultListString;           
+        
+        xq = new XQueryWrapper(XQUERY_PATH.concat("/getEdgeAttributes.xquery"));
+        xq.bindVariable("document", file.getAbsolutePath());
+        resultList = xq.executeQuery();
+        resultListString += " " + arrayListToString(resultList);
+        
+        //System.out.println("CRAWLER: [" + file.getName() + "]: " + resultListString);
+        
+        return resultListString.trim();           
       default:
         throw new RuntimeException("Unknown file attributes type " + attribute.getFileAttributes());
     }
