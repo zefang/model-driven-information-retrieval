@@ -177,7 +177,8 @@ public class TranslateXMItoGraphML {
 	
 	
 	/**
-	 * 	Compositions are returned in the format relationId$sourceId$targetId.
+	 * 	Compositions are returned in the format relationId$sourceId$targetId$upperValue-lowerValue
+	 * 		if there is NO lowerValue (e.g. "1-" and NOT "1-1") then loweValue = 0
 	 *  Associations are returned in the format relationId$sourceId$targetId.
 	 *  Generalizations are returned in the format relationId$child$father.
 	 *  
@@ -217,6 +218,26 @@ public class TranslateXMItoGraphML {
 			String relationId = split[0];
 			String sourceId = split[1]; 
 			String targetId = split[2];
+			// Cardinalities
+			String upperValue = "";
+			String lowerValue = "";
+			if(relation != "generalization") {
+				/*
+				 * The length of the array containing cardinalities can be:
+				 * - 1 (lowerValue = 0)
+				 * - 2 (lowerValue = cardinalities[1])
+				 */
+				String[] cardinalities = split[3].split("\\-");
+				
+				upperValue = cardinalities[0];
+				lowerValue = "";
+				if(cardinalities.length == 1) {
+					lowerValue = "0";
+				} else {
+					lowerValue = cardinalities[1];
+				}	
+			}
+			
 			Element edge = document.createElement("edge");
 			edge.setAttribute("id", relationId);
 			edge.setAttribute("source", sourceId);
@@ -230,16 +251,50 @@ public class TranslateXMItoGraphML {
 			Iterator<String> itr = relationAttributesList.iterator();
 			while (itr.hasNext()) {
 				Element attribute = document.createElement("attribute");
+				if (relation != "generalization") {
+					attribute.setAttribute("lowerValue", lowerValue);
+					attribute.setAttribute("upperValue", upperValue);
+				}
 				attribute.appendChild(document.createTextNode(itr.next()));
 				edge.appendChild(attribute);
 			}
 			
+			//Retrieving "opposite cardinalities"
+			String oppositeUpperValue = "";
+			String oppositeLowerValue = "";
+			
+			if(relation != "generalization") {
+				XQueryWrapper xq3 = new XQueryWrapper(XQUERY_PATH + "getOppositeCardinalities.xquery");
+				xq3.bindVariable("document", UML_PATH + currentDoc);
+				xq3.bindVariable("relationId", relationId);
+				String[] oppositeCardinalities = xq3.executeQuery().get(0).split("\\-");
+
+				if(relation != "generalization") {
+					/*
+					 * The length of the array containing opposite cardinalities can be:
+					 * - 1 (lowerValue = 0)
+					 * - 2 (lowerValue = cardinalities[1])
+					 */
+					
+					oppositeUpperValue = oppositeCardinalities[0];
+					oppositeLowerValue = "";
+					if(oppositeCardinalities.length == 1) {
+						oppositeLowerValue = "0";
+					} else {
+						oppositeLowerValue = oppositeCardinalities[1];
+					}	
+				}
+			}
 			//Create the opposite edge
 			Element edgeOpposite = document.createElement("edge");
 			edgeOpposite.setAttribute("id", relationId + "-opposite");
 			edgeOpposite.setAttribute("source", targetId);
 			edgeOpposite.setAttribute("target", sourceId);
 			edgeOpposite.setAttribute("relType", oppositeRelationType);
+			if (relation != "generalization") {
+				edgeOpposite.setAttribute("lowerValue", oppositeLowerValue);
+				edgeOpposite.setAttribute("upperValue", oppositeUpperValue);
+			}
 			
 			graph.appendChild(edge);
 			graph.appendChild(edgeOpposite);
