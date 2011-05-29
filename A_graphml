@@ -1,0 +1,630 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<index>
+<info>
+ <indexPath>C:\Users\Stefano\Desktop\Thesis\model-driven-information-retrieval\SolrInstance\solr\text_experiment_A\data\index</indexPath>
+ <fields count='3'>
+  <field name='content'/>
+  <field name='projectId'/>
+  <field name='projectName'/>
+ </fields>
+ <numDocs>44</numDocs>
+ <maxDoc>44</maxDoc>
+ <numDeletedDocs>0</numDeletedDocs>
+ <numTerms>6422</numTerms>
+ <hasDeletions>false</hasDeletions>
+ <optimized>true</optimized>
+ <lastModified>Sun May 29 17:23:25 CEST 2011</lastModified>
+ <indexVersion>1306682569023</indexVersion>
+ <indexFormat>
+  <id>-9</id>
+  <genericName>Lucene 2.9</genericName>
+  <capabilities>lock-less, single norms, shared doc store, checksum, del count, omitTf, user data, diagnostics</capabilities>
+ </indexFormat>
+ <directoryImpl>org.apache.lucene.store.SimpleFSDirectory</directoryImpl>
+ <files count='10'>
+  <file name='_0.fdt' size='34961' func='stored fields data'/>
+  <file name='_0.fdx' size='356' func='stored fields index data'/>
+  <file name='_0.fnm' size='39' func='field names / infos'/>
+  <file name='_0.frq' size='9671' func='term frequency postings data'/>
+  <file name='_0.nrm' size='92' func='norms data for all fields'/>
+  <file name='_0.prx' size='17604' func='term position postings data'/>
+  <file name='_0.tii' size='1072' func='terms dictionary index'/>
+  <file name='_0.tis' size='74916' func='terms dictionary'/>
+  <file name='segments.gen' size='20' func='generation number - global file'/>
+  <file name='segments_2' size='225' func='per-commit list of segments'/>
+ </files>
+ <commits count='1'>
+  <commit tstamp='Sun May 29 17:23:25 CEST 2011' segment='segments_2' optimized='true' deleted='false' files='9'>
+   <file name='_0.nrm'/>
+   <file name='_0.tis'/>
+   <file name='_0.fnm'/>
+   <file name='_0.tii'/>
+   <file name='_0.frq'/>
+   <file name='segments_2'/>
+   <file name='_0.fdx'/>
+   <file name='_0.prx'/>
+   <file name='_0.fdt'/>
+  </commit>
+ </commits>
+ <topTerms count='50'>
+  <term field='content' text='name' docFreq='38'/>
+  <term field='content' text='element' docFreq='30'/>
+  <term field='content' text='type' docFreq='25'/>
+  <term field='content' text='valu' docFreq='23'/>
+  <term field='content' text='_' docFreq='18'/>
+  <term field='content' text='paramet' docFreq='14'/>
+  <term field='content' text='sourc' docFreq='12'/>
+  <term field='content' text='target' docFreq='12'/>
+  <term field='content' text='text' docFreq='12'/>
+  <term field='content' text='object' docFreq='11'/>
+  <term field='content' text='express' docFreq='11'/>
+  <term field='content' text='locat' docFreq='11'/>
+  <term field='content' text='data' docFreq='11'/>
+  <term field='content' text='abstract' docFreq='11'/>
+  <term field='content' text='attribut' docFreq='11'/>
+  <term field='content' text='transit' docFreq='10'/>
+  <term field='content' text='default' docFreq='10'/>
+  <term field='content' text='class' docFreq='10'/>
+  <term field='content' text='node' docFreq='9'/>
+  <term field='content' text='visibl' docFreq='9'/>
+  <term field='content' text='use' docFreq='9'/>
+  <term field='content' text='root' docFreq='9'/>
+  <term field='content' text='model' docFreq='9'/>
+  <term field='content' text='list' docFreq='8'/>
+  <term field='content' text='link' docFreq='8'/>
+  <term field='content' text='descript' docFreq='8'/>
+  <term field='content' text='namespac' docFreq='8'/>
+  <term field='content' text='state' docFreq='8'/>
+  <term field='content' text='boolean' docFreq='8'/>
+  <term field='content' text='name name' docFreq='8'/>
+  <term field='content' text='properti' docFreq='8'/>
+  <term field='content' text='condit' docFreq='8'/>
+  <term field='content' text='content' docFreq='8'/>
+  <term field='content' text='associ' docFreq='7'/>
+  <term field='content' text='applic' docFreq='7'/>
+  <term field='content' text='field' docFreq='7'/>
+  <term field='content' text='structur' docFreq='7'/>
+  <term field='content' text='call' docFreq='7'/>
+  <term field='content' text='name valu' docFreq='7'/>
+  <term field='content' text='specif' docFreq='7'/>
+  <term field='content' text='bodi' docFreq='7'/>
+  <term field='content' text='refer' docFreq='7'/>
+  <term field='content' text='method' docFreq='7'/>
+  <term field='content' text='contain' docFreq='7'/>
+  <term field='content' text='declar' docFreq='7'/>
+  <term field='content' text='set' docFreq='7'/>
+  <term field='content' text='locat element' docFreq='6'/>
+  <term field='content' text='oper' docFreq='6'/>
+  <term field='content' text='instanc' docFreq='6'/>
+  <term field='content' text='namedel name' docFreq='6'/>
+ </topTerms>
+</info>
+<doc id='0'>
+<field name='content' norm='0.0390625' flags='ITS-------'>
+<val>Ant</val>
+<val>name basedir description name value location file environment name description unless ifCondition type classname classpath classpathref from to name ifCondition unless dir files token value file path location dir starttoken endtoken id refid refid name classname name value id taskname description executable dir classname jar fork message file append property pattern offset unit locale srcdir destdir debug fork optimize deprecation sourcepath destdir packagenames defaultexcludes author version use windowtitle jarfile basedir compress encoding manifest dir file presservelastmodified tofile todir overwrite filtering flatten includeEmptyDirs file dir verbose quiet failonerror includeEmptyDirs includes includesfile excludes excludesfile defaultexcludes path properties taskdef targets tasks inexcludes patternset include exclude filter filtersfile path pathElement fileset pathElement fileset attributes classPath format inExcludes classPath fileset filterset mapper default depends taskName Project Property PropertyName PropertyValue PropertyLocation PropertyFile PropertyEnv Target Pattern Basic Mapper InExcludes Includes Excludes IncludesFile ExcludesFile FileList Filter FiltersFile PathElement Set PatternSet FileSet FilterSet Path ClassPath Task TaskDef NewTask Attribut PreDefinedTask ExecutionTask Exec Java MiscellaneousTask Echo Tstamp FormatTstamp CompileTask Javac DocumentationTask Javadoc ArchiveTask Jar FileTask Mkdir Copy Delete</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_dZ4mgOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='1.0' flags='ITS-------'>
+<val>Ant</val>
+</field>
+</doc>
+<doc id='1'>
+<field name='content' norm='0.078125' flags='ITS-------'>
+<val>LaTeX</val>
+<val>value names names adress organisations phone fax email corps path label title item item title sectionBody date label author description citations sections bibliography type title author date heading abstract keywords documentbody ValuedElement Type Title Name Date Author Adress Organisation Phone Fax EMail Heading Abstract Keywords SectionBody Corps Value Cite Path Label Figure Item Items Enumerate Section Description Citation Bibliography DocumentBody Document</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_eoRFMOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='1.0' flags='ITS-------'>
+<val>LaTeX</val>
+</field>
+</doc>
+<doc id='2'>
+<field name='content' norm='0.0390625' flags='ITS-------'>
+<val>UMLDI-ActivityGraphs</val>
+<val>name visibility isSpecification isRoot isLeaf isAbstract ownerScope isQuery concurrency isRoot isLeaf isAbstract specification defaultValue kind discriminator recurrence target isAsynchronous script value when isConcurrent changeExpression expression kind bound referenceState isDynamic dynamicArguments dynamicMultiplicity isDynamic dynamicArguments dynamicMultiplicity isSynch lower upper language body ownedElement feature parameter actualArgument action top transitions parameter internalTransition exit doActivity entry effect guard subvertex partition range generalization powertypeRange type parent instantiation operation signal context submachineState incoming outgoing deferrableEvent operation signal trigger contents type parameter inState type Element ModelElement GeneralizableElement Namespace Classifier Feature Relationship BehavioralFeature Operation Parameter Generalization Signal Action CreateAction DestroyAction UninterpretedAction CallAction SendAction ActionSequence Argument ReturnAction TerminateAction Exception StateMachine Event StateVertex State TimeEvent CallEvent SignalEvent Transition CompositeState ChangeEvent Guard Pseudostate SimpleState SubmachineState SynchState StubState FinalState ActivityGraph Partition SubactivityState ActionState CallState ObjectFlowState ClassifierInState Multiplicity MultiplicityRange Expression BooleanExpression ObjectSetExpression ActionExpression IterationExpression TimeExpression ArgListsExpression</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_ghZxEOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='0.4375' flags='ITS-------'>
+<val>UMLDI-ActivityGraphs</val>
+</field>
+</doc>
+<doc id='3'>
+<field name='content' norm='0.15625' flags='ITS-------'>
+<val>JavaSource</val>
+<val>name classes methods invocations superclass method JavaSource NamedElement ClassDeclaration MethodDefinition MethodInvocation</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_egsdkOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='0.4375' flags='ITS-------'>
+<val>JavaSource</val>
+</field>
+</doc>
+<doc id='4'>
+<field name='content' norm='0.0625' flags='ITS-------'>
+<val>WebApplications_ConceptualModel</val>
+<val>consistsOf module containsModule useCase logicElement logicElem allows hyperlink representsSMP represents generatedBy represents server generates link page posts useCase generatedBy evaluatesResultOf persistentData inputData outputData renders ClientPage ClientPageModule LogicInterface DesignElement HyperLink ServerPage ServerPageModule DesignModule LogicModule Link BeginUseCase UseCase LogicElement Alternative UserDecision ServerDecision Processor Renderer Data</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_guqxAOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='0.375' flags='ITS-------'>
+<val>WebApplications_ConceptualModel</val>
+</field>
+</doc>
+<doc id='5'>
+<field name='content' norm='0.15625' flags='ITS-------'>
+<val>XML</val>
+<val>startLine startColumn endLine endColumn name value children Node Attribute Text Element Root</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_gylnsOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='1.0' flags='ITS-------'>
+<val>XML</val>
+</field>
+</doc>
+<doc id='6'>
+<field name='content' norm='0.109375' flags='ITS-------'>
+<val>Pascal</val>
+<val>name name name name variables types procedures instructions blocks block_loop variables parameters block_procedure type returnType Program Variable Type Parameter Instruction Calculation Control Assignment Block Conditional Loop Procedure Function For While Repeat</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_fstkwOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='1.0' flags='ITS-------'>
+<val>Pascal</val>
+</field>
+</doc>
+<doc id='7'>
+<field name='content' norm='0.125' flags='ITS-------'>
+<val>Automaton</val>
+<val>alphabet letter name transitionSet initialState finalStateSet StateSet source target combination FiniteAutomaton Transition State</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_dd2ggOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='1.0' flags='ITS-------'>
+<val>Automaton</val>
+</field>
+</doc>
+<doc id='8'>
+<field name='content' norm='0.09375' flags='ITS-------'>
+<val>UMLDI-ModelManagement</val>
+<val>isInstantiable visibility alias isSpecification name visibility isSpecification isRoot isLeaf isAbstract ownerScope discriminator elementImport ownedElement feature importedElement generalization powertypeRange parent Package Model Subsystem ElementImport Element ModelElement GeneralizableElement Namespace Classifier Feature Relationship Generalization</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_gjSncOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='0.4375' flags='ITS-------'>
+<val>UMLDI-ModelManagement</val>
+</field>
+</doc>
+<doc id='9'>
+<field name='content' norm='0.125' flags='ITS-------'>
+<val>PDG</val>
+<val>name name name isIdentifier node controlDependenceNodes expression controlDependenceNodes innerExpressions dataDependenceNodes MProgramDependenceGraph EnterNode ExpressionNode Expression</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_oTkmUBuyEd-u0r5Az1kiEw</val>
+</field>
+<field name='projectName' norm='1.0' flags='ITS-------'>
+<val>PDG</val>
+</field>
+</doc>
+<doc id='10'>
+<field name='content' norm='0.0234375' flags='ITS-------'>
+<val>SCADE</val>
+<val>value value library pathname DefinedIn modelFileName sernFileName sernPersistAs rnetFileName rnetPersistAs occBase size nameVerify checked saoFileName annFileName persistAs loaded saoModified annModified name runLine zoomCoeff fromat lanscape defaultPageFormat value numOcc predefOpr category conversion state index optional const probe pure initValue imported size rotation symetrical terminator DefinedIn name name pathname name derived ident description pathname persistAs DefinedIn extensions leftVarIndex labelOrientation DefinedIn name type clock const optional conditions transKind name cx cy cx cy DefineIn name modified name name type value value value value value name type value value value value value pathname name minCardinality maxCardinality defaultNote name ident name description index occ elementCount creator name date author description storageUnitM enumsBlock typeM root all reference tmpNode constBlockK node varBlockK typeBlock refinement implementation constBlock varBlock allNamedType namedType constant variable type loader columnsSize label boolAct initValue calledOpr parameter input output hidden eqBlock paramBlock local internal columnsSize array notes value value value element equation assertion right outEdge position size expression position propA values propC projectC owner element assertion position annAttValue annAttDefinition annAttGroup annProperty annNoteType annCategory anootability coverageFileCov criterionFileCri modelM record modelCov recordCov modelCri criterionC element called result descriptor descriptor project fileRef importedOperator client allLibry model constant allConstant allvariable variable allConstVar constVar namedTypeI descriptor model loadsModel libraryModels annTypeFiles fileRef element node model dependance subExprId kind operator variable client criterionO intanceO operator reference nodeKind stateMachine operator kind type client clock definition usedType namedTypeT tableT compositeElementT kind refinement to from fileRef leftVar rightExpression srcEquation state1 state2 stOutput state initialStPtr state transition annNoteType annotable annAttDefinition annAttGroup value annNoteType file associationClassI origin resultA recordA ListString ListInteger Model Implementation ConstBlock VarBlock GlobalVariable TypeBlock Session Descriptor StorageUnit StorageElement Object Block NodeBlock ModelBlock Expression Label ExprNull ConstValue ExprContact ExprCall Operator ExprId LocalVariable Node ParamBlock ParamArray ConstVar Constant Variable Type Table NamedType Enumeration Composite CompositeElement Structure Tuple EqBlock Equation Assertion Annotable Prop Configuration Project Element FileRef Folder Reference TypeReference OperatorReference VariableReference Error Edge RPoint RSize Entity StateObj GraphicalObject StInputOutput StInitInput StInput StOutput Transition State InitialStPtr StateMachine Base StateBase AnnNote AnnAttValue AnnNoteType AnnAttDefinition AnnAttIntValue AnnAttBoolValue AnnAttCharValue AnnAttRealValue AnnAttStringValue AnnAttFileValue AnnAttDateValue AnnAttOidValue AnnAttEnumValue AnnProperty AnnPropertyInt AnnPropertyBool AnnPropertyChar AnnPropertyReal AnnPropertyString AnnPropertyEnum AnnotSchema AnnCategory Annotability AnnAttGroup File MtcApplication CoverageFile CriterionFile MtcEntity HistoryEntry Criterion Instance AssociationClass Result Record Loader</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_gGA1kOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='1.0' flags='ITS-------'>
+<val>SCADE</val>
+</field>
+</doc>
+<doc id='11'>
+<field name='content' norm='0.02734375' flags='ITS-------'>
+<val>MSOfficeExcel_SpreadsheetMLPrintingSetup</val>
+<val>year month day hour minute second n nn value value value title subject keywords description category author lastAuthor manager company hyperlinkBase revision presentationFormat guid appName totalTime pages words characters charactersWithSpaces bytes lines paragraphs name namespaceuri name url name protected rightToLeft defaultColumnWidth defaultRowHeight expandedColumnCount expandedRowCount leftCell topCell fullColumns fullRows index hidden span autoFitWidth width autoFitHeight height arrayRange formula hRef mergeAcross mergeDown author showAlways selectedSheets windowHidden hideHorizontalScrollBar hideVerticalScrollBar hideWorkbookTabs windowHeight windowWidth windowTopX windowTopY activeSheet activeChart firstVisibleSheet hidePivotTableFieldList protectStructure protectWindows displayInkNotes embedSaveSmartTags futureVer tabRatio windowIconic displayDrawingObjects createBackup calculation doNotCalculateBeforeSave date1904 refModeR1C1 iteration maxIterations maxChange precisionAsDisplayed doNotSaveLinkValues noAutoRecover acceptLabelsInFormulas uncalced fitToPage doNotDisplayColHeaders doNotDisplayRowHeaders gridlineColor name excelWorksheetType intlMacro unsynced selected codeName displayPageBreak transitionExpressionEvaluation transitionFormulaEntry zoom pageBreakZoom showPageBreakZoom defaultRowHeight defaultColumnWidth standardWidth visible leftColumnVisible displayRightToLeft gridlineColorIndex displayFormulas doNotDisplayGridlines doNotDisplayHeadings doNotDisplayOutline applyAutomaticOutlineStyles noSummaryRowsBelowDetail noSummaryColumnsRightDetail doNotDisplayZeros activeRow activeColumn filterOn rangeSelection topRowVisible topRowBottomPane leftColumnRightPane activePane splitHorizontal splitVertical freezePanes frozenNoSplit tabColorIndex protectContentst protectObjects protectScenarios enableSelection allowFormatCells allowSizeCols allowSizeRows allowInsertCols allowInsertRows allowInsertHyperlinks allowDeleteCols allowDeleteRows allowSort allowFilter allowUsePivotTables orientation centerHorizontal centerVertical startPageNumber margin data left right top bottom fitWidth fitHeight leftToRight blackAndWhite draftQuality commentsLayout scale printErrors validPrinterInfo paperSizeIndex horizontalResolution verticalResolution gridlines numberOfCopies rowColHeadings value version lastPrinted created lastSaved customDocumentProperties value smartTagTypes wb_smartTags wb_docProperties wb_customDocProperties wb_excelWorkbook wb_worksheets ws_table w_worksheetOptions t_cols t_rows r_cells c_smartTags c_data c_comment com_data value wo_pageSetup wo_print ps_layout ps_header ps_footer ps_pageMargins DateTimeType VersionType ValueType StringValue NumberValue DateTimeTypeValue BooleanValue ErrorValue DocumentPropertiesCollection CustomDocumentPropertiesCollection CustomDocumentProperty SmartTagType SmartTagsCollection Workbook Worksheet StyledElement Table TableElement ColOrRowElement Column Row Cell Comment Data ExcelWorkbook WorksheetOptionsElt PageSetup Layout HeaderOrFooterElt Header Footer PageMarginsInfo Print</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_extVEOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='0.3125' flags='ITS-------'>
+<val>MSOfficeExcel_SpreadsheetMLPrintingSetup</val>
+</field>
+</doc>
+<doc id='12'>
+<field name='content' norm='0.109375' flags='ITS-------'>
+<val>FiniteStateMachine</val>
+<val>name position name state transition rootFolders stateMachine associationStateState associationStateStatedst associationStateStatesrc MgaObject Transition State StateMachine RootFolder AssociationStateState</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_eMUwEOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='0.4375' flags='ITS-------'>
+<val>FiniteStateMachine</val>
+</field>
+</doc>
+<doc id='13'>
+<field name='content' norm='0.09375' flags='ITS-------'>
+<val>JAVA3</val>
+<val>visibility state name share share name methods fields abstractMethods constants parameters value superClass implement superInterface resultOf typeOf typeOf reference Modifier Class Interface Method Field Value Parameter Type ReferenceType PrimitiveType Int</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_edSkQOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='0.5' flags='ITS-------'>
+<val>JAVA3</val>
+</field>
+</doc>
+<doc id='14'>
+<field name='content' norm='0.1875' flags='ITS-------'>
+<val>PathExp</val>
+<val>name states transitions incoming outgoing Element PathExp State Transition</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_ftRlcOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='0.4375' flags='ITS-------'>
+<val>PathExp</val>
+</field>
+</doc>
+<doc id='15'>
+<field name='content' norm='0.09375' flags='ITS-------'>
+<val>PetriNet_extended</val>
+<val>location name weight elements arcs markings movements tokens execs incomingArc outgoingArc incomingArc outgoingArc placedAt fire source target LocatedElement NamedElement PetriNet Element Place Transition Arc PlaceToTransition TransitionToPlace Execution Token Marking Movement</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_fvqyIOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='0.4375' flags='ITS-------'>
+<val>PetriNet_extended</val>
+</field>
+</doc>
+<doc id='16'>
+<field name='content' norm='0.0625' flags='ITS-------'>
+<val>XSchema</val>
+<val>text text name namespace fixed default minOccurs maxOccurs use annotations documentations applicationInfos contents typeContain contents contents content attributes typeRef references referencedGroup references references extensions extensions AnnotedElement Annotation Documentation ApplicationInfo NamedElement XSchema XSchemaContentElement Parameters Element Occurable AbstractContent Container AtomicContent ElementRef GroupRef All Group Choice Sequence AbstractAttributeGroupContent AttributeGroup AttributeGroupRef AtomicAttributeGroupContent Attribute AttributeRef AbstractType SimpleType ComplexType ComplexTypeSimpleContent ComplexTypeComplexContent</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_g7NYMOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='1.0' flags='ITS-------'>
+<val>XSchema</val>
+</field>
+</doc>
+<doc id='17'>
+<field name='content' norm='0.125' flags='ITS-------'>
+<val>Statecharts</val>
+<val>value isConcurrent transitions top internalTransitions subVertexes trigger guard deferrableEvents source target expression BooleanExpression StateMachine State CompositeState Transition StateVertex Guard Event</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_gTG2YOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='1.0' flags='ITS-------'>
+<val>Statecharts</val>
+</field>
+</doc>
+<doc id='18'>
+<field name='content' norm='0.078125' flags='ITS-------'>
+<val>XQuery</val>
+<val>name name name value value var var expressions for let where orderBy return parameters expression nodes expression expression expression expressions XQueryProgram Expression ExecutableExpression Node FLWOR FunctionCall FunctionDeclaration ElementNode AttributeNode TextNode ReturnXPath XPath BooleanExp For Let Where OrderBy Return</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_g04GsOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='1.0' flags='ITS-------'>
+<val>XQuery</val>
+</field>
+</doc>
+<doc id='19'>
+<field name='content' norm='0.0390625' flags='ITS-------'>
+<val>UMLDI-Collaborations</val>
+<val>name visibility isSpecification isRoot isLeaf isAbstract ownerScope multiplicity changeability targetScope ordering isNavigable ordering aggregation targetScope multiplicity changeability initialValue isQuery concurrency isRoot isLeaf isAbstract specification defaultValue kind discriminator recurrence target isAsynchronous script value specification isRoot isLeaf isAbstract multiplicity multiplicity collaborationMultiplicity lower upper language body ownedElement feature qualifier connection parameter ownedInstance slot ownedLink actualArgument connection action qualifiedValue interaction message interactionInstanceSet range generalization powertypeRange type specification participant type parent linkEnd classifier componentInstance instantiation value attribute association operation signal signal associationEnd argument communicationLink receiver dispatchAction sender nodeInstance usedCollaboration representedOperation representedClassifier constrainingElement availableContents base conformingInstance availableFeature base conformingLink message base availableQualifier conformingStimulus action activator receiver sender predecessor interaction participatingStimulus collaboration constrainingElement participatingInstance participatingLink Element ModelElement GeneralizableElement Namespace Classifier Feature StructuralFeature AssociationEnd Relationship Association Attribute BehavioralFeature Operation Parameter Generalization Instance Signal Action CreateAction DestroyAction UninterpretedAction AttributeLink Object Link LinkObject DataValue CallAction SendAction ActionSequence Argument Reception LinkEnd ReturnAction TerminateAction Stimulus Exception ComponentInstance NodeInstance SubsystemInstance Collaboration ClassifierRole AssociationRole AssociationEndRole Message Interaction InteractionInstanceSet CollaborationInstanceSet Multiplicity MultiplicityRange Expression BooleanExpression ObjectSetExpression ActionExpression IterationExpression</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_giWzUOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='0.5' flags='ITS-------'>
+<val>UMLDI-Collaborations</val>
+</field>
+</doc>
+<doc id='20'>
+<field name='content' norm='0.09375' flags='ITS-------'>
+<val>WfMC</val>
+<val>participantSpecificatons revelantDatas applicationDeclarations processActivities transitionInformations processActivities revelantDatas processActivities participantSpecifications transitionInformations processActivities to_transitionInformation from_transitionInformation WorkflowProcessDefinition WorkflowApplicationDeclaration WorkflowRelevantData WorkflowParticipantSpecification WorkflowProcessActivity TransitionInformation</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_gvQm4OiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='1.0' flags='ITS-------'>
+<val>WfMC</val>
+</field>
+</doc>
+<doc id='21'>
+<field name='content' norm='0.078125' flags='ITS-------'>
+<val>yUML</val>
+<val>location commentsBefore commentsAfter name color stereotype type sourceLabel navigableSource sourceVisibility targetLabel navigableTarget targetVisibility lowerBound upperBound visibility name type arguments text classes elements definition source target attributes methods sourceCardinality targetCardinality note class LocatedElement Model Class ModelElement ColorableElement ClassReference Relationship ClassDefinition Association Inheritance Cardinality ClassMember Attribute Method Note NoteAssociation</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_oxX8oBuyEd-u0r5Az1kiEw</val>
+</field>
+<field name='projectName' norm='0.5' flags='ITS-------'>
+<val>yUML</val>
+</field>
+</doc>
+<doc id='22'>
+<field name='content' norm='0.078125' flags='ITS-------'>
+<val>DTD</val>
+<val>name content content isInternal elements occ elementName isRequired value isFixed values type content type children childrenChoice containsAttributes TypeDescription Notation Entity Element AnyElement RestrictedElement ElementContent Mixed Children Sequence Leaf Choice AttributeList AttributeDescription NoDefaultValue DefaultValue AttributeType Enumeration OtherAttributeType</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_d9cmkOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='1.0' flags='ITS-------'>
+<val>DTD</val>
+</field>
+</doc>
+<doc id='23'>
+<field name='content' norm='0.0546875' flags='ITS-------'>
+<val>ODP-EV</val>
+<val>peValues eoConfigurations eoRoles eoArtefactActions eoResourceActions eoActorActions eoPolicy eoEOAR eoEOPD odpBehaviour odpObjectives odpSpecifier ptyAccountableAction ptyEOPD objSpecifier objRefiners objAchievers objFulfillers esContext poSpecifier poOwner poProcess poBehaviour poChanger poRole pePolicySetter peBehaviour peCurrentValue apEOAR ctBehaviours prDetails prRefinement actBehaviours dlgEOPD beIdentifier coAbstraction coCommunityRoles roleEOAR vioProhibitor EnterpriseObject ODPSystem Party Objective Scope EnterpriseSpecification FieldOfApplication Policy PolicyEnvelope PolicyValue AssigmentPolicy Contract Process Step Action AccountableAction Prescription Commitment Declaration Evaluation Delegation Behaviour Community CommunityObject Role InterfaceRole Violation Rule Obligation Authorisation Permission Prohibition EO_A_R EO_P_D</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_fZREUOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='0.5' flags='ITS-------'>
+<val>ODP-EV</val>
+</field>
+</doc>
+<doc id='24'>
+<field name='content' norm='0.09375' flags='ITS-------'>
+<val>GraphML</val>
+<val>location commentsBefore commentsAfter id for attrName type defValue edgeDefault name key value keys graphs datas contents endpoints subgraph ports source target sourceport targetport node port LocatedElement Root Element Key Graph Edge HyperEdge Node Port EndPoint Data</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_eUGzEOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='0.5' flags='ITS-------'>
+<val>GraphML</val>
+</field>
+</doc>
+<doc id='25'>
+<field name='content' norm='0.125' flags='ITS-------'>
+<val>CompanyStructure</val>
+<val>corporateHQ Store corporateHQBackOffice storeBackOffice employee cashRegister manages Company CorporateHQ Store CorporateHQBackOffice StoreBackOffice Employee CashRegister</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_d3ehcOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='0.5' flags='ITS-------'>
+<val>CompanyStructure</val>
+</field>
+</doc>
+<doc id='26'>
+<field name='content' norm='0.0546875' flags='ITS-------'>
+<val>HTML</val>
+<val>value rel title ahref type background bgcolor text link alink vlink color face size src width height alt align vspace hspace ismap usemap border clear shape coords ahref src width height align vspace hspace border style ahref name id align bgcolor background border width cellspacing cellpadding valign align colspan rowspan valign align width action method align maxlength size checked src inputValue name type name rows cols multiple size name selected optionValue type start liValue applet class src align width height name paramValue classid id data type standby rows cols framespacing frameborder border src name marginwidth marginheight scrolling noresize head body children headElements bodyElements trs tds HTML HTMLElement HEAD HEADElement LINK TITLE BODY BODYElement H1 H2 H3 H4 EM STRONG B I TT PRE BIG SMALL SUB SUP STRIKE FONT IMG BR MAP AREA STYLE EMBED NOEMBED SPAN A DIV P TABLEElement TABLE TR TD TH FORM INPUT TEXTAREA SELECT OPTION ListElement OL UL LI DL DT DD APPLET PARAM OBJECT FRAMESET FRAME NOFRAME IFRAME</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_eWXc4OiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='1.0' flags='ITS-------'>
+<val>HTML</val>
+</field>
+</doc>
+<doc id='27'>
+<field name='content' norm='0.078125' flags='ITS-------'>
+<val>XAML-ResourceDictionary</val>
+<val>namespace identifier name Brush OffsetX OffsetY OffsetZ ScaleX ScaleY ScaleZ CenterX CenterY angle axis key resourcegroups xmlns transformations materials rotation axisAngleRotation3D namespace Transformation WinFXElement NameSpace ResourceGroup Material Key ResourceDictionary Transform3DGroup MaterialGroup DiffuseMaterial TranslateTransform3D ScaleTransform3D RotateTransform3D RotateTransformat3DRotation AxisAngleRotation3D</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_oobcABuyEd-u0r5Az1kiEw</val>
+</field>
+<field name='projectName' norm='0.4375' flags='ITS-------'>
+<val>XAML-ResourceDictionary</val>
+</field>
+</doc>
+<doc id='28'>
+<field name='content' norm='0.125' flags='ITS-------'>
+<val>BQL</val>
+<val>location commentsBefore commentsAfter name type allFields name field value entries predicates fields expression predicate LocatedElement Query Entry Field Predicate Expression</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_di4KcOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='1.0' flags='ITS-------'>
+<val>BQL</val>
+</field>
+</doc>
+<doc id='29'>
+<field name='content' norm='0.078125' flags='ITS-------'>
+<val>C</val>
+<val>source fileName isVarArg contains parameters type source CDataType CIntegral CFloating CBitField CVoid CEnumeration CInt CChar CDouble CFloat CLongDouble CUnsignedInt CLong CLongLong CShort CSignedChar CUnsignedChar CWChar UnsignedLong UnsignedLongLong UnsignedShort CClassifier Derived CStructureContents CStructured CStruct CUnion CSourceText CTypedElement CStructuralFeature CField CParameter BehavioralFeature CFunction</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_dofDMOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='7.5161928E9' flags='ITS-------'>
+<val>C</val>
+</field>
+</doc>
+<doc id='30'>
+<field name='content' norm='0.03125' flags='ITS-------'>
+<val>UIML-3.0</val>
+<val>name content location id how export id how export id how export class wherePart id how export name how export values id how export id how export id how export model value id how export name name id value class name how id how export id how export base id how export id how export mapsTo location id how export mapsTo mapsType id mapsType mapsTo returnType id how export mapsTo returnType id type value id type how export value source class attacher id head templates interfaces peers metas structure style content behavior parts style content behavior parts repeats properties constants properties references calls iterators constants rules iterator parts constants condition action event equal op properties calls restructures params constant property call constants properties references calls ops events template properties calls restructure op equal event presentations logics dClasses dComponents dMethods dMethods dProperties events listeners dMethods dParams dParams script behavior dClass dComponent constant content interface logic part peer presentation property restructure rule script structure style source source source source source parts events source source source source constant source event whenTrue whenFalse byDefault property reference call op event constant iterator parts event constant property reference op atPart wherePart source source source source source source source UIML Header MetaData ExtensibleElement Source LocalSource RemoteSource Interface Structure Part Style Property Content Behavior Repeat Constant Reference Rule Condition EventCondition EqualCondition OpCondition Action Action_1 Action_2 Call Parameter PropertyParameter ReferenceParameter CallParameter OperationParameter EventParameter ConstantParameter IteratorParameter Iterator ConstantIterator PropertyIterator CallIterator TextIterator Event Equal EqualToConstant EqualToProperty EqualToReference EqualToOperation Operation Restructure Branch WhenTrue WhenFalse ByDefault Peer Presentation Logic DComponent DClass DProperty DMethod DParam Script Listener Template BehaviorTemplate DClassTemplate DComponentTemplate ConstantTemplate ContentTemplate InterfaceTemplate LogicTemplate PartTemplate PeerTemplate PresentationTemplate PropertyTemplate RestructureTemplate RuleTemplate ScriptTemplate StructureTemplate StyleTemplate</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_gc3PUOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='0.5' flags='ITS-------'>
+<val>UIML-3.0</val>
+</field>
+</doc>
+<doc id='31'>
+<field name='content' norm='0.09375' flags='ITS-------'>
+<val>XSLT</val>
+<val>name value documentName select test match select test select nodes document when otherwise Node ElementNode AttributeNode RootNode TextNode XSLTNode XSLTRootNode Document ApplyTemplates If Template ValueOf When Choose Otherwise Sort</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_g1d8kOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='1.0' flags='ITS-------'>
+<val>XSLT</val>
+</field>
+</doc>
+<doc id='32'>
+<field name='content' norm='0.0625' flags='ITS-------'>
+<val>MonitorProgram</val>
+<val>location name direction name symbol symbol variables procedures monitors parameters statements initialValue source right arguments target value condition thenStats elseStats condition doStats expression type declaration LocatedElement NamedElement Structure ProcContainerElement Program Monitor Procedure VariableDeclaration Parameter Type Expression VariableExp PropertyCallExp OperatorCallExp AttributeCallExp ProcedureCallExp LiteralExp BooleanExp IntegerExp Statement AssignmentStat ConditionalStat WhileStat ExpressionStat</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_fTrZsOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='0.4375' flags='ITS-------'>
+<val>MonitorProgram</val>
+</field>
+</doc>
+<doc id='33'>
+<field name='content' norm='0.078125' flags='ITS-------'>
+<val>JavaProject</val>
+<val>elementName member_kind returnType parametersName parametersType name ownedPackageFragment ownedCompilationUnit importDeclaration ownedType declaration nestedType methods fields ownedSuperType JavaProject PackageFragment CompilationUnit ImportDeclaration Type Field Method JavaElement NamedElement PackageDeclaration</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_egJrAOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='0.4375' flags='ITS-------'>
+<val>JavaProject</val>
+</field>
+</doc>
+<doc id='34'>
+<field name='content' norm='0.109375' flags='ITS-------'>
+<val>WebApplications_AbstractModel</val>
+<val>consistsOf hyperlink server useBusinessLogic useDesignTemplate generates ClientPage ClientPageModule LogicInterface DesignElement HyperLink ServerPage BusinessLogic DesignTemplate</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_guGJQOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='0.375' flags='ITS-------'>
+<val>WebApplications_AbstractModel</val>
+</field>
+</doc>
+<doc id='35'>
+<field name='content' norm='0.046875' flags='ITS-------'>
+<val>SysML</val>
+<val>name name stakeholders purpose concerns languages methods content isEncapsulated isBehavior isAtomic direction isConjugated direction text id min max mean standardDeviation propertyPath ownedFlowProperty target source conformsTo unit dimension represented conveyed source target itemProperty instance probability allocatedFrom allocatedTo derived derivedFrom satisfiedBy refinedBy tracedTo verifiedBy master verifies tracedFrom satisfies refines Entity NamedElement Dependency Conform Package View Class Viewpoint Comment Rationale Problem Block ConstraintBlock Property BlockProperty ConstraintProperty DistributedProperty DataType ValueType Unit Dimension ConnectorEnd NestedConnectorEnd Port FlowPort FlowProperty Interface FlowSpecification Classifier InformationItem InformationFlow ItemFlow Parameter ActivityEdge ParameterSet Optional Rate InstanceSpecification Continous Discrete Probability ValueSpecification Behavior Operation ControlOperation ObjectNode NoBuffer Overwrite Abstraction Allocate Allocated ActivityPartition AllocateActivityPartition Trace DeriveReqt Verify Copy Realization Satisfy Requirement TestCase RequirementRelated BasicInterval Interval Uniform Normal</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_gUdhQOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='0.5' flags='ITS-------'>
+<val>SysML</val>
+</field>
+</doc>
+<doc id='36'>
+<field name='content' norm='0.0625' flags='ITS-------'>
+<val>PluginEclipse</val>
+<val>location commentsBefore commentsAfter symbolicName singleton manifestVersion value value isLeftInclusive isRightInclusive major minor micro qualification resolution fqn value bundles packages require version export import packages lowerBound upperBound requireBundleAttribute range version xFriends bundle package package bundles LocatedElement Eclipse Bundle RequireBundleAttribute AttResolution AttVisibility Range Version RequiredBundle ImportedPackage ExportedPackage Package Xfriends Xinternal</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_oXvUoBuyEd-u0r5Az1kiEw</val>
+</field>
+<field name='projectName' norm='0.4375' flags='ITS-------'>
+<val>PluginEclipse</val>
+</field>
+</doc>
+<doc id='37'>
+<field name='content' norm='0.03125' flags='ITS-------'>
+<val>XPDL-1.14</val>
+<val>id name associationDirection orientation boundaryVisible textAnnotation group state requiredForStart producedAtCompletion isStartActivity status startMode finishMode startQuantity isATransaction implementation instantiate implementation implementation implementation gatewayType instantiate markerVisiable execution instanceDataField triggerKind implementation errorCode ruleName timeDate timeCycle accessLevel processType status suppressJoinFailure enableInstanceCompensation adHoc adHocOrdering adHocCompletionCondition quantity adHoc adHocOrdering adHocCompletionCondition xref location namespace href isArray correlation type version grammar script externalPackages typeDeclarations participants applications dataFields pools messageFlows associations artifacts workflowProcesses object object lanes object object object dataObject dataFields externalReference dataFields object script trigger participant applications dataField activitySets activities transitions object object activities transitions object categories dataType targetActivity sourceActivity targetPool sourcePool targetArtifact sourceArtifact targetPool sourcePool targetActivity sourceActivity participant process parentLane parentPool taskRef packageRef packageRef startActivitySet startActivity activitySet startActivity activity processRef target defaultStartActivitySet defaultStartActivity to from defaultStartActivity Element Package MessageFlow Association Pool Lane Participant Artifact DataObject Group Annotation TypeDeclaration Application ParametrizedApplication ReferencedApplication Activity Task TaskService TaskReceive TaskManual TaskReference TaskScript TaskSend TaskUser TaskApplication Route SubFlow BlockActivity Event Trigger ResultCompensation ResultError ResultMultiple TriggerResultLink TriggerResultMessage TriggerIntermediateMultiple TriggerMultiple TriggerRule TriggerTimer StartEvent IntermediateEvent EndEvent Gateway Process Transition ActivitySet ExternalReference Object ExternalPackage Category DataField Script</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_gz9gsOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='0.5' flags='ITS-------'>
+<val>XPDL-1.14</val>
+</field>
+</doc>
+<doc id='38'>
+<field name='content' norm='0.078125' flags='ITS-------'>
+<val>Gantt</val>
+<val>name company viewDate viewIndex ganttDividerLocation ressourceDividerLocation webLink color id name meeting color expand complete duration priority start id type difference hardness Id name fonction contact phone year month day taskId ressourceId name function responsible load tasks ressources allocations tasks depends task Project Tasks Task Depend Ressource Date Allocation Vacation Description Previous</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_oFj_gBuyEd-u0r5Az1kiEw</val>
+</field>
+<field name='projectName' norm='1.0' flags='ITS-------'>
+<val>Gantt</val>
+</field>
+</doc>
+<doc id='39'>
+<field name='content' norm='0.03125' flags='ITS-------'>
+<val>MSVisio_DatadiagramMLBasicDef</val>
+<val>year month day hour minute second unit formula err value start key metric buildnum version docLangId title subject creator manager company category keywords description hyperlinkBase_href alternateNames template buildNumberCreated buildNumberEdited name dataType data data size name nameU ID UniqueID lineStyle fillStyle textStyle iX del value iconSize patternFlags prompt shortcutURL shortcutHelp alignName value baseID matchByName iconSize patternFlags prompt hidden iconUpdate alignName fromSheet toSheet fromCell toCell fromPart toPart background backPage viewScale viewCenterX ViewCenterY reviewerID associatedPage docProps docSettings docColors docPrintSetup docFonts docFaceNames docStyleSheets docDocumentSheet docMasters docPages docWindows docEventList docHeaderFooter docVBProjectData docEmailRoutingData docSolutionXML customProps timeCreated timeSaved timeEdited timePrinted cps_customProps stylesSheets shapeElts noFill noLine noShow noSnap linesTo movesTo arcsTo splineKnots polylinesTo infiniteLines ellipses ellipticalArcsTo splineStarts nurbsTo x y a b c d e textElts masters masterShortCuts icons masterElts shapes connections pages pageElts DateTimeType CellType VisioDocument DocumentPropertiesCollection CustomPropertiesCollection CustomProperty VBProjectData EmailRoutingData StyleSheetsCollection StyleSheet DocumentSheet PageSheet NamedElt IdentifiedElt UniqueIdElt Shape ShapeElt IXElt DelElt Geom XYElt LineTo MoveTo XYAElt ArcTo SplineKnot PolylineTo XYABElt InfiniteLine XYABCDElt Ellipse EllipticalArcTo SplineStart XYABCDEElt NURBSTo Text TextElt StringElt MastersCollection MasterShortCut Icon Master ShapesCollection ConnectsCollection Connect MasterElt PagesCollection Page PageElt DocumentSettingsElt ColorsTable PrintSetup FontsTable FaceNamesTable WindowsInfo EventList HeaderFooter SolutionXML</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_e9wNAOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='0.375' flags='ITS-------'>
+<val>MSVisio_DatadiagramMLBasicDef</val>
+</field>
+</doc>
+<doc id='40'>
+<field name='content' norm='0.078125' flags='ITS-------'>
+<val>XAML-Perspective</val>
+<val>title namespace identifier source transform material length name xmlns graphContainer pageResources dictionaries object3D elements3D name namespace namespace Page NameSpace PageResource GraphicalContainer WinFXElement PerspectiveElement ResourceDictionary Grid Object3D Workshop3D Element3D UI3Delement XyzAxis3D Box3D Square3D Name</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_okZ3oBuyEd-u0r5Az1kiEw</val>
+</field>
+<field name='projectName' norm='0.5' flags='ITS-------'>
+<val>XAML-Perspective</val>
+</field>
+</doc>
+<doc id='41'>
+<field name='content' norm='0.0546875' flags='ITS-------'>
+<val>UMLDI-UseCases</val>
+<val>name visibility isSpecification isRoot isLeaf isAbstract ownerScope multiplicity changeability targetScope ordering isNavigable ordering aggregation targetScope multiplicity changeability initialValue discriminator condition location lower upper language body ownedElement feature qualifier connection ownedInstance slot ownedLink connection qualifiedValue extensionPoint range generalization powertypeRange type specification participant parent linkEnd classifier componentInstance value attribute association associationEnd nodeInstance include extend extensionPoint base addition Element ModelElement GeneralizableElement Namespace Classifier Feature StructuralFeature AssociationEnd Relationship Association Attribute Generalization Instance AttributeLink Link LinkEnd ComponentInstance NodeInstance UseCase Actor UseCaseInstance Extend Include ExtensionPoint Multiplicity MultiplicityRange Expression BooleanExpression</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_gkx1MOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='0.375' flags='ITS-------'>
+<val>UMLDI-UseCases</val>
+</field>
+</doc>
+<doc id='42'>
+<field name='content' norm='0.0546875' flags='ITS-------'>
+<val>XMorphLanguage_abstractSyntax</val>
+<val>featureNames reason isExactly unique ordered function collect featureName representation var patternDefn body term tgt keys tRule term term arg arg varUse part parameter superseded extended parameter context superseder extended tracking typeName instance lesser instance greater obj VarScope AbstractVar VarUse MOF::Property Key PatternScope PatternDefn TRule Transformation Query Term TRuleVar PatternVar ExtentVar CompoundTerm AndTerm OrTerm NotTerm IfTerm SimpleTerm TrackingUse MOF::Class PatternUse MofTerm Condition MofInstance MofOrder Expression CoumpoundExpr CollectionExpr FunctionExpr FeatureExpr InstanceRef MOF::Object SimpleExpr StringConstant IntConstant BooleanConstant EnumConstant</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_gzK2gOiaEd6gMtZRCjS81g</val>
+</field>
+<field name='projectName' norm='0.375' flags='ITS-------'>
+<val>XMorphLanguage_abstractSyntax</val>
+</field>
+</doc>
+<doc id='43'>
+<field name='content' norm='0.0625' flags='ITS-------'>
+<val>XUL-Interactorl</val>
+<val>id title orient style tooltiptext image src id label selected disabled rows label value label style accesskey class maxlength label orient minlength onclick disabled flex id stat style multiline value value control checked label value ref type ref id orient functionCalledName name value name name body windows functions headers radiobuttons listitems menuitems xulInteractors events tabPanels columns rows functionCallParameters headersJScript UIModel Windows Button Image RadioGroup Radio ListBox ListItem MenuList MenuItem vbox hbox Containement GroupBox Container Interactor TabBox TextBox Spacer Label Grid row column CheckBox Caption Description HeaderCss HeaderJScript TabPanel Event Parameter onClick Function</val>
+</field>
+<field name='projectId' flags='I-S---fO--'>
+<val>_osmxYBuyEd-u0r5Az1kiEw</val>
+</field>
+<field name='projectName' norm='0.4375' flags='ITS-------'>
+<val>XUL-Interactorl</val>
+</field>
+</doc>
+</index>
