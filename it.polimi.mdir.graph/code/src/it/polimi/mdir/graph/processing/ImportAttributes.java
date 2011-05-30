@@ -8,7 +8,7 @@ import edu.uci.ics.jung.graph.Graph;
 
 import it.polimi.mdir.graph.Edge;
 import it.polimi.mdir.graph.Node;
-import it.polimi.mdir.graph.processing.TranslateXMItoGraphML.RelationType;
+import it.polimi.mdir.graph.processing.GraphUtils.RelationType;
 
 
 public class ImportAttributes extends OperationFunction {
@@ -40,8 +40,29 @@ public class ImportAttributes extends OperationFunction {
 		importCandidateAttributes.clear();
 		importCandidateClassName = null;
 		
+		//Assign penalty
+		//TODO: I know. It's really hard to read.
 		if (followedEdge != null) {
-			penalty = WeightRules.penaltyMap.get(followedEdge.getRelationType());	
+			String relationType = followedEdge.getRelationType();
+			if (!(relationType.equals(RelationType.GENERALIZATION_CHILD_FATHER.toString())) && !(relationType.equals(RelationType.GENERALIZATION_FATHER_CHILD.toString()))) {
+				
+				if (relationType.equals(RelationType.ASSOCIATION.toString())) {
+					if (followedEdge.getUpperValue().equals("*"))
+						penalty = WeightRules.penaltyMap.get(RelationType.ASSOCIATION_1_N.toString());
+					else penalty = WeightRules.penaltyMap.get(RelationType.ASSOCIATION_1_1.toString());
+					
+				} else if (relationType.equals(RelationType.COMPOSITION_COMPONENT_COMPOSITE.toString())) {
+					if (followedEdge.getUpperValue().equals("*"))
+						penalty = WeightRules.penaltyMap.get(RelationType.COMPOSITION_COMPONENT_COMPOSITE_1_N.toString());
+					else penalty = WeightRules.penaltyMap.get(RelationType.COMPOSITION_COMPONENT_COMPOSITE_1_1.toString());
+					
+				} else if (relationType.equals(RelationType.COMPOSITION_COMPOSITE_COMPONENT.toString())) {
+					if (followedEdge.getUpperValue().equals("*"))
+						penalty = WeightRules.penaltyMap.get(RelationType.COMPOSITION_COMPOSITE_COMPONENT_1_N.toString());
+					else penalty = WeightRules.penaltyMap.get(RelationType.COMPOSITION_COMPOSITE_COMPONENT_1_1.toString());
+				}
+				
+			} else penalty = WeightRules.penaltyMap.get(followedEdge.getRelationType());
 		}
 		
 		//These are of the current Node
@@ -150,12 +171,11 @@ public class ImportAttributes extends OperationFunction {
 						relType = "composition_1-*";
 					} else relType = "composition_1-1";
 				
-				//TODO: If -> else! do we really need this condition?	
 				} else if (relationAttributeType.equals(RelationType.ASSOCIATION.toString())) {
 
 					//Consider upper cardinality
 					if(e.getUpperValue().equals("*")) {
-						relType = "associationn_1-*";
+						relType = "association_1-*";
 					} else relType = "association_1-1";
 				}
 				float weight = WeightRules.weightMap.get(relType) * penalty;

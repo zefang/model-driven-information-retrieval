@@ -7,6 +7,16 @@ import java.util.Collection;
 import java.util.Iterator;
 
 public class GraphUtils {
+	
+	public enum RelationType {
+	    GENERALIZATION_FATHER_CHILD, GENERALIZATION_CHILD_FATHER,
+	    COMPOSITION_COMPOSITE_COMPONENT, COMPOSITION_COMPONENT_COMPOSITE, 
+	    ASSOCIATION,
+	    
+	    COMPOSITION_COMPOSITE_COMPONENT_1_1, COMPOSITION_COMPOSITE_COMPONENT_1_N,
+	    COMPOSITION_COMPONENT_COMPOSITE_1_1, COMPOSITION_COMPONENT_COMPOSITE_1_N,
+	    ASSOCIATION_1_1, ASSOCIATION_1_N
+	}
 
 	public static Collection<Edge> sortEdges(Collection<Edge> edgesList) {
 		if (edgesList.isEmpty())

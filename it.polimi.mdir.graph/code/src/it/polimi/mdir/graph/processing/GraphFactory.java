@@ -12,7 +12,7 @@ import org.w3c.dom.NodeList;
 
 import it.polimi.mdir.graph.Edge;
 import it.polimi.mdir.graph.Node;
-import it.polimi.mdir.graph.processing.TranslateXMItoGraphML.RelationType;
+import it.polimi.mdir.graph.processing.GraphUtils.RelationType;
 import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
 import edu.uci.ics.jung.graph.Graph;
 
