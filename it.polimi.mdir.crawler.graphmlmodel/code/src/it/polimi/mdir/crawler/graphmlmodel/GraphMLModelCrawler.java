@@ -454,10 +454,17 @@ public class GraphMLModelCrawler extends AbstractCrawler {
         resultListString = arrayListToString(resultList);
         return resultListString;
         
-        /* Note: Attribute names are stored with:
+        /*
+         * Note: Attribute names are stored with:
          * - the id of their class of belonging
          * - the conceptType (attribute, composition, association)
-    	 * The format is "'classIdVALUE'$'attributeNameVALUE'+'conceptType:VALUE'"
+    	 * The format is "'classIdVALUE'$'attributeNameVALUE'+'conceptType:relTypeVALUE'"
+    	 * 
+    	 * First the node attributes are retrieved then,
+    	 * the edge (relation: composition and association) attributes
+    	 * 
+    	 * In case of compositions and associations we retrieve attributes like this:
+    	 * 'classIdVALUE'$'attributeNameVALUE'+'conceptType:relTypeVALUE'+'lowerValue'-'upperValue'
     	 */
       case ATTRIBUTE_NAMES:
         xq = new XQueryWrapper(XQUERY_PATH.concat("/getNodeAttributes.xquery"));
@@ -471,9 +478,7 @@ public class GraphMLModelCrawler extends AbstractCrawler {
         if (!resultList.isEmpty()) {
         	resultListString += " " + arrayListToString(resultList);
         }
-        
-        //System.out.println("CRAWLER: [" + file.getName() + "]: " + resultListString);
-        
+                
         return resultListString.trim();           
       default:
         throw new RuntimeException("Unknown file attributes type " + attribute.getFileAttributes());
@@ -481,22 +486,18 @@ public class GraphMLModelCrawler extends AbstractCrawler {
   }
   
   
-  // Converting an array list to one single (very long) string
-  
+  /**
+  * Converting an array list to one single (very long) string
+  */
   private String arrayListToString(ArrayList<String> array) {
-	
 	  String result = new String();
-	  
 	  for (int i=0; i<array.size(); i++) {
-		  
 		  if(i == 0)
 			  result = result.concat(array.get(i));
 		  else 
 			  result = result.concat(" " + array.get(i));
 	  }
-	  
-	  return result;	  
-	  
+	  return result; 
   }
   
   

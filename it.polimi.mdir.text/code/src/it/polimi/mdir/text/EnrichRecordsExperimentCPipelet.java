@@ -45,7 +45,7 @@ public class EnrichRecordsExperimentCPipelet implements Pipelet {
 			try {
 				System.out.println("C -> name: " + blackboard.getRecord(id).getMetadata().getStringValue("projectName"));
 				
-				//construct attributeNames field
+				//Construct attributeNames field
 				final String classIds = blackboard.getRecord(id).getMetadata().getStringValue("classIds");
 				final String classNames = blackboard.getRecord(id).getMetadata().getStringValue("classNames");
 				final String attributeNames = blackboard.getRecord(id).getMetadata().getStringValue("attributeNames");
@@ -70,7 +70,9 @@ public class EnrichRecordsExperimentCPipelet implements Pipelet {
 					/*
 					* Extract attribute names for each class
 					* Every attributeNamesArray[j] is of the format classId$attribteName+conceptType:value
-					* conceptType value can be: association, composition or attribute
+					* conceptType value can be: association, composition or attribute.
+					* Only in case of associations and compositions the format is
+					* 'classIdVALUE'$'attributeNameVALUE'+'conceptType:relTypeVALUE'+'lowerValue'-'upperValue'.
 					* In ExperimentC we do need payloads, so we keep them for PayloadAdderPipelet
 					* attrName[0] -> classId
 					* attrName[1] -> attributeName+conceptType

@@ -6,7 +6,7 @@ declare variable $document as xs:string external;
 for $edge in doc($document)//edge
 	for $attribute in $edge//attribute
 		return if ($edge/@relType="COMPOSITION_COMPOSITE_COMPONENT")
-			   then concat(data($edge/@source),'$',data($attribute),'+conceptType:composition')
+			   then concat(data($edge/@source),'$',data($attribute),'+conceptType:composition','+',data($attribute/@lowerValue),'-',data($attribute/@upperValue))
 			   else if($edge/@relType="ASSOCIATION")
-			   		then concat(data($edge/@source),'$',data($attribute),'+conceptType:association')
+			   		then concat(data($edge/@source),'$',data($attribute),'+conceptType:association','+',data($attribute/@lowerValue),'-',data($attribute/@upperValue))
 			   		else ()
