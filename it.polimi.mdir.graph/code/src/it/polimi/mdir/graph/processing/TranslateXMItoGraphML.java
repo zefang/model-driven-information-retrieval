@@ -31,6 +31,8 @@ import org.w3c.dom.Element;
 
 import edu.uci.ics.jung.graph.Graph;
 
+import it.polimi.mdir.graph.processing.GraphUtils.RelationType;
+
 public class TranslateXMItoGraphML {
 	
 	private static String XQUERY_PATH = "";
@@ -39,12 +41,6 @@ public class TranslateXMItoGraphML {
 	private static int	  nDocs;
 	private static File	  currentFile;
 	private static String currentDoc = "";
-	
-	public enum RelationType {
-	    GENERALIZATION_FATHER_CHILD, GENERALIZATION_CHILD_FATHER,
-	    COMPOSITION_COMPOSITE_COMPONENT, COMPOSITION_COMPONENT_COMPOSITE, 
-	    ASSOCIATION 
-	}
 	
 	private static void initialization() throws IOException {
 		XQUERY_PATH = ConfigLoader.XQUERY_PATH;

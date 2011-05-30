@@ -1,6 +1,6 @@
 package it.polimi.mdir.graph.processing;
 
-import it.polimi.mdir.graph.processing.TranslateXMItoGraphML.RelationType;
+import it.polimi.mdir.graph.processing.GraphUtils.RelationType;
 
 import java.util.HashMap;
 
@@ -22,9 +22,15 @@ public class WeightRules {
 	static
 	{
 		//penalties for relation types during navigation
-		penaltyMap.put(RelationType.COMPOSITION_COMPOSITE_COMPONENT.toString(), 0.8f);
-		penaltyMap.put(RelationType.COMPOSITION_COMPONENT_COMPOSITE.toString(), 0.7f);
-		penaltyMap.put(RelationType.ASSOCIATION.toString(), 0.9f);
+		penaltyMap.put(RelationType.COMPOSITION_COMPOSITE_COMPONENT_1_1.toString(), 0.8f);
+		penaltyMap.put(RelationType.COMPOSITION_COMPOSITE_COMPONENT_1_N.toString(), 0.7f);
+		
+		penaltyMap.put(RelationType.COMPOSITION_COMPONENT_COMPOSITE_1_1.toString(), 0.6f);
+		penaltyMap.put(RelationType.COMPOSITION_COMPONENT_COMPOSITE_1_N.toString(), 0.5f);
+
+		penaltyMap.put(RelationType.ASSOCIATION_1_1.toString(), 0.4f);
+		penaltyMap.put(RelationType.ASSOCIATION_1_N.toString(), 0.3f);
+
 		penaltyMap.put(RelationType.GENERALIZATION_FATHER_CHILD.toString(), 0.5f);
 		penaltyMap.put(RelationType.GENERALIZATION_CHILD_FATHER.toString(), 0.75f);
 	}
