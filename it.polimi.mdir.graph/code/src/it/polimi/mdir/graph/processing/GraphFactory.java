@@ -12,6 +12,7 @@ import org.w3c.dom.NodeList;
 
 import it.polimi.mdir.graph.Edge;
 import it.polimi.mdir.graph.Node;
+import it.polimi.mdir.graph.processing.TranslateXMItoGraphML.RelationType;
 import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
 import edu.uci.ics.jung.graph.Graph;
 
@@ -69,20 +70,20 @@ public class GraphFactory {
 					 * generalization relations are not considered since
 					 * they have no cardinalities at all.
 					 */
-					if(elem.getAttribute("id").contains("opposite") && !(elem.getAttribute("relType").contains("GENERALIZATION_FATHER_CHILD"))) {
+					if(elem.getAttribute("id").contains("opposite") && !(elem.getAttribute("relType").equals(RelationType.GENERALIZATION_FATHER_CHILD.toString()))) {
 						e.setUpperValue(elem.getAttribute("upperValue"));
 						e.setLowerValue(elem.getAttribute("lowerValue"));
-					}
-					
-					//set Associated attribute
-					NodeList attributeNodes = elem.getElementsByTagName("attribute");
-					for (int j = 0; j < attributeNodes.getLength(); j++) {
-						org.w3c.dom.Node child = attributeNodes.item(j);
-						if (child.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
-							Element childElement = (Element) child;
-							e.setLowerValue(childElement.getAttribute("lowerValue"));
-							e.setUpperValue(childElement.getAttribute("upperValue"));
-							e.setAssociatedAttribute(childElement.getFirstChild().getNodeValue());
+					} else {
+						//set Associated attribute
+						NodeList attributeNodes = elem.getElementsByTagName("attribute");
+						for (int j = 0; j < attributeNodes.getLength(); j++) {
+							org.w3c.dom.Node child = attributeNodes.item(j);
+							if (child.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+								Element childElement = (Element) child;
+								e.setLowerValue(childElement.getAttribute("lowerValue"));
+								e.setUpperValue(childElement.getAttribute("upperValue"));
+								e.setAssociatedAttribute(childElement.getFirstChild().getNodeValue());
+							}
 						}
 					}
 				}
