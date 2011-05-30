@@ -32,6 +32,12 @@ public class PayloadAdderPipelet implements Pipelet {
 				className += "|" + WeightRules.weightMap.get("class");
 				record.getMetadata().put("className", className);
 				
+				/*
+				* Format: classId$attribteName+conceptType:value
+				* conceptType value can be: association, composition or attribute.
+				* Only in case of associations and compositions the format is
+				* 'classIdVALUE'$'attributeNameVALUE'+'conceptType:relTypeVALUE'+'lowerValue'-'upperValue'.
+				*/				
 				String attributeNamesString = record.getMetadata().getStringValue("attributeNames");
 				
 				if(!attributeNamesString.isEmpty()) {
@@ -44,12 +50,34 @@ public class PayloadAdderPipelet implements Pipelet {
 						String[] attributeAndConceptTypeArray = attributeNamesArray[i].split("\\+");
 						attributeName = attributeAndConceptTypeArray[0];
 						conceptType = attributeAndConceptTypeArray[1];
-					
+						
+						//TODO: factorize it better! Switch case?
+						//Simple attribute
 						if (conceptType.contains("attribute")) {
 							attributeNamesString += attributeName.concat("|" + WeightRules.weightMap.get("attribute") + " ");	
-						} else if (conceptType.contains("association")) {
-							attributeNamesString += attributeName.concat("|" + WeightRules.weightMap.get("association") + " ");
-						} else attributeNamesString += attributeName.concat("|" + WeightRules.weightMap.get("composition") + " ");
+						//Association or composition attributes
+						} else {
+							//Split cardinalities
+							String[] cardinalities = attributeAndConceptTypeArray[2].split("\\-");
+							//TODO: it seems that, for now, we do not need need lowerValue?
+							String lowerValue = cardinalities[0];
+							String upperValue = cardinalities[1];
+							//Association
+							if (conceptType.contains("association")) {				
+								if (upperValue.equals("*")) {
+									attributeNamesString += attributeName.concat("|" + WeightRules.weightMap.get("association_1-*") + " ");
+								} else {
+									attributeNamesString += attributeName.concat("|" + WeightRules.weightMap.get("association_1-1") + " ");
+								}	
+							//Composition
+							} else {
+								if (upperValue.equals("*")) {
+									attributeNamesString += attributeName.concat("|" + WeightRules.weightMap.get("composition_1-*") + " ");
+								} else {
+									attributeNamesString += attributeName.concat("|" + WeightRules.weightMap.get("composition_1-1") + " ");
+								}
+							}
+						}
 					}
 					attributeNamesString = attributeNamesString.trim();
 				}
