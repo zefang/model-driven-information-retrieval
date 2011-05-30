@@ -59,7 +59,7 @@ public class PayloadAdderPipelet implements Pipelet {
 						} else {
 							//Split cardinalities
 							String[] cardinalities = attributeAndConceptTypeArray[2].split("\\-");
-							//TODO: it seems that, for now, we do not need need lowerValue?
+							//TODO: it seems that, for now, we do not need lowerValue?
 							String lowerValue = cardinalities[0];
 							String upperValue = cardinalities[1];
 							//Association

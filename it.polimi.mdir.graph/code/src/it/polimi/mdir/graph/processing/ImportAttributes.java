@@ -144,9 +144,19 @@ public class ImportAttributes extends OperationFunction {
 				) {
 				String relType = null;
 				if (relationAttributeType.equals(RelationType.COMPOSITION_COMPOSITE_COMPONENT.toString())) {
-					relType = "composition";
+
+					//Consider upper cardinality
+					if(e.getUpperValue().equals("*")) {
+						relType = "composition_1-*";
+					} else relType = "composition_1-1";
+				
+				//TODO: If -> else! do we really need this condition?	
 				} else if (relationAttributeType.equals(RelationType.ASSOCIATION.toString())) {
-					relType = "association";
+
+					//Consider upper cardinality
+					if(e.getUpperValue().equals("*")) {
+						relType = "associationn_1-*";
+					} else relType = "association_1-1";
 				}
 				float weight = WeightRules.weightMap.get(relType) * penalty;
 				ImportCandidate relationAttributeCandidate = new ImportCandidate(relationAttributeName, weight, callerNode.getId());

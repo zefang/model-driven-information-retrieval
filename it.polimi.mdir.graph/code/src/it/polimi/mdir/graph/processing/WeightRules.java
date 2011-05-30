@@ -11,11 +11,8 @@ public class WeightRules {
 	{
 		//weights for imported attributes
 		weightMap.put("attribute", 1.0f); //vanilla attribute
-		//TODO -> composition and association weights without cardinalities will be deprecated!
-		weightMap.put("composition", 2.0f);
 		weightMap.put("composition_1-1", 2.0f);
 		weightMap.put("composition_1-*", 1.5f);
-		weightMap.put("association", 2.5f);
 		weightMap.put("association_1-1", 2.5f);
 		weightMap.put("association_1-*", 2.0f);
 		weightMap.put("class", 5.0f);
