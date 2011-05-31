@@ -1,30 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Canvas</title>
-<style type="text/css">
-	#backCanvas {
-	 	background-color: #EEEEEE;
-	 	border: 1px solid black;
-		position: absolute;
-			left: 100;
-			top: 100;
-			z-index: 0;
-	}
-	
-	#canvas {
-	 	border: 1px solid black;
-		position: absolute;
-			left: 100;
-			top: 100;
-			z-index: 1;
-	}
-</style>
-<script src="jquery-1.6.1.js"></script>
-<script src="kinetic-v1.0.0.js"></script>
-<script type="text/javascript">
-
 	var canvas = null;
 	var backCanvas = null;
 	var context = null;
@@ -222,26 +195,3 @@
 		//loadXMLDoc("../graphml/PetriNet_extended.gml", rootNodeClassName);
 		
 	}
-</script>
-</head>
-
-
-<body>
-	<table>
-		<tr>
-			<td onclick="changeNode()">
-				CLICCAMI E COSE BBELLE ACCADRANNO!!!
-			</td>
-		</tr>
-	</table>
-	
-	<div>
- 		<canvas id="backCanvas" width="500" height="300" ></canvas>
- 		<canvas id="canvas" width="500" height="300" ></canvas>
-	</div>
-	<!--
-	<canvas id="backCanvas" width="500" height="300" ></canvas>
-	<canvas id="canvas" width="500" height="300" ></canvas>
-	<div id="console"></div>
-</body>
-</html>

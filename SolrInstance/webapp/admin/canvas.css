@@ -1,0 +1,16 @@
+#backCanvas {
+ 	background-color: #EEEEEE;
+ 	border: 1px solid black;
+	position: absolute;
+		left: 100;
+		top: 100;
+		z-index: 0;
+}
+
+#canvas {
+ 	border: 1px solid black;
+	position: absolute;
+		left: 100;
+		top: 100;
+		z-index: 1;
+}
