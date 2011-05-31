@@ -6,11 +6,19 @@
 <style type="text/css">
 	#backCanvas {
 	 	background-color: #EEEEEE;
-	 	border: solid 1px black;
+	 	border: 1px solid black;
+		position: absolute;
+			left: 100;
+			top: 100;
+			z-index: 0;
 	}
 	
 	#canvas {
-	 	border: solid 1px black;
+	 	border: 1px solid black;
+		position: absolute;
+			left: 100;
+			top: 100;
+			z-index: 1;
 	}
 </style>
 <script src="jquery-1.6.1.js"></script>
@@ -37,7 +45,6 @@
 		var c = context; 
 		c.clearRect(0, 0, canvas.width, canvas.height);
 		c.fillStyle = "black";
-		c.fillText(coordX + ':' + coordY, 10, 10);
 		c.beginPath();
 		c.lineWidth = 1;
 		c.strokeStyle = "black";
@@ -76,6 +83,7 @@
 	 * The angle to compensate
 	 */
 	function drawNode(label, angle, c) {
+		myStage.setContext(c);
 		c.beginPath();
 			c.lineWidth = 1;
 			c.strokeStyle = "black";
@@ -180,11 +188,11 @@
 					var mousePos = myStage.getMousePos();
             		if (mousePos != null) {
                 		var eventDisplay = "Mouse position: " + mousePos.x +"," +mousePos.y;
-						context.fillText(eventDisplay, 10, 10);
-						backContext.fillText(eventDisplay, 20, 20);
+						//context.fillText(eventDisplay, 10, 10);
+						//backContext.fillText(eventDisplay, 20, 20);
             		}
 					drawNodes(rootNodeClassName, backContext);
-					//drawNodes(rootNodeClassName, context);
+					myStage.setContext(context);
 				});
 			}
 		}
@@ -209,7 +217,6 @@
 		backCanvas = document.getElementById("backCanvas");
 		backContext = backCanvas.getContext("2d");
 		myStage = new Kinetic.Stage(canvas);
-		myStage.setContext(backContext);
 		
 		//rootNodeClassName="NamedElement"; //default value
 		//loadXMLDoc("../graphml/PetriNet_extended.gml", rootNodeClassName);
@@ -228,11 +235,9 @@
 		</tr>
 	</table>
 	
-	<div style="position: relative;">
- 		<canvas id="backCanvas" width="500" height="300" 
-   			style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
- 		<canvas id="canvas" width="500" height="300" 
-   			style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+	<div>
+ 		<canvas id="backCanvas" width="500" height="300" ></canvas>
+ 		<canvas id="canvas" width="500" height="300" ></canvas>
 	</div>
 	<!--
 	<canvas id="backCanvas" width="500" height="300" ></canvas>
