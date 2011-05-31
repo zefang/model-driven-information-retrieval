@@ -73,6 +73,9 @@ Kinetic.Stage = function(canvas, fps){
     this.getContext = function(){
         return context;
     };
+    this.setContext = function(con){
+        context = con;
+    };
     this.clearCanvas = function(){
         context.clearRect(0, 0, canvas.width, canvas.height);
     };
