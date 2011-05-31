@@ -34,17 +34,18 @@
 	var radius = 20;
 
 	function drawPopup(coordX, coordY) {
-		context.clearRect(0, 0, canvas.width, canvas.height);
-		context.fillStyle = "black";
-		context.fillText(coordX + ':' + coordY, 10, 10);
-		context.beginPath();
-		context.lineWidth = 1;
-		context.strokeStyle = "black";
-		context.fillStyle = "yellow";
-		context.rect(coordX, coordY, 100, 50);
-		context.fill();
-		context.stroke();
-		context.closePath();
+		var c = context; 
+		c.clearRect(0, 0, canvas.width, canvas.height);
+		c.fillStyle = "black";
+		c.fillText(coordX + ':' + coordY, 10, 10);
+		c.beginPath();
+		c.lineWidth = 1;
+		c.strokeStyle = "black";
+		c.fillStyle = "yellow";
+		c.rect(coordX, coordY, 100, 50);
+		c.fill();
+		c.stroke();
+		c.closePath();
 	}
 	
 	function clearPopup(coordX, coordY) {
@@ -102,7 +103,6 @@
 	}
 	
 	function drawNodes(rootNodeClassName, c) {
-		
 		//draw root node
 		var nodes = xmlDoc.documentElement.getElementsByTagName("node");
 		var rootNode = findNodeByClassName(rootNodeClassName, nodes);
@@ -124,7 +124,6 @@
 		}
 		var angle = 2*Math.PI / outgoingEdges.length;
 		for (var i = 0; i < outgoingEdges.length; i++) {
-			myStage.beginRegion();
 			c.save();
 				//draw arc
 				c.translate(canvas.width/2, canvas.height/2);
@@ -149,6 +148,7 @@
 				c.restore();					
 				c.stroke();
 			c.translate(100, 0);
+			myStage.beginRegion();
 			drawNode(findNodeById(outgoingEdges[i].getAttribute("target"),nodes).getAttribute("className"), angle*i, c);
 			c.restore();
 			myStage.closeRegion();
@@ -161,8 +161,15 @@
 			if (xmlHttpReq.readyState == 4 && xmlHttpReq.status == 200) {
 				xmlDoc = xmlHttpReq.responseXML;
 				myStage.setDrawStage( function() {
-					drawNodes(rootNodeClassName, context);
+					backContext.clearRect(0, 0, canvas.width, canvas.height);
+					var mousePos = myStage.getMousePos();
+            		if (mousePos != null) {
+                		var eventDisplay = "Mouse position: " + mousePos.x +"," +mousePos.y;
+						context.fillText(eventDisplay, 10, 10);
+						backContext.fillText(eventDisplay, 20, 20);
+            		}
 					drawNodes(rootNodeClassName, backContext);
+					//drawNodes(rootNodeClassName, context);
 				});
 			}
 		}
@@ -206,14 +213,14 @@
 			</td>
 		</tr>
 	</table>
-	<!--
+	
 	<div style="position: relative;">
  		<canvas id="backCanvas" width="500" height="300" 
    			style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
  		<canvas id="canvas" width="500" height="300" 
    			style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
 	</div>
-	-->
+	<!--
 	<canvas id="backCanvas" width="500" height="300" ></canvas>
 	<canvas id="canvas" width="500" height="300" ></canvas>
 	<div id="console"></div>
