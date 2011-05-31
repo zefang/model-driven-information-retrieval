@@ -40,6 +40,9 @@ td.hidden  {
 }
 
 div.details {
+	float:left;
+	width: 50%;
+	margin-right: 20px;
 	background: #FFFFCC;
 	border: 1px solid #000000;
 	padding: 4px;

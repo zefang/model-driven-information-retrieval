@@ -61,6 +61,9 @@ more comprehensible way relevant information of query results.
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Query Test Presentation Page</title>
 	<link type="text/css" rel="stylesheet" href="test.css" />
+	<link type="text/css" rel="stylesheet" href="canvas.css" />
+	<script src="kinetic-v1.0.0.js"></script>
+	<script src="canvas.js"></script>
 	<script type="text/javascript">
 
 		/*
@@ -108,6 +111,8 @@ more comprehensible way relevant information of query results.
 					contentBox.innerHTML = content;
 				}
 			}
+
+			changeNode();
 		} 
 		
 	</script>
@@ -232,13 +237,17 @@ for (String experiment : experiments) {
 	<div class="detailedScore" id="detailedScoreBox">
 	</div>
 	
-	</br>
+	<br/>
 	
 	<strong> Content field: </strong>
 	<div class="content" id="contentBox">
 	</div>
 </div>
 
+<div>
+	<canvas id="backCanvas" width="500" height="300" ></canvas>
+	<canvas id="canvas" width="500" height="300" ></canvas>
+</div>
 
 </body>
 </html>
