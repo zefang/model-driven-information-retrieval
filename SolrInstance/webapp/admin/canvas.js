@@ -173,15 +173,8 @@
 		xmlHttpReq.send();
 	}
 	
-	var n = -1;
-	var allNodes = ["LocatedElement", "NamedElement", "PetriNet", "Marking"];
-	function changeNode() {
-		n = n+1;
-		if (n >= allNodes.length) {
-			n = 0;
-		}
-		rootNodeClassName = allNodes[n];
-		loadXMLDoc("../graphml/PetriNet_extended.gml", rootNodeClassName);
+	function changeNode(graphPath, rootNodeClassName) {
+		loadXMLDoc(graphPath, rootNodeClassName);
 	}
 	
 	window.onload = function() {
@@ -190,8 +183,4 @@
 		backCanvas = document.getElementById("backCanvas");
 		backContext = backCanvas.getContext("2d");
 		myStage = new Kinetic.Stage(canvas);
-		
-		//rootNodeClassName="NamedElement"; //default value
-		//loadXMLDoc("../graphml/PetriNet_extended.gml", rootNodeClassName);
-		
 	}
