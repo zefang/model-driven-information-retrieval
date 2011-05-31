@@ -4,17 +4,23 @@
 <meta charset="ISO-8859-1">
 <title>Canvas</title>
 <style type="text/css">
-#canvas {
- 	background-color: #EEEEEE;
- 	border: solid 1px black;
-}
+	#backCanvas {
+	 	background-color: #EEEEEE;
+	 	border: solid 1px black;
+	}
+	
+	#canvas {
+	 	border: solid 1px black;
+	}
 </style>
 <script src="jquery-1.6.1.js"></script>
 <script src="kinetic-v1.0.0.js"></script>
 <script type="text/javascript">
 
 	var canvas = null;
+	var backCanvas = null;
 	var context = null;
+	var backContext = null;
 	var myStage = null;
 	
 	var xmlHttpReq = null;
@@ -28,6 +34,9 @@
 	var radius = 20;
 
 	function drawPopup(coordX, coordY) {
+		context.clearRect(0, 0, canvas.width, canvas.height);
+		context.fillStyle = "black";
+		context.fillText(coordX + ':' + coordY, 10, 10);
 		context.beginPath();
 		context.lineWidth = 1;
 		context.strokeStyle = "black";
@@ -39,7 +48,7 @@
 	}
 	
 	function clearPopup(coordX, coordY) {
-		context.clearRect(coordX, coordY, 100, 50);
+		context.clearRect(0, 0, canvas.width, canvas.height);
 	}
 	
 	function findNodeById(id, collection) {
@@ -65,22 +74,22 @@
 	 * @param {Object} angle
 	 * The angle to compensate
 	 */
-	function drawNode(label, angle) {
-		context.beginPath();
-		context.lineWidth = 1;
-		context.strokeStyle = "black";
-		context.fillStyle = "#8ED6FF";
-		context.arc(0, 0, radius, 0, 2*Math.PI, true);
-		context.closePath();
-		context.fill();
-		context.stroke();
-		context.save()
-			context.rotate(-angle);
-			context.translate(0,-1.2*radius);
-			context.font = "15px sans-serif";
-			context.fillStyle = "#000000";
-			context.fillText(label, 0, 0);
-		context.restore();
+	function drawNode(label, angle, c) {
+		c.beginPath();
+		c.lineWidth = 1;
+		c.strokeStyle = "black";
+		c.fillStyle = "#8ED6FF";
+		c.arc(0, 0, radius, 0, 2*Math.PI, true);
+		c.closePath();
+		c.fill();
+		c.stroke();
+		c.save()
+			c.rotate(-angle);
+			c.translate(0,-1.2*radius);
+			c.font = "15px sans-serif";
+			c.fillStyle = "#000000";
+			c.fillText(label, 0, 0);
+		c.restore();
 		
 		myStage.addRegionEventListener("onmousemove", function() {
 			var mousePosition = myStage.getMousePos();
@@ -92,16 +101,16 @@
 		});
 	}
 	
-	function drawNodes(rootNodeClassName) {
+	function drawNodes(rootNodeClassName, c) {
 		
 		//draw root node
 		var nodes = xmlDoc.documentElement.getElementsByTagName("node");
 		var rootNode = findNodeByClassName(rootNodeClassName, nodes);
 		myStage.beginRegion();
-		context.save();
-		context.translate(canvas.width/2, canvas.height/2);
-		drawNode(rootNodeClassName, 0);
-		context.restore();
+		c.save();
+		c.translate(canvas.width/2, canvas.height/2);
+		drawNode(rootNodeClassName, 0, c);
+		c.restore();
 		myStage.closeRegion();
 		
 		//draw neighbours of the node
@@ -116,29 +125,32 @@
 		var angle = 2*Math.PI / outgoingEdges.length;
 		for (var i = 0; i < outgoingEdges.length; i++) {
 			myStage.beginRegion();
-			context.save();
-				context.translate(canvas.width/2, canvas.height/2);
-				context.rotate(angle*i);
-				context.moveTo(radius, 0);
-				context.lineTo(100-radius, 0);
-				context.save();
-					context.translate(100-radius, 0);
-					context.rotate(5/6*Math.PI);
-					context.moveTo(0, 0);
-					context.lineTo(10, 0);
-					context.stroke();
-				context.restore();
-				context.save();
-					context.translate(100-radius, 0);
-					context.rotate(-5/6*Math.PI);
-					context.moveTo(0, 0);
-					context.lineTo(10, 0);
-					context.stroke();
-				context.restore();					
-				context.stroke();
-			context.translate(100, 0);
-			drawNode(findNodeById(outgoingEdges[i].getAttribute("target"),nodes).getAttribute("className"), angle*i);
-			context.restore();
+			c.save();
+				//draw arc
+				c.translate(canvas.width/2, canvas.height/2);
+				c.rotate(angle*i);
+				c.moveTo(radius, 0);
+				c.lineTo(100-radius, 0);
+				c.save();
+					//draw half arrow
+					c.translate(100-radius, 0);
+					c.rotate(5/6*Math.PI);
+					c.moveTo(0, 0);
+					c.lineTo(10, 0);
+					c.stroke();
+				c.restore();
+				c.save();
+					//draw other half arrow
+					c.translate(100-radius, 0);
+					c.rotate(-5/6*Math.PI);
+					c.moveTo(0, 0);
+					c.lineTo(10, 0);
+					c.stroke();
+				c.restore();					
+				c.stroke();
+			c.translate(100, 0);
+			drawNode(findNodeById(outgoingEdges[i].getAttribute("target"),nodes).getAttribute("className"), angle*i, c);
+			c.restore();
 			myStage.closeRegion();
 		}
 	}
@@ -149,7 +161,8 @@
 			if (xmlHttpReq.readyState == 4 && xmlHttpReq.status == 200) {
 				xmlDoc = xmlHttpReq.responseXML;
 				myStage.setDrawStage( function() {
-					drawNodes(rootNodeClassName);
+					drawNodes(rootNodeClassName, context);
+					drawNodes(rootNodeClassName, backContext);
 				});
 			}
 		}
@@ -164,7 +177,7 @@
 		if (n >= allNodes.length) {
 			n = 0;
 		}
-		myStage.clearCanvas();
+		backContext.clearRect(0, 0, canvas.width, canvas.height);
 		rootNodeClassName = allNodes[n];
 		loadXMLDoc("../graphml/PetriNet_extended.gml", rootNodeClassName);
 	}
@@ -172,7 +185,10 @@
 	window.onload = function() {
 		canvas = document.getElementById("canvas");
 		context = canvas.getContext("2d");
+		backCanvas = document.getElementById("backCanvas");
+		backContext = backCanvas.getContext("2d");
 		myStage = new Kinetic.Stage(canvas);
+		myStage.setContext(backContext);
 		
 		//rootNodeClassName="NamedElement"; //default value
 		//loadXMLDoc("../graphml/PetriNet_extended.gml", rootNodeClassName);
@@ -190,7 +206,16 @@
 			</td>
 		</tr>
 	</table>
-	<canvas id="canvas" width="500" height="300"></canvas>
+	<!--
+	<div style="position: relative;">
+ 		<canvas id="backCanvas" width="500" height="300" 
+   			style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+ 		<canvas id="canvas" width="500" height="300" 
+   			style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+	</div>
+	-->
+	<canvas id="backCanvas" width="500" height="300" ></canvas>
+	<canvas id="canvas" width="500" height="300" ></canvas>
 	<div id="console"></div>
 </body>
 </html>
