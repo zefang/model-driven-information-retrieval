@@ -107,12 +107,21 @@ more comprehensible way relevant information of query results.
 				if (rows[i].id == id) {
 					var detailedScore = rows[i].cells[4].innerHTML;
 					var content = rows[i].cells[5].innerHTML;
+
+					var projectName = rows[i].cells[1].innerHTML;
+					var className = rows[i].cells[2].innerHTML;
+					
 					scoreBox.innerHTML = detailedScore;
 					contentBox.innerHTML = content;
 				}
 			}
 
-			changeNode();
+			if (experiment == "C") {
+				//TODO togliere payload 
+			}
+			var graphPath = "../graphml/" + projectName + ".gml";
+			var rootNodeClassName = className; 
+			changeNode(graphPath, rootNodeClassName);
 		} 
 		
 	</script>
