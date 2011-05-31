@@ -77,13 +77,14 @@
 	 */
 	function drawNode(label, angle, c) {
 		c.beginPath();
-		c.lineWidth = 1;
-		c.strokeStyle = "black";
-		c.fillStyle = "#8ED6FF";
-		c.arc(0, 0, radius, 0, 2*Math.PI, true);
+			c.lineWidth = 1;
+			c.strokeStyle = "black";
+			c.fillStyle = "#8ED6FF";
+			c.arc(0, 0, radius, 0, 2*Math.PI, true);
+			c.stroke();
+			c.fill();
 		c.closePath();
-		c.fill();
-		c.stroke();
+	
 		c.save()
 			c.rotate(-angle);
 			c.translate(0,-1.2*radius);
@@ -107,10 +108,10 @@
 		var nodes = xmlDoc.documentElement.getElementsByTagName("node");
 		var rootNode = findNodeByClassName(rootNodeClassName, nodes);
 		myStage.beginRegion();
-		c.save();
-		c.translate(canvas.width/2, canvas.height/2);
-		drawNode(rootNodeClassName, 0, c);
-		c.restore();
+			c.save();
+				c.translate(canvas.width/2, canvas.height/2);
+				drawNode(rootNodeClassName, 0, c);
+			c.restore();
 		myStage.closeRegion();
 		
 		//draw neighbours of the node
@@ -124,33 +125,46 @@
 		}
 		var angle = 2*Math.PI / outgoingEdges.length;
 		for (var i = 0; i < outgoingEdges.length; i++) {
+			//draw arc
 			c.save();
-				//draw arc
 				c.translate(canvas.width/2, canvas.height/2);
 				c.rotate(angle*i);
-				c.moveTo(radius, 0);
-				c.lineTo(100-radius, 0);
+				c.beginPath();
+					//stroke arc
+					c.moveTo(radius, 0);
+					c.lineTo(100-radius, 0);
+					c.stroke();
+				c.closePath();
 				c.save();
 					//draw half arrow
+					c.beginPath();
 					c.translate(100-radius, 0);
 					c.rotate(5/6*Math.PI);
 					c.moveTo(0, 0);
 					c.lineTo(10, 0);
 					c.stroke();
+					c.closePath();
 				c.restore();
 				c.save();
 					//draw other half arrow
+					c.beginPath();
 					c.translate(100-radius, 0);
 					c.rotate(-5/6*Math.PI);
 					c.moveTo(0, 0);
 					c.lineTo(10, 0);
 					c.stroke();
-				c.restore();					
-				c.stroke();
-			c.translate(100, 0);
+					c.closePath();
+				c.restore();
+			c.restore();	
+			
+			//draw node
 			myStage.beginRegion();
-			drawNode(findNodeById(outgoingEdges[i].getAttribute("target"),nodes).getAttribute("className"), angle*i, c);
-			c.restore();
+				c.save()
+					c.translate(canvas.width/2, canvas.height/2);
+					c.rotate(angle*i);				
+					c.translate(100, 0);					
+					drawNode(findNodeById(outgoingEdges[i].getAttribute("target"),nodes).getAttribute("className"), angle*i, c);
+				c.restore();		
 			myStage.closeRegion();
 		}
 	}
@@ -162,6 +176,7 @@
 				xmlDoc = xmlHttpReq.responseXML;
 				myStage.setDrawStage( function() {
 					backContext.clearRect(0, 0, canvas.width, canvas.height);
+					context.clearRect(0, 0, canvas.width, canvas.height);
 					var mousePos = myStage.getMousePos();
             		if (mousePos != null) {
                 		var eventDisplay = "Mouse position: " + mousePos.x +"," +mousePos.y;
@@ -184,7 +199,6 @@
 		if (n >= allNodes.length) {
 			n = 0;
 		}
-		backContext.clearRect(0, 0, canvas.width, canvas.height);
 		rootNodeClassName = allNodes[n];
 		loadXMLDoc("../graphml/PetriNet_extended.gml", rootNodeClassName);
 	}
