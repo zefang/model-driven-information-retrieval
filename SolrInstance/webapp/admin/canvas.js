@@ -22,6 +22,7 @@
 	var rootNodeClassName;
 	
 	var radius = 20;
+	var distance = 150;
 
 	function drawPopup(coordX, coordY) {
 		var c = context; 
@@ -83,6 +84,8 @@
 			c.fillText(label, 0, 0);
 		c.restore();
 		
+		//Deactivated popup waiting for better times
+		/* 
 		myStage.addRegionEventListener("onmousemove", function() {
 			var mousePosition = myStage.getMousePos();
 			drawPopup(mousePosition.x, mousePosition.y);
@@ -91,6 +94,7 @@
 			var mousePosition = myStage.getMousePos();
 			clearPopup(mousePosition.x, mousePosition.y);
 		});
+		*/
 	}
 	
 	/**
@@ -188,15 +192,27 @@
 	 * @param c
 	 * context
 	 */
-	function drawEdge(relType, angle, c) {
+	function drawEdge(label, relType, angle, c) {
 		c.translate(canvas.width/2, canvas.height/2);
 		c.rotate(angle);
 		c.beginPath();
 			//stroke arc
 			c.moveTo(radius, 0);
-			c.lineTo(100-radius, 0);
+			c.lineTo(distance-radius, 0);
 			c.stroke();
 		c.closePath();
+		//print edge name (attribute)
+		c.save();
+			if (angle > Math.PI/2 || angle < -Math.PI/2) {
+				c.rotate(Math.PI);
+				c.translate(-5*radius, +20);	
+			} else {
+				c.translate(radius+10, -10);	
+			}
+			c.font = "14px sans-serif";
+			c.fillStyle = "black";
+			c.fillText(label, 0, 0);
+		c.restore();	
 		c.save();
 			switch(relType) {
 				case GENERALIZATION_FATHER_CHILD:
@@ -204,7 +220,7 @@
 						break;
 				 
 				case GENERALIZATION_CHILD_FATHER:
-						drawGeneralizationCap(100-radius, 0, -5/4*Math.PI, c);
+						drawGeneralizationCap(distance-radius, 0, -5/4*Math.PI, c);
 						break;
 				
 				case ASSOCIATION: break;
@@ -214,10 +230,10 @@
 						break;
 						
 				case COMPOSITION_COMPONENT_COMPOSITE:
-						drawCompositionCap(100-radius, 0, -5/4*Math.PI, c); 
+						drawCompositionCap(distance-radius, 0, -5/4*Math.PI, c); 
 						break;
 						
-				default: drawArrowCap(100-radius, 0, c);
+				default: drawArrowCap(distance-radius, 0, c);
 			}
 		c.restore();
 	}
@@ -246,7 +262,11 @@
 		for (var i = 0; i < outgoingEdges.length; i++) {
 			//draw arc
 			c.save();
-				drawEdge(outgoingEdges[i].getAttribute("relType"), angle*i, c);
+				var attrib = "";
+				if (outgoingEdges[i].children[0] !== undefined) {
+					attrib = outgoingEdges[i].children[0].firstChild.nodeValue;
+				}
+				drawEdge(attrib, outgoingEdges[i].getAttribute("relType"), angle*i, c);
 			c.restore();	
 			
 			//draw node
@@ -254,7 +274,7 @@
 				c.save()
 					c.translate(canvas.width/2, canvas.height/2);
 					c.rotate(angle*i);				
-					c.translate(100, 0);					
+					c.translate(distance, 0);					
 					drawNode(findNodeById(outgoingEdges[i].getAttribute("target"),nodes).getAttribute("className"), angle*i, c);
 				c.restore();		
 			myStage.closeRegion();
