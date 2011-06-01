@@ -203,7 +203,7 @@
 		c.closePath();
 		//print edge name (attribute)
 		c.save();
-			if (angle > Math.PI/2 || angle < -Math.PI/2) {
+			if (angle < 3/2*Math.PI && angle > Math.PI/2) {
 				c.rotate(Math.PI);
 				c.translate(-5*radius, +20);	
 			} else {
