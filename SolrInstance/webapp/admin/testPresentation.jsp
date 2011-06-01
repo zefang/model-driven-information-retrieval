@@ -219,11 +219,12 @@ for (String experiment : experiments) {
 		}
 	%>
 		<tr class="<%=trClass %>" id="<%=rowId %>" onmouseover="highlightClasses(this.id)"
-											 	   onmouseout="disableHighlightClasses(this.id)">
+											 	   onmouseout="disableHighlightClasses(this.id)"
+											 	   onclick="toggle('<%=rowId %>', '<%=experiment %>')">
   			<td><%=i+1%></td>
   			<td><%=projectName%></td>
   			<td><%=className%></td>
-  			<td onclick="toggle('<%=rowId %>', '<%=experiment %>')"><%=score%></td>
+  			<td><%=score%></td>
   			<td class="hidden"><%=detailedScore %></td>
   			<td class="hidden"><%=content %></td>
 		</tr> 
