@@ -84,6 +84,64 @@
 		});
 	}
 	
+	/**
+	 * Draws an empty arrow cap like ->
+	 * @param x
+	 * x coordinate of where to draw.
+	 * @param y 
+	 * y coordinate of where to draw.
+	 * @param c
+	 * context
+	 */
+	function drawArrowCap(x, y, c) {
+		//draw first half
+		c.save()
+			c.beginPath();
+			c.translate(x, y);
+			c.rotate(5/6*Math.PI);
+			c.moveTo(0, 0);
+			c.lineTo(10, 0);
+			c.stroke();
+			c.closePath();
+		c.restore();
+		
+		//draw other half arrow
+		c.save()
+			c.beginPath();
+			c.translate(x, y);
+			c.rotate(-5/6*Math.PI);
+			c.moveTo(0, 0);
+			c.lineTo(10, 0);
+			c.stroke();
+			c.closePath();
+		c.restore();
+	}
+	
+	/**
+	 * Draws an edge
+	 * @param type
+	 * The type of the edge. Can be:
+	 * "GENERALIZATION_FATHER_CHILD", "GENERALIZATION_CHILD_FATHER",
+	 * ecc.
+	 * @param angle
+	 * angle of rotation of the matrix.
+	 * @param c
+	 * context
+	 */
+	function drawEdge(type, angle, c) {
+		c.translate(canvas.width/2, canvas.height/2);
+		c.rotate(angle);
+		c.beginPath();
+			//stroke arc
+			c.moveTo(radius, 0);
+			c.lineTo(100-radius, 0);
+			c.stroke();
+		c.closePath();
+		c.save();
+			drawArrowCap(100-radius, 0, c);
+		c.restore();
+	}
+	
 	function drawNodes(rootNodeClassName, c) {
 		//draw root node
 		var nodes = xmlDoc.documentElement.getElementsByTagName("node");
@@ -108,34 +166,7 @@
 		for (var i = 0; i < outgoingEdges.length; i++) {
 			//draw arc
 			c.save();
-				c.translate(canvas.width/2, canvas.height/2);
-				c.rotate(angle*i);
-				c.beginPath();
-					//stroke arc
-					c.moveTo(radius, 0);
-					c.lineTo(100-radius, 0);
-					c.stroke();
-				c.closePath();
-				c.save();
-					//draw half arrow
-					c.beginPath();
-					c.translate(100-radius, 0);
-					c.rotate(5/6*Math.PI);
-					c.moveTo(0, 0);
-					c.lineTo(10, 0);
-					c.stroke();
-					c.closePath();
-				c.restore();
-				c.save();
-					//draw other half arrow
-					c.beginPath();
-					c.translate(100-radius, 0);
-					c.rotate(-5/6*Math.PI);
-					c.moveTo(0, 0);
-					c.lineTo(10, 0);
-					c.stroke();
-					c.closePath();
-				c.restore();
+				drawEdge(outgoingEdges[i].getAttribute("relType"), angle*i, c);
 			c.restore();	
 			
 			//draw node
