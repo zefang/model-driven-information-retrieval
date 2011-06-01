@@ -117,7 +117,8 @@ more comprehensible way relevant information of query results.
 			}
 
 			if (experiment == "C") {
-				//TODO togliere payload 
+				//tolgo payload
+				className = className.substr(0, className.indexOf("|")); 
 			}
 			var graphPath = "../graphml/" + projectName + ".gml";
 			var rootNodeClassName = className; 
