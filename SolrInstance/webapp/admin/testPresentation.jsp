@@ -256,8 +256,8 @@ for (String experiment : experiments) {
 </div>
 
 <div>
-	<canvas id="backCanvas" width="500" height="300" ></canvas>
-	<canvas id="canvas" width="500" height="300" ></canvas>
+	<canvas id="backCanvas" width="700" height="500" ></canvas>
+	<canvas id="canvas" width="700" height="500" ></canvas>
 </div>
 
 </body>
