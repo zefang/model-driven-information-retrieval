@@ -1,3 +1,12 @@
+	/**
+	 * Constants
+	 */
+	var GENERALIZATION_FATHER_CHILD = "GENERALIZATION_FATHER_CHILD";
+	var GENERALIZATION_CHILD_FATHER = "GENERALIZATION_CHILD_FATHER";
+	var ASSOCIATION = "ASSOCIATION";
+	var COMPOSITION_COMPOSITE_COMPONENT = "COMPOSITION_COMPOSITE_COMPONENT";
+	var COMPOSITION_COMPONENT_COMPOSITE = "COMPOSITION_COMPONENT_COMPOSITE"; 
+
 	var canvas = null;
 	var backCanvas = null;
 	var context = null;
@@ -85,6 +94,56 @@
 	}
 	
 	/**
+	 * Draws a white triangle for generalization
+	 * @param x
+	 * x coordinate of where to draw.
+	 * @param y 
+	 * y coordinate of where to draw.
+	 * @param angle 
+	 * angle of rotation of the white triangle
+	 * @param c
+	 * context
+	 */
+	function drawGeneralizationCap(x, y, angle, c) {
+		c.save()
+			c.beginPath();
+			c.translate(x, y);
+			c.rotate(angle);
+			c.fillStyle = "white";
+			c.strokeStyle = "black";
+			c.moveTo(0, 0);
+			c.lineTo(10, 0);
+			c.lineTo(0, 10);
+			c.lineTo(0, 0);
+			c.fill();
+			c.stroke();
+			c.closePath();
+		c.restore();
+	}
+	
+	/**
+	 * Draws a black square as in compositions
+	 * @param x
+	 * x coordinate of where to draw.
+	 * @param y 
+	 * y coordinate of where to draw.
+	 * @param angle 
+	 * angle of rotation of the black square
+	 * @param c
+	 * context
+	 */
+	function drawCompositionCap(x, y, angle, c) {
+		c.save()
+			c.beginPath();
+			c.translate(x, y);
+			c.rotate(angle);
+			c.fillStyle = "black";
+			c.fillRect(0, 0, 10, 10);
+			c.closePath();
+		c.restore();
+	}
+	
+	/**
 	 * Draws an empty arrow cap like ->
 	 * @param x
 	 * x coordinate of where to draw.
@@ -119,16 +178,17 @@
 	
 	/**
 	 * Draws an edge
-	 * @param type
+	 * @param relType
 	 * The type of the edge. Can be:
-	 * "GENERALIZATION_FATHER_CHILD", "GENERALIZATION_CHILD_FATHER",
+	 * "GENERALIZATION_FATHER_CHILD", "GENERALIZATION_CHILD_FATHER", "ASSOCIATION",
+	 * "COMPOSITION_COMPOSITE_COMPONENT", "COMPOSITION_COMPONENT_COMPOSITE".
 	 * ecc.
 	 * @param angle
 	 * angle of rotation of the matrix.
 	 * @param c
 	 * context
 	 */
-	function drawEdge(type, angle, c) {
+	function drawEdge(relType, angle, c) {
 		c.translate(canvas.width/2, canvas.height/2);
 		c.rotate(angle);
 		c.beginPath();
@@ -138,7 +198,27 @@
 			c.stroke();
 		c.closePath();
 		c.save();
-			drawArrowCap(100-radius, 0, c);
+			switch(relType) {
+				case GENERALIZATION_FATHER_CHILD:
+						drawGeneralizationCap(radius, 0, -1/4*Math.PI, c);
+						break;
+				 
+				case GENERALIZATION_CHILD_FATHER:
+						drawGeneralizationCap(100-radius, 0, -5/4*Math.PI, c);
+						break;
+				
+				case ASSOCIATION: break;
+				
+				case COMPOSITION_COMPOSITE_COMPONENT: 
+						drawCompositionCap(radius, 0, -1/4*Math.PI, c); 
+						break;
+						
+				case COMPOSITION_COMPONENT_COMPOSITE:
+						drawCompositionCap(100-radius, 0, -5/4*Math.PI, c); 
+						break;
+						
+				default: drawArrowCap(100-radius, 0, c);
+			}
 		c.restore();
 	}
 	
