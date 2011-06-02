@@ -71,7 +71,6 @@ function ReverseContentDisplay(d) {
 }
 
 //-->
-
 	
 function showHide() {
 	if (document.getElementById('writeToSheetCheckbox').checked) {
@@ -86,7 +85,7 @@ function showHide() {
 
 
 </head>
-<body>
+<body onload="showHide();">
 <form name="queryForm" method="GET" action="../test" accept-charset="UTF-8">
 <!-- these are good defaults to have if people bookmark the resulting
      URLs, but they should not show up in the form since they are very
@@ -98,7 +97,7 @@ function showHide() {
 <table>
 <tr>
   <td>
-	<input id="writeToSheetCheckbox" type="checkbox" onclick="showHide();" checked="checked" /> Write to a new excel sheet?<br />
+	<input id="writeToSheetCheckbox" name="writeToSheet" type="checkbox" onclick="showHide();" value="writeExcel" /> Write to a new excel sheet?<br />
   </td>
 </tr>
 <tr id="metaQueryLabel">
