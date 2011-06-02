@@ -39,18 +39,18 @@ public class ExcelWriter {
 	
 	private enum Experiment {A, B, C, D};
 		
-	private static int sheetCount;
-	final static int padding = 5;
-	private static int column = 0;
+	private int sheetCount;
+	final int padding = 5;
+	private int column = 0;
 
-	private static WritableCellFormat captionStyle;
-	private static WritableCellFormat tableHeaderStyle;
-	private static WritableCellFormat tableCellStyle;
+	private WritableCellFormat captionStyle;
+	private WritableCellFormat tableHeaderStyle;
+	private WritableCellFormat tableCellStyle;
 	
-	public static int createSheet(WritableSheet sheet, Experiment experiment, int column) throws RowsExceededException, WriteException {
+	private void createSheet(WritableSheet sheet, Experiment experiment) throws RowsExceededException, WriteException {
 		
 		String experimentStr = experiment.toString();
-		column = column + padding;
+		this.column = this.column + padding;
 		int row = 6;
 		
 		ArrayList<String> resultList = new ArrayList<String>();
@@ -62,13 +62,13 @@ public class ExcelWriter {
 		String rankingStr = "";
 				
 		// Adding experiment title label
-		addCaption(sheet, column, 4, "Experiment " + experimentStr);
+		addCaption(sheet, this.column, 4, "Experiment " + experimentStr);
 		
 		// Adding "table" headers		
-		addTableHeader(sheet, column, row, "Ranking");
-		addTableHeader(sheet, column+1, row, "Project Name");
-		addTableHeader(sheet, column+2, row, "Document Name");
-		addTableHeader(sheet, column+3, row, "Score");
+		addTableHeader(sheet, this.column, row, "Ranking");
+		addTableHeader(sheet, this.column+1, row, "Project Name");
+		addTableHeader(sheet, this.column+2, row, "Document Name");
+		addTableHeader(sheet, this.column+3, row, "Score");
 				
 		//TODO: hard-coded stuff!
 		XQueryWrapper xq = new XQueryWrapper("C:/Users/Stefano/Desktop/Thesis/model-driven-information-retrieval/it.polimi.mdir.test/xquery/testPresentation.xquery");
@@ -85,45 +85,15 @@ public class ExcelWriter {
 			
 			rankingStr = Integer.toString(i+1);
 			
-			addTableCell(sheet, column, row+i+1, rankingStr);
-			addTableCell(sheet, column+1, row+i+1, projectNameStr);
-			addTableCell(sheet, column+2, row+i+1, classNameStr);
-			addTableCell(sheet, column+3, row+i+1, scoreStr);
-		}
-		
-		
-		return column;
-		
+			addTableCell(sheet, this.column, row+i+1, rankingStr);
+			addTableCell(sheet, this.column+1, row+i+1, projectNameStr);
+			addTableCell(sheet, this.column+2, row+i+1, classNameStr);
+			addTableCell(sheet, this.column+3, row+i+1, scoreStr);
+		}		
 	}
-
-
 	
-	/**
-	 * First param: the title of this sheet, which is the label of the current meta-query instance (e.g. MQ1INST1)
-	 * Second param: the query string
-	 * 
-	 * @throws WriteException 
-	 * @throws BiffException 
-	 */
-	
-	public static void main(String[] args) throws WriteException, BiffException {
-		try {
-			String sheetTitle = "";
-			String queryString = "";
-			
-			/*
-			 *  This variable represents the first writable column
-			 *  for the next experiment
-			 */
-			
-			if (args[0].isEmpty() || args[1].isEmpty()) {
-				System.out.println("Missing one or more parameters!");
-				return;
-			} else {
-				sheetTitle = args[0];
-				queryString = args[1];		
-			}
-			
+	public void write(String sheetTitle, String queryString) throws BiffException, WriteException {
+		try {		
 			WritableWorkbook workbook = null;
 			Workbook lastWorkbook = null;
 			//TODO: hard-coded stuff!
@@ -159,7 +129,7 @@ public class ExcelWriter {
 			
 			// Loop over experiments
 			for(Experiment experiment : Experiment.values()) {
-				column = createSheet(sheet, experiment, column);	
+				createSheet(sheet, experiment);	
 			}
 			
 			// All sheets and cells added. Now write out the workbook 
@@ -169,7 +139,7 @@ public class ExcelWriter {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
 	}
 	
 	
@@ -184,19 +154,19 @@ public class ExcelWriter {
 	 * @throws WriteException 
 	 * 
 	 */
-	private static void addCaption(WritableSheet sheet, int column, int row, String s) throws RowsExceededException, WriteException {
+	private void addCaption(WritableSheet sheet, int column, int row, String s) throws RowsExceededException, WriteException {
 		Label label;
 		label = new Label(column, row, s, captionStyle);
 		sheet.addCell(label);
 	}
 	
-	private static void addTableHeader(WritableSheet sheet, int column, int row, String s) throws RowsExceededException, WriteException {
+	private void addTableHeader(WritableSheet sheet, int column, int row, String s) throws RowsExceededException, WriteException {
 		Label label;
 		label = new Label(column, row, s, tableHeaderStyle);
 		sheet.addCell(label);
 	}
 	
-	private static void addTableCell(WritableSheet sheet, int column, int row, String s) throws RowsExceededException, WriteException {
+	private void addTableCell(WritableSheet sheet, int column, int row, String s) throws RowsExceededException, WriteException {
 		Label label;
 		
 		WritableFont times10ptBold = new WritableFont(WritableFont.ARIAL, 10, WritableFont.BOLD, false);
@@ -217,7 +187,7 @@ public class ExcelWriter {
 	 * @throws WriteException 
 	 * 
 	 */
-	private static void setStyle(WritableSheet sheet) throws WriteException {		
+	private void setStyle(WritableSheet sheet) throws WriteException {		
 		
 		// Set caption style
 		
