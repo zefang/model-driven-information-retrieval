@@ -1,5 +1,7 @@
 package it.polimi.mdir.solr.test;
 
+import it.polimi.mdir.test.ExcelUtils.ExcelWriter;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 
@@ -10,17 +12,22 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 import java.net.*;
 
+import jxl.read.biff.BiffException;
+import jxl.write.WriteException;
+
 public class TestServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	
 	private static final String[] experiments = {"A", "B", "C", "D"};
 	
+	String originalQueryString = "";
 	String query = "";
 	String mm = "";
 	String qf = "";
 	String bqProjectName = "";
 	String bqClassName = "";
+	String sheetTitle = "";
 	
 	// This string will contain the lines coming from the servlet which is called
 	String line = "";
@@ -46,7 +53,9 @@ public class TestServlet extends HttpServlet {
 		  mm = "";
 		  
 		  // Retrieving parameters from the jsp page input form
+		  sheetTitle = req.getParameter("sheetTitle");
 		  query = req.getParameter("q");
+		  originalQueryString = query;
 		  mm = req.getParameter("mm");
 		  qf = req.getParameter("qf");
 		  bqProjectName = req.getParameter("bq-projectName");
@@ -117,6 +126,19 @@ public class TestServlet extends HttpServlet {
 		      in.close();		 
 		  }
 		  
+		 // Write a new excel sheet 
+		  if (!sheetTitle.isEmpty()) {
+			  ExcelWriter excelWriter = new ExcelWriter();
+			  try {
+				excelWriter.write(sheetTitle, originalQueryString);
+			} catch (BiffException e) {
+				e.printStackTrace();
+			} catch (WriteException e) {
+				e.printStackTrace();
+			}
+		  }
+		  
+		  // Redirect to test presentation page
 	      res.sendRedirect("./admin/testPresentation.jsp?queryString=" + query);
 	  }
 	

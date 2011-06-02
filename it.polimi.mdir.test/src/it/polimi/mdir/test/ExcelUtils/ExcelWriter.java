@@ -7,9 +7,13 @@ import it.polimi.mdir.xquery.XQueryWrapper;
 
 import java.awt.Color;
 import java.io.File; 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date; 
+import java.util.Properties;
+
 import jxl.*; 
 import jxl.format.UnderlineStyle;
 import jxl.read.biff.BiffException;
@@ -38,6 +42,10 @@ import jxl.format.Colour;
 public class ExcelWriter {
 	
 	private enum Experiment {A, B, C, D};
+	
+	private String XQUERY_PATH;
+	private String XML_RESULTS_PATH;
+	private String OUTPUT_PATH;
 		
 	private int sheetCount;
 	final int padding = 5;
@@ -47,7 +55,21 @@ public class ExcelWriter {
 	private WritableCellFormat tableHeaderStyle;
 	private WritableCellFormat tableCellStyle;
 	
-	private void createSheet(WritableSheet sheet, Experiment experiment) throws RowsExceededException, WriteException {
+	private void init() throws IOException {
+		
+		// Load properties
+		Properties pathConfig = new Properties();
+		FileInputStream in = new FileInputStream("pathConfig.properties");
+		pathConfig.load(in);
+		in.close();
+
+		XQUERY_PATH = pathConfig.getProperty("X-QUERY");
+		XML_RESULTS_PATH = pathConfig.getProperty("XML-FILES");
+		OUTPUT_PATH = pathConfig.getProperty("OUTPUT");
+		
+	}
+	
+	private void createSheet(WritableSheet sheet, Experiment experiment) throws RowsExceededException, WriteException, IOException {
 		
 		String experimentStr = experiment.toString();
 		this.column = this.column + padding;
@@ -70,9 +92,8 @@ public class ExcelWriter {
 		addTableHeader(sheet, this.column+2, row, "Document Name");
 		addTableHeader(sheet, this.column+3, row, "Score");
 				
-		//TODO: hard-coded stuff!
-		XQueryWrapper xq = new XQueryWrapper("C:/Users/Stefano/Desktop/Thesis/model-driven-information-retrieval/it.polimi.mdir.test/xquery/testPresentation.xquery");
-		xq.bindVariable("document", "result"+experimentStr+".xml");
+		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "testPresentation.xquery");
+		xq.bindVariable("document", XML_RESULTS_PATH + "result"+experimentStr+".xml");
 		resultList = xq.executeQuery();
 		
 		for (int i=0; i<resultList.size(); i++) {
@@ -92,12 +113,16 @@ public class ExcelWriter {
 		}		
 	}
 	
-	public void write(String sheetTitle, String queryString) throws BiffException, WriteException {
+	public void write(String sheetTitle, String queryString) throws BiffException, WriteException, IOException {
+		
+		// Call init method to get absolute paths
+		init();
+		
 		try {		
 			WritableWorkbook workbook = null;
 			Workbook lastWorkbook = null;
-			//TODO: hard-coded stuff!
-			File doc=new File("C:/Users/Stefano/Desktop/Thesis/model-driven-information-retrieval/it.polimi.mdir.test/output.xls");
+
+			File doc = new File("output.xls");
 
 			if(!doc.exists()) {	
 				// Create a workbook object (first call)
