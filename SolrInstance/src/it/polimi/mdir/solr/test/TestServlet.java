@@ -28,6 +28,7 @@ public class TestServlet extends HttpServlet {
 	String bqProjectName = "";
 	String bqClassName = "";
 	String sheetTitle = "";
+	String writeToSheet = "";
 	
 	// This string will contain the lines coming from the servlet which is called
 	String line = "";
@@ -54,6 +55,7 @@ public class TestServlet extends HttpServlet {
 		  
 		  // Retrieving parameters from the jsp page input form
 		  sheetTitle = req.getParameter("sheetTitle");
+		  writeToSheet = req.getParameter("writeToSheet");
 		  query = req.getParameter("q");
 		  originalQueryString = query;
 		  mm = req.getParameter("mm");
@@ -127,7 +129,7 @@ public class TestServlet extends HttpServlet {
 		  }
 		  
 		 // Write a new excel sheet 
-		  if (!sheetTitle.isEmpty()) {
+		  if (writeToSheet != null && !writeToSheet.isEmpty()) {
 			  ExcelWriter excelWriter = new ExcelWriter();
 			  try {
 				excelWriter.write(sheetTitle, originalQueryString);
