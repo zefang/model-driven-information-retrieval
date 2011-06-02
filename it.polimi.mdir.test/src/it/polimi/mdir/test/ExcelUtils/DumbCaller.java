@@ -1,5 +1,7 @@
 package it.polimi.mdir.test.ExcelUtils;
 
+import java.io.IOException;
+
 import jxl.read.biff.BiffException;
 import jxl.write.WriteException;
 
@@ -11,8 +13,9 @@ public class DumbCaller {
 	 * 
 	 * @throws WriteException 
 	 * @throws BiffException 
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) throws WriteException, BiffException {
+	public static void main(String[] args) throws WriteException, BiffException, IOException {
 
 		String sheetTitle = "";
 		String queryString = "";

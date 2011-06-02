@@ -53,23 +53,34 @@ d.style.left = (cX+10) + "px";
 d.style.top = (cY+10) + "px";
 }
 function HideContent(d) {
-if(d.length < 1) { return; }
-document.getElementById(d).style.display = "none";
+	if(d.length < 1) { return; }
+	document.getElementById(d).style.display = "none";
 }
 function ShowContent(d) {
-if(d.length < 1) { return; }
-var dd = document.getElementById(d);
-AssignPosition(dd);
-dd.style.display = "block";
+	if(d.length < 1) { return; }
+	var dd = document.getElementById(d);
+	AssignPosition(dd);
+	dd.style.display = "block";
 }
 function ReverseContentDisplay(d) {
-if(d.length < 1) { return; }
-var dd = document.getElementById(d);
-AssignPosition(dd);
-if(dd.style.display == "none") { dd.style.display = "block"; }
-else { dd.style.display = "none"; }
+	if(d.length < 1) { return; }
+	var dd = document.getElementById(d);
+	AssignPosition(dd);
+	if(dd.style.display == "none") { dd.style.display = "block"; }
+	else { dd.style.display = "none"; }
 }
+
 //-->
+
+	
+function showHide() {
+	if (document.getElementById('writeToSheetCheckbox').checked) {
+		document.getElementById('metaQueryLabel').style.visibility = 'visible';
+     } else {
+		document.getElementById('metaQueryLabel').style.visibility = 'hidden';
+     }
+}
+
 </script>
 
 
@@ -85,6 +96,19 @@ else { dd.style.display = "none"; }
 <input name="version" type="hidden" value="2.2">
 
 <table>
+<tr>
+  <td>
+	<input id="writeToSheetCheckbox" type="checkbox" onclick="showHide();" checked="checked" /> Write to a new excel sheet?<br />
+  </td>
+</tr>
+<tr id="metaQueryLabel">
+  <td>
+  	<strong>Meta-query instance label (e.g. MQ1INST1)</strong>
+  </td>
+  <td>
+	<input type="text" name="sheetTitle" value=""></input>
+  </td>
+</tr>
 <tr>
   <td>
 	<strong>Query string</strong>
