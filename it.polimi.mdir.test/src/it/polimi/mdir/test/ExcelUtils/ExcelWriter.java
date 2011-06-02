@@ -40,8 +40,7 @@ public class ExcelWriter {
 	
 	private String XQUERY_PATH;
 	private String XML_RESULTS_PATH;
-	private String OUTPUT_PATH;
-		
+	
 	private int sheetCount;
 	final int padding = 5;
 	private int column = 0;
@@ -60,7 +59,6 @@ public class ExcelWriter {
 
 		XQUERY_PATH = pathConfig.getProperty("X-QUERY");
 		XML_RESULTS_PATH = pathConfig.getProperty("XML-FILES");
-		OUTPUT_PATH = pathConfig.getProperty("OUTPUT");
 		
 	}
 	
