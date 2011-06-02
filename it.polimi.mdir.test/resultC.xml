@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+  <lst name="responseHeader">
+    <int name="status">0</int>
+    <int name="QTime">126</int>
+  </lst>
+  <result name="response" numFound="37" start="0" maxScore="4.8626823">
+    <doc>
+      <float name="score">4.8626823</float>
+      <arr name="attributeNames">
+        <str/>
+      </arr>
+      <str name="classId">_g04GtOiaEd6gMtZRCjS81g</str>
+      <str name="className">Expression|2.5</str>
+      <str name="conceptType">CLASS</str>
+      <arr name="content">
+        <str>XQuery</str>
+        <str/>
+        <str>Expression|2.5</str>
+      </arr>
+      <str name="projectId">_g04GsOiaEd6gMtZRCjS81g</str>
+      <str name="projectName">XQuery</str>
+    </doc>
+    <doc>
+      <float name="score">3.4038777</float>
+      <arr name="attributeNames">
+        <str>field|1.0 value|1.0</str>
+      </arr>
+      <str name="classId">_di4KeOiaEd6gMtZRCjS81g</str>
+      <str name="className">Expression|2.5</str>
+      <str name="conceptType">CLASS</str>
+      <arr name="content">
+        <str>BQL</str>
+        <str>field|1.0 value|1.0</str>
+        <str>Expression|2.5</str>
+      </arr>
+      <str name="projectId">_di4KcOiaEd6gMtZRCjS81g</str>
+      <str name="projectName">BQL</str>
+    </doc>
+    <doc>
+      <float name="score">2.9176092</float>
+      <arr name="attributeNames">
+        <str/>
+      </arr>
+      <str name="classId">_fTrZveiaEd6gMtZRCjS81g</str>
+      <str name="className">Expression|2.5</str>
+      <str name="conceptType">CLASS</str>
+      <arr name="content">
+        <str>MonitorProgram</str>
+        <str/>
+        <str>Expression|2.5</str>
+      </arr>
+      <str name="projectId">_fTrZsOiaEd6gMtZRCjS81g</str>
+      <str name="projectName">MonitorProgram</str>
+    </doc>
+    <doc>
+      <float name="score">2.9176092</float>
+      <arr name="attributeNames">
+        <str>language|1.0 body|1.0</str>
+      </arr>
+      <str name="classId">_giXaleiaEd6gMtZRCjS81g</str>
+      <str name="className">Expression|2.5</str>
+      <str name="conceptType">CLASS</str>
+      <arr name="content">
+        <str>UMLDI-Collaborations</str>
+        <str>language|1.0 body|1.0</str>
+        <str>Expression|2.5</str>
+      </arr>
+      <str name="projectId">_giWzUOiaEd6gMtZRCjS81g</str>
+      <str name="projectName">UMLDI-Collaborations</str>
+    </doc>
+    <doc>
+      <float name="score">2.7507484</float>
+      <arr name="attributeNames">
+        <str>name|1.0 isIdentifier|1.0 innerExpressions|1.3</str>
+      </arr>
+      <str name="classId">_oTkmVhuyEd-u0r5Az1kiEw</str>
+      <str name="className">Expression|2.5</str>
+      <str name="conceptType">CLASS</str>
+      <arr name="content">
+        <str>PDG</str>
+        <str>name|1.0 isIdentifier|1.0 innerExpressions|1.3</str>
+        <str>Expression|2.5</str>
+      </arr>
+      <str name="projectId">_oTkmUBuyEd-u0r5Az1kiEw</str>
+      <str name="projectName">PDG</str>
+    </doc>
+    <doc>
+      <float name="score">2.4896934</float>
+      <arr name="attributeNames">
+        <str>expression|1.6</str>
+      </arr>
+      <str name="classId">_gTG2aeiaEd6gMtZRCjS81g</str>
+      <str name="className">Guard|2.5</str>
+      <str name="conceptType">CLASS</str>
+      <arr name="content">
+        <str>Statecharts</str>
+        <str>expression|1.6</str>
+        <str>Guard|2.5</str>
+      </arr>
+      <str name="projectId">_gTG2YOiaEd6gMtZRCjS81g</str>
+      <str name="projectName">Statecharts</str>
+    </doc>
+    <doc>
+      <float name="score">2.4313412</float>
+      <arr name="attributeNames">
+        <str>language|1.0 body|1.0</str>
+      </arr>
+      <str name="classId">_ghaYV-iaEd6gMtZRCjS81g</str>
+      <str name="className">Expression|2.5</str>
+      <str name="conceptType">CLASS</str>
+      <arr name="content">
+        <str>UMLDI-ActivityGraphs</str>
+        <str>language|1.0 body|1.0</str>
+        <str>Expression|2.5</str>
+      </arr>
+      <str name="projectId">_ghZxEOiaEd6gMtZRCjS81g</str>
+      <str name="projectName">UMLDI-ActivityGraphs</str>
+    </doc>
+    <doc>
+      <float name="score">2.4313412</float>
+      <arr name="attributeNames">
+        <str/>
+      </arr>
+      <str name="classId">_gzK2nuiaEd6gMtZRCjS81g</str>
+      <str name="className">Expression|2.5</str>
+      <str name="conceptType">CLASS</str>
+      <arr name="content">
+        <str>XMorphLanguage_abstractSyntax</str>
+        <str/>
+        <str>Expression|2.5</str>
+      </arr>
+      <str name="projectId">_gzK2gOiaEd6gMtZRCjS81g</str>
+      <str name="projectName">XMorphLanguage_abstractSyntax</str>
+    </doc>
+    <doc>
+      <float name="score">2.3340874</float>
+      <arr name="attributeNames">
+        <str>var|1.0 expression|1.5</str>
+      </arr>
+      <str name="classId">_g04txOiaEd6gMtZRCjS81g</str>
+      <str name="className">For|2.5</str>
+      <str name="conceptType">CLASS</str>
+      <arr name="content">
+        <str>XQuery</str>
+        <str>var|1.0 expression|1.5</str>
+        <str>For|2.5</str>
+      </arr>
+      <str name="projectId">_g04GsOiaEd6gMtZRCjS81g</str>
+      <str name="projectName">XQuery</str>
+    </doc>
+    <doc>
+      <float name="score">2.3340874</float>
+      <arr name="attributeNames">
+        <str>expression|1.5</str>
+      </arr>
+      <str name="classId">_g04txuiaEd6gMtZRCjS81g</str>
+      <str name="className">Where|2.5</str>
+      <str name="conceptType">CLASS</str>
+      <arr name="content">
+        <str>XQuery</str>
+        <str>expression|1.5</str>
+        <str>Where|2.5</str>
+      </arr>
+      <str name="projectId">_g04GsOiaEd6gMtZRCjS81g</str>
+      <str name="projectName">XQuery</str>
+    </doc>
+  </result>
+  <lst name="debug">
+    <str name="rawquerystring">expression</str>
+    <str name="querystring">expression</str>
+    <str name="parsedquery">+DisjunctionMaxQuery((content:express)) ()</str>
+    <str name="parsedquery_toString">+(content:express) ()</str>
+    <lst name="explain">
+      <str name="_g04GtOiaEd6gMtZRCjS81g">4.8626823 = (MATCH) sum of:  4.8626823 = (MATCH) fieldWeight(content:express in 1), product of:    1.767767 = (MATCH) btq, product of:      0.70710677 = tf(phraseFreq=0.5)      2.5 = scorePayload(...)    4.4011974 = idf(content:  express=37)    0.625 = fieldNorm(field=content, doc=1)</str>
+      <str name="_di4KeOiaEd6gMtZRCjS81g">3.4038775 = (MATCH) sum of:  3.4038775 = (MATCH) fieldWeight(content:express in 874), product of:    1.767767 = (MATCH) btq, product of:      0.70710677 = tf(phraseFreq=0.5)      2.5 = scorePayload(...)    4.4011974 = idf(content:  express=37)    0.4375 = fieldNorm(field=content, doc=874)</str>
+      <str name="_fTrZveiaEd6gMtZRCjS81g">2.9176092 = (MATCH) sum of:  2.9176092 = (MATCH) fieldWeight(content:express in 120), product of:    1.767767 = (MATCH) btq, product of:      0.70710677 = tf(phraseFreq=0.5)      2.5 = scorePayload(...)    4.4011974 = idf(content:  express=37)    0.375 = fieldNorm(field=content, doc=120)</str>
+      <str name="_giXaleiaEd6gMtZRCjS81g">2.9176092 = (MATCH) sum of:  2.9176092 = (MATCH) fieldWeight(content:express in 594), product of:    1.767767 = (MATCH) btq, product of:      0.70710677 = tf(phraseFreq=0.5)      2.5 = scorePayload(...)    4.4011974 = idf(content:  express=37)    0.375 = fieldNorm(field=content, doc=594)</str>
+      <str name="_oTkmVhuyEd-u0r5Az1kiEw">2.7507484 = (MATCH) sum of:  2.7507484 = (MATCH) fieldWeight(content:express in 746), product of:    2.5 = (MATCH) btq, product of:      1.0 = tf(phraseFreq=1.0)      2.5 = scorePayload(...)    4.4011974 = idf(content:  express=37)    0.25 = fieldNorm(field=content, doc=746)</str>
+      <str name="_gTG2aeiaEd6gMtZRCjS81g">2.4896934 = (MATCH) sum of:  2.4896934 = (MATCH) fieldWeight(content:express in 624), product of:    1.1313709 = (MATCH) btq, product of:      0.70710677 = tf(phraseFreq=0.5)      1.6 = scorePayload(...)    4.4011974 = idf(content:  express=37)    0.5 = fieldNorm(field=content, doc=624)</str>
+      <str name="_ghaYV-iaEd6gMtZRCjS81g">2.4313412 = (MATCH) sum of:  2.4313412 = (MATCH) fieldWeight(content:express in 129), product of:    1.767767 = (MATCH) btq, product of:      0.70710677 = tf(phraseFreq=0.5)      2.5 = scorePayload(...)    4.4011974 = idf(content:  express=37)    0.3125 = fieldNorm(field=content, doc=129)</str>
+      <str name="_gzK2nuiaEd6gMtZRCjS81g">2.4313412 = (MATCH) sum of:  2.4313412 = (MATCH) fieldWeight(content:express in 427), product of:    1.767767 = (MATCH) btq, product of:      0.70710677 = tf(phraseFreq=0.5)      2.5 = scorePayload(...)    4.4011974 = idf(content:  express=37)    0.3125 = fieldNorm(field=content, doc=427)</str>
+      <str name="_g04txOiaEd6gMtZRCjS81g">2.3340874 = (MATCH) sum of:  2.3340874 = (MATCH) fieldWeight(content:express in 13), product of:    1.0606601 = (MATCH) btq, product of:      0.70710677 = tf(phraseFreq=0.5)      1.5 = scorePayload(...)    4.4011974 = idf(content:  express=37)    0.5 = fieldNorm(field=content, doc=13)</str>
+      <str name="_g04txuiaEd6gMtZRCjS81g">2.3340874 = (MATCH) sum of:  2.3340874 = (MATCH) fieldWeight(content:express in 15), product of:    1.0606601 = (MATCH) btq, product of:      0.70710677 = tf(phraseFreq=0.5)      1.5 = scorePayload(...)    4.4011974 = idf(content:  express=37)    0.5 = fieldNorm(field=content, doc=15)</str>
+    </lst>
+    <str name="QParser">PLDisMaxQParser</str>
+    <null name="altquerystring"/>
+    <null name="boostfuncs"/>
+    <str name="payloadField">content</str>
+    <lst name="timing">
+      <double name="time">126.0</double>
+      <lst name="prepare">
+        <double name="time">2.0</double>
+        <lst name="org.apache.solr.handler.component.QueryComponent">
+          <double name="time">2.0</double>
+        </lst>
+        <lst name="org.apache.solr.handler.component.FacetComponent">
+          <double name="time">0.0</double>
+        </lst>
+        <lst name="org.apache.solr.handler.component.MoreLikeThisComponent">
+          <double name="time">0.0</double>
+        </lst>
+        <lst name="org.apache.solr.handler.component.HighlightComponent">
+          <double name="time">0.0</double>
+        </lst>
+        <lst name="org.apache.solr.handler.component.StatsComponent">
+          <double name="time">0.0</double>
+        </lst>
+        <lst name="org.apache.solr.handler.component.DebugComponent">
+          <double name="time">0.0</double>
+        </lst>
+      </lst>
+      <lst name="process">
+        <double name="time">124.0</double>
+        <lst name="org.apache.solr.handler.component.QueryComponent">
+          <double name="time">119.0</double>
+        </lst>
+        <lst name="org.apache.solr.handler.component.FacetComponent">
+          <double name="time">0.0</double>
+        </lst>
+        <lst name="org.apache.solr.handler.component.MoreLikeThisComponent">
+          <double name="time">0.0</double>
+        </lst>
+        <lst name="org.apache.solr.handler.component.HighlightComponent">
+          <double name="time">0.0</double>
+        </lst>
+        <lst name="org.apache.solr.handler.component.StatsComponent">
+          <double name="time">0.0</double>
+        </lst>
+        <lst name="org.apache.solr.handler.component.DebugComponent">
+          <double name="time">5.0</double>
+        </lst>
+      </lst>
+    </lst>
+  </lst>
+</response>
