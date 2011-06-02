@@ -5,20 +5,15 @@ package it.polimi.mdir.test.ExcelUtils;
 
 import it.polimi.mdir.xquery.XQueryWrapper;
 
-import java.awt.Color;
 import java.io.File; 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date; 
 import java.util.Properties;
 
 import jxl.*; 
-import jxl.format.UnderlineStyle;
 import jxl.read.biff.BiffException;
 import jxl.write.*;
-import jxl.write.Number;
 import jxl.write.biff.RowsExceededException;
 import jxl.format.Colour;
 
