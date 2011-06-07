@@ -42,7 +42,7 @@ public class ExcelWriter {
 	private String XML_RESULTS_PATH;
 	
 	private int sheetCount;
-	final int padding = 5;
+	final int padding = 7;
 	private int column = 0;
 
 	private WritableCellFormat captionStyle;
@@ -69,9 +69,9 @@ public class ExcelWriter {
 		int row = 6;
 		
 		ArrayList<String> resultList = new ArrayList<String>();
-		//String projectIdStr = "";
+		String projectIdStr = "";
 		String projectNameStr = "";
-		//String classIdStr = "";
+		String classIdStr = "";
 		String classNameStr = "";
 		String scoreStr = "";
 		String rankingStr = "";
@@ -79,11 +79,12 @@ public class ExcelWriter {
 		// Adding experiment title label
 		addCaption(sheet, this.column, 4, "Experiment " + experimentStr);
 		
-		// Adding "table" headers		
+		// Adding "table" headers	
 		addTableHeader(sheet, this.column, row, "Ranking");
-		addTableHeader(sheet, this.column+1, row, "Project Name");
-		addTableHeader(sheet, this.column+2, row, "Document Name");
-		addTableHeader(sheet, this.column+3, row, "Score");
+		addTableHeader(sheet, this.column+1, row, "Document Id");
+		addTableHeader(sheet, this.column+2, row, "Project Name");
+		addTableHeader(sheet, this.column+3, row, "Document Name");
+		addTableHeader(sheet, this.column+4, row, "Score");
 				
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "testPresentation.xquery");
 		xq.bindVariable("document", XML_RESULTS_PATH + "result"+experimentStr+".xml");
@@ -91,18 +92,25 @@ public class ExcelWriter {
 		
 		for (int i=0; i<resultList.size(); i++) {
 			String[] splittedResult = resultList.get(i).split(" ");
-			//projectIdStr = splittedResult[0];	
+			projectIdStr = splittedResult[0];	
 			projectNameStr = splittedResult[1];
-			//classIdStr = splittedResult[2];
+			classIdStr = splittedResult[2];
 			classNameStr = splittedResult[3];
 			scoreStr = splittedResult[4];
 			
 			rankingStr = Integer.toString(i+1);
 			
 			addTableCell(sheet, this.column, row+i+1, rankingStr);
-			addTableCell(sheet, this.column+1, row+i+1, projectNameStr);
-			addTableCell(sheet, this.column+2, row+i+1, classNameStr);
-			addTableCell(sheet, this.column+3, row+i+1, scoreStr);
+			// If ExperimentA write projectId..
+			if(experiment.equals(Experiment.A)) {
+				addTableCell(sheet, this.column+1, row+i+1, projectIdStr);
+			} else {
+			// ..Write classId
+				addTableCell(sheet, this.column+1, row+i+1, classIdStr);
+			}
+			addTableCell(sheet, this.column+2, row+i+1, projectNameStr);
+			addTableCell(sheet, this.column+3, row+i+1, classNameStr);
+			addTableCell(sheet, this.column+4, row+i+1, scoreStr);
 		}		
 	}
 	
