@@ -50,9 +50,9 @@ public class XQueryWrapper {
 		
 			XQConnection conn = source.getConnection();
 		
-			FileInputStream inputStream = new FileInputStream("xquery/testPresentation.xquery"); 
+			FileInputStream inputStream = new FileInputStream("xquery/q.xquery"); 
 			XQPreparedExpression expr = conn.prepareExpression(inputStream);
-			expr.bindObject(new QName("document"),new String("exampledocs/resultA.xml"), null);
+			expr.bindObject(new QName("document"),new String("exampledocs/PetriNet_extended.uml"), null);
 			//expr.bindObject(new QName("v"),new Integer(23), null);
 			
 			XQResultSequence result = expr.executeQuery();
@@ -65,11 +65,6 @@ public class XQueryWrapper {
 			}
 			result.close();
 			System.out.println(listResults.toString());
-
-			resultString = listResults.get(0);
-			String[] split = resultString.split(" ");
-			System.out.println(split[2]);
-
 			
 		} catch (Exception e) {
 			e.printStackTrace();

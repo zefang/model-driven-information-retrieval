@@ -168,6 +168,8 @@ public class TranslateXMItoGraphML {
 				}
 			}
 			
+			
+			//Serialize GraphML file
 			try {
 				FileOutputStream fileOut = new FileOutputStream(ConfigLoader.SERIALIZATION_PATH + removeExtension(currentDoc)+".ser");
 				ObjectOutputStream out = new ObjectOutputStream(fileOut);
