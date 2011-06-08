@@ -1,5 +1,6 @@
 package it.polimi.mdir.graph.pipelet;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -29,11 +30,19 @@ public class CreateGraphPipelet implements Pipelet {
 	
 	private static String GRAPHML_PATH = ConfigLoader.GRAPHML_PATH;
 	
+	private static final String FORCE_REWRITE = "forceRewrite";
+	
+	private boolean _forceRewrite = true;
+	private AnyMap _configuration;
+	
 	private static int count = 0;
 	
 	@Override
 	public void configure(AnyMap configuration) throws ProcessingException {
-		
+		_configuration = configuration;
+	    if (_configuration.containsKey(FORCE_REWRITE)) {
+	    	_forceRewrite = _configuration.getBooleanValue(FORCE_REWRITE);
+	    }
 	}
 
 	@Override
@@ -50,16 +59,17 @@ public class CreateGraphPipelet implements Pipelet {
 				
 				Graph<Node, Edge> g = GraphFactory.createGraphFromGraphML(GRAPHML_PATH + fileName);
 				
-				//GraphCollection.graphMap.put(fileName, g);
-				//serialize TODO:check if file already exists so to don't do it. 
-				//				 Remember a parameter to force rewriting though.
 				fileName = fileName.substring(0, fileName.length()-4);
+				String filePath = ConfigLoader.SERIALIZATION_PATH + fileName+".ser";
 				try {
-					FileOutputStream fileOut = new FileOutputStream(ConfigLoader.SERIALIZATION_PATH + fileName+".ser");
-					ObjectOutputStream out = new ObjectOutputStream(fileOut);
-					out.writeObject(g);
-					out.close();
-						fileOut.close();
+					File f = new File(filePath);
+					if (_forceRewrite || !f.exists()) {
+						FileOutputStream fileOut = new FileOutputStream(f);
+						ObjectOutputStream out = new ObjectOutputStream(fileOut);
+						out.writeObject(g);
+						out.close();
+							fileOut.close();	
+					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

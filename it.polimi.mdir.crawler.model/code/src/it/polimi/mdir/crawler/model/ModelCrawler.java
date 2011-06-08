@@ -455,6 +455,9 @@ public class ModelCrawler extends AbstractCrawler {
          * - the id of their class of belonging
          * - the conceptType (attribute, composition, association)
     	 * The format is "'classIdVALUE'$'attributeNameVALUE'+'conceptType:VALUE'"
+    	 * 
+    	 * In case of compositions and associations we retrieve attributes like this:
+    	 * 'classIdVALUE'$'attributeNameVALUE'+'conceptType:relTypeVALUE'+'lowerValue'-'upperValue'
     	 */
       case ATTRIBUTE_NAMES:
         xq = new XQueryWrapper(XQUERY_PATH.concat("/getAttributeNames.xquery"));
