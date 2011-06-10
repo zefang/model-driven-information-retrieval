@@ -27,7 +27,8 @@ import jxl.format.Colour;
  * 
  * There is ONE sheet for each
  * meta-query instance and you
- * need 4 xml files for each of them
+ * need 4 xml files (result.xml)
+ * for each of them
  * 
  * Everytime you call this class
  * you create a new sheet for a given
@@ -42,7 +43,6 @@ public class ExcelWriter {
 	private String XML_RESULTS_PATH;
 	
 	private int sheetCount;
-	final int padding = 7;
 	private int column = 0;
 
 	private WritableCellFormat captionStyle;
@@ -64,6 +64,14 @@ public class ExcelWriter {
 	
 	private void createSheet(WritableSheet sheet, Experiment experiment) throws RowsExceededException, WriteException, IOException {
 		
+		int padding;
+		if(experiment.equals(Experiment.A)) {
+			padding = 0;
+		} else {
+			padding = 6;
+		}
+
+		
 		String experimentStr = experiment.toString();
 		this.column = this.column + padding;
 		int row = 6;
@@ -83,9 +91,10 @@ public class ExcelWriter {
 		addTableHeader(sheet, this.column, row, "Ranking");
 		addTableHeader(sheet, this.column+1, row, "Document Id");
 		addTableHeader(sheet, this.column+2, row, "Project Name");
-		addTableHeader(sheet, this.column+3, row, "Document Name");
+		addTableHeader(sheet, this.column+3, row, "Class Name");
 		addTableHeader(sheet, this.column+4, row, "Score");
 				
+		// Load xquery and xml result file
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "testPresentation.xquery");
 		xq.bindVariable("document", XML_RESULTS_PATH + "result"+experimentStr+".xml");
 		resultList = xq.executeQuery();
