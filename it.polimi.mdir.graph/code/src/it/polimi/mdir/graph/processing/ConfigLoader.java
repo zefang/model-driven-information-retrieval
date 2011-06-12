@@ -1,6 +1,5 @@
 package it.polimi.mdir.graph.processing;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
@@ -18,10 +17,7 @@ public class ConfigLoader {
 	static {
 		try {
 			config = new Properties();
-			//FileInputStream in = new FileInputStream("configuration.properties"); //TODO trovare un modo di parametrizzare sta cosa!!!
-			FileInputStream in = new FileInputStream("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/configuration.properties");
-			config.load(in);
-			in.close();
+			config.load(ConfigLoader.class.getClassLoader().getResourceAsStream("configuration.properties"));
 			
 			XQUERY_PATH = config.getProperty("XQUERY_PATH");
 			UML_PATH = config.getProperty("UML_PATH");
