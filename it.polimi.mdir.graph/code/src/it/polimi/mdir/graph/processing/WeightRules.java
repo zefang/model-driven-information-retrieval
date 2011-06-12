@@ -2,7 +2,6 @@ package it.polimi.mdir.graph.processing;
 
 import it.polimi.mdir.graph.processing.GraphUtils.RelationType;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
@@ -31,10 +30,7 @@ public class WeightRules {
 	static {
 		try {
 			config = new Properties();
-			//FileInputStream in = new FileInputStream("configuration.properties"); //TODO trovare un modo di parametrizzare sta cosa!!!
-			FileInputStream in = new FileInputStream("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/configuration.properties");
-			config.load(in);
-			in.close();
+			config.load(ConfigLoader.class.getClassLoader().getResourceAsStream("configuration.properties"));
 			
 			ATTRIBUTE_WEIGHT = Float.valueOf(config.getProperty("attribute"));
 			COMPOSITION_1_1_WEIGHT = Float.valueOf(config.getProperty("composition_1-1"));
@@ -43,14 +39,14 @@ public class WeightRules {
 			ASSOCIATION_1_N_WEIGHT = Float.valueOf(config.getProperty("association_1-*"));
 			CLASS_WEIGHT = Float.valueOf(config.getProperty("class"));
 			
-			COMPOSITION_COMPOSITE_COMPONENT_1_1_PENALTY = Float.valueOf(config.getProperty("COMPOSITION_COMPOSITE_COMPONENT_1_1"));
-			COMPOSITION_COMPOSITE_COMPONENT_1_N_PENALTY = Float.valueOf(config.getProperty("COMPOSITION_COMPOSITE_COMPONENT_1_N"));
-			COMPOSITION_COMPONENT_COMPOSITE_1_1_PENALTY = Float.valueOf(config.getProperty("COMPOSITION_COMPONENT_COMPOSITE_1_1"));
-			COMPOSITION_COMPONENT_COMPOSITE_1_N_PENALTY = Float.valueOf(config.getProperty("COMPOSITION_COMPONENT_COMPOSITE_1_N"));
-			ASSOCIATION_1_1_PENALTY = Float.valueOf(config.getProperty("ASSOCIATION_1_1"));
-			ASSOCIATION_1_N_PENALTY = Float.valueOf(config.getProperty("ASSOCIATION_1_N"));
-			GENERALIZATION_FATHER_CHILD_PENALTY = Float.valueOf(config.getProperty("GENERALIZATION_FATHER_CHILD"));
-			GENERALIZATION_CHILD_FATHER_PENALTY = Float.valueOf(config.getProperty("GENERALIZATION_CHILD_FATHER"));
+			COMPOSITION_COMPOSITE_COMPONENT_1_1_PENALTY = Float.valueOf(config.getProperty("COMPOSITION_COMPOSITE_COMPONENT_1_1_PENALTY"));
+			COMPOSITION_COMPOSITE_COMPONENT_1_N_PENALTY = Float.valueOf(config.getProperty("COMPOSITION_COMPOSITE_COMPONENT_1_N_PENALTY"));
+			COMPOSITION_COMPONENT_COMPOSITE_1_1_PENALTY = Float.valueOf(config.getProperty("COMPOSITION_COMPONENT_COMPOSITE_1_1_PENALTY"));
+			COMPOSITION_COMPONENT_COMPOSITE_1_N_PENALTY = Float.valueOf(config.getProperty("COMPOSITION_COMPONENT_COMPOSITE_1_N_PENALTY"));
+			ASSOCIATION_1_1_PENALTY = Float.valueOf(config.getProperty("ASSOCIATION_1_1_PENALTY"));
+			ASSOCIATION_1_N_PENALTY = Float.valueOf(config.getProperty("ASSOCIATION_1_N_PENALTY"));
+			GENERALIZATION_FATHER_CHILD_PENALTY = Float.valueOf(config.getProperty("GENERALIZATION_FATHER_CHILD_PENALTY"));
+			GENERALIZATION_CHILD_FATHER_PENALTY = Float.valueOf(config.getProperty("GENERALIZATION_CHILD_FATHER_PENALTY"));
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
