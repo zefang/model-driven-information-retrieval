@@ -14,6 +14,9 @@ import it.polimi.mdir.graph.processing.ConfigLoader;
 import it.polimi.mdir.graph.processing.GraphFactory;
 import it.polimi.mdir.graph.processing.ImportAttributes;
 import it.polimi.mdir.graph.processing.NavigateGraph;
+import it.polimi.mdir.logger.Log;
+import it.polimi.mdir.logger.LogFactory;
+
 import org.eclipse.smila.blackboard.Blackboard;
 import org.eclipse.smila.blackboard.BlackboardAccessException;
 import org.eclipse.smila.datamodel.AnyMap;
@@ -25,7 +28,10 @@ import edu.uci.ics.jung.graph.Graph;
 
 public class EnrichRecordsExperimentDPipelet implements Pipelet {
 
+	
 	private static final int MAX_HOPS = 2;
+	
+	private final Log _log = LogFactory.getLog();
 	
 	@Override
 	public void configure(AnyMap configuration) throws ProcessingException {
@@ -41,11 +47,13 @@ public class EnrichRecordsExperimentDPipelet implements Pipelet {
 			throws ProcessingException {
 		
 		for (String id : recordIds)  {
+			String className = "";
+			String fileName = "";
 			try {
 				Record rec = blackboard.getRecord(id);
-				String className = rec.getMetadata().getStringValue("className");
+				className = rec.getMetadata().getStringValue("className");
 				String classId = rec.getMetadata().getStringValue("classId");
-				String fileName = rec.getMetadata().getStringValue("FileName");
+				fileName = rec.getMetadata().getStringValue("FileName");
 				fileName = fileName.substring(0, fileName.length()-4);
 				
 				System.out.println("Start D " +  ++count + " -> " + className);
@@ -95,7 +103,8 @@ public class EnrichRecordsExperimentDPipelet implements Pipelet {
 				System.out.println(className +": TUTTO OK");
 				System.out.println("END: " + count);
 				
-			} catch (BlackboardAccessException e) {
+			} catch (Exception e) { //BlackboardAccessException
+				_log.write("Exception at record: " + className + "of project "+ fileName);
 				e.printStackTrace();
 			}
 		}
