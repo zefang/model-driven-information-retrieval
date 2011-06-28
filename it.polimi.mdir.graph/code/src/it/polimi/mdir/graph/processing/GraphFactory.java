@@ -13,10 +13,14 @@ import org.w3c.dom.NodeList;
 import it.polimi.mdir.graph.Edge;
 import it.polimi.mdir.graph.Node;
 import it.polimi.mdir.graph.processing.GraphUtils.RelationType;
+import it.polimi.mdir.logger.Log;
+import it.polimi.mdir.logger.LogFactory;
 import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
 import edu.uci.ics.jung.graph.Graph;
 
 public class GraphFactory {
+	
+	private static final Log _log = LogFactory.getLog();
 	
 	public static Graph<Node, Edge> createGraphFromGraphML(String fileName) {
 		
@@ -90,6 +94,7 @@ public class GraphFactory {
 				g.addEdge(e, nodeMap.get(e.getSourceId()), nodeMap.get(e.getTargetId()));
 			}
 		} catch (Exception e) {
+			_log.write("GraphFactory -> Exception at project: " + fileName);
 			e.printStackTrace();
 		}
 		

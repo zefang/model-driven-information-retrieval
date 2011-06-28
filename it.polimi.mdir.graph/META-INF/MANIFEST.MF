@@ -4,7 +4,8 @@ Bundle-Name: Graph
 Bundle-SymbolicName: it.polimi.mdir.graph
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Import-Package: it.polimi.mdir.xquery,
+Import-Package: it.polimi.mdir.logger,
+ it.polimi.mdir.xquery,
  junit.framework,
  org.apache.xerces.dom;version="2.9.0",
  org.eclipse.smila.blackboard;version="0.8.0",
