@@ -104,7 +104,7 @@ public class EnrichRecordsExperimentDPipelet implements Pipelet {
 				System.out.println("END: " + count);
 				
 			} catch (Exception e) { //BlackboardAccessException
-				_log.write("Exception at record: " + className + "of project "+ fileName);
+				_log.write("D -> Exception at record: " + className + "of project "+ fileName);
 				e.printStackTrace();
 			}
 		}

@@ -156,9 +156,11 @@ public class TranslateXMItoGraphML {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			
+			Graph<Node, Edge> g = GraphFactory.createGraphFromGraphML(GRAPHML_PATH + removeExtension(currentDoc)+".gml");
 			//TODO
 			//DEBUG CODE --> TO DELETE
-			Graph<Node, Edge> g = GraphFactory.createGraphFromGraphML(GRAPHML_PATH + removeExtension(currentDoc)+".gml");
+			/*
 			Collection<Edge> edges = g.getEdges();
 			Iterator<Edge> it = edges.iterator();
 			while(it.hasNext()) {
@@ -167,7 +169,7 @@ public class TranslateXMItoGraphML {
 					System.out.println("EDGE ID: " + edge.getId() + " LOWER VALUE: " + edge.getLowerValue() + " UPPER VALUE: " + edge.getUpperValue());
 				}
 			}
-			
+			*/
 			
 			//Serialize GraphML file
 			try {
@@ -179,7 +181,7 @@ public class TranslateXMItoGraphML {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-					
+				
         }
         
 	}

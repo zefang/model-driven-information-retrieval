@@ -9,6 +9,8 @@ import it.polimi.mdir.graph.Edge;
 import it.polimi.mdir.graph.Node;
 import it.polimi.mdir.graph.processing.ConfigLoader;
 import it.polimi.mdir.graph.processing.GraphFactory;
+import it.polimi.mdir.logger.Log;
+import it.polimi.mdir.logger.LogFactory;
 
 import org.eclipse.smila.blackboard.Blackboard;
 import org.eclipse.smila.blackboard.BlackboardAccessException;
@@ -35,6 +37,8 @@ public class CreateGraphPipelet implements Pipelet {
 	private boolean _forceRewrite = true;
 	private AnyMap _configuration;
 	
+	private final Log _log = LogFactory.getLog();
+	
 	private static int count = 0;
 	
 	@Override
@@ -50,9 +54,9 @@ public class CreateGraphPipelet implements Pipelet {
 			throws ProcessingException {
 		
 		for (String id : recordIds) {
-			
+			String fileName = "";
 			try {
-				String fileName = blackboard.getRecord(id).getMetadata().getStringValue("FileName");
+				fileName = blackboard.getRecord(id).getMetadata().getStringValue("FileName");
 				fileName = fileName.substring(0, fileName.length()-4) + ".gml";
 			
 				System.out.println(++count + "-> Creating graph: " + fileName);
@@ -74,7 +78,8 @@ public class CreateGraphPipelet implements Pipelet {
 					e.printStackTrace();
 				}
 				
-			} catch (BlackboardAccessException e) {
+			} catch (Exception e) {
+				_log.write("CreateGraphPipelet -> Exception at project " + fileName);
 				e.printStackTrace();
 			}
 			
