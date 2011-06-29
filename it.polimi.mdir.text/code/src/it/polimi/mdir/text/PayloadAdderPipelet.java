@@ -11,9 +11,13 @@ import org.eclipse.smila.datamodel.Record;
 import org.eclipse.smila.processing.Pipelet;
 import org.eclipse.smila.processing.ProcessingException;
 import it.polimi.mdir.graph.processing.*;
+import it.polimi.mdir.logger.Log;
+import it.polimi.mdir.logger.LogFactory;
 
 public class PayloadAdderPipelet implements Pipelet {
-		
+	
+	private final Log _log = LogFactory.getLog();
+	
 	@Override
 	public void configure(AnyMap configuration) throws ProcessingException {
 	}
@@ -24,11 +28,14 @@ public class PayloadAdderPipelet implements Pipelet {
 		
 		//For each class
 		for (String id : recordIds) {
+			String className = "";
+			String fileName = "";
 			try {
 				String conceptType = "";
 				String attributeName = "";
 				Record record = blackboard.getRecord(id);
-				String className = record.getMetadata().getStringValue("className");
+				fileName = record.getMetadata().getStringValue("FileName");
+				className = record.getMetadata().getStringValue("className");
 				className += "|" + WeightRules.weightMap.get("class");
 				record.getMetadata().put("className", className);
 				
@@ -86,7 +93,8 @@ public class PayloadAdderPipelet implements Pipelet {
 				
 				blackboard.setRecord(record);
 				blackboard.commit();
-			} catch (BlackboardAccessException e) {
+			} catch (Exception e) {
+				_log.write("PayloadAddder -> Exception at record: " + className + "of project "+ fileName);
 				e.printStackTrace();	
 			}
 		}
