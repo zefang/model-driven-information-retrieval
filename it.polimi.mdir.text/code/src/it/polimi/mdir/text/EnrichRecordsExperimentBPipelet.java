@@ -4,6 +4,9 @@
 
 package it.polimi.mdir.text;
 
+import it.polimi.mdir.logger.Log;
+import it.polimi.mdir.logger.LogFactory;
+
 import java.util.ArrayList;
 
 import org.eclipse.smila.blackboard.Blackboard;
@@ -26,6 +29,8 @@ public class EnrichRecordsExperimentBPipelet implements Pipelet {
 	
 	private static int count = 0;
 	
+	private final Log _log = LogFactory.getLog();
+	
 	@Override
 	public void configure(AnyMap configuration) throws ProcessingException {
 		
@@ -41,8 +46,10 @@ public class EnrichRecordsExperimentBPipelet implements Pipelet {
 		final ArrayList<String> newRecordsIds = new ArrayList<String>();
 		final int nNewRecords;
 		for (final String id : recordIds) {
+			String fileName = "";
 			try {
-				System.out.println("B -> name: " + blackboard.getRecord(id).getMetadata().getStringValue("projectName"));
+				fileName = blackboard.getRecord(id).getMetadata().getStringValue("FileName");
+				System.out.println("B -> name: " + fileName);
 				
 				//construct attributeNames field
 				final String classIds = blackboard.getRecord(id).getMetadata().getStringValue("classIds");
@@ -93,8 +100,8 @@ public class EnrichRecordsExperimentBPipelet implements Pipelet {
 				}
 				blackboard.commit();	
 				
-			} catch (BlackboardAccessException e) {
-				System.out.println("BlackboardAccessException: " + e.toString());
+			} catch (Exception e) {
+				_log.write("B -> Exception at project " + fileName);
 				e.printStackTrace();
 			}
 		}
