@@ -29,22 +29,20 @@ public class BatchTest {
 	
 	private static String XML_RESULTS_PATH;
 	
-	static String originalQueryString = "";
-	static String query = "";
-	static String mm = "";
-	static String qf = "";
-	static String bqProjectName = "";
-	static String bqClassName = "";
-	static String sheetTitle = "";
-	static String writeToSheet = "";
-	
-	// This string will contain the lines coming from the servlet which is called
-	static String line = "";
-	// This string will contain the response from the servlet which is called
-	static String response = "";
-	
 	public static void main(String[] args) throws IOException {
+		String originalQueryString = "";
+		String query = "";
+		String mm = "";
+		String qf = "";
+		//String bqProjectName = "";
+		//String bqClassName = "";
+		String sheetTitle = "";		
 		
+		// This string will contain the lines coming from the servlet which is called
+		String line = "";
+		// This string will contain the response from the servlet which is called
+		String response = "";
+							
 		// Meta-Query Instance label (e.g. MQ1)
 		String mqLabel = args[0];
 		
