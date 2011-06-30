@@ -24,19 +24,20 @@ import jxl.format.Colour;
  * taken as input from xml files
  * for a given meta-query instance
  * 
+ * You can pass the meta-query
+ * instance label (e.g. MQ1)
+ * as input parameter
  * 
  * There is ONE sheet for each
  * meta-query instance and you
- * need 4 xml files (result.xml)
- * for each of them
- * 
+ * need 4 xml files for each of them
+ * result1-A.xml
+ * result1-B.xml
+ * result1-C.xml
+ * result1-D.xml
  * 
  * NOTICE: THIS CLASS IS A LITTLE 
- * DIFFERENT FROM PREVIOUS EXCELWRITER
- * 
- * Everytime you call this class
- * you create all the new sheets
- * for a given meta-query
+ * DIFFERENT FROM PREVIOUS ExcelWriter.java
  * 
  */
 public class ExcelWriterBatch {
@@ -44,7 +45,7 @@ public class ExcelWriterBatch {
 	private enum Experiment {A, B, C, D};
 	
 	private String XQUERY_PATH;
-	//private String XML_RESULTS_PATH;
+	private String XML_RESULTS_PATH;
 	
 	private int sheetCount;
 	private int column = 0;
@@ -62,7 +63,7 @@ public class ExcelWriterBatch {
 		in.close();
 
 		XQUERY_PATH = pathConfig.getProperty("X-QUERY");
-		//XML_RESULTS_PATH = pathConfig.getProperty("XML-FILES");
+		XML_RESULTS_PATH = pathConfig.getProperty("XML_RESULTS");
 		
 	}
 	
@@ -100,7 +101,7 @@ public class ExcelWriterBatch {
 				
 		// Load xquery and xml result file
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "testPresentation.xquery");
-		xq.bindVariable("document", "result" + queryInst + "-" + experimentStr+".xml");
+		xq.bindVariable("document", XML_RESULTS_PATH + "result" + queryInst + "-" + experimentStr+".xml");
 		resultList = xq.executeQuery();
 		
 		for (int i=0; i<resultList.size(); i++) {
