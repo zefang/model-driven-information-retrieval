@@ -58,7 +58,7 @@ public class BatchTest {
 
 		for(int queryInst=0; queryInst<queryArray.length; queryInst++) {
 		
-			sheetTitle = mqLabel + "INST" + (queryInst+1);
+			sheetTitle = mqLabel + "-INST" + (queryInst+1);
 			
 			String[] urls = 
 				{"http://localhost:8983/solr/text_experiment_A/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on", 
