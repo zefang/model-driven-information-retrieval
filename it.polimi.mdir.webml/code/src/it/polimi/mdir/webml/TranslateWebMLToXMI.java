@@ -197,7 +197,7 @@ public class TranslateWebMLToXMI {
 	private static Element addArea(String id, String name, Element parentNode) {
 		System.out.println("Added Area id:"+ id + " name:" +name);
 		Element areaNode = outputDocument.createElement(PACKAGED_ELEMENT);
-			areaNode.setAttribute("xmi:type", "webml:Page");
+			areaNode.setAttribute("xmi:type", "webml:Area");
 			areaNode.setAttribute("xmi:id", id);
 			areaNode.setAttribute("name", name);
 		parentNode.appendChild(areaNode);
