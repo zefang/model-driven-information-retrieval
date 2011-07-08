@@ -28,7 +28,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-
 public class TranslateWebMLToXMI {
 	
 	private static String PACKAGED_ELEMENT = "packagedElement";
@@ -72,7 +71,7 @@ public class TranslateWebMLToXMI {
 		String projectName = project.getName();
 		
 		webmlProject.setAttribute("xmi:id", projectName);
-		webmlProject.setAttribute("xmi:name", projectName);
+		webmlProject.setAttribute("name", projectName);
 		
 		processDataModel(projectName, webmlProject);
 		processWebModel(projectName, webmlProject);
@@ -129,7 +128,7 @@ public class TranslateWebMLToXMI {
 		Element entityNode = outputDocument.createElement(PACKAGED_ELEMENT);
 			entityNode.setAttribute("xmi:type", "webml:Entity");
 			entityNode.setAttribute("xmi:id", id);
-			entityNode.setAttribute("xmi:name", name);
+			entityNode.setAttribute("name", name);
 		parentNode.appendChild(entityNode);
 		return entityNode;
 	}
@@ -139,7 +138,7 @@ public class TranslateWebMLToXMI {
 		Element attributeNode = outputDocument.createElement(PACKAGED_ELEMENT);
 			attributeNode.setAttribute("xmi:type", "webml:Attribute");
 			attributeNode.setAttribute("xmi:id", id);
-			attributeNode.setAttribute("xmi:name", name);
+			attributeNode.setAttribute("name", name);
 		parentNode.appendChild(attributeNode);
 	}
 	
@@ -148,7 +147,7 @@ public class TranslateWebMLToXMI {
 		Element siteViewNode = outputDocument.createElement(PACKAGED_ELEMENT);
 			siteViewNode.setAttribute("xmi:type", "webml:SiteView");
 			siteViewNode.setAttribute("xmi:id", id);
-			siteViewNode.setAttribute("xmi:name", name);
+			siteViewNode.setAttribute("name", name);
 		parentNode.appendChild(siteViewNode);
 		return siteViewNode;
 	}
@@ -158,7 +157,7 @@ public class TranslateWebMLToXMI {
 		Element operationUnitNode = outputDocument.createElement(PACKAGED_ELEMENT);
 			operationUnitNode.setAttribute("xmi:type", "webml:"+type);
 			operationUnitNode.setAttribute("xmi:id", id);
-			operationUnitNode.setAttribute("xmi:name", name);
+			operationUnitNode.setAttribute("name", name);
 			if (!displayAttributes.equals("")) { //TODO attenzione
 				operationUnitNode.setAttribute("displayAttributes", displayAttributes);	
 			}
@@ -174,7 +173,7 @@ public class TranslateWebMLToXMI {
 		Element pageNode = outputDocument.createElement(PACKAGED_ELEMENT);
 			pageNode.setAttribute("xmi:type", "webml:Page");
 			pageNode.setAttribute("xmi:id", id);
-			pageNode.setAttribute("xmi:name", name);
+			pageNode.setAttribute("name", name);
 		parentNode.appendChild(pageNode);
 		return pageNode;		
 	}
@@ -184,7 +183,7 @@ public class TranslateWebMLToXMI {
 		Element contentUnitNode = outputDocument.createElement(PACKAGED_ELEMENT);
 			contentUnitNode.setAttribute("xmi:type", "webml:"+type);
 			contentUnitNode.setAttribute("xmi:id", id);
-			contentUnitNode.setAttribute("xmi:name", name);
+			contentUnitNode.setAttribute("name", name);
 			if (!displayAttributes.equals("")) { //TODO attenzione
 				contentUnitNode.setAttribute("displayAttributes", displayAttributes);	
 			}
@@ -200,7 +199,7 @@ public class TranslateWebMLToXMI {
 		Element areaNode = outputDocument.createElement(PACKAGED_ELEMENT);
 			areaNode.setAttribute("xmi:type", "webml:Page");
 			areaNode.setAttribute("xmi:id", id);
-			areaNode.setAttribute("xmi:name", name);
+			areaNode.setAttribute("name", name);
 		parentNode.appendChild(areaNode);
 		return areaNode;
 	}
@@ -210,7 +209,7 @@ public class TranslateWebMLToXMI {
 		Element linkNode = outputDocument.createElement(PACKAGED_ELEMENT);
 			linkNode.setAttribute("xmi:type", "webml:"+type);
 			linkNode.setAttribute("xmi:id", id);
-			linkNode.setAttribute("xmi:name", name);
+			linkNode.setAttribute("name", name);
 			linkNode.setAttribute("to", to); //TODO attenzione
 		parentNode.appendChild(linkNode);
 	}
@@ -431,7 +430,7 @@ public class TranslateWebMLToXMI {
 			outputWriter.write(writer.toString());
 			outputWriter.close();
 			
-			System.out.println("...DONE!");
+			System.out.println(webmlProject.getAttribute("name")+"...DONE!");
 		} catch (TransformerConfigurationException e) {
 			e.printStackTrace();
 		} catch (TransformerFactoryConfigurationError e) {
