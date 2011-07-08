@@ -994,4 +994,11 @@
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="it.polimi.mdir.crawler.webml"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>
