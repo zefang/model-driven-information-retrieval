@@ -57,7 +57,7 @@
 		        				<proc:pipelet class="it.polimi.mdir.graph.pipelet.CreateGraphPipelet" />
 								<proc:variables input="recordsD" />
 								<proc:configuration>
-									<rec:Val key="forceRewrite">true</rec:Val>
+									<rec:Val key="forceRewrite">false</rec:Val>
 								</proc:configuration>     
 		    				</proc:invokePipelet>
                 		</extensionActivity>
@@ -314,7 +314,7 @@ SOLR-ANALYZER-PIPELET
               <rec:Val key="coreName">test_core</rec:Val>
 			  <rec:Seq key="smilaFields">
 			    <rec:Val>projectId</rec:Val>
-				<rec:Val>Content</rec:Val>
+				<rec:Val>content</rec:Val>
 			  </rec:Seq>
 			  <rec:Seq key="solrAnalysisTypes">
 			    <rec:Val>projectId</rec:Val>

@@ -45,7 +45,7 @@
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
   </extensions>
   <extensions>
-    <extendedObject href="solraddpipeline_C.bpel#//@activity/@activities.1/@activities.0/@activity/@activities.3"/>
+    <extendedObject href="solraddpipeline_C.bpel#//@activity/@activities.1/@activities.0/@activity/@activities.4"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
   </extensions>
   <extensions>
@@ -62,6 +62,10 @@
   </extensions>
   <extensions>
     <extendedObject href="solraddpipeline_C.bpel#/"/>
-    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1306167195371"/>
+    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1309678066760"/>
+  </extensions>
+  <extensions>
+    <extendedObject href="solraddpipeline_C.bpel#//@activity/@activities.1/@activities.0/@activity/@activities.3"/>
+    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
   </extensions>
 </extensionmodel:ExtensionMap>
