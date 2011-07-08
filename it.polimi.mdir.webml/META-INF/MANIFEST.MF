@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Webml
+Bundle-SymbolicName: it.polimi.mdir.webml
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: it.polimi.mdir.xquery,
+ org.apache.xerces.dom;version="2.9.0"
