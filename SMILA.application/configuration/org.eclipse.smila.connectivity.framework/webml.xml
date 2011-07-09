@@ -29,7 +29,7 @@
     <Attribute Type="String" Name="projectId" KeyAttribute="true">
       <FileAttributes>projectId</FileAttributes>
     </Attribute>
-    <Attribute Type="String" Name="xmiContent" HashAttribute="true">
+    <Attribute Type="String" Name="xmiContent" HashAttribute="true" Attachment="true">
       <FileAttributes>xmiContent</FileAttributes>
     </Attribute>
   </Attributes>

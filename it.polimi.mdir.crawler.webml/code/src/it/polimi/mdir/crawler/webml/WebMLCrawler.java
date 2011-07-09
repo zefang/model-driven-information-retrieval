@@ -453,7 +453,7 @@ public class WebMLCrawler extends AbstractCrawler {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//System.out.println(xmiContent);
+		//System.out.println(xmiContent.substring(0,100));
       	return xmiContent;
       default:
         throw new RuntimeException("Unknown file attributes type " + attribute.getFileAttributes());
