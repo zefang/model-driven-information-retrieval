@@ -4,6 +4,12 @@
  * Contributors: Stefano Celentano, Lorenzo Furrer
  **********************************************************************************************************************/
 -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/***********************************************************************************************************************
+ * Contributors: Stefano Celentano, Lorenzo Furrer
+ **********************************************************************************************************************/
+-->
 <xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:redefine schemaLocation="../../org.eclipse.smila.connectivity.framework.schema/schemas/RootDataSourceConnectionConfigSchema.xsd">
     <xs:complexType name="Process">
@@ -57,10 +63,7 @@
 	  <xs:enumeration value="FileName"/>
       <xs:enumeration value="Path"/>
 	  <xs:enumeration value="projectId"/>
-	  <xs:enumeration value="projectName"/>
-      <xs:enumeration value="classNames"/>
-      <xs:enumeration value="classIds"/>   
-	  <xs:enumeration value="attributeNames"/>  
+	  <xs:enumeration value="xmiContent"/>
     </xs:restriction>
   </xs:simpleType>
 

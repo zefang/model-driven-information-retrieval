@@ -29,23 +29,14 @@
     <Attribute Type="String" Name="projectId" KeyAttribute="true">
       <FileAttributes>projectId</FileAttributes>
     </Attribute>
-	<Attribute Type="String" Name="projectName" HashAttribute="true">
-      <FileAttributes>projectName</FileAttributes>
-    </Attribute>
-    <Attribute Type="String" Name="classNames" HashAttribute="true">
-      <FileAttributes>classNames</FileAttributes>
-    </Attribute>
-    <Attribute Type="String" Name="classIds" HashAttribute="true">
-      <FileAttributes>classIds</FileAttributes>
-    </Attribute>
-    <Attribute Type="String" Name="attributeNames" HashAttribute="true">
-      <FileAttributes>attributeNames</FileAttributes>
+    <Attribute Type="String" Name="xmiContent" HashAttribute="true">
+      <FileAttributes>xmiContent</FileAttributes>
     </Attribute>
   </Attributes>
   <Process>
-    <BaseDir>c:\UML_models_044</BaseDir>
+    <BaseDir>c:\WebML_models_001</BaseDir>
     <Filter Recursive="true" CaseSensitive="false">
-      <Include Name="*.uml"/>                  
+      <Include Name="*.xmi"/>                  
     </Filter>
   </Process>
 </DataSourceConnectionConfig>

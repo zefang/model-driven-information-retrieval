@@ -3,6 +3,4 @@ declare namespace uml = "http://www.eclipse.org/uml2/2.1.0/UML";
 
 declare variable $document as xs:string external;
 
-for $x in doc($document)//packagedElement
-where $x/@xmi:type = "uml:Class"
-return data($x/@xmi:id)
+data(doc($document)/uml:Model/@xmi:id)
