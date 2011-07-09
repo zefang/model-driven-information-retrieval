@@ -31,10 +31,7 @@
                         <extensionActivity>
 		    				<proc:invokePipelet name="invokeSplitPipelet">
 		        				<proc:pipelet class="it.polimi.mdir.webml.pipelet.SplitPipelet" />
-		        				<proc:variables input="request" />   
-								<proc:configuration>
-									<rec:Val key="xQueryPath">C:/Users/Lox/workspaceSMILA/it.polimi.mdir.webml/xquery</rec:Val>
-								</proc:configuration>								
+		        				<proc:variables input="request" /> 
 		    				</proc:invokePipelet>
 						</extensionActivity>
 						
