@@ -35,7 +35,7 @@
   </Attributes>
   <Process>
     <BaseDir>c:\WebML_models_001</BaseDir>
-    <Filter Recursive="true" CaseSensitive="false">
+    <Filter Recursive="false" CaseSensitive="false">
       <Include Name="*.xmi"/>                  
     </Filter>
   </Process>

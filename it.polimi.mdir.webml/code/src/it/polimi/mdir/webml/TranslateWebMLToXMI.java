@@ -48,7 +48,7 @@ public class TranslateWebMLToXMI {
 		webmlProject = outputDocument.createElement("webml:Project");
 		
 		webmlProject.setAttribute("xmlns:xmi", "http://schema.omg.org/spec/XMI/2.1");
-		webmlProject.setAttribute("xmlns:webml", "");
+		webmlProject.setAttribute("xmlns:webml", "http://www.webml.org");
 		webmlProject.setAttribute("xmi:version", "2.1");
 			
 	}

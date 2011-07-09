@@ -12,8 +12,11 @@ import it.polimi.mdir.logger.Log;
 import it.polimi.mdir.logger.LogFactory;
 import it.polimi.mdir.xquery.XQueryWrapper;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
@@ -47,7 +50,7 @@ import org.eclipse.smila.datamodel.DataFactoryCreator;
 import org.eclipse.smila.utils.file.EncodingHelper;
 
 /**
- * The Class ModelCrawler.
+ * The Class WebMLCrawler.
  */
 public class WebMLCrawler extends AbstractCrawler {
 
@@ -159,7 +162,7 @@ public class WebMLCrawler extends AbstractCrawler {
    */
   public WebMLCrawler() {
     super();
-    _log.write("[DEBUG] Creating ModelCrawler instance");
+    _log.write("[DEBUG] Creating WebMLCrawler instance");
   }
 
   /**
@@ -170,7 +173,7 @@ public class WebMLCrawler extends AbstractCrawler {
    */
   @Override
   public void initialize(final DataSourceConnectionConfig config) throws CrawlerException, CrawlerCriticalException {
-    _log.write("[INFO] Initializing ModelCrawler...");
+    _log.write("[INFO] Initializing WebMLCrawler...");
     synchronized (_openedMonitor) {
       if (_opened) {
         throw new CrawlerCriticalException(
@@ -374,7 +377,7 @@ public class WebMLCrawler extends AbstractCrawler {
   public void close() throws CrawlerException {
     synchronized (_openedMonitor) {
       _opened = false;
-      _log.write("[INFO] Closing ModelCrawler...");
+      _log.write("[INFO] Closing WebMLCrawler...");
       _forceClosing = true;
       _isProducerRunning = false;
       _crawlThread = null;
@@ -421,7 +424,7 @@ public class WebMLCrawler extends AbstractCrawler {
 	
 	  XQueryWrapper xq;
 	  ArrayList<String> resultList = new ArrayList<String>();
-	  String resultListString = new String();
+	  //String resultListString = new String();
     switch (attribute.getFileAttributes()) {
       case FILE_NAME:
         return file.getName();
@@ -434,12 +437,23 @@ public class WebMLCrawler extends AbstractCrawler {
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         String id = resultList.get(0);
+        System.out.println(id);
     	return id;
       case XMI_CONTENT:
-    	xq = new XQueryWrapper(XQUERY_PATH.concat("/getXMIContent.xquery"));
-        xq.bindVariable("document", file.getAbsolutePath());
-        resultList = xq.executeQuery();
-        String xmiContent = resultList.get(0);
+    	String xmiContent = null;
+    	try {
+			BufferedReader in = new BufferedReader(new FileReader(file));
+			String line;
+			while ((line = in.readLine()) != null)   {
+				xmiContent += line+"\n";
+			}
+			in.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//System.out.println(xmiContent);
       	return xmiContent;
       default:
         throw new RuntimeException("Unknown file attributes type " + attribute.getFileAttributes());
