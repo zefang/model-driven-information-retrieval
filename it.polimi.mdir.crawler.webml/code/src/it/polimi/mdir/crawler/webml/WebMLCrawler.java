@@ -437,10 +437,10 @@ public class WebMLCrawler extends AbstractCrawler {
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         String id = resultList.get(0);
-        System.out.println(id);
+        //System.out.println(id);
     	return id;
       case XMI_CONTENT:
-    	String xmiContent = null;
+    	String xmiContent = "";
     	try {
 			BufferedReader in = new BufferedReader(new FileReader(file));
 			String line;
