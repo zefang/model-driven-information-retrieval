@@ -19,10 +19,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;enumeration value="FileName"/>
  *     &lt;enumeration value="Path"/>
  *     &lt;enumeration value="projectId"/>
- *     &lt;enumeration value="projectName"/>
- *     &lt;enumeration value="classNames"/>
- *     &lt;enumeration value="classIds"/>
- *     &lt;enumeration value="attributeNames"/>
+ *     &lt;enumeration value="xmiContent"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
@@ -38,14 +35,8 @@ public enum FileAttributesType {
     PATH("Path"),
     @XmlEnumValue("projectId")
     PROJECT_ID("projectId"),
-    @XmlEnumValue("projectName")
-    PROJECT_NAME("projectName"),
-    @XmlEnumValue("classNames")
-    CLASS_NAMES("classNames"),
-    @XmlEnumValue("classIds")
-    CLASS_IDS("classIds"),
-    @XmlEnumValue("attributeNames")
-    ATTRIBUTE_NAMES("attributeNames");
+    @XmlEnumValue("xmiContent")
+    XMI_CONTENT("xmiContent");
     private final String value;
 
     FileAttributesType(String v) {

@@ -427,44 +427,20 @@ public class WebMLCrawler extends AbstractCrawler {
         return file.getName();
       case PATH:
         return file.getAbsolutePath();
+        
+        /*The project id is also the project name*/
       case PROJECT_ID:
     	xq = new XQueryWrapper(XQUERY_PATH.concat("/getProjectId.xquery"));
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         String id = resultList.get(0);
     	return id;
-
-    	/*We use the file name minus the .uml extension as the project name*/
-      case PROJECT_NAME:
-    	  String projectName = file.getName();
-    	  return projectName.substring(0, projectName.length()-4);
-      case CLASS_NAMES:
-        xq = new XQueryWrapper(XQUERY_PATH.concat("/getClassNames.xquery"));
+      case XMI_CONTENT:
+    	xq = new XQueryWrapper(XQUERY_PATH.concat("/getXMIContent.xquery"));
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
-        resultListString = arrayListToString(resultList);
-        return resultListString; 
-      case CLASS_IDS:
-      	xq = new XQueryWrapper(XQUERY_PATH.concat("/getClassIds.xquery"));
-        xq.bindVariable("document", file.getAbsolutePath());
-        resultList = xq.executeQuery();
-        resultListString = arrayListToString(resultList);
-        return resultListString;
-        
-        /* Note: Attribute names are stored with:
-         * - the id of their class of belonging
-         * - the conceptType (attribute, composition, association)
-    	 * The format is "'classIdVALUE'$'attributeNameVALUE'+'conceptType:VALUE'"
-    	 * 
-    	 * In case of compositions and associations we retrieve attributes like this:
-    	 * 'classIdVALUE'$'attributeNameVALUE'+'conceptType:relTypeVALUE'+'lowerValue'-'upperValue'
-    	 */
-      case ATTRIBUTE_NAMES:
-        xq = new XQueryWrapper(XQUERY_PATH.concat("/getAttributeNames.xquery"));
-        xq.bindVariable("document", file.getAbsolutePath());
-        resultList = xq.executeQuery();
-        resultListString = arrayListToString(resultList);
-        return resultListString;           
+        String xmiContent = resultList.get(0);
+      	return xmiContent;
       default:
         throw new RuntimeException("Unknown file attributes type " + attribute.getFileAttributes());
     }
