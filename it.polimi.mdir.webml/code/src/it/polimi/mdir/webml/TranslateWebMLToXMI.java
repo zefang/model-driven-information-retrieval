@@ -363,10 +363,13 @@ public class TranslateWebMLToXMI {
 		
 		Element areaNode = addArea(id, name, parentNode);
 		
-		//get the pages in the root of this SiteView
+		//get the OperationUnits in this Area
+		processOperationUnits(area, areaNode);
+		
+		//get the pages in the root of this Area
 		processPages(rootDirectory, areaNode);
 		
-		//get the areas in the root of this SiteView
+		//get the areas in the root of this Area
 		processAreas(rootDirectory, areaNode);
 	}
 	
