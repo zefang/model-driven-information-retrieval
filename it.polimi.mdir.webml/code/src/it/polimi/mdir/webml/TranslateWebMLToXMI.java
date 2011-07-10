@@ -20,7 +20,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.xerces.dom.DOMImplementationImpl;
-import org.apache.xerces.dom.ParentNode;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -35,22 +34,11 @@ public class TranslateWebMLToXMI {
 	private static String WEBML_PATH = "";
 	private static String OUTPUT_PATH = "";
 	private static int numProjects = 0;
-	
 	private static Document outputDocument = null;
-	private static Element webmlProject = null;
 	
 	private static void initialization() throws IOException {
 		WEBML_PATH = ConfigLoader.WEBML_PATH;
 		OUTPUT_PATH = ConfigLoader.OUTPUT_PATH;
-		
-		DOMImplementation impl = DOMImplementationImpl.getDOMImplementation();
-		outputDocument = impl.createDocument(null, "webml", null);
-		webmlProject = outputDocument.createElement("webml:Project");
-		
-		webmlProject.setAttribute("xmlns:xmi", "http://schema.omg.org/spec/XMI/2.1");
-		webmlProject.setAttribute("xmlns:webml", "http://www.webml.org");
-		webmlProject.setAttribute("xmi:version", "2.1");
-			
 	}
 	
 	public static void main(String[] args) throws IOException {
@@ -62,21 +50,31 @@ public class TranslateWebMLToXMI {
 		numProjects = projects.length;
 		
 		for (int i = 0; i < numProjects; i++) {
-			processProject(projects[i]);
+			if (projects[i].isDirectory()) {
+				DOMImplementation impl = DOMImplementationImpl.getDOMImplementation();
+				outputDocument = impl.createDocument(null, "webml", null);
+				Element webmlProject = outputDocument.createElement("webml:Project");
+				
+				webmlProject.setAttribute("xmlns:xmi", "http://schema.omg.org/spec/XMI/2.1");
+				webmlProject.setAttribute("xmlns:webml", "http://www.webml.org");
+				webmlProject.setAttribute("xmi:version", "2.1");
+				
+				processProject(projects[i], webmlProject);
+			}
 		}
 		
 	}
 	
-	private static void processProject(File project) {
+	private static void processProject(File project, Element projectNode) {
 		String projectName = project.getName();
 		
-		webmlProject.setAttribute("xmi:id", projectName);
-		webmlProject.setAttribute("name", projectName);
+		projectNode.setAttribute("xmi:id", projectName);
+		projectNode.setAttribute("name", projectName);
 		
-		processDataModel(projectName, webmlProject);
-		processWebModel(projectName, webmlProject);
+		processDataModel(projectName, projectNode);
+		processWebModel(projectName, projectNode);
 		
-		writeToFile(webmlProject);
+		writeToFile(projectNode);
 	}
 	
 	private static void processDataModel(String projectName, Element parentNode) {
@@ -433,7 +431,7 @@ public class TranslateWebMLToXMI {
 			outputWriter.write(writer.toString());
 			outputWriter.close();
 			
-			System.out.println(webmlProject.getAttribute("name")+"...DONE!");
+			System.out.println(root.getAttribute("name")+"...DONE!");
 		} catch (TransformerConfigurationException e) {
 			e.printStackTrace();
 		} catch (TransformerFactoryConfigurationError e) {
