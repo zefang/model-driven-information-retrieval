@@ -13,6 +13,7 @@ Import-Package: it.polimi.mdir.logger,
  org.eclipse.smila.processing;version="0.9.0"
 SMILA-Pipelets: it.polimi.mdir.webml.pipelet.SplitPipelet,
  it.polimi.mdir.webml.pipelet.DereferencePipelet,
- it.polimi.mdir.webml.pipelet.AnalyzerSubstitutionPipelet
+ it.polimi.mdir.webml.pipelet.AnalyzerSubstitutionPipelet,
+ it.polimi.mdir.webml.pipelet.PayloadAdderPipelet
 Bundle-ClassPath: lib/jdom.jar,
  .

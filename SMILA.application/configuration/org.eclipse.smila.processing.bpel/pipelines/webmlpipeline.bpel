@@ -51,6 +51,15 @@
 						</extensionActivity>
 						 -->
 						 
+						 <!-- 
+						<extensionActivity>
+		    				<proc:invokePipelet name="invokePayloadAdderPipelet">
+		        				<proc:pipelet class="it.polimi.mdir.webml.pipelet.PayloadAdderPipelet" />
+		        				<proc:variables input="request" /> 
+		    				</proc:invokePipelet>
+						</extensionActivity>
+						 -->
+						 
 					</bpel:sequence>
             </bpel:scope>
         </bpel:flow>
