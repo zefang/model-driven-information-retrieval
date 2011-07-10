@@ -10,15 +10,11 @@ import org.eclipse.smila.processing.ProcessingException;
 
 
 /**
- * This pipelet will navigate the DOM tree of the records in input (Areas) extracting
- * and substituting the content of the "name", "displayAttributes" and "entities" attributes
- * with their analyzed version.
- * The original content will be kept inside the field following this format:
- * "orginal content"$"analyzed content"
- * without quotes.
+ * This pipelet will add the payloads to the analyzed content to be correctly indexed.
+ * Used only in experiment C (for webml).
  *
  */
-public class AnalyzerSubstitutionPipelet implements Pipelet {
+public class PayloadAdderPipelet implements Pipelet {
 
 	private final Log _log = LogFactory.getLog();
 	
@@ -33,20 +29,19 @@ public class AnalyzerSubstitutionPipelet implements Pipelet {
 	public String[] process(Blackboard blackboard, String[] recordIds)
 			throws ProcessingException {
 		
-		System.out.println("Start Analyzing: " + ++count);
-		System.out.println("Analyzer -> recordids.length: " + recordIds.length);
+		System.out.println("Start Payload Adding: " + ++count);
+		System.out.println("PayloadAdder -> recordids.length: " + recordIds.length);
 		
 		for (final String id : recordIds) {
 			String projectId = "";
 			try {
 				projectId = blackboard.getRecord(id).getMetadata().getStringValue("projectId");
-				System.out.println("Analyzer -> projectId: " + projectId);
+				System.out.println("PayloadAdder -> projectId: " + projectId);
 				
-				//TODO Navigate the DOM tree
-					//TODO extract attributes
-					//TODO send them to solr
-					//TODO fetch the response
-					//TODO reinsert the new value keeping the original content
+				//TODO navigate tree
+					//TODO get analyzed content
+					//TODO add payloads
+				
 				
 			} catch (Exception e) {
 				_log.write(e.toString());

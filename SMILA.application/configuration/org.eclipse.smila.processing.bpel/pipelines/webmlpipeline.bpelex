@@ -14,7 +14,7 @@
   </extensions>
   <extensions>
     <extendedObject href="webmlpipeline.bpel#/"/>
-    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1310310551470"/>
+    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1310313624836"/>
   </extensions>
   <extensions>
     <extendedObject href="webmlpipeline.bpel#//@activity/@activities.1/@activities.0/@activity/@activities.0"/>
@@ -34,6 +34,14 @@
   </extensions>
   <extensions>
     <extendedObject href="webmlpipeline.bpel#//@activity/@activities.1/@activities.0/@activity/@activities.1"/>
+    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
+  </extensions>
+  <extensions>
+    <extendedObject href="webmlpipeline.bpel#//@activity/@activities.2"/>
+    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
+  </extensions>
+  <extensions>
+    <extendedObject href="webmlpipeline.bpel#//@activity/@activities.3"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
   </extensions>
 </extensionmodel:ExtensionMap>
