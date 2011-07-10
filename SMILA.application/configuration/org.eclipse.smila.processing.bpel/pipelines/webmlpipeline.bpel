@@ -29,12 +29,20 @@
                     <bpel:sequence>
                         
                         <extensionActivity>
+		    				<proc:invokePipelet name="invokeDereferencePipelet">
+		        				<proc:pipelet class="it.polimi.mdir.webml.pipelet.DereferencePipelet" />
+		        				<proc:variables input="request" /> 
+		    				</proc:invokePipelet>
+						</extensionActivity>
+                        
+                        <!-- 
+                        <extensionActivity>
 		    				<proc:invokePipelet name="invokeSplitPipelet">
 		        				<proc:pipelet class="it.polimi.mdir.webml.pipelet.SplitPipelet" />
 		        				<proc:variables input="request" /> 
 		    				</proc:invokePipelet>
 						</extensionActivity>
-						
+						 -->
 					</bpel:sequence>
             </bpel:scope>
         </bpel:flow>
