@@ -139,7 +139,7 @@ public class SplitPipelet implements Pipelet {
 						
 						XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
 					    areaContent = outputter.outputString(new Document(root));
-					    System.out.println("areaContent: \n" + areaContent);
+					    //System.out.println("areaContent: \n" + areaContent);
 					    
 					    //Put areaContent in the xmiContent attachment field
 					    //rec.getMetadata().put("xmiContent", areaContent);
