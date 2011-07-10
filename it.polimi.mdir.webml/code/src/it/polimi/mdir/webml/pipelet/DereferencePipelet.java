@@ -24,7 +24,9 @@ import org.jdom.output.XMLOutputter;
 /**
  * This pipelet performs the dereferentiation of the ids contained in 
  * the "entity" and "displayAttributes" attributes of the OperationUnits and 
- * ContentUnits, (as well as the "to" attribute in the Links ???).  //TODO "to" attribute of Links
+ * ContentUnits, (as well as the "to" attribute in the Links ???).
+ *   
+ * //TODO "to" attribute of Links vacant for now, because there are some links to the layout?
  */
 public class DereferencePipelet implements Pipelet {
 
@@ -73,11 +75,14 @@ public class DereferencePipelet implements Pipelet {
 				
 				//get all the other stuff and put them in the other map
 				Element webModelElement = rootChildren.get(1);
+				
+				/*
 				Iterator<Element> webModelElements = webModelElement.getDescendants(new ElementFilter("packagedElement"));
 				while (webModelElements.hasNext()) {
 					Element element = webModelElements.next();
 					map2.put(element.getAttributeValue("id", XMI_NAMESPACE), element.getAttributeValue("name"));
 				}
+				*/
 				
 				//Navigate the dom and substitute the references with the names in the map
 				Iterator<Element> webModelElements2 = webModelElement.getDescendants(new ElementFilter("packagedElement"));
@@ -98,14 +103,18 @@ public class DereferencePipelet implements Pipelet {
 							displayAttributes += displayAttr[i] + " ";
 						}
 						element.setAttribute("displayAttributes", displayAttributes.trim());		
-					} else {
+					} 
+					
+					/*
+					else {
+					
 						//substitute "to" in Links
 						if (element.getAttributeValue("type",XMI_NAMESPACE).contains("Link")) {
 							System.out.println(element.getAttributeValue("to"));
 							element.setAttribute("to", map2.get(element.getAttributeValue("to")));
 						}
 					}
-					
+					*/
 				}
 				
 				XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
