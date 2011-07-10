@@ -4,6 +4,7 @@ import it.polimi.mdir.logger.Log;
 import it.polimi.mdir.logger.LogFactory;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -67,6 +68,8 @@ public class SplitPipelet implements Pipelet {
 				
 				//construct content field
 				final InputStream xmiContentStream = blackboard.getAttachmentAsStream(id, "xmiContent");
+				//final String xmiContentStream = blackboard.getMetadata(id).getStringValue("xmiContent");
+				//InputStream is = new ByteArrayInputStream(xmiContentStream.getBytes("UTF-8"));
 				SAXBuilder builder = new SAXBuilder();
 				Document doc = builder.build(xmiContentStream);
 				Iterator<org.jdom.Element> packedElements = doc.getDescendants(new ElementFilter(PACKAGED_ELEMENT));
@@ -74,8 +77,9 @@ public class SplitPipelet implements Pipelet {
 					Element areaElement = packedElements.next();
 					if (areaElement.getAttributeValue("type", XMI_NAMESPACE).equals("webml:Area")) {
 						String areaId = areaElement.getAttributeValue("id", XMI_NAMESPACE); //get Area id
-						Record rec = blackboard.create(projectId + "$" + areaId);
-						newRecordsIds.add(areaId);
+						String newIdRec = projectId + "$" + areaId;
+						Record rec = blackboard.create(newIdRec);
+						newRecordsIds.add(newIdRec);
 						
 						String areaContent = "";
 						//Save parents' nodes in a stack plus the area node itself
@@ -139,6 +143,7 @@ public class SplitPipelet implements Pipelet {
 					    
 					    
 					    //Put areaContent in the xmiContent attachment field
+					    //rec.getMetadata().put("xmiContent", areaContent);
 						rec.setAttachment("xmiContent", areaContent.getBytes());
 						blackboard.setRecord(rec);
 					}
@@ -147,10 +152,12 @@ public class SplitPipelet implements Pipelet {
 				blackboard.commit();
 				
 			} catch (Exception e){
+				_log.write(e.toString());
 				e.printStackTrace();
 			}
 		}
 		nNewRecords = newRecordsIds.size();
+		//System.out.println("Total new records: "+nNewRecords);
 		final String[] newRecordsIdsArray = new String[nNewRecords];
 		newRecordsIds.toArray(newRecordsIdsArray);
 		return newRecordsIdsArray;
