@@ -14,7 +14,7 @@
   </extensions>
   <extensions>
     <extendedObject href="webmlpipeline.bpel#/"/>
-    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1310328827294"/>
+    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1310329114130"/>
   </extensions>
   <extensions>
     <extendedObject href="webmlpipeline.bpel#//@activity/@activities.1/@activities.0/@activity/@activities.0"/>

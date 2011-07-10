@@ -317,7 +317,7 @@
 
    <field name="areaId" type="string" indexed="true" stored="true" required="true" /> 
    <field name="areaName" type="content_B" indexed="true" stored="true" required="true" /> 
-   <field name="content" type="content_B" indexed="true" stored="true"    
+   <field name="content_B" type="content_B" indexed="true" stored="true"    
 			multiValued="true" termVectors="true" termOffsets="true" termPosition="true"/>   
  </fields>
 
@@ -327,7 +327,7 @@
  <uniqueKey>areaId</uniqueKey>
 
  <!-- field for the QueryParser to use when an explicit fieldname is absent -->
- <defaultSearchField>content</defaultSearchField>
+ <defaultSearchField>content_B</defaultSearchField>
 
  <!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
  <solrQueryParser defaultOperator="OR"/>
