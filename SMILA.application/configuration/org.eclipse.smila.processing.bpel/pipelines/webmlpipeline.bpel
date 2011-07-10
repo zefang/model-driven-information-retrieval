@@ -42,14 +42,15 @@
 		    				</proc:invokePipelet>
 						</extensionActivity>
 						
-						<!-- 
 						<extensionActivity>
 		    				<proc:invokePipelet name="invokeAnalyzerSubstitutionPipelet">
 		        				<proc:pipelet class="it.polimi.mdir.webml.pipelet.AnalyzerSubstitutionPipelet" />
 		        				<proc:variables input="request" /> 
+		        				<proc:configuration>
+			  						<rec:Val key="fieldType">content_B</rec:Val>
+			  					</proc:configuration>
 		    				</proc:invokePipelet>
 						</extensionActivity>
-						 -->
 						 
 						 <!-- 
 						<extensionActivity>
