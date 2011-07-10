@@ -39,8 +39,8 @@ public class SplitPipelet implements Pipelet {
 	private static int count = 0; 
 	private static final String CONCEPT_TYPE = "Area";
 	
-	final static Namespace XMI_NAMESPACE = Namespace.getNamespace("xmi", "http://schema.omg.org/spec/XMI/2.1");
-	final static Namespace WEBML_NAMESPACE = Namespace.getNamespace("webml", "http://www.webml.org");
+	private final static Namespace XMI_NAMESPACE = Namespace.getNamespace("xmi", "http://schema.omg.org/spec/XMI/2.1");
+	private final static Namespace WEBML_NAMESPACE = Namespace.getNamespace("webml", "http://www.webml.org");
 	
 	private static final String PACKAGED_ELEMENT = "packagedElement";
 	
@@ -72,7 +72,7 @@ public class SplitPipelet implements Pipelet {
 				//InputStream is = new ByteArrayInputStream(xmiContentStream.getBytes("UTF-8"));
 				SAXBuilder builder = new SAXBuilder();
 				Document doc = builder.build(xmiContentStream);
-				Iterator<org.jdom.Element> packedElements = doc.getDescendants(new ElementFilter(PACKAGED_ELEMENT));
+				Iterator<Element> packedElements = doc.getDescendants(new ElementFilter(PACKAGED_ELEMENT));
 				while (packedElements.hasNext()) {
 					Element areaElement = packedElements.next();
 					if (areaElement.getAttributeValue("type", XMI_NAMESPACE).equals("webml:Area")) {
@@ -140,7 +140,6 @@ public class SplitPipelet implements Pipelet {
 						XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
 					    areaContent = outputter.outputString(new Document(root));
 					    System.out.println("areaContent: \n" + areaContent);
-					    
 					    
 					    //Put areaContent in the xmiContent attachment field
 					    //rec.getMetadata().put("xmiContent", areaContent);
