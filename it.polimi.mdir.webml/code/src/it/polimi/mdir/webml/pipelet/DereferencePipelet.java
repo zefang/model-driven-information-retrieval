@@ -119,7 +119,7 @@ public class DereferencePipelet implements Pipelet {
 				
 				XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
 			    String newXmiContent = outputter.outputString(doc);
-			    System.out.println("areaContent: \n" + newXmiContent);
+			    //System.out.println("areaContent: \n" + newXmiContent);
 				
 				blackboard.getRecord(id).setAttachment("xmiContent", newXmiContent.getBytes());
 				
