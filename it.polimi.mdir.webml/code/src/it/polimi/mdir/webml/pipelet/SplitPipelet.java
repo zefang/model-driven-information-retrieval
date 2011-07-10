@@ -7,10 +7,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Stack;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -28,6 +30,12 @@ import org.eclipse.smila.datamodel.AnyMap;
 import org.eclipse.smila.datamodel.Record;
 import org.eclipse.smila.processing.Pipelet;
 import org.eclipse.smila.processing.ProcessingException;
+import org.jdom.Attribute;
+import org.jdom.Namespace;
+import org.jdom.filter.ElementFilter;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -71,106 +79,100 @@ public class SplitPipelet implements Pipelet {
 				System.out.println("Split -> projectId: " + projectId);
 				
 				//construct content field
-				final String xmiContent = convertStreamToString(blackboard.getAttachmentAsStream(id, "xmiContent"));
+				//final String xmiContent = convertStreamToString(blackboard.getAttachmentAsStream(id, "xmiContent"));
 				//final String xmiContent = blackboard.getRecord(id).getMetadata().getStringValue("xmiContent");
 				//System.out.println(xmiContent.substring(0,100));
-				Document doc = generateNewDocInstance(xmiContent);
-				NodeList packedElements = doc.getElementsByTagName("packagedElement");
-				for (int i = 0; i < packedElements.getLength(); i++) {
-					if (packedElements.item(i).getNodeType() == Node.ELEMENT_NODE) {
-						Element el = (Element) packedElements.item(i); 
-						if (el.getAttribute("xmi:type").equals("webml:Area")) {
-							String areaId = el.getAttribute("xmi:id"); //get Area id
-							Record rec = blackboard.create(projectId + "#" + areaId);
-							newRecordsIds.add(areaId);
-							
-							String areaContent = "";
-							DOMImplementation impl = DOMImplementationImpl.getDOMImplementation();
-							Document outputDocument = impl.createDocument(null, "webml", null);
-							//Save parents' nodes in a stack plus the area node itself
-							Stack<Header> parents = new Stack<Header>();
-							parents.push(new Header(el.getAttribute("xmi:id"), el.getAttribute("name"), el.getAttribute("xmi:type")));
-							Node parent = el.getParentNode(); 
-							while (parent != null) {
-								if (parent.getNodeType() == Node.ELEMENT_NODE) {
-									Element parentElement = (Element) parent;
-									parents.push(new Header(parentElement.getAttribute("xmi:id"), parentElement.getAttribute("name"), parentElement.getAttribute("xmi:type")));
-								}
-								parent = parent.getParentNode();
-							}
-							
-							
-							//Save all the internal nodes (OperationUnits and Pages) as they are,
-							//but strips subAreas of their content 
-							ArrayList<Node> internalNodes = new ArrayList<Node>();
-							NodeList childs = el.getChildNodes();
-							for (int j = 0; i < childs.getLength(); j++) {
-								if (childs.item(j).getNodeType() == Node.ELEMENT_NODE) {
-									Element elChild = (Element) childs.item(j);
-									if (elChild.getAttribute("xmi:type").equals("webml:Area")) {
-										//It's an Area
-										Element toAdd = outputDocument.createElement("packagedElement");
-											toAdd.setAttribute("xmi:id", elChild.getAttribute("xmi:id"));
-											toAdd.setAttribute("name", elChild.getAttribute("name"));
-											toAdd.setAttribute("xmi:type", elChild.getAttribute("xmi:type")); 
-										internalNodes.add(toAdd);
-									} else {
-										//it's an OperationUnit or a Page
-										internalNodes.add(childs.item(j));
-									}
-								}
-							}
-							
-							//Put everything in the areaContent, then reverse in xmiContent field
-							Element root = outputDocument.createElement("webml:Project");
-								Header r = parents.pop();
-								root.setAttribute("xmlns:xmi", "http://schema.omg.org/spec/XMI/2.1");
-								root.setAttribute("xmlns:webml", "http://www.webml.org");
-								root.setAttribute("xmi:version", "2.1");
-								root.setAttribute("xmi:id", r.getId());
-								root.setAttribute("name", r.getName());
-								root.setAttribute("xmi:type", r.getType());
-							
-							//Put the parents
-							Node justAdded = root;
-							while (parents.size() > 0) {
-								Element toAdd = outputDocument.createElement("packagedElement");
-									Header ta = parents.pop();
-									toAdd.setAttribute("xmi:id", ta.getId());
-									toAdd.setAttribute("name", ta.getName());
-									toAdd.setAttribute("xmi:type", ta.getType());
-								justAdded = justAdded.appendChild(toAdd);
-							}
-							//At the end justAdded is the original Area
-							
-							//Put the other internalNodes (OperationUnits, Pages and Stripped Areas)
-							Iterator<Node> it = internalNodes.iterator();
-							while (it.hasNext()) {
-								justAdded.appendChild(it.next());
-							}
-							
-							TransformerFactory transformerFactory = TransformerFactory.newInstance();
-							transformerFactory.setAttribute("indent-number", 4);
-							Transformer transformer = transformerFactory.newTransformer();
-							transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-							
-							StringWriter writer = new StringWriter();
-							StreamResult result = new StreamResult(writer);
-							DOMSource source = new DOMSource(root);
-							transformer.transform(source, result);
-							
-							StringWriter sw = (StringWriter) result.getWriter();
-							StringBuffer sb = sw.getBuffer();
-							areaContent = sb.toString(); 
-							
-							System.out.println(areaContent);
-							//rec.getMetadata().put("xmiContent", areaContent);
-							rec.setAttachment("xmiContent", areaContent.getBytes());
-							blackboard.setRecord(rec);
+				Namespace XMI_NAMESPACE = Namespace.getNamespace("xmi", "http://schema.omg.org/spec/XMI/2.1");
+				Namespace WEBML_NAMESPACE = Namespace.getNamespace("webml", "http://www.webml.org");
+				SAXBuilder builder = new SAXBuilder();
+				org.jdom.Document doc = builder.build(blackboard.getAttachmentAsStream(id, "xmiContent"));
+				Iterator<org.jdom.Element> packedElements = doc.getDescendants(new ElementFilter("packagedElement"));
+				while (packedElements.hasNext()) {
+					org.jdom.Element areaElement = packedElements.next();
+					if (areaElement.getAttributeValue("type", XMI_NAMESPACE).equals("webml:Area")) {
+						String areaId = areaElement.getAttributeValue("id", XMI_NAMESPACE); //get Area id
+						Record rec = blackboard.create(projectId + "#" + areaId);
+						newRecordsIds.add(areaId);
+						
+						String areaContent = "";
+						//Save parents' nodes in a stack plus the area node itself
+						Stack<Header> parents = new Stack<Header>();
+						parents.push(new Header(areaElement.getAttributeValue("id",XMI_NAMESPACE), areaElement.getAttributeValue("name"), areaElement.getAttributeValue("type", XMI_NAMESPACE)));
+						org.jdom.Element parent = areaElement.getParentElement(); 
+						while (parent != null) {
+							parents.push(new Header(parent.getAttributeValue("id",XMI_NAMESPACE), parent.getAttributeValue("name"), parent.getAttributeValue("type",XMI_NAMESPACE)));
+							parent = parent.getParentElement();
 						}
+						
+						
+						//Save all the internal nodes (OperationUnits and Pages) as they are,
+						//but strips subAreas of their content 
+						ArrayList<org.jdom.Element> internalNodes = new ArrayList<org.jdom.Element>();
+						List<org.jdom.Element> childs = areaElement.getChildren();
+						Iterator<org.jdom.Element> it = childs.iterator();
+						while (it.hasNext()) {
+							org.jdom.Element elChild = it.next();
+							if (elChild.getAttributeValue("type", XMI_NAMESPACE).equals("webml:Area")) {
+								//It's an Area
+								org.jdom.Element toAdd = new org.jdom.Element("packagedElement");
+									toAdd.setAttribute("id", elChild.getAttributeValue("id",XMI_NAMESPACE), XMI_NAMESPACE);
+									toAdd.setAttribute("name", elChild.getAttributeValue("name"));
+									toAdd.setAttribute("type", elChild.getAttributeValue("type",XMI_NAMESPACE), XMI_NAMESPACE); 
+								internalNodes.add(toAdd);
+							} else {
+								//it's an OperationUnit or a Page
+								internalNodes.add((org.jdom.Element) elChild.clone());
+							}
+						
+						}
+						
+						//Put everything in the areaContent, then reverse in xmiContent field
+						org.jdom.Element root = new org.jdom.Element("Project", WEBML_NAMESPACE);
+							Header r = parents.pop();
+							//root.setAttribute("xmlns:xmi", "http://schema.omg.org/spec/XMI/2.1");
+							//root.setAttribute("xmlns:webml", "http://www.webml.org");
+							root.setNamespace(XMI_NAMESPACE);
+							root.setNamespace(WEBML_NAMESPACE);
+							root.setAttribute("version", "2.1", XMI_NAMESPACE);
+							root.setAttribute("id", r.getId(), XMI_NAMESPACE);
+							root.setAttribute("name", r.getName());
+						
+						//Put the parents
+						org.jdom.Element justAdded = root;
+						while (parents.size() > 0) {
+							org.jdom.Element toAdd = new org.jdom.Element("packagedElement");
+								Header ta = parents.pop();
+								toAdd.setAttribute("id", ta.getId(),XMI_NAMESPACE);
+								toAdd.setAttribute("name", ta.getName());
+								toAdd.setAttribute("type", ta.getType(),XMI_NAMESPACE);
+							justAdded.addContent(toAdd);
+							justAdded = toAdd;
+						}
+						//At the end justAdded is the original Area
+						
+						//Put the other internalNodes (OperationUnits, Pages and Stripped Areas)
+						Iterator<org.jdom.Element> itr = internalNodes.iterator();
+						while (itr.hasNext()) {
+							justAdded.addContent(itr.next());
+						}
+						
+						TransformerFactory transformerFactory = TransformerFactory.newInstance();
+						transformerFactory.setAttribute("indent-number", 4);
+						Transformer transformer = transformerFactory.newTransformer();
+						transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+						
+						
+						XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
+					    areaContent = outputter.outputString(new org.jdom.Document(root));
+					    System.out.println("areaContent: \n" + areaContent);
+					    
+					    
+						//rec.getMetadata().put("xmiContent", areaContent);
+						rec.setAttachment("xmiContent", areaContent.getBytes());
+						blackboard.setRecord(rec);
 					}
 				}
-				
+				System.out.println("finished");
 				//blackboard.commit();
 				
 			} catch (Exception e){
