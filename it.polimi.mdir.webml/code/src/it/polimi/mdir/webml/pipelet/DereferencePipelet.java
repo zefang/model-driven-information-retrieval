@@ -1,5 +1,8 @@
 package it.polimi.mdir.webml.pipelet;
 
+import it.polimi.mdir.logger.Log;
+import it.polimi.mdir.logger.LogFactory;
+
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -26,9 +29,12 @@ import org.jdom.output.XMLOutputter;
 public class DereferencePipelet implements Pipelet {
 
 	private HashMap<String, String> map = new HashMap<String, String>();
+	private HashMap<String, String> map2 = new HashMap<String, String>();
 	private final static Namespace XMI_NAMESPACE = Namespace.getNamespace("xmi", "http://schema.omg.org/spec/XMI/2.1");
 	
 	private static int count = 0;
+	
+	private final Log _log = LogFactory.getLog();
 	
 	@Override
 	public void configure(AnyMap configuration) throws ProcessingException {
@@ -46,7 +52,7 @@ public class DereferencePipelet implements Pipelet {
 			String projectId = "";
 			try {
 				projectId = blackboard.getMetadata(id).getStringValue(projectId);
-				System.out.println("Split -> projectId: " + projectId);
+				System.out.println("Dereference -> projectId: " + projectId);
 				
 				final InputStream xmiContentStream = blackboard.getAttachmentAsStream(id, "xmiContent");
 				SAXBuilder builder = new SAXBuilder();
@@ -65,14 +71,23 @@ public class DereferencePipelet implements Pipelet {
 					}
 				}
 				
-				//Navigate the dom and substitute the references with the names in the map
+				//get all the other stuff and put them in the other map
 				Element webModelElement = rootChildren.get(1);
 				Iterator<Element> webModelElements = webModelElement.getDescendants(new ElementFilter("packagedElement"));
 				while (webModelElements.hasNext()) {
 					Element element = webModelElements.next();
+					map2.put(element.getAttributeValue("id", XMI_NAMESPACE), element.getAttributeValue("name"));
+				}
+				
+				//Navigate the dom and substitute the references with the names in the map
+				Iterator<Element> webModelElements2 = webModelElement.getDescendants(new ElementFilter("packagedElement"));
+				while (webModelElements2.hasNext()) {
+					Element element = webModelElements2.next();
+
 					if (element.getAttributeValue("displayAttributes") != null &&
 							element.getAttributeValue("entity") != null) {
-								
+
+						//Substitute display attributes and entities
 						element.setAttribute("entity", map.get(element.getAttributeValue("entity")));
 						
 						String displayAttributes = element.getAttributeValue("displayAttributes") ;
@@ -83,7 +98,14 @@ public class DereferencePipelet implements Pipelet {
 							displayAttributes += displayAttr[i] + " ";
 						}
 						element.setAttribute("displayAttributes", displayAttributes.trim());		
+					} else {
+						//substitute "to" in Links
+						if (element.getAttributeValue("type",XMI_NAMESPACE).contains("Link")) {
+							System.out.println(element.getAttributeValue("to"));
+							element.setAttribute("to", map2.get(element.getAttributeValue("to")));
+						}
 					}
+					
 				}
 				
 				XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
@@ -93,6 +115,7 @@ public class DereferencePipelet implements Pipelet {
 				blackboard.getRecord(id).setAttachment("xmiContent", newXmiContent.getBytes());
 				
 			} catch (Exception e) {
+				_log.write(e.toString());
 				e.printStackTrace();
 			}
 		}

@@ -41,6 +41,8 @@ public class TranslateWebMLToXMI {
 		OUTPUT_PATH = ConfigLoader.OUTPUT_PATH;
 	}
 	
+	//TODO currently missing Transactions
+	
 	public static void main(String[] args) throws IOException {
 		
 		initialization();
@@ -192,6 +194,16 @@ public class TranslateWebMLToXMI {
 		return contentUnitNode;
 	}
 	
+	private static Element addOperationGroup(String id, String name, Element parentNode) {
+		System.out.println("Added OperationGroup id:"+ id + " name:" +name);
+		Element opgNode = outputDocument.createElement(PACKAGED_ELEMENT);
+			opgNode.setAttribute("xmi:type", "webml:OperationGroup");
+			opgNode.setAttribute("xmi:id", id);
+			opgNode.setAttribute("name", name);
+		parentNode.appendChild(opgNode);
+		return opgNode;
+	}
+	
 	private static Element addArea(String id, String name, Element parentNode) {
 		System.out.println("Added Area id:"+ id + " name:" +name);
 		Element areaNode = outputDocument.createElement(PACKAGED_ELEMENT);
@@ -247,10 +259,13 @@ public class TranslateWebMLToXMI {
 		//get the OperationUnits
 		processOperationUnits(siteview, siteViewNode);
 		
-		//get the pages in the root of this SiteView
+		//get the Pages in the root of this SiteView
 		processPages(siteViewDirectory, siteViewNode);
 		
-		//get the areas in the root of this SiteView
+		//get the OperationGroups in the root of this SiteView
+		processOperationGroups(siteViewDirectory, siteViewNode);
+		
+		//get the Areas in the root of this SiteView
 		processAreas(siteViewDirectory, siteViewNode);
 		
 	}
@@ -289,7 +304,7 @@ public class TranslateWebMLToXMI {
 	 * the root can be either a SiteView or an Area. 
 	 */
 	private static void processPages(File rootDirectory, Element parentNode) {
-		File[] pages = rootDirectory.listFiles(new WebRatioFileFilter());
+		File[] pages = rootDirectory.listFiles(new PageFileFilter());
 		for (int i = 0; i < pages.length; i++) { 
 			processPage(pages[i], parentNode);
 		}
@@ -332,6 +347,36 @@ public class TranslateWebMLToXMI {
 	
 	/**
 	 * @param root
+	 * Process the OperationGroups in the root given,
+	 * the root can be either a SiteView or an Area. 
+	 */
+	private static void processOperationGroups(File rootDirectory, Element parentNode) {
+		File[] opgs = rootDirectory.listFiles(new OperationGroupsFileFilter());
+		for (int i = 0; i < opgs.length; i++) { 
+			processOperationGroup(opgs[i], parentNode);
+		}
+	}
+	
+	private static void processOperationGroup(File opg, Element parentNode) {
+		Document doc = generateNewDocInstance(opg);
+		//get id and name of the OperationGroup
+		NodeList opgNode = doc.getElementsByTagName("OperationGroup");
+		if (opgNode.getLength() > 0) {
+			Element opgElement = (Element) opgNode.item(0);
+			String id = opgElement.getAttribute("id");
+			String name = opgElement.getAttribute("name");
+			
+			Element opgNodeElement = addOperationGroup(id, name, parentNode);
+			
+			//process OperationUnits
+			processOperationUnits(opgElement, opgNodeElement);
+			
+		}
+		
+	}
+	
+	/**
+	 * @param root
 	 * Process the Areas in the root given,
 	 * the root can be either a SiteView or an Area. 
 	 */
@@ -364,10 +409,13 @@ public class TranslateWebMLToXMI {
 		//get the OperationUnits in this Area
 		processOperationUnits(area, areaNode);
 		
-		//get the pages in the root of this Area
+		//get the Pages in the root of this Area
 		processPages(rootDirectory, areaNode);
 		
-		//get the areas in the root of this Area
+		//get the OperationGroups in the root of this Area
+		processOperationGroups(rootDirectory,areaNode);
+		
+		//get the Areas in the root of this Area
 		processAreas(rootDirectory, areaNode);
 	}
 	
