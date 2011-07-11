@@ -337,8 +337,7 @@
 
    <field name="areaId" type="string" indexed="true" stored="true" required="true" /> 
    <field name="areaName" type="content_B" indexed="true" stored="true" required="true" /> 
-   <field name="content_analysis" type="content_analysis" indexed="true" stored="true"    
-			multiValued="true" termVectors="true" termOffsets="true" termPosition="true"/>
+   <field name="content_analysis" type="content_analysis" />
 	<field name="content_B" type="content_B" indexed="true" stored="true"    
 			multiValued="true" termVectors="true" termOffsets="true" termPosition="true"/>   
  </fields>

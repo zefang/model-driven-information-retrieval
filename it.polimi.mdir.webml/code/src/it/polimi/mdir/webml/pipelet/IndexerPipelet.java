@@ -91,7 +91,8 @@ public class IndexerPipelet implements Pipelet {
 				toIndex = toIndex.trim();
 				
 				//TODO send Area to solr
-				sendToIndex(areaId, toIndex);
+				String areaName = blackboard.getRecord(id).getMetadata().getStringValue("areaName");
+				sendToIndex(areaId, areaName, toIndex);
 				
 			} catch (Exception e) {
 				_log.write(e.toString());
@@ -104,7 +105,7 @@ public class IndexerPipelet implements Pipelet {
   }
 
 
-  private void sendToIndex(String id, String content) {
+  private void sendToIndex(String id, String name, String content) {
 	  	String updateURL = "http://localhost:8983/solr/"+ _coreName +"/update";
 	  	updateURL += "?wt=xml&indent=true";
 		
@@ -131,22 +132,33 @@ public class IndexerPipelet implements Pipelet {
 		try {
 			final DOMImplementation impl = DOMImplementationImpl.getDOMImplementation();
 			final org.w3c.dom.Document document = impl.createDocument(null, "solr", null);
-			org.w3c.dom.Element root = document.createElement("root");
-	      
+			org.w3c.dom.Element add = document.createElement("add");
+			add.setAttribute("commitWithin", String.valueOf(10000));
+			
 			org.w3c.dom.Element idField;
 			org.w3c.dom.Text idText;
+			org.w3c.dom.Element areaNameField;
+			org.w3c.dom.Text areaNameText;
 			org.w3c.dom.Element toIndexField;
 			org.w3c.dom.Text toIndexText;
 			
 			final org.w3c.dom.Element doc = document.createElement("doc");
-			root.appendChild(doc);
+			add.appendChild(doc);
 
 			//Create fields
+			//areaId field
 			idField = document.createElement("field");
 			idField.setAttribute("name", "areaId");
 			idText = document.createTextNode(id);
 			idField.appendChild(idText);
 			doc.appendChild(idField);
+			//areaName field
+			areaNameField = document.createElement("field");
+			areaNameField.setAttribute("name", "areaName");
+			areaNameText = document.createTextNode(name);
+			areaNameField.appendChild(areaNameText);
+			doc.appendChild(areaNameField);
+			//content field
 			toIndexField = document.createElement("field");
 			toIndexField.setAttribute("name", _fieldType);
 			toIndexText = document.createTextNode(replaceNonXMLChars(content));
@@ -154,7 +166,7 @@ public class IndexerPipelet implements Pipelet {
 			doc.appendChild(toIndexField);
 
 			final Transformer transformer = TRANSFORMER_FACTORY.newTransformer();
-			final DOMSource source = new DOMSource(root);
+			final DOMSource source = new DOMSource(add);
 			final Writer w = new StringWriter();
 			final StreamResult streamResult = new StreamResult(w);
 			transformer.transform(source, streamResult);
