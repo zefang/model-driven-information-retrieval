@@ -256,7 +256,7 @@
     <fieldtype name="ignored" stored="false" indexed="false" multiValued="true" class="solr.StrField" /> 
 
 	
-	<fieldType name="content_B" class="solr.TextField" positionIncrementGap="100" stored="false" indexed="true">
+	<fieldType name="content_analysis" class="solr.TextField" positionIncrementGap="100" stored="false" indexed="true">
       <analyzer type="index">		
 		<tokenizer class="solr.WhitespaceTokenizerFactory"/>
 		<filter class="solr.DelimitedPayloadTokenFilterFactory" encoder="float"/>
@@ -270,6 +270,26 @@
 		<filter class="solr.LowerCaseFilterFactory"/>
 		<filter class="solr.LengthFilterFactory" min="1" max="30" />
 		<filter class="solr.SnowballPorterFilterFactory" language="English" protected="protwords.txt"/>
+	  </analyzer>
+	  <analyzer type="query">		
+		<tokenizer class="solr.WhitespaceTokenizerFactory"/>		
+		<filter class="solr.PatternReplaceFilterFactory"
+                pattern="^[a-z]{2,5}[0-9]{1,4}?([.]|[a-z])?(.*)" replacement="" replace="all"
+        />
+		<filter class="solr.WordDelimiterFilterFactory" preserveOriginal="1"/>
+		<filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"
+                enablePositionIncrements="true" />
+        <filter class="solr.TrimFilterFactory" />
+		<filter class="solr.LowerCaseFilterFactory"/>
+		<filter class="solr.LengthFilterFactory" min="1" max="30" />
+		<filter class="solr.SnowballPorterFilterFactory" language="English" protected="protwords.txt"/>
+	  </analyzer>		
+	</fieldType>
+	
+	<fieldType name="content_B" class="solr.TextField" positionIncrementGap="100" stored="false" indexed="true">
+      <analyzer type="index">		
+		<tokenizer class="solr.WhitespaceTokenizerFactory"/>
+		<filter class="solr.DelimitedPayloadTokenFilterFactory" encoder="float"/>
 	  </analyzer>
 	  <analyzer type="query">		
 		<tokenizer class="solr.WhitespaceTokenizerFactory"/>		
@@ -317,7 +337,9 @@
 
    <field name="areaId" type="string" indexed="true" stored="true" required="true" /> 
    <field name="areaName" type="content_B" indexed="true" stored="true" required="true" /> 
-   <field name="content_B" type="content_B" indexed="true" stored="true"    
+   <field name="content_analysis" type="content_analysis" indexed="true" stored="true"    
+			multiValued="true" termVectors="true" termOffsets="true" termPosition="true"/>
+	<field name="content_B" type="content_B" indexed="true" stored="true"    
 			multiValued="true" termVectors="true" termOffsets="true" termPosition="true"/>   
  </fields>
 

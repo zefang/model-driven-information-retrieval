@@ -215,7 +215,7 @@ public class AnalyzerSubstitutionPipelet implements Pipelet {
 			
 		}
 		catch (Exception e) {
-			_log.write(e.toString() + ":\n" +id);
+			_log.write("Error during AnalyzerSubstitutionPipelet: " + e.toString() + ":\n" +id);
 			e.printStackTrace();
 		} 
 		finally {
