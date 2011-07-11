@@ -17,7 +17,7 @@
     <Condition></Condition>
     <Task> 
       <Send BrokerId="broker1" Queue="SMILA.connectivity" RecordFilter="nothing">
-      	<SetProperty Name="Call_Pipeline">SolrAddPipeline</SetProperty>
+      	<SetProperty Name="Call_Pipeline">CustomPipeline</SetProperty>
       </Send>
     </Task>
   </Rule>
