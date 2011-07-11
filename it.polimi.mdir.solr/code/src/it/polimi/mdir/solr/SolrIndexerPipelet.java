@@ -152,7 +152,12 @@ public class SolrIndexerPipelet implements Pipelet {
     			  String stringValue = replaceNonXMLChars(attributeValue.asString());
     			  field = document.createElement(SolrDocumentUtil.FIELD);
     			  field.setAttribute(SolrDocumentUtil.NAME, _solrFields.get(n));
-    			  text = document.createTextNode(stringValue);
+    			  String[] splittedValue = stringValue.split("\\%");
+    			  if (splittedValue.length > 1) {
+    				  text = document.createTextNode(splittedValue[0]);  
+    			  } else {
+    				  text = document.createTextNode(stringValue);
+    			  }
     			  field.appendChild(text);
     			  doc.appendChild(field);
     		  }

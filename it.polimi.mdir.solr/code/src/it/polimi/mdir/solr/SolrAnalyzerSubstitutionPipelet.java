@@ -1,8 +1,10 @@
 package it.polimi.mdir.solr;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -10,6 +12,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -24,6 +28,8 @@ import org.eclipse.smila.datamodel.AnySeq;
 import org.eclipse.smila.datamodel.Value;
 import org.eclipse.smila.processing.Pipelet;
 import org.eclipse.smila.processing.ProcessingException;
+import org.jdom.filter.ElementFilter;
+import org.jdom.input.SAXBuilder;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -142,7 +148,7 @@ public class SolrAnalyzerSubstitutionPipelet implements Pipelet {
 				//Create fields
 				final AnyMap record = blackboard.getMetadata(id);
 				for (final String attrName : record.keySet()) {
-					if (_smilaFields.contains(attrName)) {
+					if (_smilaFields.contains(attrName)) { //TODO do this only for required content
 						int n = _smilaFields.indexOf(attrName);
 						final Value attributeValue = record.getValue(attrName);
 						String stringValue = replaceNonXMLChars(attributeValue.asString());
@@ -177,7 +183,24 @@ public class SolrAnalyzerSubstitutionPipelet implements Pipelet {
 	      	rd.close();
 	      	//System.out.println("Analyzer Response:\n" + response.toString());
 	      	
-	      	//TODO utilizing response
+	      	SAXBuilder builder = new SAXBuilder();
+			InputStream is = new ByteArrayInputStream(response.toString().getBytes("UTF-8"));
+			org.jdom.Document responseDoc = builder.build(is);
+			org.jdom.Element analysisNode = (org.jdom.Element) responseDoc.getRootElement().getChildren().get(1);
+	      	
+	      	//parse response
+	      	for (final String id : recordIds) {
+	      		//Replace fields
+				final AnyMap record = blackboard.getMetadata(id);
+				for (final String attrName : record.keySet()) {
+					if (_smilaFields.contains(attrName)) {
+						String originalValue = record.getStringValue(attrName);
+						String analyzedValue = getAnalyzedValue(id, attrName, analysisNode);
+						record.put(attrName, originalValue+"%"+analyzedValue);
+						System.out.println(originalValue+"%"+analyzedValue);
+					}
+				}
+	      	}
 	      	
 		}
 		catch (Exception e) {
@@ -191,6 +214,52 @@ public class SolrAnalyzerSubstitutionPipelet implements Pipelet {
 		return recordIds;
 	}
 
+	
+	/**
+	 * @param id
+	 * The id of the record
+	 * @param attrName
+	 * The name of the field of the record
+	 * @return
+	 * The analyzed value of that field, got by parsing the last
+	 * analyzer response. Tokens are separated by white space.
+	 *  
+	 */
+	private String getAnalyzedValue(String id, String attrName, org.jdom.Element analysisNode) {
+		String result = "";
+		
+		Iterator<org.jdom.Element> elementsItr = analysisNode.getChildren().iterator();
+		while (elementsItr.hasNext()) {
+			org.jdom.Element record = elementsItr.next();
+			if (record.getAttributeValue("name").equals(id)) {
+				Iterator<org.jdom.Element> fieldsItr = record.getChildren().iterator();
+				while (fieldsItr.hasNext()) {
+					org.jdom.Element field = fieldsItr.next();
+					if (field.getAttributeValue("name").equals(attrName)) {
+						org.jdom.Element analysisTypeNode = (org.jdom.Element) field.getChildren().get(0);
+						org.jdom.Element contentNode = (org.jdom.Element) analysisTypeNode.getChildren().get(0);
+						Iterator<org.jdom.Element> analysisItr = contentNode.getChildren().iterator();
+						while (analysisItr.hasNext()) {
+							org.jdom.Element lastAnalysis = analysisItr.next();
+							if (!analysisItr.hasNext()) {
+								Iterator<Element> tokensItr = lastAnalysis.getChildren().iterator();
+								while (tokensItr.hasNext()) {
+									org.jdom.Element token = (org.jdom.Element)tokensItr.next();
+									org.jdom.Element text = (org.jdom.Element) token.getChildren().get(0); 
+									result += text.getText() +" ";
+								}
+							}
+						}
+						break;
+					}
+				}
+				break;	
+			}
+		}
+		
+		return result.trim();
+	}
+	
 	  /**
 	   * This method replaces valid UTF-8 characters which are not allowed in XML with spaces.
 	   * 

@@ -16,3 +16,5 @@ SMILA-Pipelets: it.polimi.mdir.solr.SolrAnalyzerPipelet,
  it.polimi.mdir.solr.SolrIndexerPipelet,
  it.polimi.mdir.solr.SolrSearcherPipelet,
  it.polimi.mdir.solr.SolrAnalyzerSubstitutionPipelet
+Bundle-ClassPath: lib/jdom.jar,
+ .
