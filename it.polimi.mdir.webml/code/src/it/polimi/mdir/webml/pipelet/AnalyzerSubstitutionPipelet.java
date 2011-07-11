@@ -229,7 +229,7 @@ public class AnalyzerSubstitutionPipelet implements Pipelet {
 		}
 		
 		//System.out.println(result);
-		return result;
+		return result.trim();
 	}
 
 	
