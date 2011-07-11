@@ -14,6 +14,10 @@ import it.polimi.mdir.graph.processing.*;
 import it.polimi.mdir.logger.Log;
 import it.polimi.mdir.logger.LogFactory;
 
+
+/**
+ * Adds the payloads to the analyzed content part of the various fields.
+ */
 public class PayloadAdderPipelet implements Pipelet {
 	
 	private final Log _log = LogFactory.getLog();

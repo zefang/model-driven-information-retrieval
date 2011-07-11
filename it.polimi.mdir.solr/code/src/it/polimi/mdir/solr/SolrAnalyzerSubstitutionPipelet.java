@@ -149,6 +149,7 @@ public class SolrAnalyzerSubstitutionPipelet implements Pipelet {
 				final AnyMap record = blackboard.getMetadata(id);
 				for (final String attrName : record.keySet()) {
 					if (_smilaFields.contains(attrName)) { //TODO do this only for required content
+						//TODO così perdo il payload! lanciare l'analizzatore per un elemento alla volta.
 						int n = _smilaFields.indexOf(attrName);
 						final Value attributeValue = record.getValue(attrName);
 						String stringValue = replaceNonXMLChars(attributeValue.asString());
