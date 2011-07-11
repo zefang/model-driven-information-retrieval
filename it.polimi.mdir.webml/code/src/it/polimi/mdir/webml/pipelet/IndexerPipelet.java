@@ -81,16 +81,24 @@ public class IndexerPipelet implements Pipelet {
 				Document doc = builder.build(xmiContentStream);
 				Iterator<Element> packedElements = doc.getDescendants(new ElementFilter("packagedElement"));
 				while (packedElements.hasNext()) {
+					// strip the content to index from the original, e.g
+					// discard all the content before the '$'
 					Element element = packedElements.next();
-					toIndex += element.getAttributeValue("name") + " ";
+					String value = element.getAttributeValue("name");
+					String[] splittedValue = value.split("\\$");
+					if (splittedValue.length > 1) {
+						toIndex += splittedValue[1] + " ";
+					} else {
+						toIndex += value + " "; //TODO maybe we couldn't do this? in this case value would be "" right?
+					}
 					if (element.getAttribute("displayAttributes") != null) {
-						toIndex += element.getAttributeValue("displayAttributes") + " ";
-						toIndex += element.getAttributeValue("entity") + " ";
+						toIndex += element.getAttributeValue("displayAttributes").split("\\$")[1] + " ";
+						toIndex += element.getAttributeValue("entity").split("\\$")[1] + " ";
 					}
 				}
 				toIndex = toIndex.trim();
 				
-				//TODO send Area to solr
+				//send Area to solr
 				String areaName = blackboard.getRecord(id).getMetadata().getStringValue("areaName");
 				sendToIndex(areaId, areaName, toIndex);
 				

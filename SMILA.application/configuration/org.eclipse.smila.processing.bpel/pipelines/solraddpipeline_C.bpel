@@ -66,33 +66,33 @@
 		    				</proc:invokePipelet>
                 		</extensionActivity>
                 		
-        <extensionActivity>
-          <proc:invokePipelet name="invokeSolrAnalyzerPipelet">
-            <proc:pipelet class="it.polimi.mdir.solr.SolrAnalyzerPipelet" />
-            <proc:variables input="recordsC" />
-            <proc:configuration>
-			  <rec:Val key="writerType">xml</rec:Val>
-			  <rec:Val key="indent">true</rec:Val>
-              <rec:Val key="coreName">text_experiment_C</rec:Val>
-			  <rec:Seq key="smilaFields">
-			    <rec:Val>projectId</rec:Val>
-				<rec:Val>projectName</rec:Val>		    
-				<rec:Val>conceptType</rec:Val>
-				<rec:Val>classId</rec:Val>
-				<rec:Val>className</rec:Val>
-				<rec:Val>attributeNames</rec:Val>
-			  </rec:Seq>
-			  <rec:Seq key="solrAnalysisTypes">
-			    <rec:Val>projectId</rec:Val>
-				<rec:Val>projectName</rec:Val>
-				<rec:Val>conceptType</rec:Val>			
-				<rec:Val>classId</rec:Val>
-				<rec:Val>className</rec:Val>
-				<rec:Val>attributeNames</rec:Val>
-			  </rec:Seq>
-            </proc:configuration>
-          </proc:invokePipelet>
-        </extensionActivity>
+				        <extensionActivity>
+				          <proc:invokePipelet name="invokeSolrAnalyzerSubstitutionPipelet">
+				            <proc:pipelet class="it.polimi.mdir.solr.SolrAnalyzerSubstitutionPipelet" />
+				            <proc:variables input="recordsC" />
+				            <proc:configuration>
+							  <rec:Val key="writerType">xml</rec:Val>
+							  <rec:Val key="indent">true</rec:Val>
+				              <rec:Val key="coreName">text_experiment_C</rec:Val>
+							  <rec:Seq key="smilaFields">
+							    <rec:Val>projectId</rec:Val>
+								<rec:Val>projectName</rec:Val>		    
+								<rec:Val>conceptType</rec:Val>
+								<rec:Val>classId</rec:Val>
+								<rec:Val>className</rec:Val>
+								<rec:Val>attributeNames</rec:Val>
+							  </rec:Seq>
+							  <rec:Seq key="solrAnalysisTypes">
+							    <rec:Val>projectId</rec:Val>
+								<rec:Val>projectName</rec:Val>
+								<rec:Val>conceptType</rec:Val>			
+								<rec:Val>classId</rec:Val>
+								<rec:Val>className</rec:Val>
+								<rec:Val>attributeNames</rec:Val>
+							  </rec:Seq>
+				            </proc:configuration>
+				          </proc:invokePipelet>
+				        </extensionActivity>
                 		
                         <extensionActivity>
                         	<proc:invokePipelet name="invokeSolrIndexerPipelet_C">
