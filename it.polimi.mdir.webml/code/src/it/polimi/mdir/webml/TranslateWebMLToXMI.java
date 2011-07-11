@@ -41,7 +41,8 @@ public class TranslateWebMLToXMI {
 		OUTPUT_PATH = ConfigLoader.OUTPUT_PATH;
 	}
 	
-	//TODO currently missing Transactions
+	//TODO Transactions and OperationGroups are treated the same
+	//TODO Pages and MasterPages are treated the same
 	
 	public static void main(String[] args) throws IOException {
 		
@@ -265,6 +266,9 @@ public class TranslateWebMLToXMI {
 		//get the OperationGroups in the root of this SiteView
 		processOperationGroups(siteViewDirectory, siteViewNode);
 		
+		//get the Transactions in the root of this SiteView
+		processTransactions(siteViewDirectory, siteViewNode);
+		
 		//get the Areas in the root of this SiteView
 		processAreas(siteViewDirectory, siteViewNode);
 		
@@ -377,6 +381,19 @@ public class TranslateWebMLToXMI {
 	
 	/**
 	 * @param root
+	 * Process the Transactions in the root given,
+	 * the root can be either a SiteView or an Area. 
+	 */
+	private static void processTransactions(File rootDirectory, Element parentNode) {
+		File[] trans = rootDirectory.listFiles(new TransactionsFileFilter());
+		for (int i = 0; i < trans.length; i++) { 
+			//TODO here we treat the Transactions as OperationGroups
+			processOperationGroup(trans[i], parentNode); 
+		}
+	}
+	
+	/**
+	 * @param root
 	 * Process the Areas in the root given,
 	 * the root can be either a SiteView or an Area. 
 	 */
@@ -394,8 +411,8 @@ public class TranslateWebMLToXMI {
 	 * @param rootDirectory
 	 * root directory of the area to process
 	 */
-	private static void processArea(File rootDirectory, Element parentNode) {
-		File areaProperties = new File(rootDirectory.getAbsolutePath()+"/Properties.wr");		
+	private static void processArea(File areaDirectory, Element parentNode) {
+		File areaProperties = new File(areaDirectory.getAbsolutePath()+"/Properties.wr");		
 		Document doc = generateNewDocInstance(areaProperties);
 		
 		//get id and name of the SiteView
@@ -410,13 +427,16 @@ public class TranslateWebMLToXMI {
 		processOperationUnits(area, areaNode);
 		
 		//get the Pages in the root of this Area
-		processPages(rootDirectory, areaNode);
+		processPages(areaDirectory, areaNode);
 		
 		//get the OperationGroups in the root of this Area
-		processOperationGroups(rootDirectory,areaNode);
+		processOperationGroups(areaDirectory,areaNode);
+		
+		//get the Transactions in the root of this Area
+		processTransactions(areaDirectory, areaNode);
 		
 		//get the Areas in the root of this Area
-		processAreas(rootDirectory, areaNode);
+		processAreas(areaDirectory, areaNode);
 	}
 	
 	/**
