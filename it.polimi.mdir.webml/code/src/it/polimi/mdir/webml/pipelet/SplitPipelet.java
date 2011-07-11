@@ -79,6 +79,7 @@ public class SplitPipelet implements Pipelet {
 						String areaId = areaElement.getAttributeValue("id", XMI_NAMESPACE); //get Area id
 						String newIdRec = projectId + "$" + areaId;
 						Record rec = blackboard.create(newIdRec);
+						rec.getMetadata().put("areaId", newIdRec);
 						newRecordsIds.add(newIdRec);
 						
 						String areaContent = "";
@@ -147,7 +148,6 @@ public class SplitPipelet implements Pipelet {
 						blackboard.setRecord(rec);
 					}
 				}
-				System.out.println("Split -> Finished: " + projectId);
 				blackboard.commit();
 				
 			} catch (Exception e){
@@ -156,7 +156,7 @@ public class SplitPipelet implements Pipelet {
 			}
 		}
 		nNewRecords = newRecordsIds.size();
-		//System.out.println("Total new records: "+nNewRecords);
+		System.out.println("Split -> Total new records: "+nNewRecords);
 		final String[] newRecordsIdsArray = new String[nNewRecords];
 		newRecordsIds.toArray(newRecordsIdsArray);
 		return newRecordsIdsArray;

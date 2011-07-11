@@ -34,7 +34,7 @@
 		        				<proc:variables input="request" /> 
 		    				</proc:invokePipelet>
 						</extensionActivity>
-                        
+
                         <extensionActivity>
 		    				<proc:invokePipelet name="invokeSplitPipelet">
 		        				<proc:pipelet class="it.polimi.mdir.webml.pipelet.SplitPipelet" />
@@ -42,6 +42,7 @@
 		    				</proc:invokePipelet>
 						</extensionActivity>
 						
+                        		
 						<extensionActivity>
 		    				<proc:invokePipelet name="invokeAnalyzerSubstitutionPipelet">
 		        				<proc:pipelet class="it.polimi.mdir.webml.pipelet.AnalyzerSubstitutionPipelet" />
@@ -53,7 +54,7 @@
 		    				</proc:invokePipelet>
 						</extensionActivity>
 						 
-						 <!-- 
+						<!-- 				 
 						<extensionActivity>
 		    				<proc:invokePipelet name="invokePayloadAdderPipelet">
 		        				<proc:pipelet class="it.polimi.mdir.webml.pipelet.PayloadAdderPipelet" />
