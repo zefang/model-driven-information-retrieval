@@ -80,6 +80,7 @@ public class SplitPipelet implements Pipelet {
 						String newIdRec = projectId + "$" + areaId;
 						Record rec = blackboard.create(newIdRec);
 						rec.getMetadata().put("areaId", newIdRec);
+						rec.getMetadata().put("areaName", areaElement.getAttributeValue("name"));
 						newRecordsIds.add(newIdRec);
 						
 						String areaContent = "";
