@@ -49,7 +49,7 @@
 		        				<proc:variables input="request" /> 
 		        				<proc:configuration>
 		        					<rec:Val key="coreName">webml_B</rec:Val>
-			  						<rec:Val key="fieldType">content_B</rec:Val>
+			  						<rec:Val key="fieldType">content_analysis</rec:Val>
 			  					</proc:configuration>
 		    				</proc:invokePipelet>
 						</extensionActivity>
@@ -62,6 +62,17 @@
 		    				</proc:invokePipelet>
 						</extensionActivity>
 						 -->
+						 
+						 <extensionActivity>
+                        	<proc:invokePipelet name="invokeIndexerPipelet">
+                    			<proc:pipelet class="it.polimi.mdir.webml.pipelet.IndexerPipelet" />
+            					<proc:variables input="request" />
+            					<proc:configuration>
+              						<rec:Val key="coreName">webml_B</rec:Val>
+			  						<rec:Val key="fieldType">content_B</rec:Val>
+            					</proc:configuration>
+                    		</proc:invokePipelet>
+                        </extensionActivity>
 						 
 					</bpel:sequence>
             </bpel:scope>
