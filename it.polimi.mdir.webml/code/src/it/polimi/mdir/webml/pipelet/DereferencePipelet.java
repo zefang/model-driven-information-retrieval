@@ -33,6 +33,7 @@ public class DereferencePipelet implements Pipelet {
 	private HashMap<String, String> map = new HashMap<String, String>();
 	private HashMap<String, String> map2 = new HashMap<String, String>();
 	private final static Namespace XMI_NAMESPACE = Namespace.getNamespace("xmi", "http://schema.omg.org/spec/XMI/2.1");
+	private final static String PACKAGED_ELEMENT = "packagedElement";
 	
 	private static int count = 0;
 	
@@ -53,7 +54,7 @@ public class DereferencePipelet implements Pipelet {
 		for (final String id : recordIds) {
 			String projectId = "";
 			try {
-				projectId = blackboard.getMetadata(id).getStringValue(projectId);
+				projectId = blackboard.getRecord(id).getMetadata().getStringValue("projectId");
 				System.out.println("Dereference -> projectId: " + projectId);
 				
 				final InputStream xmiContentStream = blackboard.getAttachmentAsStream(id, "xmiContent");
@@ -64,7 +65,7 @@ public class DereferencePipelet implements Pipelet {
 				Element root = doc.getRootElement();
 				List<Element> rootChildren = root.getChildren();
 				Element dataModelElement = rootChildren.get(0); 
-				Iterator<Element> packagedElements = dataModelElement.getDescendants(new ElementFilter("packagedElement"));
+				Iterator<Element> packagedElements = dataModelElement.getDescendants(new ElementFilter(PACKAGED_ELEMENT));
 				while (packagedElements.hasNext()) {
 					Element element = packagedElements.next();
 					if (element.getAttributeValue("type", XMI_NAMESPACE).equals("webml:Entity") ||
@@ -77,7 +78,7 @@ public class DereferencePipelet implements Pipelet {
 				Element webModelElement = rootChildren.get(1);
 				
 				/*
-				Iterator<Element> webModelElements = webModelElement.getDescendants(new ElementFilter("packagedElement"));
+				Iterator<Element> webModelElements = webModelElement.getDescendants(new ElementFilter(PACKAGED_ELEMENT));
 				while (webModelElements.hasNext()) {
 					Element element = webModelElements.next();
 					map2.put(element.getAttributeValue("id", XMI_NAMESPACE), element.getAttributeValue("name"));
@@ -85,16 +86,17 @@ public class DereferencePipelet implements Pipelet {
 				*/
 				
 				//Navigate the dom and substitute the references with the names in the map
-				Iterator<Element> webModelElements2 = webModelElement.getDescendants(new ElementFilter("packagedElement"));
+				Iterator<Element> webModelElements2 = webModelElement.getDescendants(new ElementFilter(PACKAGED_ELEMENT));
 				while (webModelElements2.hasNext()) {
 					Element element = webModelElements2.next();
 
 					if (element.getAttributeValue("displayAttributes") != null &&
 							element.getAttributeValue("entity") != null) {
 
-						//Substitute display attributes and entities
+						//Substitute entities
 						element.setAttribute("entity", map.get(element.getAttributeValue("entity")));
-						
+
+						//Substitute display attributes
 						String displayAttributes = element.getAttributeValue("displayAttributes") ;
 						String[] displayAttr = displayAttributes.split("\\s");
 						displayAttributes = "";

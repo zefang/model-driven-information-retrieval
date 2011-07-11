@@ -1,6 +1,7 @@
 package it.polimi.mdir.webml.pipelet;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,6 +12,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -55,6 +57,7 @@ public class AnalyzerSubstitutionPipelet implements Pipelet {
 	private final Log _log = LogFactory.getLog();
 	
 	private static int count = 0;
+	private static int numAnalyzed = 0;
 	
 	@Override
 	public void configure(AnyMap configuration) throws ProcessingException {
@@ -71,10 +74,10 @@ public class AnalyzerSubstitutionPipelet implements Pipelet {
 		System.out.println("Analyzer -> recordids.length: " + recordIds.length);
 		
 		for (final String id : recordIds) {
-			String projectId = "";
+			String areaId = "";
 			try {
-				projectId = blackboard.getRecord(id).getMetadata().getStringValue("projectId");
-				System.out.println("Analyzer -> projectId: " + projectId);
+				areaId = blackboard.getRecord(id).getMetadata().getStringValue("areaId");
+				System.out.println("Analyzer -> areaId: " + areaId);
 				
 				final InputStream xmiContentStream = blackboard.getAttachmentAsStream(id, "xmiContent");
 				SAXBuilder builder = new SAXBuilder();
@@ -84,12 +87,13 @@ public class AnalyzerSubstitutionPipelet implements Pipelet {
 					Element element = packedElements.next();
 					//TODO farli tutti in un botto?
 					element.setAttribute("name", callSolrAnalyzer(element.getAttributeValue("id", XMI_NAMESPACE), element.getAttributeValue("name"), _fieldType));
+					numAnalyzed += 1;
 					if (element.getAttribute("displayAttributes") != null) {
 						element.setAttribute("displayAttributes", callSolrAnalyzer(element.getAttributeValue("id", XMI_NAMESPACE), element.getAttributeValue("displayAttributes"), _fieldType));
-						element.setAttribute("entity", callSolrAnalyzer(element.getAttributeValue("id", XMI_NAMESPACE), element.getAttributeValue("entity"), _fieldType));	
+						element.setAttribute("entity", callSolrAnalyzer(element.getAttributeValue("id", XMI_NAMESPACE), element.getAttributeValue("entity"), _fieldType));
+						numAnalyzed += 2;
 					}
 				}
-				
 				XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
 			    String newXmiContent = outputter.outputString(doc);
 			    
@@ -100,7 +104,8 @@ public class AnalyzerSubstitutionPipelet implements Pipelet {
 				e.printStackTrace();
 			}
 		}
-			
+		
+		System.out.println("Analyzer -> Total number analyzed: " + numAnalyzed);
 		return recordIds;
 	}
 	
@@ -154,7 +159,7 @@ public class AnalyzerSubstitutionPipelet implements Pipelet {
 			doc.appendChild(idField);
 			toAnalyzeField = document.createElement("field");
 			toAnalyzeField.setAttribute("name", _fieldType);
-			toAnalyzeText = document.createTextNode(toAnalyze);
+			toAnalyzeText = document.createTextNode(replaceNonXMLChars(toAnalyze));
 			toAnalyzeField.appendChild(toAnalyzeText);
 			doc.appendChild(toAnalyzeField);
 
@@ -178,14 +183,39 @@ public class AnalyzerSubstitutionPipelet implements Pipelet {
 	    	  response.append('\r');
 	      	}
 	      	rd.close();
-	      	System.out.println("Analyzer Response:\n" + response.toString());
+	      	//System.out.println("Analyzer Response:\n" + response.toString());
 	      	
-			//TODO fetch the response (parse the output of the last analyzer)
-	      	
+			//fetch the response (parse the output of the last analyzer)
+			SAXBuilder builder = new SAXBuilder();
+			InputStream is = new ByteArrayInputStream(response.toString().getBytes("UTF-8"));
+			Document responseDoc = builder.build(is);
+			Element analysisNode = (Element) responseDoc.getRootElement().getChildren().get(1);
+			List<Element> analysisNodeChildren = analysisNode.getChildren();
+			Element documentNode = (Element) analysisNodeChildren.get(0);
+			Iterator<Element> documentNodeChildrenItr = documentNode.getChildren().iterator();
+			while (documentNodeChildrenItr.hasNext()) {
+				Element analyzedField = documentNodeChildrenItr.next();
+				if (analyzedField.getAttributeValue("name").equals(_fieldType)) {
+					Element analysisTypeNode = (Element) analyzedField.getChildren().get(0); 
+					Element contentNode = (Element) analysisTypeNode.getChildren().get(0);
+					Iterator<Element> analysis = contentNode.getChildren().iterator();
+					while (analysis.hasNext()) {
+						Element lastAnalysis = analysis.next();
+						if (!analysis.hasNext()) {
+							Iterator<Element> tokensItr = lastAnalysis.getChildren().iterator();
+							while (tokensItr.hasNext()) {
+								Element token = tokensItr.next();
+								Element text = (Element) token.getChildren().get(0); 
+								result += text.getText() +" ";
+							}
+						}
+					}
+				}
+			}
+			
 		}
 		catch (Exception e) {
-			//TODO stampare punto che dà errore
-			_log.write(e.toString());
+			_log.write(e.toString() + ":\n" +id);
 			e.printStackTrace();
 		} 
 		finally {
@@ -194,6 +224,7 @@ public class AnalyzerSubstitutionPipelet implements Pipelet {
 			}
 		}
 		
+		//System.out.println(result);
 		return result;
 	}
 
