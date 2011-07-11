@@ -86,11 +86,15 @@ public class AnalyzerSubstitutionPipelet implements Pipelet {
 				while (packedElements.hasNext()) {
 					Element element = packedElements.next();
 					//TODO farli tutti in un botto?
-					element.setAttribute("name", callSolrAnalyzer(element.getAttributeValue("id", XMI_NAMESPACE), element.getAttributeValue("name"), _fieldType));
+					//keep the original content in the form 'oroginal'$'analyzed'
+					String originalValue = element.getAttributeValue("name");
+					element.setAttribute("name", originalValue+"$"+callSolrAnalyzer(element.getAttributeValue("id", XMI_NAMESPACE), originalValue, _fieldType));
 					numAnalyzed += 1;
 					if (element.getAttribute("displayAttributes") != null) {
-						element.setAttribute("displayAttributes", callSolrAnalyzer(element.getAttributeValue("id", XMI_NAMESPACE), element.getAttributeValue("displayAttributes"), _fieldType));
-						element.setAttribute("entity", callSolrAnalyzer(element.getAttributeValue("id", XMI_NAMESPACE), element.getAttributeValue("entity"), _fieldType));
+						originalValue = element.getAttributeValue("displayAttributes");
+						element.setAttribute("displayAttributes", originalValue+"$"+callSolrAnalyzer(element.getAttributeValue("id", XMI_NAMESPACE), originalValue, _fieldType));
+						originalValue = element.getAttributeValue("entity");
+						element.setAttribute("entity", originalValue+"$"+callSolrAnalyzer(element.getAttributeValue("id", XMI_NAMESPACE), originalValue, _fieldType));
 						numAnalyzed += 2;
 					}
 				}
