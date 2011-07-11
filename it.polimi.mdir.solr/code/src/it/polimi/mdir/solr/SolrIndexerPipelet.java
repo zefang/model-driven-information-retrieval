@@ -154,7 +154,7 @@ public class SolrIndexerPipelet implements Pipelet {
     			  field.setAttribute(SolrDocumentUtil.NAME, _solrFields.get(n));
     			  String[] splittedValue = stringValue.split("\\%");
     			  if (splittedValue.length > 1) {
-    				  text = document.createTextNode(splittedValue[0]);  
+    				  text = document.createTextNode(splittedValue[0]);  //TODO index the [1] part
     			  } else {
     				  text = document.createTextNode(stringValue);
     			  }

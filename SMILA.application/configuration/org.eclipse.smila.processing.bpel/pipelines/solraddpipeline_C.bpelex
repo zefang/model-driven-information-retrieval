@@ -46,6 +46,6 @@
   </extensions>
   <extensions>
     <extendedObject href="solraddpipeline_C.bpel#/"/>
-    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1310404868695"/>
+    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1310411724558"/>
   </extensions>
 </extensionmodel:ExtensionMap>

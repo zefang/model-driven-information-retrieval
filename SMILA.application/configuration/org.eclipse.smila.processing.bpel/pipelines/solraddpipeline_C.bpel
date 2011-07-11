@@ -59,6 +59,13 @@
 		    				</proc:invokePipelet>		
                         </extensionActivity>
                         
+                        <extensionActivity>
+                			<proc:invokePipelet name="invokePayloadAdder">
+		        				<proc:pipelet class="it.polimi.mdir.text.PayloadAdderPipelet" />
+								<proc:variables input="recordsC" />     
+		    				</proc:invokePipelet>
+                		</extensionActivity>
+                        
 				        <extensionActivity>
 				          <proc:invokePipelet name="invokeSolrAnalyzerSubstitutionPipelet">
 				            <proc:pipelet class="it.polimi.mdir.solr.SolrAnalyzerSubstitutionPipelet" />
@@ -86,16 +93,6 @@
 				            </proc:configuration>
 				          </proc:invokePipelet>
 				        </extensionActivity>
-                		
-                		<!-- 
-                        <extensionActivity>
-                			<proc:invokePipelet name="invokePayloadAdder">
-		        				<proc:pipelet class="it.polimi.mdir.text.PayloadAdderPipelet" />
-								<proc:variables input="recordsC" />     
-		    				</proc:invokePipelet>
-                		</extensionActivity>
-                		 -->
-                		 
                 		
                         <extensionActivity>
                         	<proc:invokePipelet name="invokeSolrIndexerPipelet_C">
