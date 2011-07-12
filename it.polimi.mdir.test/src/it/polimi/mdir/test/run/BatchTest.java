@@ -36,7 +36,7 @@ public class BatchTest {
 		String qf = "";
 		//String bqProjectName = "";
 		//String bqClassName = "";
-		String sheetTitle = "";		
+		String sheetTitle = "";	
 		
 		// This string will contain the lines coming from the servlet which is called
 		String line = "";
@@ -59,10 +59,10 @@ public class BatchTest {
 			sheetTitle = mqLabel + "-INST" + (queryInst+1);
 			
 			String[] urls = 
-				{"http://localhost:8983/solr/text_experiment_A/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on", 
-				 "http://localhost:8983/solr/text_experiment_B/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on",
-				 "http://localhost:8983/solr/text_experiment_C/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on",
-				 "http://localhost:8983/solr/text_experiment_D/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on"};		  
+				{"http://localhost:8983/solr/text_experiment_A/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&score=score+desc,classId+desc&rows=10&wt=standard&debugQuery=on", 
+				 "http://localhost:8983/solr/text_experiment_B/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&score=score+desc,classId+desc&rows=10&wt=standard&debugQuery=on",
+				 "http://localhost:8983/solr/text_experiment_C/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&score=score+desc,classId+desc&rows=10&wt=standard&debugQuery=on",
+				 "http://localhost:8983/solr/text_experiment_D/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&score=score+desc,classId+desc&rows=10&wt=standard&debugQuery=on"};		  
 	
 			query = queryArray[queryInst];
 			originalQueryString = queryArray[queryInst];

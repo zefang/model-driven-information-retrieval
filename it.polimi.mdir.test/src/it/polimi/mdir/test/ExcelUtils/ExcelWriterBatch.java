@@ -133,6 +133,9 @@ public class ExcelWriterBatch {
 		// Call init method to get absolute paths
 		init();
 		
+		// Contains sheet names of this workbook
+		String sheetNames[];
+		
 		try {		
 			WritableWorkbook workbook = null;
 			Workbook lastWorkbook = null;
@@ -147,7 +150,24 @@ public class ExcelWriterBatch {
 				// Open the existing workbook
 				lastWorkbook = Workbook.getWorkbook(doc);
 				workbook = Workbook.createWorkbook(new File("output.xls"), lastWorkbook);
-				sheetCount = workbook.getNumberOfSheets() + 1;	
+				
+				/*
+				 *  The file excel is deleted if it's present a sheet whose name is the same of the current sheetTitle
+				 *  This prevents deleting the output.xls every time when I test the same meta-query multiple times
+				 */
+				sheetNames = workbook.getSheetNames();
+				boolean found = false;
+				
+				for(int i=0; i<sheetNames.length; i++) {
+					if(sheetNames[i].contentEquals(sheetTitle))
+							found = true;
+				}
+				
+				if (found) {
+					doc.delete();
+					workbook = Workbook.createWorkbook(new File("output.xls"));
+				}
+				sheetCount = workbook.getNumberOfSheets() + 1;					
 			}
 						
 			// Create a new sheet
