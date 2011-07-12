@@ -16,5 +16,8 @@ SMILA-Pipelets: it.polimi.mdir.uml.SplitAPipelet,
  it.polimi.mdir.uml.SplitBPipelet, 
  it.polimi.mdir.uml.SplitCPipelet,
  it.polimi.mdir.uml.SplitDPipelet,
- it.polimi.mdir.uml.UmlPayloadAdderPipelet
+ it.polimi.mdir.uml.UmlPayloadAdderPipelet,
+ it.polimi.mdir.uml.AnalyzerPayloadSubstitutionPipelet
+Bundle-ClassPath: lib/jdom.jar,
+ .
 
