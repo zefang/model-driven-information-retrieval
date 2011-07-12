@@ -71,25 +71,8 @@
 				            <proc:pipelet class="it.polimi.mdir.uml.AnalyzerPayloadSubstitutionPipelet" />
 				            <proc:variables input="recordsC" />
 				            <proc:configuration>
-							  <rec:Val key="writerType">xml</rec:Val>
-							  <rec:Val key="indent">true</rec:Val>
 				              <rec:Val key="coreName">text_experiment_C</rec:Val>
-							  <rec:Seq key="smilaFields">
-							    <rec:Val>projectId</rec:Val>
-								<rec:Val>projectName</rec:Val>		    
-								<rec:Val>conceptType</rec:Val>
-								<rec:Val>classId</rec:Val>
-								<rec:Val>className</rec:Val>
-								<rec:Val>attributeNames</rec:Val>
-							  </rec:Seq>
-							  <rec:Seq key="solrAnalysisTypes">
-							    <rec:Val>projectId</rec:Val>
-								<rec:Val>projectName</rec:Val>
-								<rec:Val>conceptType</rec:Val>			
-								<rec:Val>classId</rec:Val>
-								<rec:Val>className</rec:Val>
-								<rec:Val>attributeNames</rec:Val>
-							  </rec:Seq>
+				              <rec:Val key="analysisField">text_C</rec:Val>
 				            </proc:configuration>
 				          </proc:invokePipelet>
 				        </extensionActivity>

@@ -255,6 +255,25 @@
          any data added to them will be ignored outright.  --> 
     <fieldtype name="ignored" stored="false" indexed="false" multiValued="true" class="solr.StrField" /> 
 
+<fieldType name="lastAnalysis" class="solr.TextField" positionIncrementGap="100" stored="false" indexed="true">
+      <analyzer type="index">		
+		<tokenizer class="solr.WhitespaceTokenizerFactory"/>
+		<filter class="solr.DelimitedPayloadTokenFilterFactory" encoder="float"/>
+	  </analyzer>
+	  <analyzer type="query">		
+		<tokenizer class="solr.WhitespaceTokenizerFactory"/>		
+		<filter class="solr.PatternReplaceFilterFactory"
+                pattern="^[a-z]{2,5}[0-9]{1,4}?([.]|[a-z])?(.*)" replacement="" replace="all"
+        />
+		<filter class="solr.WordDelimiterFilterFactory" preserveOriginal="1"/>
+		<filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"
+                enablePositionIncrements="true" />
+        <filter class="solr.TrimFilterFactory" />
+		<filter class="solr.LowerCaseFilterFactory"/>
+		<filter class="solr.LengthFilterFactory" min="1" max="30" />
+		<filter class="solr.SnowballPorterFilterFactory" language="English" protected="protwords.txt"/>
+	  </analyzer>		
+	</fieldType>
 	
 	<fieldType name="text_C" class="solr.TextField" positionIncrementGap="100" stored="false" indexed="true">
       <analyzer type="index">		
@@ -316,16 +335,18 @@
    -->
 
    <field name="projectId" type="string" indexed="true" stored="true" required="true" /> 
-   <field name="projectName" type="text_C" indexed="true" stored="true" required="true" /> 
+   <field name="projectName" type="lastAnalysis" indexed="true" stored="true" required="true" /> 
    <field name="conceptType" type="string" indexed="true" stored="true"  required="true" />
    <field name="classId" type="string" indexed="true" stored="true"  required="true" />
-   <field name="className" type="text_C" indexed="true" stored="true" required="true" /> 
+   <field name="className" type="lastAnalysis" indexed="true" stored="true" required="true" /> 
    
-   <field name="attributeNames" type="text_C" indexed="true" stored="true"    
+   <field name="attributeNames" type="lastAnalysis" indexed="true" stored="true"    
 			multiValued="true" termVectors="true" termOffsets="true" termPosition="true"/>
 
-   <field name="content" type="text_C" indexed="true" stored="true"    
-			multiValued="true"/>				
+   <field name="content" type="lastAnalysis" indexed="true" stored="true"    
+			multiValued="true"/>		
+			
+	<field name="text_C" type="text_C" />
    
  </fields>
 
