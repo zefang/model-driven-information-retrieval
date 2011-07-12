@@ -73,6 +73,7 @@ public class DereferencePipelet implements Pipelet {
 						map.put(element.getAttributeValue("id", XMI_NAMESPACE), element.getAttributeValue("name"));
 					}
 				}
+				System.out.println("Dereference -> map.size(): " + map.size());
 				
 				//get all the other stuff and put them in the other map
 				Element webModelElement = rootChildren.get(1);
