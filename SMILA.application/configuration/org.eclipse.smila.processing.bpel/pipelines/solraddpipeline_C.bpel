@@ -67,8 +67,8 @@
                 		</extensionActivity>
                         
 				        <extensionActivity>
-				          <proc:invokePipelet name="invokeSolrAnalyzerSubstitutionPipelet">
-				            <proc:pipelet class="it.polimi.mdir.solr.SolrAnalyzerSubstitutionPipelet" />
+				          <proc:invokePipelet name="invokeAnalyzerPayloadSubstitutionPipelet">
+				            <proc:pipelet class="it.polimi.mdir.uml.AnalyzerPayloadSubstitutionPipelet" />
 				            <proc:variables input="recordsC" />
 				            <proc:configuration>
 							  <rec:Val key="writerType">xml</rec:Val>
