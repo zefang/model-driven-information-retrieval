@@ -53,8 +53,8 @@
                         </bpel:assign>
                         
                         <extensionActivity>
-		    				<proc:invokePipelet name="invokeEnrichRecordsExperimentAPipelet">
-		        				<proc:pipelet class="it.polimi.mdir.text.EnrichRecordsExperimentAPipelet" />
+		    				<proc:invokePipelet name="invokeSplitAPipelet">
+		        				<proc:pipelet class="it.polimi.mdir.uml.SplitAPipelet" />
 		        				<proc:variables input="recordsA" />     
 		    				</proc:invokePipelet>
 						</extensionActivity>

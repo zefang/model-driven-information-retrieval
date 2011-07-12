@@ -48,15 +48,15 @@
 			</bpel:extensionActivity>
 			
 						<extensionActivity>
-                        	<proc:invokePipelet name="invokeEnrichRecordsExperimentCPipelet_ExpD">
-		        				<proc:pipelet class="it.polimi.mdir.text.EnrichRecordsExperimentCPipelet" />
+                        	<proc:invokePipelet name="invokeSplitCPipelet_ExpD">
+		        				<proc:pipelet class="it.polimi.mdir.uml.SplitCPipelet" />
 		        				<proc:variables input="request" />     
 		    				</proc:invokePipelet>		
                         </extensionActivity>
                         
                     <bpel:extensionActivity>
-                        <proc:invokePipelet name="invokeEnrichRecordsExperimentDPipelet">
-                            <proc:pipelet class="it.polimi.mdir.text.EnrichRecordsExperimentDPipelet"></proc:pipelet>
+                        <proc:invokePipelet name="invokeSplitDPipelet">
+                            <proc:pipelet class="it.polimi.mdir.uml.SplitDPipelet"></proc:pipelet>
                             <proc:variables input="request" />
                         </proc:invokePipelet>
                     </bpel:extensionActivity>

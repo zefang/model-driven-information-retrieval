@@ -2,7 +2,7 @@
  * Contributors: Stefano Celentano, Lorenzo Furrer
  **********************************************************************************************************************/
 
-package it.polimi.mdir.text;
+package it.polimi.mdir.uml;
 
 import it.polimi.mdir.logger.Log;
 import it.polimi.mdir.logger.LogFactory;
@@ -24,7 +24,7 @@ import org.eclipse.smila.processing.ProcessingException;
 /**
  * This class constructs the attributeNames field
  */
-public class EnrichRecordsExperimentCPipelet implements Pipelet {
+public class SplitCPipelet implements Pipelet {
 	
 	private final String CONCEPT_TYPE = "CLASS";
 	

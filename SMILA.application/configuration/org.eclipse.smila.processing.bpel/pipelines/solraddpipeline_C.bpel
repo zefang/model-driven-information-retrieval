@@ -53,15 +53,15 @@
                         </bpel:assign>
                         
                         <extensionActivity>
-                        	<proc:invokePipelet name="invokeEnrichRecordsExperimentCPipelet">
-		        				<proc:pipelet class="it.polimi.mdir.text.EnrichRecordsExperimentCPipelet" />
+                        	<proc:invokePipelet name="invokeSplitCPipelet">
+		        				<proc:pipelet class="it.polimi.mdir.uml.SplitCPipelet" />
 		        				<proc:variables input="recordsC" />     
 		    				</proc:invokePipelet>		
                         </extensionActivity>
                         
                         <extensionActivity>
-                			<proc:invokePipelet name="invokePayloadAdder">
-		        				<proc:pipelet class="it.polimi.mdir.text.PayloadAdderPipelet" />
+                			<proc:invokePipelet name="invokeUmlPayloadAdder">
+		        				<proc:pipelet class="it.polimi.mdir.uml.UmlPayloadAdderPipelet" />
 								<proc:variables input="recordsC" />     
 		    				</proc:invokePipelet>
                 		</extensionActivity>

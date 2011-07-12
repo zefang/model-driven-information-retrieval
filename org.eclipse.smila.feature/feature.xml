@@ -974,13 +974,6 @@
          unpack="false"/>
 
    <plugin
-         id="it.polimi.mdir.text"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="it.polimi.mdir.graph"
          download-size="0"
          install-size="0"
@@ -1003,6 +996,13 @@
 
    <plugin
          id="it.polimi.mdir.webml"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="it.polimi.mdir.uml"
          download-size="0"
          install-size="0"
          version="0.0.0"
