@@ -63,15 +63,15 @@
                 		</extensionActivity>
                 		 
                         <extensionActivity>
-                        	<proc:invokePipelet name="invokeEnrichRecordsExperimentCPipelet_ExpD">
-		        				<proc:pipelet class="it.polimi.mdir.text.EnrichRecordsExperimentCPipelet" />
+                        	<proc:invokePipelet name="invokeSplitCPipelet_ExpD">
+		        				<proc:pipelet class="it.polimi.mdir.uml.SplitCPipelet" />
 		        				<proc:variables input="recordsD" />     
 		    				</proc:invokePipelet>		
                         </extensionActivity>
 						
 						<extensionActivity>
-                        	<proc:invokePipelet name="invokeEnrichRecordsExperimentDPipelet">
-		        				<proc:pipelet class="it.polimi.mdir.text.EnrichRecordsExperimentDPipelet" />
+                        	<proc:invokePipelet name="invokeSplitDPipelet">
+		        				<proc:pipelet class="it.polimi.mdir.uml.SplitDPipelet" />
 		        				<proc:variables input="recordsD" />     
 		    				</proc:invokePipelet>		
                         </extensionActivity>
@@ -128,15 +128,15 @@
                         </bpel:assign>
                         
                         <extensionActivity>
-                        	<proc:invokePipelet name="invokeEnrichRecordsExperimentCPipelet">
-		        				<proc:pipelet class="it.polimi.mdir.text.EnrichRecordsExperimentCPipelet" />
+                        	<proc:invokePipelet name="invokeSplitCPipelet">
+		        				<proc:pipelet class="it.polimi.mdir.uml.SplitCPipelet" />
 		        				<proc:variables input="recordsC" />     
 		    				</proc:invokePipelet>		
                         </extensionActivity>
                         
                         <extensionActivity>
-                			<proc:invokePipelet name="invokePayloadAdder">
-		        				<proc:pipelet class="it.polimi.mdir.text.PayloadAdderPipelet" />
+                			<proc:invokePipelet name="invokeUmlPayloadAdder">
+		        				<proc:pipelet class="it.polimi.mdir.uml.UmlPayloadAdderPipelet" />
 								<proc:variables input="recordsC" />     
 		    				</proc:invokePipelet>
                 		</extensionActivity>
@@ -195,8 +195,8 @@
                         </bpel:assign>
                         
                         <extensionActivity>
-							<proc:invokePipelet name="invokeEnrichRecordsExperimentBPipelet">
-								<proc:pipelet class="it.polimi.mdir.text.EnrichRecordsExperimentBPipelet" />
+							<proc:invokePipelet name="invokeSplitBPipelet">
+								<proc:pipelet class="it.polimi.mdir.uml.SplitBPipelet" />
 								<proc:variables input="recordsB" />     
 							</proc:invokePipelet>		
 						</extensionActivity>
@@ -255,8 +255,8 @@
                         </bpel:assign>
                         
                         <extensionActivity>
-		    				<proc:invokePipelet name="invokeEnrichRecordsExperimentAPipelet">
-		        				<proc:pipelet class="it.polimi.mdir.text.EnrichRecordsExperimentAPipelet" />
+		    				<proc:invokePipelet name="invokeSplitAPipelet">
+		        				<proc:pipelet class="it.polimi.mdir.uml.SplitAPipelet" />
 		        				<proc:variables input="recordsA" />     
 		    				</proc:invokePipelet>
 						</extensionActivity>

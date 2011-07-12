@@ -2,7 +2,7 @@
  * Contributors: Stefano Celentano, Lorenzo Furrer
  **********************************************************************************************************************/
 
-package it.polimi.mdir.text;
+package it.polimi.mdir.uml;
 
 import org.eclipse.smila.blackboard.Blackboard;
 import org.eclipse.smila.blackboard.BlackboardAccessException;
@@ -18,7 +18,7 @@ import it.polimi.mdir.logger.LogFactory;
 /**
  * Adds the payloads to the analyzed content part of the various fields.
  */
-public class PayloadAdderPipelet implements Pipelet {
+public class UmlPayloadAdderPipelet implements Pipelet {
 	
 	private final Log _log = LogFactory.getLog();
 	

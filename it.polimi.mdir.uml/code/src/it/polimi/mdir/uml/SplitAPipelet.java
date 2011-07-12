@@ -2,7 +2,7 @@
  * Contributors: Stefano Celentano, Lorenzo Furrer
  **********************************************************************************************************************/
 
-package it.polimi.mdir.text;
+package it.polimi.mdir.uml;
 
 import it.polimi.mdir.logger.Log;
 import it.polimi.mdir.logger.LogFactory;
@@ -16,7 +16,7 @@ import org.eclipse.smila.processing.Pipelet;
 import org.eclipse.smila.processing.ProcessingException;
 
 
-public class EnrichRecordsExperimentAPipelet implements Pipelet {
+public class SplitAPipelet implements Pipelet {
 		
 	private static int count = 0;
 	

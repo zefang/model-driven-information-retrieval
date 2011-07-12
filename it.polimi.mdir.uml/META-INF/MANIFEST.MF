@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Text
-Bundle-SymbolicName: it.polimi.mdir.text
+Bundle-Name: Uml
+Bundle-SymbolicName: it.polimi.mdir.uml
 Bundle-Version: 1.0.0.qualifier
 Import-Package: edu.uci.ics.jung.graph,
  edu.uci.ics.jung.graph.util,
@@ -12,9 +12,9 @@ Import-Package: edu.uci.ics.jung.graph,
  org.eclipse.smila.datamodel,
  org.eclipse.smila.datamodel.filter,
  org.eclipse.smila.processing
-SMILA-Pipelets: it.polimi.mdir.text.EnrichRecordsExperimentAPipelet, 
- it.polimi.mdir.text.EnrichRecordsExperimentBPipelet, 
- it.polimi.mdir.text.EnrichRecordsExperimentCPipelet,
- it.polimi.mdir.text.EnrichRecordsExperimentDPipelet,
- it.polimi.mdir.text.PayloadAdderPipelet
+SMILA-Pipelets: it.polimi.mdir.uml.SplitAPipelet, 
+ it.polimi.mdir.uml.SplitBPipelet, 
+ it.polimi.mdir.uml.SplitCPipelet,
+ it.polimi.mdir.uml.SplitDPipelet,
+ it.polimi.mdir.uml.UmlPayloadAdderPipelet
 

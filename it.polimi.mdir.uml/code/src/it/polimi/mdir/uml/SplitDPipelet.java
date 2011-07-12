@@ -1,4 +1,4 @@
-package it.polimi.mdir.text;
+package it.polimi.mdir.uml;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -26,7 +26,7 @@ import org.eclipse.smila.processing.ProcessingException;
 
 import edu.uci.ics.jung.graph.Graph;
 
-public class EnrichRecordsExperimentDPipelet implements Pipelet {
+public class SplitDPipelet implements Pipelet {
 
 	
 	private static final int MAX_HOPS = 2;
