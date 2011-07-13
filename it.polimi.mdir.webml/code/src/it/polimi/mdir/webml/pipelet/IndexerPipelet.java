@@ -85,11 +85,13 @@ public class IndexerPipelet implements Pipelet {
 				Document doc = builder.build(xmiContentStream);
 				Iterator<Element> packedElements = doc.getDescendants(new ElementFilter("packagedElement"));
 				while (packedElements.hasNext()) {
-					// strip the content to index from the original, e.g
-					// discard all the content before the '$'
 					Element element = packedElements.next();
-					if (!element.getAttributeValue("type", XMI_NAMESPACE).contains("Link") //Discard meaningless WebModel node
-						&&	!element.getAttributeValue("type", XMI_NAMESPACE).equals("webml:WebModel")) { //Discard all Links
+					if (!element.getAttributeValue("type", XMI_NAMESPACE).contains("Link") //discard all Links 
+						&&	!element.getAttributeValue("type", XMI_NAMESPACE).equals("webml:WebModel") //Discard meaningless WebModel node
+						&&	!element.getAttributeValue("type", XMI_NAMESPACE).equals("webml:OperationGroup")) { //Discard all OperationGroup (and Transactions)
+						
+						// strip the content to index from the original, e.g
+						// discard all the content before the '$'
 						String value = element.getAttributeValue("name");
 						String[] splittedValue = value.split("\\$");
 						if (splittedValue.length > 1) {

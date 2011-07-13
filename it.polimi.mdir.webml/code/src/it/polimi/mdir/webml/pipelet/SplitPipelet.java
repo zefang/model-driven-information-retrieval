@@ -211,10 +211,12 @@ public class SplitPipelet implements Pipelet {
 	
 	/**
 	 * Checks if this element is eligible to become a new record, according to the Area granularity.
-	 * Normal Areas are eligible.
-	 * Siteviews that contain no Areas are also eligible, they will be treated as fake Areas.
-	 * Areas containing only other subAreas are NOT eligible.  
-	 * All other elements are not eligible
+	 * Normal Areas are eligible (Areas containing something besides possibly other Areas).
+	 * Areas containing only other subAreas are NOT eligible.
+	 * Siteviews that contain something besides Areas are also eligible, they will be treated as fake Areas.
+	 * SiteViews containing only Areas are NOT eligible.  
+	 * All other elements are not eligible.
+	 * Note that basically we treat Areas and SiteViews as the same thing.
 	 * @param element
 	 * The element to check
 	 */
@@ -234,15 +236,15 @@ public class SplitPipelet implements Pipelet {
 		
 		//check Siteviews
 		if (element.getAttributeValue("type", XMI_NAMESPACE).equals("webml:SiteView")) {
-			//check if they have no Areas
-			boolean existArea = false;
+			//check if they have just subareas (e.g. if their children are only Areas)
 			Iterator<Element> childrenItr = element.getChildren().iterator(); //if there is an Area then it must at least be a children of the SiteView 
+			boolean justAreas = true;
 			while (childrenItr.hasNext()) {
-				if (childrenItr.next().getAttributeValue("type", XMI_NAMESPACE).equals("webml:Area")) {
-					existArea = true;
+				if (!childrenItr.next().getAttributeValue("type", XMI_NAMESPACE).equals("webml:Area")) {
+					justAreas = false;
 				}
 			}
-			return !existArea;
+			return !justAreas;
 		}
 		
 		return false;
