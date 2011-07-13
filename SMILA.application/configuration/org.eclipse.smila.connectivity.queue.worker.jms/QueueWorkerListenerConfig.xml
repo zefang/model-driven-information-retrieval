@@ -25,7 +25,7 @@
     <Source BrokerId="broker1" Queue="SMILA.connectivity"/>
     <Condition>Call_Pipeline='CustomPipeline' and Operation='ADD' and DataSourceID='webml'</Condition>
     <Task>
-      <Process Workflow="WebMLPipeline"/>
+      <Process Workflow="WebMLPipeline_B"/>
     </Task>
   </Rule>
 
