@@ -14,6 +14,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -25,6 +26,7 @@ import it.polimi.mdir.logger.LogFactory;
 
 import org.eclipse.smila.blackboard.Blackboard;
 import org.eclipse.smila.datamodel.AnyMap;
+import org.eclipse.smila.datamodel.Record;
 import org.eclipse.smila.datamodel.Value;
 import org.eclipse.smila.processing.Pipelet;
 import org.eclipse.smila.processing.ProcessingException;
@@ -79,11 +81,15 @@ public class AnalyzerPayloadSubstitutionPipelet implements Pipelet {
 				ArrayList<String> _smilaFields = new ArrayList<String>();
 				_smilaFields.add("attributeNames");
 				_smilaFields.add("className");
-				//_smilaFields.add("projectName");
-				final AnyMap record = blackboard.getMetadata(id);
-				for (final String attrName : record.keySet()) {
+				_smilaFields.add("projectName");
+				final AnyMap metadata = blackboard.getRecord(id).getMetadata();
+				String[] recordFields = new String[metadata.keySet().size()]; 
+				metadata.keySet().toArray(recordFields);
+				for (int j = 0; j < recordFields.length; j++) {
+					String attrName = recordFields[j];
 					if (_smilaFields.contains(attrName)) {
-						String[] attributeNames = record.getValue(attrName).asString().split("\\s");
+						//Save original value in another field;
+						String[] attributeNames = metadata.getValue(attrName).asString().split("\\s");
 						String result = "";
 						for (int i = 0; i < attributeNames.length; i++) {
 							if (attrName.equals("projectName")) {
@@ -94,7 +100,7 @@ public class AnalyzerPayloadSubstitutionPipelet implements Pipelet {
 								result += callSolrAnalyzer(id, attributeNames[i], _analysisField, payload) + " ";	
 							}
 						}
-						record.put(attrName, result.trim());
+						metadata.put(attrName+"_analyzed", result.trim());
 					}
 				}
 				
