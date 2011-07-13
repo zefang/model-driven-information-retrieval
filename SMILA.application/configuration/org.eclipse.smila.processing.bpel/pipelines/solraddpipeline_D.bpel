@@ -58,6 +58,9 @@
                 <proc:invokePipelet name="invokeGraphNavigationPipelet">
                     <proc:pipelet class="it.polimi.mdir.uml.GraphNavigationPipelet"></proc:pipelet>
                     <proc:variables input="request" />
+                    <proc:configuration>
+              			<rec:Val key="maxHops">2</rec:Val>
+              		</proc:configuration>
                 </proc:invokePipelet>
             </bpel:extensionActivity>
                     

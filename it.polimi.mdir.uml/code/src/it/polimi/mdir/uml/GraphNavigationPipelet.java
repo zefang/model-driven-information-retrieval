@@ -19,6 +19,7 @@ import it.polimi.mdir.logger.LogFactory;
 
 import org.eclipse.smila.blackboard.Blackboard;
 import org.eclipse.smila.blackboard.BlackboardAccessException;
+import org.eclipse.smila.datamodel.Any;
 import org.eclipse.smila.datamodel.AnyMap;
 import org.eclipse.smila.datamodel.Record;
 import org.eclipse.smila.processing.Pipelet;
@@ -28,14 +29,19 @@ import edu.uci.ics.jung.graph.Graph;
 
 public class GraphNavigationPipelet implements Pipelet {
 
-	
-	private static final int MAX_HOPS = 2;
+	private static final String MAX_HOPS = "maxHops";
+	private int _maxHops = 2; //Default MAX_HOP value
 	
 	private final Log _log = LogFactory.getLog();
 	
+	private AnyMap _configuration;
+	
 	@Override
 	public void configure(AnyMap configuration) throws ProcessingException {
-		
+		_configuration = configuration;
+		if (_configuration.containsKey(MAX_HOPS)) {
+			_maxHops = Integer.valueOf(_configuration.getStringValue(MAX_HOPS));
+		}
 	}
 	
 	
@@ -86,7 +92,7 @@ public class GraphNavigationPipelet implements Pipelet {
 				
 				NavigateGraph nv = new NavigateGraph();
 				ImportAttributes function = new ImportAttributes();
-				nv.visitNode(g, MAX_HOPS, toVisit, function);
+				nv.visitNode(g, _maxHops, toVisit, function);
 				ArrayList<String> attributes = function.getImportedAttributes();
 				ArrayList<String> classes = function.getImportedClassNames();
 				HashMap<String, SumCount> hm = new HashMap<String, SumCount>();

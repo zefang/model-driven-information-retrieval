@@ -42,7 +42,7 @@
   </extensions>
   <extensions>
     <extendedObject href="solraddpipeline_D.bpel#/"/>
-    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1310588638836"/>
+    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1310589144813"/>
   </extensions>
   <extensions>
     <extendedObject href="solraddpipeline_D.bpel#//@activity/@activities.1"/>
