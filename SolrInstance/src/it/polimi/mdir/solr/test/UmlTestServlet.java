@@ -15,7 +15,7 @@ import java.net.*;
 import jxl.read.biff.BiffException;
 import jxl.write.WriteException;
 
-public class TestServlet extends HttpServlet {
+public class UmlTestServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -41,7 +41,7 @@ public class TestServlet extends HttpServlet {
 	  public void doGet (HttpServletRequest req, HttpServletResponse res)
 	    throws ServletException, IOException {
 		  
-		  System.out.println("Sono in TestServlet");
+		  System.out.println("This is UmlTestServlet");
 		 
 		  String[] urls = 
 		  			{"http://localhost:8983/solr/text_experiment_A/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on", 
@@ -141,7 +141,7 @@ public class TestServlet extends HttpServlet {
 		  }
 		  
 		  // Redirect to test presentation page
-	      res.sendRedirect("./admin/testPresentation.jsp?queryString=" + query);
+	      res.sendRedirect("./admin/testPresentationUml.jsp?queryString=" + query);
 	  }
 	
 	  public void doPost (HttpServletRequest  req, HttpServletResponse  res)

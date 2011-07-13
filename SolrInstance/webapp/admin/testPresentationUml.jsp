@@ -59,7 +59,7 @@ more comprehensible way relevant information of query results.
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>Query Test Presentation Page</title>
+	<title>UML Query Test Presentation Page</title>
 	<link type="text/css" rel="stylesheet" href="test.css" />
 	<link type="text/css" rel="stylesheet" href="canvas.css" />
 	<script src="kinetic-v1.0.0.js"></script>
