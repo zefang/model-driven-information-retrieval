@@ -50,6 +50,6 @@
   </extensions>
   <extensions>
     <extendedObject href="webmlpipeline_B.bpel#/"/>
-    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1310554950028"/>
+    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1310571755538"/>
   </extensions>
 </extensionmodel:ExtensionMap>

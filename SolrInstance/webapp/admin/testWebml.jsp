@@ -70,7 +70,7 @@ function showHide() {
 
 </head>
 <body onload="showHide();">
-<form name="queryForm" method="GET" action="../test" accept-charset="UTF-8">
+<form name="queryForm" method="GET" action="../testWebml" accept-charset="UTF-8">
 <!-- these are good defaults to have if people bookmark the resulting
      URLs, but they should not show up in the form since they are very
      output type specific.
@@ -119,31 +119,7 @@ function showHide() {
   />
   </td>
 </tr>
-<tr>
-	<td>
-		<strong> bq (Boost Query) </strong>
-	</td>
-	<td>
-		<tr>
-			<td>
-				Project Name:
-			</td>
-			<td>
-				<input name="bq-projectName" type="text" value="" size="20" onmouseover="ShowContent('bq-projectName'); return true;"
-   onmouseout="HideContent('bq-projectName'); return true;" />
-			</td>
-		</tr>
-		<tr>
-			<td>
-				Class Name:
-			</td>
-			<td>
-				<input name="bq-className" type="text" value="" size="20" onmouseover="ShowContent('bq-className'); return true;"
-   onmouseout="HideContent('bq-className'); return true;" />
-			</td>
-		</tr>
-	</td>
-</tr>
+
 <tr>
   <td>
   </td>

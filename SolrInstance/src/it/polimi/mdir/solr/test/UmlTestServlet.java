@@ -92,7 +92,7 @@ public class UmlTestServlet extends HttpServlet {
 		  
 		  for (int i=0; i<experiments.length; i++) {
 			  // New file		  
-			  BufferedWriter file = new BufferedWriter(new FileWriter("result" + experiments[i] + ".xml"));
+			  BufferedWriter file = new BufferedWriter(new FileWriter("result" + experiments[i] + "Uml.xml"));
 			  
 			  // Open connection
 			  URL url = new URL(urls[i]);
