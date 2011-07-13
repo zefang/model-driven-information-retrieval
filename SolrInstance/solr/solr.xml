@@ -35,5 +35,6 @@
 	<core name="text_experiment_C" instanceDir="text_experiment_C" />
 	<core name="text_experiment_D" instanceDir="text_experiment_D" />
 	<core name="webml_B" instanceDir="webml_B" />
+	<core name="webml_C" instanceDir="webml_C" />
   </cores>
 </solr>
