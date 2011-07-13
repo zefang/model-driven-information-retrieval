@@ -33,12 +33,15 @@ public class UmlPayloadAdderPipelet implements Pipelet {
 		//For each class
 		for (String id : recordIds) {
 			String className = "";
-			String fileName = "";
+			String projectName = "";
 			try {
 				String conceptType = "";
 				String attributeName = "";
 				Record record = blackboard.getRecord(id);
-				fileName = record.getMetadata().getStringValue("FileName");
+				projectName = record.getMetadata().getStringValue("projectName");
+				//TODO at the moment it considers just projectNames with one word
+				record.getMetadata().put("projectName", projectName+"|"+WeightRules.weightMap.get("project"));
+				
 				className = record.getMetadata().getStringValue("className");
 				className += "|" + WeightRules.weightMap.get("class");
 				record.getMetadata().put("className", className);
@@ -98,7 +101,7 @@ public class UmlPayloadAdderPipelet implements Pipelet {
 				blackboard.setRecord(record);
 				blackboard.commit();
 			} catch (Exception e) {
-				_log.write("PayloadAddder -> Exception at record: " + className + "of project "+ fileName);
+				_log.write("PayloadAddder -> Exception at record: " + className + "of project "+ projectName);
 				e.printStackTrace();	
 			}
 		}

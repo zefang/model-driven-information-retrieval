@@ -12,6 +12,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -57,6 +58,8 @@ public class AnalyzerPayloadSubstitutionPipelet implements Pipelet {
 	private Log _log = LogFactory.getLog();
 	private static int count = 0;
 	
+	private HashMap<String, String> payloadMap = new HashMap<String, String>();
+	
 	@Override
 	public void configure(AnyMap configuration) throws ProcessingException {
 		_configuration = configuration;
@@ -77,6 +80,7 @@ public class AnalyzerPayloadSubstitutionPipelet implements Pipelet {
 				classId = blackboard.getRecord(id).getMetadata().getStringValue("classId");
 				System.out.println("Analyzer -> classId: " + classId);
 				
+				//TODO farli tutti in un botto?
 				//Create fields
 				ArrayList<String> _smilaFields = new ArrayList<String>();
 				_smilaFields.add("attributeNames");
@@ -89,23 +93,15 @@ public class AnalyzerPayloadSubstitutionPipelet implements Pipelet {
 					String attrName = recordFields[j];
 					if (_smilaFields.contains(attrName)) {
 						//Save original value in another field;
-						String[] attributeNames = metadata.getValue(attrName).asString().split("\\s");
+						String attributeContent = metadata.getValue(attrName).asString();
 						String result = "";
-						for (int i = 0; i < attributeNames.length; i++) {
-							if (attrName.equals("projectName")) {
-								result = callSolrAnalyzer(id, attributeNames[i], _analysisField, "1.0"); //TODO
-							} else
-							if (!attributeNames[i].equals("")) {
-								String payload = attributeNames[i].split("\\|")[1];
-								result += callSolrAnalyzer(id, attributeNames[i], _analysisField, payload) + " ";	
-							}
-						}
+						result = callSolrAnalyzer(id, attributeContent, _analysisField);	
 						metadata.put(attrName+"_analyzed", result.trim());
 					}
 				}
 				
 			} catch (Exception e) {
-				_log.write(e.toString());
+				_log.write("Error in uml.AnalyzerPayloadSubstitutionPipelet: \n" + e.toString());
 				e.printStackTrace();
 			}
 		}
@@ -115,7 +111,14 @@ public class AnalyzerPayloadSubstitutionPipelet implements Pipelet {
 	
 private static final TransformerFactory TRANSFORMER_FACTORY = TransformerFactory.newInstance();
 	
-	private String callSolrAnalyzer(String id, String toAnalyze, String fieldType, String payload) {
+/**
+ * Keeps tracks of the payload by using the start-end information.
+ * @param id
+ * @param toAnalyze
+ * @param fieldType
+ * @return
+ */
+	private String callSolrAnalyzer(String id, String toAnalyze, String fieldType) {
 		String result = "";
 		
 		String analysisURL = "http://localhost:8983/solr/"+ _coreName +"/analysis/document";
@@ -188,7 +191,10 @@ private static final TransformerFactory TRANSFORMER_FACTORY = TransformerFactory
 	      	rd.close();
 	      	//System.out.println("Analyzer Response:\n" + response.toString());
 	      	
-			//fetch the response (parse the output of the last analyzer)
+			//fetch the response
+	      	//Get the start-end position in the first analyzer
+	      	//parse the output of the last analyzer and put the payloads back.
+	      	payloadMap.clear();
 			SAXBuilder builder = new SAXBuilder();
 			InputStream is = new ByteArrayInputStream(response.toString().getBytes("UTF-8"));
 			Document responseDoc = builder.build(is);
@@ -202,14 +208,45 @@ private static final TransformerFactory TRANSFORMER_FACTORY = TransformerFactory
 					Element analysisTypeNode = (Element) analyzedField.getChildren().get(0); 
 					Element contentNode = (Element) analysisTypeNode.getChildren().get(0);
 					Iterator<Element> analysis = contentNode.getChildren().iterator();
+					boolean firstAnalysis = true;
 					while (analysis.hasNext()) {
-						Element lastAnalysis = analysis.next();
-						if (!analysis.hasNext()) {
-							Iterator<Element> tokensItr = lastAnalysis.getChildren().iterator();
+						Element currentAnalysis = analysis.next();
+						if (firstAnalysis) {
+							//save start-end info of the first analyzer, also get the various tokens payloads
+							//first analysis 
+							Iterator<Element> tokensItr = currentAnalysis.getChildren().iterator();
 							while (tokensItr.hasNext()) {
 								Element token = tokensItr.next();
-								Element text = (Element) token.getChildren().get(0); 
-								result += text.getText() + "|"+payload +" ";
+								Element text = (Element) token.getChildren().get(0);
+								String payload = "";
+								if (text.getText().contains("|")) {
+									payload = text.getText().split("\\|")[1];
+								} else {
+									payload = "NO_PAYLOAD"; //TODO doesn't work
+								}
+								text = (Element) token.getChildren().get(2);
+								String start = text.getText();
+								text = (Element) token.getChildren().get(3);
+								String end = text.getText();
+								payloadMap.put(start, payload); //for now try to use just "start"
+							}
+							firstAnalysis = false;
+						} else {
+							//go to the last analyzer and take the final tokens
+							if (!analysis.hasNext()) {
+								//lastAnalysis
+								Iterator<Element> tokensItr = currentAnalysis.getChildren().iterator();
+								while (tokensItr.hasNext()) {
+									Element token = tokensItr.next();
+									Element text = (Element) token.getChildren().get(0);
+									Element start = (Element) token.getChildren().get(2);
+									String payload = payloadMap.get(start.getText());
+									if (payload.equals("NO_PAYLOAD")) { //TODO doesn't work
+										result += text.getText() +" ";
+									} else {
+										result += text.getText() + "|"+payload +" ";	
+									}
+								}
 							}
 						}
 					}
