@@ -255,7 +255,7 @@
          any data added to them will be ignored outright.  --> 
     <fieldtype name="ignored" stored="false" indexed="false" multiValued="true" class="solr.StrField" /> 
 
-<fieldType name="lastAnalysis" class="solr.TextField" positionIncrementGap="100" stored="false" indexed="true">
+	<fieldType name="lastAnalysis" class="solr.TextField" positionIncrementGap="100" stored="false" indexed="true">
       <analyzer type="index">		
 		<tokenizer class="solr.WhitespaceTokenizerFactory"/>
 		<filter class="solr.DelimitedPayloadTokenFilterFactory" encoder="float"/>
@@ -335,18 +335,18 @@
    -->
 
    <field name="projectId" type="string" indexed="true" stored="true" required="true" /> 
-   <field name="projectName" type="text_C" indexed="true" stored="true" required="true" />
+   <field name="projectName" type="string" indexed="true" stored="true" required="true" />
    <field name="conceptType" type="string" indexed="true" stored="true"  required="true" />
    <field name="classId" type="string" indexed="true" stored="true"  required="true" />
-   <field name="className" type="text_C" indexed="true" stored="true" required="true" /> 
+   <field name="className" type="string" indexed="true" stored="true" required="true" /> 
    
-   <field name="attributeNames" type="text_C" indexed="true" stored="true"    
+   <field name="attributeNames" type="string" indexed="true" stored="true"    
 			multiValued="true" termVectors="true" termOffsets="true" termPosition="true"/>
 
-   <field name="content" type="text_C" indexed="true" stored="true"    
-			multiValued="true"/>		
+   <field name="content" type="lastAnalysis" indexed="true" stored="true"    
+			multiValued="true"/>	<!-- Here the actual search is performed -->	
 			
-	<field name="text_C" type="text_C" />
+	<field name="text_C" type="text_C" /> <!-- All analysis is performed here -->
    
  </fields>
 
@@ -360,11 +360,6 @@
 
  <!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
  <solrQueryParser defaultOperator="OR"/>
- 
- <copyField source="className" dest="content" />
- <copyField source="attributeNames" dest="content" />
- <copyField source="projectName" dest="content" />
-
 
  <!-- Similarity is the scoring routine for each document vs. a query.
       A custom similarity may be specified here, but the default is fine

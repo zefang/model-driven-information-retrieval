@@ -87,19 +87,25 @@
               						<rec:Val key="coreName">text_experiment_C</rec:Val>
 			  						<rec:Seq key="smilaFields">
 			    						<rec:Val>projectId</rec:Val>
-										<rec:Val>projectName</rec:Val>	    
+										<rec:Val>projectName</rec:Val>
+										<rec:Val>projectName_analyzed</rec:Val>	  	    
 										<rec:Val>conceptType</rec:Val>
 										<rec:Val>classId</rec:Val>
 										<rec:Val>className</rec:Val>
+										<rec:Val>className_analyzed</rec:Val>
 										<rec:Val>attributeNames</rec:Val>
+										<rec:Val>attributeNames_analyzed</rec:Val>
 			  						</rec:Seq>
 			  						<rec:Seq key="solrFields">
 			    						<rec:Val>projectId</rec:Val>
 										<rec:Val>projectName</rec:Val>
+										<rec:Val>content</rec:Val>
 										<rec:Val>conceptType</rec:Val>			
 										<rec:Val>classId</rec:Val>
 										<rec:Val>className</rec:Val>
+										<rec:Val>content</rec:Val>
 										<rec:Val>attributeNames</rec:Val>
+										<rec:Val>content</rec:Val>
 			  						</rec:Seq>
             					</proc:configuration>
                     		</proc:invokePipelet>

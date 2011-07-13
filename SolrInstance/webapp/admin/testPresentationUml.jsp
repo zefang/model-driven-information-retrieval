@@ -183,7 +183,7 @@ for (String experiment : experiments) {
 	String previousScore = null;
 	String trClass = "odd";
 	for (int i=0; i<resultList.size(); i++) {
-		String[] splittedResult = resultList.get(i).split(" ");
+		String[] splittedResult = resultList.get(i).split("\\%");
 		projectId = splittedResult[0];	
 		projectName = splittedResult[1];
 		classId = splittedResult[2];
@@ -199,7 +199,7 @@ for (String experiment : experiments) {
 		
 		//Get detailedScore of the document
 		XQueryWrapper xqDetailedScore = new XQueryWrapper(XQUERY_PATH.concat("/getDetailedScore.xquery"));
-		xqDetailedScore.bindVariable("document", "result"+experiment+".xml");
+		xqDetailedScore.bindVariable("document", "result"+experiment+"Uml.xml");
 		xqDetailedScore.bindVariable("id", rowId);
 		String detailedScore = xqDetailedScore.executeQuery().get(0);
 		detailedScore = correctIndentation(detailedScore);
@@ -209,7 +209,7 @@ for (String experiment : experiments) {
 		xqContent.bindVariable("document", "result"+experiment+"Uml.xml");
 		xqContent.bindVariable("id", rowId);
 		if ("A".equals(experiment)) {
-			xqContent.bindVariable("idType", "projectId");
+			xqContent.bindVariable("idType", "projectId"); //TODO rowId?
 		} else xqContent.bindVariable("idType", "classId");
 		String content = xqContent.executeQuery().get(0);
 		
