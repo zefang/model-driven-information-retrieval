@@ -15,6 +15,7 @@ public class WeightRules {
 	private static float ASSOCIATION_1_1_WEIGHT = 0;
 	private static float ASSOCIATION_1_N_WEIGHT = 0;
 	private static float CLASS_WEIGHT = 0;
+	private static float PROJECT_WEIGHT = 0;
 	
 	private static float COMPOSITION_COMPOSITE_COMPONENT_1_1_PENALTY = 0;
 	private static float COMPOSITION_COMPOSITE_COMPONENT_1_N_PENALTY = 0;
@@ -38,6 +39,7 @@ public class WeightRules {
 			ASSOCIATION_1_1_WEIGHT = Float.valueOf(config.getProperty("association_1-1"));
 			ASSOCIATION_1_N_WEIGHT = Float.valueOf(config.getProperty("association_1-*"));
 			CLASS_WEIGHT = Float.valueOf(config.getProperty("class"));
+			PROJECT_WEIGHT = Float.valueOf(config.getProperty("project"));
 			
 			COMPOSITION_COMPOSITE_COMPONENT_1_1_PENALTY = Float.valueOf(config.getProperty("COMPOSITION_COMPOSITE_COMPONENT_1_1_PENALTY"));
 			COMPOSITION_COMPOSITE_COMPONENT_1_N_PENALTY = Float.valueOf(config.getProperty("COMPOSITION_COMPOSITE_COMPONENT_1_N_PENALTY"));
@@ -65,6 +67,7 @@ public class WeightRules {
 		weightMap.put("association_1-1", ASSOCIATION_1_1_WEIGHT);
 		weightMap.put("association_1-*", ASSOCIATION_1_N_WEIGHT);
 		weightMap.put("class", CLASS_WEIGHT);
+		weightMap.put("project", PROJECT_WEIGHT);
 	}
 	
 	public final static HashMap<String, Float> penaltyMap = new HashMap<String, Float>();
