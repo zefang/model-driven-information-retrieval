@@ -65,7 +65,7 @@ public class GraphNavigationPipelet implements Pipelet {
 				System.out.println("Start D " +  ++count + " -> " + className);
 				
 				//Graph<Node, Edge> g = GraphCollection.graphMap.get(fileName + ".gml");
-				//g.clone() sarebbe l'ideale però  non c'è quindi...
+				//g.clone() would be ideal, but there isn't so...
 				Graph<Node, Edge> g = null;
 				try {
 					FileInputStream fileIn = new FileInputStream(ConfigLoader.SERIALIZATION_PATH +fileName + ".ser");
