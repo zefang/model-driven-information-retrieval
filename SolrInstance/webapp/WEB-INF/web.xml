@@ -112,11 +112,18 @@
     <jsp-file>/admin/ping.jsp</jsp-file>
   </servlet>
   
-<!-- Test servlet -->
+<!-- UML Test servlet -->
 
   <servlet>
-    <servlet-name>TestServlet</servlet-name>
-    <servlet-class>it.polimi.mdir.solr.test.TestServlet</servlet-class>
+    <servlet-name>UmlTestServlet</servlet-name>
+    <servlet-class>it.polimi.mdir.solr.test.UmlTestServlet</servlet-class>
+  </servlet>
+  
+<!-- WebML Test servlet -->
+
+  <servlet>
+    <servlet-name>WebmlTestServlet</servlet-name>
+    <servlet-class>it.polimi.mdir.solr.test.WebmlTestServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
@@ -146,13 +153,19 @@
     <url-pattern>/admin/logging.jsp</url-pattern>
   </servlet-mapping>
   
-  <!-- Test servlet -->
+  <!-- UML Test servlet -->
   
   <servlet-mapping>
-    <servlet-name>TestServlet</servlet-name>
-    <url-pattern>/test</url-pattern>
+    <servlet-name>UmlTestServlet</servlet-name>
+    <url-pattern>/testUml</url-pattern>
   </servlet-mapping>
   
+  <!-- WebML Test servlet -->
+  
+  <servlet-mapping>
+    <servlet-name>WebmlTestServlet</servlet-name>
+    <url-pattern>/testWebml</url-pattern>
+  </servlet-mapping>
   
   <mime-mapping>
     <extension>.xsl</extension>
