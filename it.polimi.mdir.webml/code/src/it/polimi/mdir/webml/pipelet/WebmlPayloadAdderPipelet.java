@@ -1,5 +1,12 @@
 package it.polimi.mdir.webml.pipelet;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Iterator;
+import java.util.Properties;
+
 import it.polimi.mdir.logger.Log;
 import it.polimi.mdir.logger.LogFactory;
 
@@ -7,6 +14,13 @@ import org.eclipse.smila.blackboard.Blackboard;
 import org.eclipse.smila.datamodel.AnyMap;
 import org.eclipse.smila.processing.Pipelet;
 import org.eclipse.smila.processing.ProcessingException;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.Namespace;
+import org.jdom.filter.ElementFilter;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 
 
 /**
@@ -16,12 +30,39 @@ import org.eclipse.smila.processing.ProcessingException;
  */
 public class WebmlPayloadAdderPipelet implements Pipelet {
 
+	private final static Namespace XMI_NAMESPACE = Namespace.getNamespace("xmi", "http://schema.omg.org/spec/XMI/2.1");
+	
 	private final Log _log = LogFactory.getLog();
+	private final String WEIGHTS_FILE = "weightsConfigurationFile";
+	
+	private AnyMap _configuration;
+	private String weightsConfigurationFile = "";
+	
+	private float SITEVIEW_WEIGHT;
+	private float AREA_WEIGHT;
+	private float PAGE_WEIGHT;
+	private float UNIT_WEIGHT;
 	
 	private static int count = 0;
 	
 	@Override
-	public void configure(AnyMap configuration) throws ProcessingException {
+	public void configure(AnyMap configuration) {
+		_configuration = configuration;
+		weightsConfigurationFile = _configuration.getStringValue(WEIGHTS_FILE);
+		try {
+			Properties config = new Properties();
+			FileInputStream	in = new FileInputStream(weightsConfigurationFile);
+			config.load(in);
+			
+			SITEVIEW_WEIGHT = Float.valueOf(config.getProperty("siteview"));
+			AREA_WEIGHT = Float.valueOf(config.getProperty("area"));
+			PAGE_WEIGHT = Float.valueOf(config.getProperty("page"));
+			UNIT_WEIGHT = Float.valueOf(config.getProperty("unit"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -33,15 +74,43 @@ public class WebmlPayloadAdderPipelet implements Pipelet {
 		System.out.println("PayloadAdder -> recordids.length: " + recordIds.length);
 		
 		for (final String id : recordIds) {
-			String projectId = "";
+			String areaId = "";
 			try {
-				projectId = blackboard.getRecord(id).getMetadata().getStringValue("projectId");
-				System.out.println("PayloadAdder -> projectId: " + projectId);
+				areaId = blackboard.getRecord(id).getMetadata().getStringValue("areaId");
+				System.out.println("WebmlPayloadAdder -> areaId: " + areaId);
 				
-				//TODO navigate tree
-					//TODO get analyzed content
-					//TODO add payloads
-				
+				final InputStream xmiContentStream = blackboard.getAttachmentAsStream(id, "xmiContent");
+				SAXBuilder builder = new SAXBuilder();
+				Document doc = builder.build(xmiContentStream);
+				Iterator<Element> packedElements = doc.getDescendants(new ElementFilter("packagedElement"));
+				while (packedElements.hasNext()) {
+					Element element = packedElements.next();
+					float payload = 0.0f;
+					if (element.getAttributeValue("type",XMI_NAMESPACE).contains("SiteView")) {
+						payload = SITEVIEW_WEIGHT;
+					} else if (element.getAttributeValue("type",XMI_NAMESPACE).contains("Area")) {
+						payload = AREA_WEIGHT;
+					} else if (element.getAttributeValue("type",XMI_NAMESPACE).contains("Page")) {
+						payload = PAGE_WEIGHT;
+					} else if (element.getAttributeValue("type",XMI_NAMESPACE).contains("Unit")) {
+						payload = UNIT_WEIGHT;
+					}
+					// get analyzed content
+					String[] splittedValue = element.getAttributeValue("name").split("\\$");
+					String originalValue = splittedValue[0];
+					String analyzedValue = splittedValue[1];
+					//put the payloads
+					String[] content = analyzedValue.split("\\s");
+					analyzedValue = "";
+					for (int i = 0; i < content.length; i++) {
+						analyzedValue += content[i]+"|"+payload + " ";	
+					}
+					element.setAttribute("name", originalValue+"$"+analyzedValue.trim());
+				}
+				XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
+			    String newXmiContent = outputter.outputString(doc);
+			    
+			    blackboard.getRecord(id).setAttachment("xmiContent", newXmiContent.getBytes());
 				
 			} catch (Exception e) {
 				_log.write(e.toString());
