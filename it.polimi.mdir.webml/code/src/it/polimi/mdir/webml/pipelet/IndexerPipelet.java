@@ -27,19 +27,23 @@ import org.eclipse.smila.processing.Pipelet;
 import org.eclipse.smila.processing.ProcessingException;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.Namespace;
 import org.jdom.filter.ElementFilter;
 import org.jdom.input.SAXBuilder;
 import org.w3c.dom.DOMImplementation;
 
 /**
  * This pipelet gets all the indexable content in the xmiContent of the Area record
- * and sends it to Solr for indexing
- *
+ * and sends it to Solr for indexing.
+ * As of now only the "name" attribute of Areas, SiteViews, Pages and Units is used.
+ * "name" and "to" attributes of Links is discarded too.
+ * "entity" and "displayAttributes" attributes are discarded too.
  */
 public class IndexerPipelet implements Pipelet {
 	
   private AnyMap _configuration;
-	
+  private final static Namespace XMI_NAMESPACE = Namespace.getNamespace("xmi", "http://schema.omg.org/spec/XMI/2.1");
+  
   private static final TransformerFactory TRANSFORMER_FACTORY = TransformerFactory.newInstance();
   
   private String _coreName = "";
@@ -84,16 +88,23 @@ public class IndexerPipelet implements Pipelet {
 					// strip the content to index from the original, e.g
 					// discard all the content before the '$'
 					Element element = packedElements.next();
-					String value = element.getAttributeValue("name");
-					String[] splittedValue = value.split("\\$");
-					if (splittedValue.length > 1) {
-						toIndex += splittedValue[1] + " ";
-					} else {
-						toIndex += value + " "; //TODO maybe we couldn't do this? in this case value would be "" right?
-					}
-					if (element.getAttribute("displayAttributes") != null) {
-						toIndex += element.getAttributeValue("displayAttributes").split("\\$")[1] + " ";
-						toIndex += element.getAttributeValue("entity").split("\\$")[1] + " ";
+					if (!element.getAttributeValue("type", XMI_NAMESPACE).contains("Link") //Discard meaningless WebModel node
+						&&	!element.getAttributeValue("type", XMI_NAMESPACE).equals("webml:WebModel")) { //Discard all Links
+						String value = element.getAttributeValue("name");
+						String[] splittedValue = value.split("\\$");
+						if (splittedValue.length > 1) {
+							toIndex += splittedValue[1] + " ";
+						} else {
+							toIndex += value + " "; //TODO maybe we couldn't do this? in this case value would be "" right?
+						}
+						
+						//discard "entity" and "displayAttributes" attributes
+						/*
+						if (element.getAttribute("displayAttributes") != null) {
+							toIndex += element.getAttributeValue("displayAttributes").split("\\$")[1] + " ";
+							toIndex += element.getAttributeValue("entity").split("\\$")[1] + " ";
+						}
+						*/
 					}
 				}
 				toIndex = toIndex.trim();
