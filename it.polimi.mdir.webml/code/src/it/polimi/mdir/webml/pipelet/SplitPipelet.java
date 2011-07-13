@@ -32,6 +32,7 @@ import org.jdom.output.XMLOutputter;
  * This Pipelet gets the SMILA record containing information on 
  * a whole WebML project and splits them to an Area granularity 
  * generating one record per Area.
+ * Siteviews containing no other Areas, (so containing just Units) are treated as Areas too.
  * 
  */
 public class SplitPipelet implements Pipelet {
@@ -74,80 +75,86 @@ public class SplitPipelet implements Pipelet {
 				Document doc = builder.build(xmiContentStream);
 				Iterator<Element> packedElements = doc.getDescendants(new ElementFilter(PACKAGED_ELEMENT));
 				while (packedElements.hasNext()) {
-					Element areaElement = packedElements.next();
-					if (areaElement.getAttributeValue("type", XMI_NAMESPACE).equals("webml:Area")) {
-						String areaId = areaElement.getAttributeValue("id", XMI_NAMESPACE); //get Area id
-						String newIdRec = projectId + "$" + areaId;
-						Record rec = blackboard.create(newIdRec);
-						rec.getMetadata().put("areaId", newIdRec);
-						rec.getMetadata().put("areaName", areaElement.getAttributeValue("name"));
-						newRecordsIds.add(newIdRec);
+					Element element = packedElements.next();
+					if (element.getAttributeValue("type", XMI_NAMESPACE).equals("webml:Area")
+							|| element.getAttributeValue("type", XMI_NAMESPACE).equals("webml:SiteView")) {
 						
-						String areaContent = "";
-						//Save parents' nodes in a stack plus the area node itself
-						//parents nodes will be stripped of their content
-						Stack<Element> parents = new Stack<Element>();
-						parents.push(constructNewElement(PACKAGED_ELEMENT, areaElement.getAttributeValue("id",XMI_NAMESPACE), areaElement.getAttributeValue("name"), areaElement.getAttributeValue("type", XMI_NAMESPACE)));
-						Element parent = areaElement.getParentElement(); 
-						while (parent != null) {
-							parents.push(constructNewElement(PACKAGED_ELEMENT, parent.getAttributeValue("id",XMI_NAMESPACE), parent.getAttributeValue("name"), parent.getAttributeValue("type",XMI_NAMESPACE)));
-							parent = parent.getParentElement();
-						}
-						
-						//Save all the internal nodes (OperationUnits and Pages) as they are,
-						//but strip subAreas of their content 
-						ArrayList<Element> internalNodes = new ArrayList<Element>();
-						List<Element> childs = areaElement.getChildren();
-						Iterator<Element> childsIterator = childs.iterator();
-						while (childsIterator.hasNext()) {
-							Element nextChild = childsIterator.next();
-							if (nextChild.getAttributeValue("type", XMI_NAMESPACE).equals("webml:Area")) {
-								//It's an Area
-								Element toAdd = constructNewElement(PACKAGED_ELEMENT, nextChild.getAttributeValue("id",XMI_NAMESPACE), 
-															nextChild.getAttributeValue("name"), 
-															nextChild.getAttributeValue("type",XMI_NAMESPACE));
-								internalNodes.add(toAdd);
-							} else {
-								//it's an OperationUnit or a Page
-								//clones the Element to detach it from the original Document
-								internalNodes.add((Element) nextChild.clone());
+						if (checkEligibility(element)) {
+							Element areaElement = element;
+							String areaId = areaElement.getAttributeValue("id", XMI_NAMESPACE); //get Area id
+							String newIdRec = projectId + "$" + areaId;
+							Record rec = blackboard.create(newIdRec);
+							rec.getMetadata().put("areaId", newIdRec);
+							rec.getMetadata().put("areaName", areaElement.getAttributeValue("name"));
+							newRecordsIds.add(newIdRec);
+							
+							String areaContent = "";
+							//Save ancestors' nodes in a stack plus the area node itself
+							//parents nodes will be stripped of their content
+							Stack<Element> parents = new Stack<Element>();
+							parents.push(constructNewElement(PACKAGED_ELEMENT, areaElement.getAttributeValue("id",XMI_NAMESPACE), areaElement.getAttributeValue("name"), areaElement.getAttributeValue("type", XMI_NAMESPACE)));
+							Element parent = areaElement.getParentElement(); 
+							while (parent != null) {
+								parents.push(constructNewElement(PACKAGED_ELEMENT, parent.getAttributeValue("id",XMI_NAMESPACE), parent.getAttributeValue("name"), parent.getAttributeValue("type",XMI_NAMESPACE)));
+								parent = parent.getParentElement();
 							}
-						
+							
+							//Save all the internal nodes (OperationUnits and Pages) as they are,
+							//but strip subAreas of their content 
+							ArrayList<Element> internalNodes = new ArrayList<Element>();
+							List<Element> childs = areaElement.getChildren();
+							Iterator<Element> childsIterator = childs.iterator();
+							while (childsIterator.hasNext()) {
+								Element nextChild = childsIterator.next();
+								if (nextChild.getAttributeValue("type", XMI_NAMESPACE).equals("webml:Area")) {
+									//It's an Area
+									Element toAdd = constructNewElement(PACKAGED_ELEMENT, nextChild.getAttributeValue("id",XMI_NAMESPACE), 
+																nextChild.getAttributeValue("name"), 
+																nextChild.getAttributeValue("type",XMI_NAMESPACE));
+									internalNodes.add(toAdd);
+								} else {
+									//it's an OperationUnit or a Page
+									//clones the Element to detach it from the original Document
+									internalNodes.add((Element) nextChild.clone());
+								}
+							
+							}
+							
+							//Put everything in the areaContent, then reverse in xmiContent field
+							Element root = new Element("Project", WEBML_NAMESPACE);
+							Element rootTemp = parents.pop();
+								root.setNamespace(XMI_NAMESPACE);
+								root.setNamespace(WEBML_NAMESPACE);
+								root.setAttribute("version", "2.1", XMI_NAMESPACE);
+								root.setAttribute("id", rootTemp.getAttributeValue("id", XMI_NAMESPACE), XMI_NAMESPACE);
+								root.setAttribute("name", rootTemp.getAttributeValue("name"));
+							
+							//Put the parents
+							Element justAdded = root;
+							while (parents.size() > 0) {
+								Element toAdd = parents.pop();
+								justAdded.addContent(toAdd);
+								justAdded = toAdd;
+							}
+							//At the end justAdded is the original Area
+							
+							//Put the other internalNodes (OperationUnits, Pages and Stripped Areas)
+							Iterator<Element> itr = internalNodes.iterator();
+							while (itr.hasNext()) {
+								justAdded.addContent(itr.next());
+							}
+							
+							XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
+						    areaContent = outputter.outputString(new Document(root));
+						    //System.out.println("areaContent: \n" + areaContent);
+						    
+						    //Put areaContent in the xmiContent attachment field
+						    //rec.getMetadata().put("xmiContent", areaContent);
+							rec.setAttachment("xmiContent", areaContent.getBytes());
+							blackboard.setRecord(rec);
 						}
-						
-						//Put everything in the areaContent, then reverse in xmiContent field
-						Element root = new Element("Project", WEBML_NAMESPACE);
-						Element rootTemp = parents.pop();
-							root.setNamespace(XMI_NAMESPACE);
-							root.setNamespace(WEBML_NAMESPACE);
-							root.setAttribute("version", "2.1", XMI_NAMESPACE);
-							root.setAttribute("id", rootTemp.getAttributeValue("id", XMI_NAMESPACE), XMI_NAMESPACE);
-							root.setAttribute("name", rootTemp.getAttributeValue("name"));
-						
-						//Put the parents
-						Element justAdded = root;
-						while (parents.size() > 0) {
-							Element toAdd = parents.pop();
-							justAdded.addContent(toAdd);
-							justAdded = toAdd;
-						}
-						//At the end justAdded is the original Area
-						
-						//Put the other internalNodes (OperationUnits, Pages and Stripped Areas)
-						Iterator<Element> itr = internalNodes.iterator();
-						while (itr.hasNext()) {
-							justAdded.addContent(itr.next());
-						}
-						
-						XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
-					    areaContent = outputter.outputString(new Document(root));
-					    //System.out.println("areaContent: \n" + areaContent);
-					    
-					    //Put areaContent in the xmiContent attachment field
-					    //rec.getMetadata().put("xmiContent", areaContent);
-						rec.setAttachment("xmiContent", areaContent.getBytes());
-						blackboard.setRecord(rec);
 					}
+					
 				}
 				blackboard.commit();
 				
@@ -164,7 +171,7 @@ public class SplitPipelet implements Pipelet {
 	}
 	
 	
-	public String getText(byte[] arr) {
+	private String getText(byte[] arr) {
 	    StringBuilder sb = new StringBuilder(arr.length);
 	    for (byte b: arr) {
 	    	if (b != 32) {
@@ -174,7 +181,7 @@ public class SplitPipelet implements Pipelet {
 	    return sb.toString ();
 	}
 	
-	public String convertStreamToString(InputStream is) throws IOException {
+	private String convertStreamToString(InputStream is) throws IOException {
         if (is != null) {
             StringWriter writer = new StringWriter();
 
@@ -203,6 +210,44 @@ public class SplitPipelet implements Pipelet {
 				newEl.setAttribute("type", type, XMI_NAMESPACE);	
 			}
 		return newEl;
+	}
+	
+	/**
+	 * Checks if this element is eligible to become a new record, according to the Area granularity.
+	 * Normal Areas are eligible.
+	 * Siteviews that contain no Areas are also eligible, they will be treated as fake Areas.
+	 * Areas containing only other subAreas are NOT eligible.  
+	 * @param element
+	 * The element to check
+	 */
+	private boolean checkEligibility(Element element) {
+
+		if (element.getAttributeValue("type", XMI_NAMESPACE).equals("webml:SiteView")) {
+			//check Siteviews
+			
+			//check if they have no Areas
+			boolean existArea = false;
+			Iterator<Element> childrenItr = element.getChildren().iterator(); //if there is an Area then it must at least be a children of the SiteView 
+			while (childrenItr.hasNext()) {
+				if (childrenItr.next().getAttributeValue("type", XMI_NAMESPACE).equals("webml:Area")) {
+					existArea = true;
+				}
+			}
+			return !existArea;
+		} else {
+			//it's a webml:Area
+		
+			//check if they have just subareas (e.g. if their children are only Areas)
+			Iterator<Element> childrenItr = element.getChildren().iterator();
+			boolean justAreas = true;
+			while (childrenItr.hasNext()) {
+				if (!childrenItr.next().getAttributeValue("type", XMI_NAMESPACE).equals("webml:Area")) {
+					justAreas = false;
+				}
+			}
+			return !justAreas;
+		
+		}
 	}
 
 }
