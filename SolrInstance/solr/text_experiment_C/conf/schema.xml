@@ -335,15 +335,15 @@
    -->
 
    <field name="projectId" type="string" indexed="true" stored="true" required="true" /> 
-   <field name="projectName" type="lastAnalysis" indexed="true" stored="true" required="true" /> 
+   <field name="projectName" type="text_C" indexed="true" stored="true" required="true" />
    <field name="conceptType" type="string" indexed="true" stored="true"  required="true" />
    <field name="classId" type="string" indexed="true" stored="true"  required="true" />
-   <field name="className" type="lastAnalysis" indexed="true" stored="true" required="true" /> 
+   <field name="className" type="text_C" indexed="true" stored="true" required="true" /> 
    
-   <field name="attributeNames" type="lastAnalysis" indexed="true" stored="true"    
+   <field name="attributeNames" type="text_C" indexed="true" stored="true"    
 			multiValued="true" termVectors="true" termOffsets="true" termPosition="true"/>
 
-   <field name="content" type="lastAnalysis" indexed="true" stored="true"    
+   <field name="content" type="text_C" indexed="true" stored="true"    
 			multiValued="true"/>		
 			
 	<field name="text_C" type="text_C" />

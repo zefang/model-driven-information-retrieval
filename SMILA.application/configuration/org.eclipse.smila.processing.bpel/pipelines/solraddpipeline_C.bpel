@@ -87,7 +87,7 @@
               						<rec:Val key="coreName">text_experiment_C</rec:Val>
 			  						<rec:Seq key="smilaFields">
 			    						<rec:Val>projectId</rec:Val>
-										<rec:Val>projectName</rec:Val>		    
+										<rec:Val>projectName</rec:Val>	    
 										<rec:Val>conceptType</rec:Val>
 										<rec:Val>classId</rec:Val>
 										<rec:Val>className</rec:Val>

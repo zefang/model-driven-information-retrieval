@@ -79,7 +79,7 @@ public class AnalyzerPayloadSubstitutionPipelet implements Pipelet {
 				ArrayList<String> _smilaFields = new ArrayList<String>();
 				_smilaFields.add("attributeNames");
 				_smilaFields.add("className");
-				_smilaFields.add("projectName");
+				//_smilaFields.add("projectName");
 				final AnyMap record = blackboard.getMetadata(id);
 				for (final String attrName : record.keySet()) {
 					if (_smilaFields.contains(attrName)) {
