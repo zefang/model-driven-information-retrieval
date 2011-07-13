@@ -41,13 +41,6 @@
 		        				<proc:variables input="request" /> 
 		    				</proc:invokePipelet>
 						</extensionActivity>
-						
-						<extensionActivity>
-		    				<proc:invokePipelet name="invokeWebmlPayloadAdderPipelet">
-		        				<proc:pipelet class="it.polimi.mdir.webml.pipelet.WebmlPayloadAdderPipelet" />
-		        				<proc:variables input="request" /> 
-		    				</proc:invokePipelet>
-						</extensionActivity>
                         		
 						<extensionActivity>
 		    				<proc:invokePipelet name="invokeAnalyzerSubstitutionPipelet">
@@ -56,6 +49,16 @@
 		        				<proc:configuration>
 		        					<rec:Val key="coreName">webml_C</rec:Val>
 			  						<rec:Val key="fieldType">content_analysis</rec:Val>
+			  					</proc:configuration>
+		    				</proc:invokePipelet>
+						</extensionActivity>
+						
+						<extensionActivity>
+		    				<proc:invokePipelet name="invokeWebmlPayloadAdderPipelet">
+		        				<proc:pipelet class="it.polimi.mdir.webml.pipelet.WebmlPayloadAdderPipelet" />
+		        				<proc:variables input="request" /> 
+		        				<proc:configuration>
+		        					<rec:Val key="weightsConfigurationFile">C:\Users\Lox\workspaceSMILA\it.polimi.mdir.webml\configuration.properties</rec:Val>
 			  					</proc:configuration>
 		    				</proc:invokePipelet>
 						</extensionActivity>
