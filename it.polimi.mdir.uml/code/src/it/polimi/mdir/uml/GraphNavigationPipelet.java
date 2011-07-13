@@ -26,7 +26,7 @@ import org.eclipse.smila.processing.ProcessingException;
 
 import edu.uci.ics.jung.graph.Graph;
 
-public class SplitDPipelet implements Pipelet {
+public class GraphNavigationPipelet implements Pipelet {
 
 	
 	private static final int MAX_HOPS = 2;

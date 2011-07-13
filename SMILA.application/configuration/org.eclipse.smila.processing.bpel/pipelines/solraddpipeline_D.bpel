@@ -42,24 +42,24 @@
 					<proc:pipelet class="it.polimi.mdir.graph.pipelet.CreateGraphPipelet"></proc:pipelet>
 					<proc:variables input="request"></proc:variables>
 					<proc:configuration>
-						<rec:Val key="forceRewrite">true</rec:Val>
+						<rec:Val key="forceRewrite">false</rec:Val>
 					</proc:configuration>
 				</proc:invokePipelet>
 			</bpel:extensionActivity>
 			
-						<extensionActivity>
-                        	<proc:invokePipelet name="invokeSplitCPipelet_ExpD">
-		        				<proc:pipelet class="it.polimi.mdir.uml.SplitCPipelet" />
-		        				<proc:variables input="request" />     
-		    				</proc:invokePipelet>		
-                        </extensionActivity>
+			<extensionActivity>
+                <proc:invokePipelet name="invokeSplitCPipelet_ExpD">
+       				<proc:pipelet class="it.polimi.mdir.uml.SplitCPipelet" />
+       				<proc:variables input="request" />     
+   				</proc:invokePipelet>		
+            </extensionActivity>
                         
-                    <bpel:extensionActivity>
-                        <proc:invokePipelet name="invokeSplitDPipelet">
-                            <proc:pipelet class="it.polimi.mdir.uml.SplitDPipelet"></proc:pipelet>
-                            <proc:variables input="request" />
-                        </proc:invokePipelet>
-                    </bpel:extensionActivity>
+            <bpel:extensionActivity>
+                <proc:invokePipelet name="invokeGraphNavigationPipelet">
+                    <proc:pipelet class="it.polimi.mdir.uml.GraphNavigationPipelet"></proc:pipelet>
+                    <proc:variables input="request" />
+                </proc:invokePipelet>
+            </bpel:extensionActivity>
                     
                 		
                         <extensionActivity>
