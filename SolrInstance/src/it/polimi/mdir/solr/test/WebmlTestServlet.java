@@ -19,14 +19,12 @@ public class WebmlTestServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	
-	private static final String[] experiments = {"A", "B", "C", "D"};
+	private static final String[] experiments = {"B", "C"};
 	
 	String originalQueryString = "";
 	String query = "";
 	String mm = "";
 	String qf = "";
-	String bqProjectName = "";
-	String bqClassName = "";
 	String sheetTitle = "";
 	String writeToSheet = "";
 	
@@ -41,13 +39,11 @@ public class WebmlTestServlet extends HttpServlet {
 	  public void doGet (HttpServletRequest req, HttpServletResponse res)
 	    throws ServletException, IOException {
 		  
-		  System.out.println("Sono in TestServlet");
+		  System.out.println("This is WebmlTestServlet");
 		 
 		  String[] urls = 
-		  			{"http://localhost:8983/solr/text_experiment_A/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on", 
-					 "http://localhost:8983/solr/text_experiment_B/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on",
-					 "http://localhost:8983/solr/text_experiment_C/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on",
-					 "http://localhost:8983/solr/text_experiment_D/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on"};		  
+		  			{"http://localhost:8983/solr/webml_B/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on",
+					 "http://localhost:8983/solr/webml_C/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on"};
 		  
 		  // Cleaning parameters
 		  query = "";
@@ -60,8 +56,6 @@ public class WebmlTestServlet extends HttpServlet {
 		  originalQueryString = query;
 		  mm = req.getParameter("mm");
 		  qf = req.getParameter("qf");
-		  bqProjectName = req.getParameter("bq-projectName");
-		  bqClassName = req.getParameter("bq-className");
 		  
 		  // Replacing spaces
 		  query = query.replaceAll(" ", "+");
@@ -73,26 +67,14 @@ public class WebmlTestServlet extends HttpServlet {
 			  urls[i] = urls[i].concat("&q=" + query);
 			  // Query fields
 			  urls[i] = urls[i].concat("&qf=" + qf);
-			  /*
-			   *  Boost query (NOTICE: exp. A has no field className!)
-			   *  both className and projectName
-			   */
-			  if(!bqClassName.isEmpty() && i != 0 && !bqProjectName.isEmpty()) {
-				  urls[i] = urls[i].concat("&bq=className:" + bqClassName + "+projectName:" + bqProjectName);
-			  // only projectName
-			  } else if (!bqProjectName.isEmpty()) {
-				  urls[i] = urls[i].concat("&bq=projectName:" + bqProjectName);
-			  // only className 
-			  } else if (!bqClassName.isEmpty() && i != 0) {
-				  urls[i] = urls[i].concat("&bq=className:" + bqClassName);
-			  }
+			  
 			  // Minimum match
 			  urls[i] = urls[i].concat("&mm=" + mm);
 		  }	    
 		  
 		  for (int i=0; i<experiments.length; i++) {
 			  // New file		  
-			  BufferedWriter file = new BufferedWriter(new FileWriter("result" + experiments[i] + ".xml"));
+			  BufferedWriter file = new BufferedWriter(new FileWriter("result" + experiments[i] + "Webml.xml"));
 			  
 			  // Open connection
 			  URL url = new URL(urls[i]);
@@ -141,7 +123,7 @@ public class WebmlTestServlet extends HttpServlet {
 		  }
 		  
 		  // Redirect to test presentation page
-	      res.sendRedirect("./admin/testPresentation.jsp?queryString=" + query);
+	      res.sendRedirect("./admin/testPresentationWebml.jsp?queryString=" + query);
 	  }
 	
 	  public void doPost (HttpServletRequest  req, HttpServletResponse  res)

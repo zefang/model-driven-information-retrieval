@@ -52,7 +52,7 @@ public String correctIndentation(String s) {
 %>   
    
 <%--
-Presentation page for query output from TestServlet. This JSP renders in a
+Presentation page for query output from UmlTestServlet. This JSP renders in a
 more comprehensible way relevant information of query results.
 --%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -129,7 +129,7 @@ more comprehensible way relevant information of query results.
 </head>
 <body>
 
-<h1> Query Test Presentation Page </h1>
+<h1> UML Query Test Presentation Page </h1>
 
 <strong> Query string: </strong>
 <tt> <%=request.getParameter("queryString")%> </tt>
@@ -161,8 +161,8 @@ String score = "";
 <%
 for (String experiment : experiments) {
 	resultList.clear();
-	XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH.concat("/testPresentation.xquery"));
-	xq.bindVariable("document", "result"+experiment+".xml");
+	XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH.concat("/testPresentationUml.xquery"));
+	xq.bindVariable("document", "result"+experiment+"Uml.xml");
 	resultList = xq.executeQuery();
 %>   
    <!-- EXPERIMENT <%=experiment %> -->
@@ -206,7 +206,7 @@ for (String experiment : experiments) {
 		
 		//Get content of the document
 		XQueryWrapper xqContent = new XQueryWrapper(XQUERY_PATH.concat("/getContent.xquery"));
-		xqContent.bindVariable("document", "result"+experiment+".xml");
+		xqContent.bindVariable("document", "result"+experiment+"Uml.xml");
 		xqContent.bindVariable("id", rowId);
 		if ("A".equals(experiment)) {
 			xqContent.bindVariable("idType", "projectId");

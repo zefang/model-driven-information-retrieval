@@ -52,18 +52,15 @@ public String correctIndentation(String s) {
 %>   
    
 <%--
-Presentation page for query output from TestServlet. This JSP renders in a
+Presentation page for query output from WebmlTestServlet. This JSP renders in a
 more comprehensible way relevant information of query results.
 --%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>UML Query Test Presentation Page</title>
+	<title>WebML Query Test Presentation Page</title>
 	<link type="text/css" rel="stylesheet" href="test.css" />
-	<link type="text/css" rel="stylesheet" href="canvas.css" />
-	<script src="kinetic-v1.0.0.js"></script>
-	<script src="canvas.js"></script>
 	<script type="text/javascript">
 
 		/*
@@ -129,7 +126,7 @@ more comprehensible way relevant information of query results.
 </head>
 <body>
 
-<h1> Query Test Presentation Page </h1>
+<h1> WebML Query Test Presentation Page </h1>
 
 <strong> Query string: </strong>
 <tt> <%=request.getParameter("queryString")%> </tt>
@@ -144,13 +141,11 @@ in.close();
 
 String XQUERY_PATH = xqueryConfig.getProperty("DIR");
 
-String[] experiments = new String[]{"A", "B", "C", "D"};
+String[] experiments = new String[]{"B", "C"};
 
 ArrayList<String> resultList = new ArrayList<String>();
-String projectId = "";
-String projectName = "";
-String classId = "";
-String className = "";
+String areaId = "";
+String areaName = "";
 String score = "";
 
 %>
@@ -161,8 +156,8 @@ String score = "";
 <%
 for (String experiment : experiments) {
 	resultList.clear();
-	XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH.concat("/testPresentation.xquery"));
-	xq.bindVariable("document", "result"+experiment+".xml");
+	XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH.concat("/testPresentationWebml.xquery"));
+	xq.bindVariable("document", "result"+experiment+"Webml.xml");
 	resultList = xq.executeQuery();
 %>   
    <!-- EXPERIMENT <%=experiment %> -->
@@ -172,8 +167,8 @@ for (String experiment : experiments) {
    <thead>
 		<tr>
   		<th>Ranking</th>
-  		<th>Project Name</th>
-  		<th>Class Name</th>
+  		<th>areaId</th>
+  		<th>areaName</th>
   		<th>Score</th>
 		</tr>
 	</thead>
@@ -183,34 +178,25 @@ for (String experiment : experiments) {
 	String previousScore = null;
 	String trClass = "odd";
 	for (int i=0; i<resultList.size(); i++) {
-		String[] splittedResult = resultList.get(i).split(" ");
-		projectId = splittedResult[0];	
-		projectName = splittedResult[1];
-		classId = splittedResult[2];
-		className = splittedResult[3];
-		score = splittedResult[4];
+		String[] splittedResult = resultList.get(i).split("\\%");
+		areaId = splittedResult[0];	
+		areaName = splittedResult[1];
+		score = splittedResult[2];
 		
-		String rowId;
-		if ("A".equals(experiment)) {
-			rowId = projectId;
-		} else {
-			rowId = classId;
-		}
+		String rowId = areaId;
 		
 		//Get detailedScore of the document
 		XQueryWrapper xqDetailedScore = new XQueryWrapper(XQUERY_PATH.concat("/getDetailedScore.xquery"));
-		xqDetailedScore.bindVariable("document", "result"+experiment+".xml");
+		xqDetailedScore.bindVariable("document", "result"+experiment+"Webml.xml");
 		xqDetailedScore.bindVariable("id", rowId);
 		String detailedScore = xqDetailedScore.executeQuery().get(0);
 		detailedScore = correctIndentation(detailedScore);
 		
 		//Get content of the document
 		XQueryWrapper xqContent = new XQueryWrapper(XQUERY_PATH.concat("/getContent.xquery"));
-		xqContent.bindVariable("document", "result"+experiment+".xml");
+		xqContent.bindVariable("document", "result"+experiment+"Webml.xml");
 		xqContent.bindVariable("id", rowId);
-		if ("A".equals(experiment)) {
-			xqContent.bindVariable("idType", "projectId");
-		} else xqContent.bindVariable("idType", "classId");
+		xqContent.bindVariable("idType", "areaId");
 		String content = xqContent.executeQuery().get(0);
 		
 		if (!score.equals(previousScore)) {
@@ -222,8 +208,8 @@ for (String experiment : experiments) {
 											 	   onmouseout="disableHighlightClasses(this.id)"
 											 	   onclick="toggle('<%=rowId %>', '<%=experiment %>')">
   			<td><%=i+1%></td>
-  			<td><%=projectName%></td>
-  			<td><%=className%></td>
+  			<td><%=areaId%></td>
+  			<td><%=areaName%></td>
   			<td><%=score%></td>
   			<td class="hidden"><%=detailedScore %></td>
   			<td class="hidden"><%=content %></td>
@@ -253,11 +239,6 @@ for (String experiment : experiments) {
 	<strong> Content field: </strong>
 	<div class="content" id="contentBox">
 	</div>
-</div>
-
-<div>
-	<canvas id="backCanvas" width="700" height="500" ></canvas>
-	<canvas id="canvas" width="700" height="500" ></canvas>
 </div>
 
 </body>
