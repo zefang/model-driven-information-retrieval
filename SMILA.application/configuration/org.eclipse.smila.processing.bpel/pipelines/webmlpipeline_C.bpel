@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<process name="WebMLPipeline" targetNamespace="http://www.eclipse.org/smila/processor"
+<process name="WebMLPipeline_C" targetNamespace="http://www.eclipse.org/smila/processor"
   xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns:proc="http://www.eclipse.org/smila/processor" xmlns:rec="http://www.eclipse.org/smila/record" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
 
@@ -42,34 +42,31 @@
 		    				</proc:invokePipelet>
 						</extensionActivity>
 						
+						<extensionActivity>
+		    				<proc:invokePipelet name="invokeWebmlPayloadAdderPipelet">
+		        				<proc:pipelet class="it.polimi.mdir.webml.pipelet.WebmlPayloadAdderPipelet" />
+		        				<proc:variables input="request" /> 
+		    				</proc:invokePipelet>
+						</extensionActivity>
                         		
 						<extensionActivity>
 		    				<proc:invokePipelet name="invokeAnalyzerSubstitutionPipelet">
 		        				<proc:pipelet class="it.polimi.mdir.webml.pipelet.AnalyzerSubstitutionPipelet" />
 		        				<proc:variables input="request" /> 
 		        				<proc:configuration>
-		        					<rec:Val key="coreName">webml_B</rec:Val>
+		        					<rec:Val key="coreName">webml_C</rec:Val>
 			  						<rec:Val key="fieldType">content_analysis</rec:Val>
 			  					</proc:configuration>
 		    				</proc:invokePipelet>
 						</extensionActivity>
 						 
-						<!-- 				 
 						<extensionActivity>
-		    				<proc:invokePipelet name="invokePayloadAdderPipelet">
-		        				<proc:pipelet class="it.polimi.mdir.webml.pipelet.PayloadAdderPipelet" />
-		        				<proc:variables input="request" /> 
-		    				</proc:invokePipelet>
-						</extensionActivity>
-						 -->
-						 
-						 <extensionActivity>
                         	<proc:invokePipelet name="invokeIndexerPipelet">
                     			<proc:pipelet class="it.polimi.mdir.webml.pipelet.IndexerPipelet" />
             					<proc:variables input="request" />
             					<proc:configuration>
-              						<rec:Val key="coreName">webml_B</rec:Val>
-			  						<rec:Val key="fieldType">content_B</rec:Val>
+              						<rec:Val key="coreName">webml_C</rec:Val>
+			  						<rec:Val key="fieldType">content_C</rec:Val>
             					</proc:configuration>
                     		</proc:invokePipelet>
                         </extensionActivity>

@@ -14,7 +14,7 @@ import org.eclipse.smila.processing.ProcessingException;
  * Used only in experiment C (for webml).
  *
  */
-public class PayloadAdderPipelet implements Pipelet {
+public class WebmlPayloadAdderPipelet implements Pipelet {
 
 	private final Log _log = LogFactory.getLog();
 	
