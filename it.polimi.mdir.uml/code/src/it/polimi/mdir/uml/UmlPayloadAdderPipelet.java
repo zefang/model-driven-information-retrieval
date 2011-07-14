@@ -38,9 +38,13 @@ public class UmlPayloadAdderPipelet implements Pipelet {
 				String conceptType = "";
 				String attributeName = "";
 				Record record = blackboard.getRecord(id);
-				projectName = record.getMetadata().getStringValue("projectName");
-				//TODO at the moment it considers just projectNames with one word
-				record.getMetadata().put("projectName", projectName+"|"+WeightRules.weightMap.get("project"));
+				
+				//put the payload to projectName
+				String[] projectNameArray = record.getMetadata().getStringValue("projectName").split("\\s");
+				for (int i = 0; i < projectNameArray.length; i++) {
+					projectName += projectNameArray[i]+"|"+WeightRules.weightMap.get("project") + " "; 
+				}
+				record.getMetadata().put("projectName", projectName.trim());
 				
 				className = record.getMetadata().getStringValue("className");
 				className += "|" + WeightRules.weightMap.get("class");

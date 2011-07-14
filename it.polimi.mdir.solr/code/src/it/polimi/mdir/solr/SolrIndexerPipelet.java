@@ -103,7 +103,7 @@ public class SolrIndexerPipelet implements Pipelet {
   @Override
   public String[] process(final Blackboard blackboard, final String[] recordIds) throws ProcessingException {
 	
-	System.out.println("Start SolrIndexerPipelet");
+	System.out.println("SolrIndexerPipelet -> Start indexing "+recordIds.length+" records");
 	  
     final String updateURL = SolrDocumentUtil.HTTP_LOCALHOST + SolrDocumentUtil.SOLR_WEBAPP + _coreName + UPDATE;
     String updateXMLMessage = null;
@@ -183,7 +183,7 @@ public class SolrIndexerPipelet implements Pipelet {
       //System.out.println("Indexer Response:\n" + response.toString());
     } catch (final Exception e) {
       final String msg =
-        "Error while processing record '" + logId + "' for index '" + _coreName + "': " + e.getMessage() + "'.";
+        "SolrIndexerPipelet -> Error while processing record '" + logId + "' for index '" + _coreName + "': \n" + e.getMessage() + "'.";
       throw new ProcessingException(msg, e);
     } finally {
       if (conn != null) {
@@ -191,7 +191,7 @@ public class SolrIndexerPipelet implements Pipelet {
       }
     }
     
-    System.out.println("Record correctly indexed");
+    System.out.println("SolrIndexerPipelet -> " + recordIds.length+" records correctly indexed");
     return recordIds;
   }
 

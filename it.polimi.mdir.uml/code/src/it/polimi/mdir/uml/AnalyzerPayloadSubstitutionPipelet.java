@@ -220,9 +220,9 @@ private static final TransformerFactory TRANSFORMER_FACTORY = TransformerFactory
 								Element text = (Element) token.getChildren().get(0);
 								String payload = "";
 								if (text.getText().contains("|")) {
-									payload = text.getText().split("\\|")[1];
+									payload = text.getText().split("\\|")[1];	
 								} else {
-									payload = "NO_PAYLOAD"; //TODO doesn't work
+									payload = "1.0";
 								}
 								text = (Element) token.getChildren().get(2);
 								String start = text.getText();
@@ -240,12 +240,11 @@ private static final TransformerFactory TRANSFORMER_FACTORY = TransformerFactory
 									Element token = tokensItr.next();
 									Element text = (Element) token.getChildren().get(0);
 									Element start = (Element) token.getChildren().get(2);
-									String payload = payloadMap.get(start.getText());
-									if (payload.equals("NO_PAYLOAD")) { //TODO doesn't work
-										result += text.getText() +" ";
-									} else {
-										result += text.getText() + "|"+payload +" ";	
+									if (payloadMap.get(start.getText()) == null) {
+										_log.write("payload null at: "+id+" toAnalyze: "+toAnalyze );
 									}
+									String payload = payloadMap.get(start.getText());
+									result += text.getText() + "|"+payload +" ";	
 								}
 							}
 						}

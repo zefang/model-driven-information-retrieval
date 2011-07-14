@@ -14,6 +14,7 @@ import it.polimi.mdir.graph.processing.ConfigLoader;
 import it.polimi.mdir.graph.processing.GraphFactory;
 import it.polimi.mdir.graph.processing.ImportAttributes;
 import it.polimi.mdir.graph.processing.NavigateGraph;
+import it.polimi.mdir.graph.processing.WeightRules;
 import it.polimi.mdir.logger.Log;
 import it.polimi.mdir.logger.LogFactory;
 
@@ -54,13 +55,19 @@ public class GraphNavigationPipelet implements Pipelet {
 		
 		for (String id : recordIds)  {
 			String className = "";
-			String fileName = "";
+			String projectName = "";
 			try {
 				Record rec = blackboard.getRecord(id);
 				className = rec.getMetadata().getStringValue("className");
 				String classId = rec.getMetadata().getStringValue("classId");
-				fileName = rec.getMetadata().getStringValue("FileName");
-				fileName = fileName.substring(0, fileName.length()-4);
+				
+				//put the payload to projectName
+				String[] projectNameArray = rec.getMetadata().getStringValue("projectName").split("\\s");
+				for (int i = 0; i < projectNameArray.length; i++) {
+					projectName += projectNameArray[i]+"|"+WeightRules.weightMap.get("project") + " "; 
+				}
+				rec.getMetadata().put("projectName", projectName.trim());
+				
 				
 				System.out.println("Start D " +  ++count + " -> " + className);
 				
@@ -68,7 +75,7 @@ public class GraphNavigationPipelet implements Pipelet {
 				//g.clone() would be ideal, but there isn't so...
 				Graph<Node, Edge> g = null;
 				try {
-					FileInputStream fileIn = new FileInputStream(ConfigLoader.SERIALIZATION_PATH +fileName + ".ser");
+					FileInputStream fileIn = new FileInputStream(ConfigLoader.SERIALIZATION_PATH +projectName.split("\\|")[0] + ".ser");
 					ObjectInputStream in = new ObjectInputStream(fileIn);
 					g = (Graph<Node, Edge>) in.readObject();
 					in.close();
@@ -106,11 +113,14 @@ public class GraphNavigationPipelet implements Pipelet {
 				blackboard.setRecord(rec);
 				
 				//blackboard.commit();
+				
+				//put payload on className
+				rec.getMetadata().put("className", className+"|"+WeightRules.weightMap.get("class"));
 				System.out.println(className +": TUTTO OK");
 				System.out.println("END: " + count);
 				
 			} catch (Exception e) { //BlackboardAccessException
-				_log.write("D -> Exception at record: " + className + "of project "+ fileName);
+				_log.write("D -> Exception at record: " + className + "of project "+ projectName);
 				e.printStackTrace();
 			}
 		}
