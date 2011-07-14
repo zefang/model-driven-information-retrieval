@@ -58,8 +58,6 @@ public class AnalyzerPayloadSubstitutionPipelet implements Pipelet {
 	private Log _log = LogFactory.getLog();
 	private static int count = 0;
 	
-	private HashMap<String, String> payloadMap = new HashMap<String, String>();
-	
 	@Override
 	public void configure(AnyMap configuration) throws ProcessingException {
 		_configuration = configuration;
@@ -194,7 +192,7 @@ private static final TransformerFactory TRANSFORMER_FACTORY = TransformerFactory
 			//fetch the response
 	      	//Get the start-end position in the first analyzer
 	      	//parse the output of the last analyzer and put the payloads back.
-	      	payloadMap.clear();
+	      	HashMap<String, String> payloadMap = new HashMap<String, String>();
 			SAXBuilder builder = new SAXBuilder();
 			InputStream is = new ByteArrayInputStream(response.toString().getBytes("UTF-8"));
 			Document responseDoc = builder.build(is);
@@ -240,10 +238,11 @@ private static final TransformerFactory TRANSFORMER_FACTORY = TransformerFactory
 									Element token = tokensItr.next();
 									Element text = (Element) token.getChildren().get(0);
 									Element start = (Element) token.getChildren().get(2);
-									if (payloadMap.get(start.getText()) == null) {
-										_log.write("payload null at: "+id+" toAnalyze: "+toAnalyze );
-									}
 									String payload = payloadMap.get(start.getText());
+									if (payload == null) {
+										_log.write("payload null at: "+id+" toAnalyze: "+toAnalyze +" start: "+start.getText()+ " text: "+text.getText());
+										payload = "1.0"; //If a payload doesn't exist for any reason, I set it to 1.0
+									}
 									result += text.getText() + "|"+payload +" ";	
 								}
 							}
