@@ -335,11 +335,11 @@
    -->
 
    <field name="projectId" type="string" indexed="true" stored="true" required="true" /> 
-   <field name="projectName" type="string" indexed="true" stored="true" required="true" />
+   <field name="projectName" type="text_D" indexed="true" stored="true" required="true" />
    <field name="conceptType" type="string" indexed="true" stored="true"  required="true" />
    <field name="classId" type="string" indexed="true" stored="true"  required="true" />
-   <field name="className" type="string" indexed="true" stored="true" required="true" /> 
-   <field name="attributeNames" type="string" indexed="true" stored="true" required="true"/>
+   <field name="className" type="text_D" indexed="true" stored="true" required="true" /> 
+   <field name="attributeNames" type="text_D" indexed="true" stored="true" required="true"/>
 
    <field name="content" type="lastAnalysis" indexed="true" stored="true"    
 			multiValued="true" termVectors="true" termOffsets="true" termPosition="true"/>	<!-- Here the actual search is performed -->	
