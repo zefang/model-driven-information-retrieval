@@ -320,12 +320,10 @@
    <field name="conceptType" type="string" indexed="true" stored="true"  required="true" />
    <field name="classId" type="string" indexed="true" stored="true"  required="true" />
    <field name="className" type="text_B" indexed="true" stored="true" required="true" /> 
-   
-   <field name="attributeNames" type="text_B" indexed="true" stored="true"    
-			multiValued="true" termVectors="true" termOffsets="true" termPosition="true"/>
+   <field name="attributeNames" type="text_B" indexed="true" stored="true" required="true" />
 
    <field name="content" type="text_B" indexed="true" stored="true"    
-			multiValued="true"/>			
+			multiValued="true" termVectors="true" termOffsets="true" termPosition="true"/>			
    
  </fields>
 
