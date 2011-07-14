@@ -17,7 +17,7 @@
     <Source BrokerId="broker1" Queue="SMILA.connectivity"/>
     <Condition>Call_Pipeline='CustomPipeline' and Operation='ADD' and DataSourceID='model')</Condition>
     <Task>
-      <Process Workflow="SolrAddPipeline_C"/>
+    	<Process Workflow="SolrAddPipeline"/>
     </Task>
   </Rule>
   
