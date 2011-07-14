@@ -65,8 +65,8 @@
             </bpel:extensionActivity>
             
             <extensionActivity>
-	        	<proc:invokePipelet name="invokeAnalyzerPayloadSubstitutionPipelet">
-	            <proc:pipelet class="it.polimi.mdir.uml.AnalyzerPayloadSubstitutionPipelet" input="r"/>
+	        	<proc:invokePipelet name="invokeAnalyzerPayloadSubstitutionPipelet_ExpD">
+	            <proc:pipelet class="it.polimi.mdir.uml.AnalyzerPayloadSubstitutionPipelet"/>
 	            <proc:variables input="request" />
 	            <proc:configuration>
 	            	<rec:Val key="coreName">text_experiment_D</rec:Val>
@@ -112,33 +112,6 @@
                      
         </bpel:sequence>
         
-       
- 
-<!--
-
-SOLR-ANALYZER-PIPELET
-
-		<extensionActivity>
-          <proc:invokePipelet name="invokeSolrAnalyzerPipelet">
-            <proc:pipelet class="it.polimi.mdir.solr.SolrAnalyzerPipelet" />
-            <proc:variables input="request" />
-            <proc:configuration>
-			  <rec:Val key="writerType">xml</rec:Val>
-			  <rec:Val key="indent">true</rec:Val>
-              <rec:Val key="coreName">test_core</rec:Val>
-			  <rec:Seq key="smilaFields">
-			    <rec:Val>projectId</rec:Val>
-				<rec:Val>Content</rec:Val>
-			  </rec:Seq>
-			  <rec:Seq key="solrAnalysisTypes">
-			    <rec:Val>projectId</rec:Val>
-				<rec:Val>text_A</rec:Val>
-			  </rec:Seq>
-            </proc:configuration>
-          </proc:invokePipelet>
-        </extensionActivity>
--->
-
         <reply name="end" partnerLink="Pipeline" portType="proc:ProcessorPortType" operation="process" variable="request" />
         <exit />
     </sequence>

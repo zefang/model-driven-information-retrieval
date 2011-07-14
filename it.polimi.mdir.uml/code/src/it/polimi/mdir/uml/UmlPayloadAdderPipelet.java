@@ -105,7 +105,7 @@ public class UmlPayloadAdderPipelet implements Pipelet {
 				blackboard.setRecord(record);
 				blackboard.commit();
 			} catch (Exception e) {
-				_log.write("PayloadAddder -> Exception at record: " + className + "of project "+ projectName);
+				_log.write("UmlPayloadAddder -> Exception at record: " + className + "of project "+ projectName);
 				e.printStackTrace();	
 			}
 		}

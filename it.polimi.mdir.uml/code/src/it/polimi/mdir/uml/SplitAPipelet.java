@@ -8,7 +8,6 @@ import it.polimi.mdir.logger.Log;
 import it.polimi.mdir.logger.LogFactory;
 
 import org.eclipse.smila.blackboard.Blackboard;
-import org.eclipse.smila.blackboard.BlackboardAccessException;
 import org.eclipse.smila.datamodel.AnyMap;
 import org.eclipse.smila.datamodel.Record;
 import org.eclipse.smila.datamodel.filter.RecordFilterNotFoundException;
@@ -31,13 +30,13 @@ public class SplitAPipelet implements Pipelet {
 	public String[] process(Blackboard blackboard, String[] recordIds)
 			throws ProcessingException {
 		
-		System.out.println("Start Enrich A: " + ++count);
-		System.out.println("A -> recordids.length: " + recordIds.length);
+		System.out.println("Start Splitting A: " + ++count);
+		System.out.println("Split A -> recordids.length: " + recordIds.length);
 		for (final String id : recordIds) {
-			String fileName = "";
+			String projectName = "";
 			try {
-				fileName = blackboard.getRecord(id).getMetadata().getStringValue("FileName");
-				System.out.println("A -> name: " + fileName);
+				projectName = blackboard.getRecord(id).getMetadata().getStringValue("projectName");
+				System.out.println("Split A -> projectName: " + projectName);
 				
 				//Extract attributes from record
 				Record rec = blackboard.getRecord(id);
@@ -58,17 +57,11 @@ public class SplitAPipelet implements Pipelet {
 				
 				rec.getMetadata().put("content", content);
 
-				//Apply record filter
-				try {
-					rec = blackboard.filterRecord(rec, "experimentA");
-				} catch (RecordFilterNotFoundException e) {
-					e.printStackTrace();
-				}		
 				blackboard.setRecord(rec);				
 				blackboard.commit();	
 				
 			} catch (Exception e) {
-				_log.write("A -> Exception at project " + fileName);
+				_log.write("SplitAPipelet -> Exception at project " + projectName);
 				e.printStackTrace();
 			}
 		}

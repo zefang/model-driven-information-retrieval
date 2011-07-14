@@ -54,17 +54,16 @@ public class CreateGraphPipelet implements Pipelet {
 			throws ProcessingException {
 		
 		for (String id : recordIds) {
-			String fileName = "";
+			String projectName = "";
 			try {
-				fileName = blackboard.getRecord(id).getMetadata().getStringValue("FileName");
-				fileName = fileName.substring(0, fileName.length()-4) + ".gml";
+				projectName = blackboard.getRecord(id).getMetadata().getStringValue("projectName");
+				projectName = projectName + ".gml";
 			
-				System.out.println(++count + "-> Creating graph: " + fileName);
+				System.out.println(++count + "-> Creating graph: " + projectName);
 				
-				Graph<Node, Edge> g = GraphFactory.createGraphFromGraphML(GRAPHML_PATH + fileName);
+				Graph<Node, Edge> g = GraphFactory.createGraphFromGraphML(GRAPHML_PATH + projectName);
 				
-				fileName = fileName.substring(0, fileName.length()-4);
-				String filePath = ConfigLoader.SERIALIZATION_PATH + fileName+".ser";
+				String filePath = ConfigLoader.SERIALIZATION_PATH + projectName+".ser";
 				try {
 					File f = new File(filePath);
 					if (_forceRewrite || !f.exists()) {
@@ -79,7 +78,7 @@ public class CreateGraphPipelet implements Pipelet {
 				}
 				
 			} catch (Exception e) {
-				_log.write("CreateGraphPipelet -> Exception at project " + fileName);
+				_log.write("CreateGraphPipelet -> Exception at project " + projectName);
 				e.printStackTrace();
 			}
 			

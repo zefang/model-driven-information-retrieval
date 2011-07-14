@@ -18,46 +18,22 @@
   </extensions>
   <extensions>
     <extendedObject href="solraddpipeline_C.bpel#//@activity/@activities.1/@activities.0"/>
-    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension" x="8" y="8"/>
-  </extensions>
-  <extensions>
-    <extendedObject href="solraddpipeline_C.bpel#//@activity/@activities.1/@activities.0/@activity"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
-  </extensions>
-  <extensions>
-    <extendedObject href="solraddpipeline_C.bpel#//@activity/@activities.1/@activities.0/@activity/@activities.0"/>
-    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
-  </extensions>
-  <extensions>
-    <extendedObject href="solraddpipeline_C.bpel#//@activity/@activities.1/@activities.0/@activity/@activities.0/@copy.0"/>
-    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:CopyExtension"/>
-  </extensions>
-  <extensions>
-    <extendedObject href="solraddpipeline_C.bpel#//@activity/@activities.1/@activities.0/@activity/@activities.0/@copy.1"/>
-    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:CopyExtension"/>
-  </extensions>
-  <extensions>
-    <extendedObject href="solraddpipeline_C.bpel#//@activity/@activities.1/@activities.0/@activity/@activities.1"/>
-    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
-  </extensions>
-  <extensions>
-    <extendedObject href="solraddpipeline_C.bpel#//@activity/@activities.1/@activities.0/@variables/@children.0"/>
-    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:VariableExtension"/>
   </extensions>
   <extensions>
     <extendedObject href="solraddpipeline_C.bpel#/"/>
-    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1310578007892"/>
+    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1310651175358"/>
   </extensions>
   <extensions>
-    <extendedObject href="solraddpipeline_C.bpel#//@activity/@activities.1/@activities.0/@activity/@activities.2"/>
+    <extendedObject href="solraddpipeline_C.bpel#//@activity/@activities.1/@activities.1"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
   </extensions>
   <extensions>
-    <extendedObject href="solraddpipeline_C.bpel#//@activity/@activities.1/@activities.0/@activity/@activities.3"/>
+    <extendedObject href="solraddpipeline_C.bpel#//@activity/@activities.1/@activities.2"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
   </extensions>
   <extensions>
-    <extendedObject href="solraddpipeline_C.bpel#//@activity/@activities.1/@activities.0/@activity/@activities.4"/>
+    <extendedObject href="solraddpipeline_C.bpel#//@activity/@activities.1/@activities.3"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
   </extensions>
   <extensions>

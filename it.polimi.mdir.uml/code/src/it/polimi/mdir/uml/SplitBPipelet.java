@@ -10,14 +10,11 @@ import it.polimi.mdir.logger.LogFactory;
 import java.util.ArrayList;
 
 import org.eclipse.smila.blackboard.Blackboard;
-import org.eclipse.smila.blackboard.BlackboardAccessException;
 import org.eclipse.smila.datamodel.AnyMap;
 import org.eclipse.smila.datamodel.Record;
 import org.eclipse.smila.datamodel.filter.RecordFilterNotFoundException;
 import org.eclipse.smila.processing.Pipelet;
 import org.eclipse.smila.processing.ProcessingException;
-
-//TODO: DA MERGIARE CON EXPERIMENTS C
 
 
 /**
@@ -40,16 +37,16 @@ public class SplitBPipelet implements Pipelet {
 	public String[] process(Blackboard blackboard, String[] recordIds)
 			throws ProcessingException {
 		
-		System.out.println("Start Enrich B: " + ++count);
-		System.out.println("B -> recordids.length: " + recordIds.length);
+		System.out.println("Start Split B: " + ++count);
+		System.out.println("Split B -> recordids.length: " + recordIds.length);
 		//This array will contain new id to pass through the framework
 		final ArrayList<String> newRecordsIds = new ArrayList<String>();
 		final int nNewRecords;
 		for (final String id : recordIds) {
-			String fileName = "";
+			String projectName = "";
 			try {
-				fileName = blackboard.getRecord(id).getMetadata().getStringValue("FileName");
-				System.out.println("B -> name: " + fileName);
+				projectName = blackboard.getRecord(id).getMetadata().getStringValue("projectName");
+				System.out.println("Split B -> name: " + projectName);
 				
 				//construct attributeNames field
 				final String classIds = blackboard.getRecord(id).getMetadata().getStringValue("classIds");
@@ -89,19 +86,13 @@ public class SplitBPipelet implements Pipelet {
 						}
 					}
 					copy.getMetadata().put("attributeNames", attributesPerClass.trim());
-
-					//Apply record filter
-					try {
-						copy = blackboard.filterRecord(copy, "experimentB");
-					} catch (RecordFilterNotFoundException e) {
-						e.printStackTrace();
-					}		
+	
 					blackboard.setRecord(copy);				
 				}
 				blackboard.commit();	
 				
 			} catch (Exception e) {
-				_log.write("B -> Exception at project " + fileName);
+				_log.write("SplitBPipelet -> Exception at project " + projectName);
 				e.printStackTrace();
 			}
 		}
