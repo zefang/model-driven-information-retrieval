@@ -3,9 +3,12 @@ package it.polimi.mdir.webml.pipelet;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.net.HttpURLConnection;
@@ -78,6 +81,18 @@ public class AnalyzerSubstitutionPipelet implements Pipelet {
 			try {
 				areaId = blackboard.getRecord(id).getMetadata().getStringValue("areaId");
 				System.out.println("Analyzer -> areaId: " + areaId);
+				
+				/*
+				 * Output the CSV file containing all the considered areas
+				 * 
+				String projectId = areaId.split("\\$")[0];
+				String areaName = blackboard.getRecord(id).getMetadata().getStringValue("areaName");
+				File f = new File("C:/"+projectId+".csv");
+				FileWriter outFile = new FileWriter(f, true);
+				PrintWriter out = new PrintWriter(outFile);
+				out.println(projectId+";"+areaId.split("\\$")[1]+";"+areaName);
+				out.close();
+				*/
 				
 				final InputStream xmiContentStream = blackboard.getAttachmentAsStream(id, "xmiContent");
 				SAXBuilder builder = new SAXBuilder();
