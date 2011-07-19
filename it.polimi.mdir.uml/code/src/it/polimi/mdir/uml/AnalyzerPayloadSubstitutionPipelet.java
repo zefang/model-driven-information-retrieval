@@ -78,8 +78,8 @@ public class AnalyzerPayloadSubstitutionPipelet implements Pipelet {
 				classId = blackboard.getRecord(id).getMetadata().getStringValue("classId");
 				System.out.println("Analyzer -> classId: " + classId);
 				
-				//TODO farli tutti in un botto?
 				//Create fields
+				//_smilaFields contains the name of the smila fields that I want to send to the analyzer
 				ArrayList<String> _smilaFields = new ArrayList<String>();
 				_smilaFields.add("attributeNames");
 				_smilaFields.add("className");
