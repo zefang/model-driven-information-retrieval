@@ -100,11 +100,13 @@ public class AnalyzerSubstitutionPipelet implements Pipelet {
 				Iterator<Element> packedElements = doc.getDescendants(new ElementFilter("packagedElement"));
 				while (packedElements.hasNext()) {
 					Element element = packedElements.next();
-					//TODO farli tutti in un botto?
-					//keep the original content in the form 'oroginal'$'analyzed'
+					
+					//keep the original content in the form 'original'$'analyzed'
 					String originalValue = element.getAttributeValue("name");
-					element.setAttribute("name", originalValue+"$"+callSolrAnalyzer(element.getAttributeValue("id", XMI_NAMESPACE), originalValue, _fieldType));
+					element.setAttribute("name", originalValue+"$"+callSolrAnalyzer(element.getAttributeValue("id", XMI_NAMESPACE), originalValue, _fieldType));	
 					numAnalyzed += 1;
+					
+					//checks if there are "displayAttributes" and "entity" to analyze
 					if (element.getAttribute("displayAttributes") != null) {
 						originalValue = element.getAttributeValue("displayAttributes");
 						element.setAttribute("displayAttributes", originalValue+"$"+callSolrAnalyzer(element.getAttributeValue("id", XMI_NAMESPACE), originalValue, _fieldType));
@@ -119,7 +121,7 @@ public class AnalyzerSubstitutionPipelet implements Pipelet {
 			    blackboard.getRecord(id).setAttachment("xmiContent", newXmiContent.getBytes());
 				
 			} catch (Exception e) {
-				_log.write(e.toString());
+				_log.write("Error in AnalyzerSubstitutionPipelet -> areaId: "+ id +"\n" + e.toString());
 				e.printStackTrace();
 			}
 		}
