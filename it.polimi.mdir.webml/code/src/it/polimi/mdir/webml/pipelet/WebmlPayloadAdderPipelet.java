@@ -74,13 +74,12 @@ public class WebmlPayloadAdderPipelet implements Pipelet {
 		System.out.println("PayloadAdder -> recordids.length: " + recordIds.length);
 		
 		for (final String id : recordIds) {
-			String areaId = "";
 			try {
-				areaId = blackboard.getRecord(id).getMetadata().getStringValue("areaId");
+				final String areaId = blackboard.getRecord(id).getMetadata().getStringValue("areaId");
 				System.out.println("WebmlPayloadAdder -> areaId: " + areaId);
 				
 				final InputStream xmiContentStream = blackboard.getAttachmentAsStream(id, "xmiContent");
-				SAXBuilder builder = new SAXBuilder();
+				final SAXBuilder builder = new SAXBuilder();
 				Document doc = builder.build(xmiContentStream);
 				Iterator<Element> packedElements = doc.getDescendants(new ElementFilter("packagedElement"));
 				while (packedElements.hasNext()) {
@@ -96,16 +95,20 @@ public class WebmlPayloadAdderPipelet implements Pipelet {
 						payload = UNIT_WEIGHT;
 					}
 					// get analyzed content
-					String[] splittedValue = element.getAttributeValue("name").split("\\$");
-					String originalValue = splittedValue[0];
-					String analyzedValue = splittedValue[1];
-					//put the payloads
-					String[] content = analyzedValue.split("\\s");
-					analyzedValue = "";
-					for (int i = 0; i < content.length; i++) {
-						analyzedValue += content[i]+"|"+payload + " ";	
+					String nameValue = element.getAttributeValue("name");
+					
+					String[] splittedValue = nameValue.split("\\$");
+					if (splittedValue.length > 1) {
+						String originalValue = splittedValue[0];
+						String analyzedValue = splittedValue[1];
+						//put the payloads
+						String[] content = analyzedValue.split("\\s");
+						analyzedValue = "";
+						for (int i = 0; i < content.length; i++) {
+							analyzedValue += content[i]+"|"+payload + " ";	
+						}
+						element.setAttribute("name", originalValue+"$"+analyzedValue.trim());	
 					}
-					element.setAttribute("name", originalValue+"$"+analyzedValue.trim());
 				}
 				XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
 			    String newXmiContent = outputter.outputString(doc);
@@ -113,7 +116,7 @@ public class WebmlPayloadAdderPipelet implements Pipelet {
 			    blackboard.getRecord(id).setAttachment("xmiContent", newXmiContent.getBytes());
 				
 			} catch (Exception e) {
-				_log.write(e.toString());
+				_log.write("Error in WebmlPayloadAdderPipelet -> areaId: "+ id +"\n" + e.toString());
 				e.printStackTrace();
 			}
 		}
