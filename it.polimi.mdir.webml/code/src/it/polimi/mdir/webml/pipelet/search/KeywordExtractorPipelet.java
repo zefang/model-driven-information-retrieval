@@ -1,5 +1,6 @@
 package it.polimi.mdir.webml.pipelet.search;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
@@ -38,9 +39,11 @@ public class KeywordExtractorPipelet implements Pipelet {
 		String keywordString = "";
 		
 		try {
-			final InputStream xmiContentStream = blackboard.getAttachmentAsStream(recordIds[0], "xmiContent");
+			//final InputStream xmiContentStream = blackboard.getAttachmentAsStream(recordIds[0], "xmiContent");
+			final String xmiContentStream = blackboard.getMetadata(recordIds[0]).getStringValue("xmiContent");
+			InputStream is = new ByteArrayInputStream(xmiContentStream.getBytes("UTF-8"));
 			SAXBuilder builder = new SAXBuilder();
-			Document doc = builder.build(xmiContentStream);
+			Document doc = builder.build(is);
 			Iterator<Element> packedElements = doc.getDescendants(new ElementFilter("packagedElement"));
 			while (packedElements.hasNext()) {
 				Element nextElement = packedElements.next();
@@ -50,6 +53,8 @@ public class KeywordExtractorPipelet implements Pipelet {
 			}
 			
 			blackboard.getRecord(recordIds[0]).getMetadata().put("keywords", keywordString.trim());
+			
+			System.out.println("keywordString = " + keywordString);
 			
 		} catch (BlackboardAccessException e) {
 			e.printStackTrace();
