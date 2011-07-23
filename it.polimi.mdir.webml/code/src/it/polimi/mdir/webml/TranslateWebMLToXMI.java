@@ -1,26 +1,12 @@
 package it.polimi.mdir.webml;
 
-import it.polimi.mdir.webml.ConfigLoader;
-
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringWriter;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
-import org.apache.xerces.dom.DOMImplementationImpl;
-import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -31,46 +17,18 @@ public class TranslateWebMLToXMI {
 	
 	private static String PACKAGED_ELEMENT = "packagedElement";
 	
-	private static String WEBML_PATH = "";
-	private static String OUTPUT_PATH = "";
-	private static int numProjects = 0;
-	private static Document outputDocument = null;
-	
-	private static void initialization() throws IOException {
-		WEBML_PATH = ConfigLoader.WEBML_PATH;
-		OUTPUT_PATH = ConfigLoader.OUTPUT_PATH;
-	}
+	private String _webmlPath = "";
+	private Document _outputDocument = null;
 	
 	//TODO Transactions and OperationGroups are treated the same
 	//TODO Pages and MasterPages are treated the same
 	
-	public static void main(String[] args) throws IOException {
-		
-		initialization();
-		
-		File webmlPath = new File(WEBML_PATH);
-		File[] projects = webmlPath.listFiles();
-		numProjects = projects.length;
-		
-		for (int i = 0; i < numProjects; i++) {
-			if (projects[i].isDirectory()) {
-				DOMImplementation impl = DOMImplementationImpl.getDOMImplementation();
-				outputDocument = impl.createDocument(null, "webml", null);
-				Element webmlProject = outputDocument.createElement("webml:Project");
-				
-				webmlProject.setAttribute("xmlns:xmi", "http://schema.omg.org/spec/XMI/2.1");
-				webmlProject.setAttribute("xmlns:webml", "http://www.webml.org");
-				webmlProject.setAttribute("xmi:version", "2.1");
-				
-				processProject(projects[i], webmlProject);
-				
-				writeToFile(webmlProject);
-			}
-		}
-		
+	public TranslateWebMLToXMI(String webmlPath, Document outputDocument) {
+		_webmlPath = webmlPath;
+		_outputDocument = outputDocument;
 	}
 	
-	public static void processProject(File project, Element projectNode) {
+	public void processProject(File project, Element projectNode) {
 		String projectName = project.getName();
 		
 		projectNode.setAttribute("xmi:id", projectName);
@@ -81,10 +39,10 @@ public class TranslateWebMLToXMI {
 		
 	}
 	
-	private static void processDataModel(String projectName, Element parentNode) {
-		File dataModelProperties = new File(WEBML_PATH + projectName + "/Model/DataModel/Properties.wr");
+	private void processDataModel(String projectName, Element parentNode) {
+		File dataModelProperties = new File(_webmlPath + projectName + "/Model/DataModel/Properties.wr");
 		
-		Element dataModelNode = outputDocument.createElement(PACKAGED_ELEMENT);
+		Element dataModelNode = _outputDocument.createElement(PACKAGED_ELEMENT);
 			dataModelNode.setAttribute("xmi:type", "webml:DataModel");
 			dataModelNode.setAttribute("xmi:id", "DataModel");
 			dataModelNode.setAttribute("name", "DataModel");
@@ -125,9 +83,9 @@ public class TranslateWebMLToXMI {
 		
 	}
 	
-	private static Element addEntity(String id, String name, Element parentNode) {
+	private Element addEntity(String id, String name, Element parentNode) {
 		System.out.println("Added Entity id:"+ id + " name:" +name);
-		Element entityNode = outputDocument.createElement(PACKAGED_ELEMENT);
+		Element entityNode = _outputDocument.createElement(PACKAGED_ELEMENT);
 			entityNode.setAttribute("xmi:type", "webml:Entity");
 			entityNode.setAttribute("xmi:id", id);
 			entityNode.setAttribute("name", name);
@@ -135,18 +93,18 @@ public class TranslateWebMLToXMI {
 		return entityNode;
 	}
 
-	private static void addAttribute(String id, String name, Element parentNode) {
+	private void addAttribute(String id, String name, Element parentNode) {
 		System.out.println("	Added Attribute id:"+ id + " name:" +name);
-		Element attributeNode = outputDocument.createElement(PACKAGED_ELEMENT);
+		Element attributeNode = _outputDocument.createElement(PACKAGED_ELEMENT);
 			attributeNode.setAttribute("xmi:type", "webml:Attribute");
 			attributeNode.setAttribute("xmi:id", id);
 			attributeNode.setAttribute("name", name);
 		parentNode.appendChild(attributeNode);
 	}
 	
-	private static Element addSiteView(String id, String name, Element parentNode) {
+	private Element addSiteView(String id, String name, Element parentNode) {
 		System.out.println("Added SiteView id:"+ id + " name:" +name);
-		Element siteViewNode = outputDocument.createElement(PACKAGED_ELEMENT);
+		Element siteViewNode = _outputDocument.createElement(PACKAGED_ELEMENT);
 			siteViewNode.setAttribute("xmi:type", "webml:SiteView");
 			siteViewNode.setAttribute("xmi:id", id);
 			siteViewNode.setAttribute("name", name);
@@ -154,9 +112,9 @@ public class TranslateWebMLToXMI {
 		return siteViewNode;
 	}
 	
-	private static Element addOperationUnit(String id, String name, String type, String displayAttributes, String entity, Element parentNode) {
+	private Element addOperationUnit(String id, String name, String type, String displayAttributes, String entity, Element parentNode) {
 		System.out.println("Added OperationUnit id:"+ id + " name:" + name + " type: "+ type);
-		Element operationUnitNode = outputDocument.createElement(PACKAGED_ELEMENT);
+		Element operationUnitNode = _outputDocument.createElement(PACKAGED_ELEMENT);
 			operationUnitNode.setAttribute("xmi:type", "webml:"+type);
 			operationUnitNode.setAttribute("xmi:id", id);
 			operationUnitNode.setAttribute("name", name);
@@ -170,9 +128,9 @@ public class TranslateWebMLToXMI {
 		return operationUnitNode;
 	}
 	
-	private static Element addPage(String id, String name, Element parentNode) {
+	private Element addPage(String id, String name, Element parentNode) {
 		System.out.println("Added Page id:"+ id + " name:" +name);
-		Element pageNode = outputDocument.createElement(PACKAGED_ELEMENT);
+		Element pageNode = _outputDocument.createElement(PACKAGED_ELEMENT);
 			pageNode.setAttribute("xmi:type", "webml:Page");
 			pageNode.setAttribute("xmi:id", id);
 			pageNode.setAttribute("name", name);
@@ -180,9 +138,9 @@ public class TranslateWebMLToXMI {
 		return pageNode;		
 	}
 	
-	private static Element addContentUnit(String id, String name, String type, String displayAttributes, String entity, Element parentNode) {
+	private Element addContentUnit(String id, String name, String type, String displayAttributes, String entity, Element parentNode) {
 		System.out.println("Added ContentUnit id:"+ id + " name:" + name + " type: "+ type);
-		Element contentUnitNode = outputDocument.createElement(PACKAGED_ELEMENT);
+		Element contentUnitNode = _outputDocument.createElement(PACKAGED_ELEMENT);
 			contentUnitNode.setAttribute("xmi:type", "webml:"+type);
 			contentUnitNode.setAttribute("xmi:id", id);
 			contentUnitNode.setAttribute("name", name);
@@ -196,9 +154,9 @@ public class TranslateWebMLToXMI {
 		return contentUnitNode;
 	}
 	
-	private static Element addOperationGroup(String id, String name, Element parentNode) {
+	private Element addOperationGroup(String id, String name, Element parentNode) {
 		System.out.println("Added OperationGroup id:"+ id + " name:" +name);
-		Element opgNode = outputDocument.createElement(PACKAGED_ELEMENT);
+		Element opgNode = _outputDocument.createElement(PACKAGED_ELEMENT);
 			opgNode.setAttribute("xmi:type", "webml:OperationGroup");
 			opgNode.setAttribute("xmi:id", id);
 			opgNode.setAttribute("name", name);
@@ -206,9 +164,9 @@ public class TranslateWebMLToXMI {
 		return opgNode;
 	}
 	
-	private static Element addArea(String id, String name, Element parentNode) {
+	private Element addArea(String id, String name, Element parentNode) {
 		System.out.println("Added Area id:"+ id + " name:" +name);
-		Element areaNode = outputDocument.createElement(PACKAGED_ELEMENT);
+		Element areaNode = _outputDocument.createElement(PACKAGED_ELEMENT);
 			areaNode.setAttribute("xmi:type", "webml:Area");
 			areaNode.setAttribute("xmi:id", id);
 			areaNode.setAttribute("name", name);
@@ -216,9 +174,9 @@ public class TranslateWebMLToXMI {
 		return areaNode;
 	}
 	
-	private static void addLink(String id, String name, String type, String to, Element parentNode) {
+	private void addLink(String id, String name, String type, String to, Element parentNode) {
 		System.out.println("Added Link id:"+ id + " name:" + name + " type: "+ type + " to: "+to);
-		Element linkNode = outputDocument.createElement(PACKAGED_ELEMENT);
+		Element linkNode = _outputDocument.createElement(PACKAGED_ELEMENT);
 			linkNode.setAttribute("xmi:type", "webml:"+type);
 			linkNode.setAttribute("xmi:id", id);
 			linkNode.setAttribute("name", name);
@@ -226,10 +184,10 @@ public class TranslateWebMLToXMI {
 		parentNode.appendChild(linkNode);
 	}
 	
-	private static void processWebModel(String projectName, Element parentNode) {
-		File webModelDirectory = new File(WEBML_PATH + projectName + "/Model/WebModel");
+	private void processWebModel(String projectName, Element parentNode) {
+		File webModelDirectory = new File(_webmlPath + projectName + "/Model/WebModel");
 		
-		Element webModelNode = outputDocument.createElement(PACKAGED_ELEMENT);
+		Element webModelNode = _outputDocument.createElement(PACKAGED_ELEMENT);
 			webModelNode.setAttribute("xmi:type", "webml:WebModel");
 			webModelNode.setAttribute("xmi:id", "WebModel");
 			webModelNode.setAttribute("name", "WebModel");
@@ -246,7 +204,7 @@ public class TranslateWebMLToXMI {
 		
 	}
 	
-	private static void processSiteView(File siteViewDirectory, Element parentNode) {
+	private void processSiteView(File siteViewDirectory, Element parentNode) {
 		File siteViewProperties = new File(siteViewDirectory.getAbsolutePath()+"/Properties.wr");		
 		Document doc = generateNewDocInstance(siteViewProperties);
 		
@@ -281,7 +239,7 @@ public class TranslateWebMLToXMI {
 	 * It can be either a SiteView or an Area, 
 	 * its real java type is org.w3c.dom.Element
 	 */
-	private static void processOperationUnits(Element el, Element parentNode) {
+	private void processOperationUnits(Element el, Element parentNode) {
 		NodeList opUnits = el.getElementsByTagName("OperationUnits");
 		NodeList operationUnits = opUnits.item(0).getChildNodes();
 		for (int i = 0; i < operationUnits.getLength(); i++) {
@@ -308,14 +266,14 @@ public class TranslateWebMLToXMI {
 	 * Process the Pages in the root given,
 	 * the root can be either a SiteView or an Area. 
 	 */
-	private static void processPages(File rootDirectory, Element parentNode) {
+	private void processPages(File rootDirectory, Element parentNode) {
 		File[] pages = rootDirectory.listFiles(new PageFileFilter());
 		for (int i = 0; i < pages.length; i++) { 
 			processPage(pages[i], parentNode);
 		}
 	}
 	
-	private static void processPage(File page, Element parentNode) {
+	private void processPage(File page, Element parentNode) {
 		Document doc = generateNewDocInstance(page);
 		//get id and name of the Page
 		NodeList pageNode = doc.getElementsByTagName("Page");
@@ -355,14 +313,14 @@ public class TranslateWebMLToXMI {
 	 * Process the OperationGroups in the root given,
 	 * the root can be either a SiteView or an Area. 
 	 */
-	private static void processOperationGroups(File rootDirectory, Element parentNode) {
+	private void processOperationGroups(File rootDirectory, Element parentNode) {
 		File[] opgs = rootDirectory.listFiles(new OperationGroupsFileFilter());
 		for (int i = 0; i < opgs.length; i++) { 
 			processOperationGroup(opgs[i], parentNode);
 		}
 	}
 	
-	private static void processOperationGroup(File opg, Element parentNode) {
+	private void processOperationGroup(File opg, Element parentNode) {
 		Document doc = generateNewDocInstance(opg);
 		//get id and name of the OperationGroup
 		NodeList opgNode = doc.getElementsByTagName("OperationGroup");
@@ -385,7 +343,7 @@ public class TranslateWebMLToXMI {
 	 * Process the Transactions in the root given,
 	 * the root can be either a SiteView or an Area. 
 	 */
-	private static void processTransactions(File rootDirectory, Element parentNode) {
+	private void processTransactions(File rootDirectory, Element parentNode) {
 		File[] trans = rootDirectory.listFiles(new TransactionsFileFilter());
 		for (int i = 0; i < trans.length; i++) { 
 			//here we treat the Transactions as OperationGroups
@@ -398,7 +356,7 @@ public class TranslateWebMLToXMI {
 	 * Process the Areas in the root given,
 	 * the root can be either a SiteView or an Area. 
 	 */
-	private static void processAreas(File rootDirectory, Element parentNode) {
+	private void processAreas(File rootDirectory, Element parentNode) {
 		File[] areaList = rootDirectory.listFiles();
 		for (int i = 0; i < areaList.length; i++) {
 			if (areaList[i].isDirectory() && 
@@ -412,7 +370,7 @@ public class TranslateWebMLToXMI {
 	 * @param rootDirectory
 	 * root directory of the area to process
 	 */
-	private static void processArea(File areaDirectory, Element parentNode) {
+	private void processArea(File areaDirectory, Element parentNode) {
 		File areaProperties = new File(areaDirectory.getAbsolutePath()+"/Properties.wr");		
 		Document doc = generateNewDocInstance(areaProperties);
 		
@@ -444,7 +402,7 @@ public class TranslateWebMLToXMI {
 	 * @param el
 	 * Given an Element (OperationUnit) processes its Links
 	 */
-	private static void processLinks(Element el, Element parentNode) {
+	private void processLinks(Element el, Element parentNode) {
 		String[] linkTypes = {"Link", "OKLink", "KOLink"}; //TODO are there any other link types?
 		for (int k = 0; k < linkTypes.length; k++) {
 			NodeList links = el.getElementsByTagName(linkTypes[k]); 
@@ -465,7 +423,7 @@ public class TranslateWebMLToXMI {
 	}
 	
 	
-	private static Document generateNewDocInstance(File f) {
+	private Document generateNewDocInstance(File f) {
 		Document doc = null;
 		try {
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -482,34 +440,5 @@ public class TranslateWebMLToXMI {
 		return doc;
 	}
 	
-	private static void writeToFile(Element root) {
-		try {
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-			transformerFactory.setAttribute("indent-number", 4);
-			Transformer transformer = transformerFactory.newTransformer();
-			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			
-			StringWriter writer = new StringWriter();
-			StreamResult result = new StreamResult(writer);
-			DOMSource source = new DOMSource(root);
-			transformer.transform(source, result);
-			
-			String outputName = OUTPUT_PATH + root.getAttribute("xmi:id") + ".xmi";
-			File resultFile = new File(outputName);
-			FileWriter outputWriter = new FileWriter(resultFile);
-			outputWriter.write(writer.toString());
-			outputWriter.close();
-			
-			System.out.println(root.getAttribute("name")+"...DONE!");
-		} catch (TransformerConfigurationException e) {
-			e.printStackTrace();
-		} catch (TransformerFactoryConfigurationError e) {
-			e.printStackTrace();
-		} catch (TransformerException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
+	
 }
