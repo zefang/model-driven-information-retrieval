@@ -39,6 +39,13 @@
         <proc:variables input="request" />
       </proc:invokePipelet>
     </extensionActivity>
+    
+    <extensionActivity>
+      <proc:invokePipelet name="invokeWebmlTestServletCallerPipelet">
+        <proc:pipelet class="it.polimi.mdir.webml.pipelet.search.WebmlTestServletCallerPipelet" />
+        <proc:variables input="request" />
+      </proc:invokePipelet>
+    </extensionActivity>
 
     <reply name="end" partnerLink="Pipeline" portType="proc:ProcessorPortType" operation="process"
       variable="request" />
