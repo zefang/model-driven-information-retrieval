@@ -1,0 +1,5 @@
+<Area xmlns:gr="http://www.webratio.com/2006/WebML/Graph" gr:x="267" gr:y="162" id="sv1#area1" name="Publication" landmark="true">
+  <OperationUnits>
+    <CreateUnit gr:x="315" gr:y="0" id="sv1#area1#cru2" name="create new pub" entity="ent2a"/>
+  </OperationUnits>
+</Area>

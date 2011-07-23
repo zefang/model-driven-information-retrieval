@@ -1,0 +1,1328 @@
+<DataModel xmlns:db="http://www.webratio.com/2006/WebML/Database" xmlns:gr="http://www.webratio.com/2006/WebML/Graph">
+  <Entity id="User" name="User" duration="persistent" gr:x="418" gr:y="-66" db:database="db1" db:table="usertable">
+    <Attribute name="OID" id="userOID" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="UserName" id="userName" type="string" db:column="username">
+      <Comment xml:space="preserve">matricola&lt;br&gt;</Comment>
+    </Attribute>
+    <Attribute name="Password" id="password" type="password" db:column="password"/>
+    <Attribute name="EMail" id="email" type="string" db:column="email"/>
+    <Attribute name="groupoid" id="User#att20" type="integer" db:column="groupoid"/>
+  </Entity>
+  <Entity id="Group" name="Group" duration="persistent" gr:x="216" gr:y="-41" db:database="db1" db:table="grouptable">
+    <Attribute name="OID" id="groupOID" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="GroupName" id="groupName" type="string" db:column="groupname"/>
+    <Attribute name="siteviewoid" id="Group#att19" type="integer" db:column="siteviewoid"/>
+    <Comment xml:space="preserve">
+    &lt;ul&gt;
+      &lt;li&gt;
+        2=candidato
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  </Comment>
+  </Entity>
+  <Entity id="SiteView" name="Module" duration="persistent" gr:x="9" gr:y="-40" db:database="db1" db:table="siteviewtable">
+    <Attribute name="OID" id="siteViewOID" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="ModuleID" id="siteViewID" type="string" db:column="siteviewid"/>
+    <Attribute name="ModuleName" id="moduleName" type="string" db:column="modulename"/>
+  </Entity>
+  <Entity id="ent1" name="Domanda" duration="persistent" gr:x="523" gr:y="1171" db:database="db1" db:table="domandatable">
+    <Attribute name="OID" id="ent1#att1" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="Codice" id="ent1#att2" type="string" db:column="codice"/>
+    <Attribute name="Domanda" id="ent1#att3" type="string" db:column="domanda"/>
+    <Attribute name="Peso" id="ent1#att15" type="decimal" db:column="peso"/>
+    <Attribute name="id_sottofattore" id="ent1#att29" type="integer" db:column="id_sottofattore"/>
+    <Attribute name="Fattore" id="ent1#att46" type="string" derivationQuery="simpleImported::Self.rel2#rel11.rel47#rel13.ent6#att25"/>
+    <Attribute name="Sottofattore" id="ent1#att47" type="string" derivationQuery="simpleImported::Self.rel2#rel11.ent5#att26"/>
+    <Attribute name="id_fattore" id="ent1#att48" type="integer" derivationQuery="simpleImported::Self.rel2#rel11.ent5#att28"/>
+    <Attribute name="N&#176;" id="ent1#att86" type="integer" db:column="numero_domanda"/>
+    <Attribute name="Tipo" id="ent1#att7" type="string" db:column="tipo"/>
+  </Entity>
+  <Entity id="ent2" name="Risposta" duration="persistent" gr:x="508" gr:y="886" db:database="db1" db:table="rispostatable">
+    <Attribute name="OID" id="ent2#att4" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="Codice" id="ent2#att5" type="string" db:column="codice"/>
+    <Attribute name="Risposta" id="ent2#att6" type="string" db:column="risposta"/>
+    <Attribute name="Punteggio" id="ent2#att14" type="decimal" db:column="punteggio"/>
+    <Attribute name="Domanda" id="ent2#att17" type="string" derivationQuery="simpleImported::Self.rel1#rel3.ent1#att3"/>
+    <Attribute name="domandaoid" id="ent2#att22" type="integer" db:column="domandaoid"/>
+    <Attribute name="Tipo" id="ent2#att8" type="string" db:column="tipo"/>
+    <Attribute name="numero domanda" id="ent2#att162b0" type="integer" derivationQuery="simpleImported::Self.rel1#rel3.ent1#att86"/>
+  </Entity>
+  <Entity id="ent4" name="Subject" duration="persistent" gr:x="732" gr:y="311" db:database="db1" db:table="soggettotable">
+    <Generalization superEntity="User">
+      <db:JoinColumn name="oid_2" attribute="userOID"/>
+    </Generalization>
+    <Attribute name="Nome" id="ent4#att12" type="string" db:column="nome"/>
+    <Attribute name="Cognome" id="ent4#att13" type="string" db:column="cognome"/>
+    <Attribute name="Sesso" id="ent4#att61" type="string" db:column="sesso"/>
+    <Attribute name="Data di nascita" id="ent4#att62" type="date" db:column="data_nascita"/>
+    <Attribute name="Indirizzo" id="ent4#att106" type="string" db:column="indirizzo"/>
+    <Attribute name="Citt&#224;" id="ent4#att107" type="string" db:column="citta"/>
+    <Attribute name="CAP" id="ent4#att114" type="string" db:column="cap"/>
+    <Attribute name="id_sede_preferita" id="ent4#att121" type="integer" db:column="id_sede_preferita"/>
+    <Attribute name="Curriculum" id="ent4#att122" type="blob" db:column="file_curriculum" deletePolicy="delete"/>
+    <Attribute name="id_azienda" id="ent4#att130" type="integer" db:column="id_azienda"/>
+    <Attribute name="id_intervistatore" id="ent4#att177b" type="integer" db:column="id_intervistatore"/>
+    <Attribute name="telefono" id="ent4#att194b0" type="string" db:column="telefono"/>
+    <Attribute name="Titolo di studio" id="ent4#att179a" type="string" db:column="titolo_di_studio"/>
+    <Comment xml:space="preserve">Quando un candidato inserisce i propri dati viene creato un soggetto e 
+    contestualmente viene creata un'intervista</Comment>
+  </Entity>
+  <Entity id="ent5" name="Sottofattore" duration="persistent" gr:x="532" gr:y="1541" db:database="db1" db:table="sottofattore">
+    <Attribute name="OID" id="ent5#att23" type="integer" key="true" db:column="id"/>
+    <Attribute name="Sottofattore" id="ent5#att26" type="string" db:column="sottofattore"/>
+    <Attribute name="Fattore" id="ent5#att27" type="string" derivationQuery="simpleImported::Self.rel47#rel13.ent6#att25"/>
+    <Attribute name="id_fattore" id="ent5#att28" type="integer" db:column="id_fattore"/>
+    <Attribute name="Descrizione alto" id="ent5#att110" contentType="text/html" type="text" db:column="descrizione_alto"/>
+    <Attribute name="Descrizione basso" id="ent5#att111" contentType="text/html" type="text" db:column="descrizione_basso"/>
+  </Entity>
+  <Entity id="ent6" name="Fattore" duration="persistent" gr:x="246" gr:y="1305" db:database="db1" db:table="fattore">
+    <Attribute name="OID" id="ent6#att24" type="integer" key="true" db:column="id"/>
+    <Attribute name="Fattore" id="ent6#att25" type="string" db:column="fattore"/>
+    <Attribute name="Testo" id="ent6#att154a0" type="text" db:column="testo">
+      <Comment xml:space="preserve">Il testo visualizzato nel riepilogo in amministratore</Comment>
+    </Attribute>
+  </Entity>
+  <Entity id="ent7" name="Intervista" duration="persistent" gr:x="429" gr:y="242" db:database="db1" db:table="intervista">
+    <Attribute name="OID" id="ent7#att30" type="integer" key="true" db:column="id"/>
+    <Attribute name="Data/ora ultima modifica" id="ent7#att31" type="timestamp" db:column="ultima_modifica"/>
+    <Attribute name="id_soggetto" id="ent7#att33" type="integer" db:column="id_soggetto"/>
+    <Attribute name="Nome" id="ent7#att80" type="string" derivationQuery="simpleImported::Self.rel7#rel15.ent4#att12"/>
+    <Attribute name="Cognome" id="ent7#att81" type="string" derivationQuery="simpleImported::Self.rel7#rel15.ent4#att13"/>
+    <Attribute name="Data di nascita" id="ent7#att82" type="date" derivationQuery="simpleImported::Self.rel7#rel15.ent4#att62"/>
+    <Attribute name="Sesso" id="ent7#att83" type="string" derivationQuery="simpleImported::Self.rel7#rel15.ent4#att61"/>
+    <Attribute name="Intervista N&#176;" id="ent7#att84" type="integer" db:column="id"/>
+    <Attribute name="Conta risposte" id="ent7#att85" type="integer" db:column="der_attr" db:table="dvx_ent7_att85" derivationQuery="count(Self.rel6#rel17(as Var1))">
+      <db:JoinColumn attribute="ent7#att30" name="oid_2"/>
+    </Attribute>
+    <Attribute name="Contesto" id="ent7#att91" type="string" db:column="contesto">
+      <Comment xml:space="preserve">
+    Parametro di configurazione dell'algoritmo di calcolo della Skill View 
+    (Lavorativo/non lavorativo) viene modificato ex post dall'intervistatore
+  </Comment>
+    </Attribute>
+    <Attribute name="Affinita" id="ent7#att162a" type="decimal" db:column="affinita"/>
+    <Attribute name="Lingua" id="ent7#att163b0" type="string" derivationQuery="simpleImported::Self.rel7#rel15.rel23#rel93b0.ent26b0#att157b0"/>
+    <Attribute name="Matricola" id="ent7#att181b0" type="string" derivationQuery="simpleImported::Self.rel7#rel15.userName"/>
+    <Attribute name="Sede" id="ent7#att189b0" type="string" derivationQuery="simpleImported::Self.rel7#rel15.rel8#rel55.ent18#att117"/>
+    <Attribute name="Area" id="ent7#att190b0" type="string" derivationQuery="simpleImported::Self.rel7#rel15.rel31#rel119b0.ent30b0#att175b0"/>
+    <Attribute name="Ruolo" id="ent7#att191b0" type="string" derivationQuery="simpleImported::Self.rel7#rel15.rel25#rel123b0.ent31b0#att176b0"/>
+    <Attribute name="Curriculum" id="ent7#att200b0" type="blob" derivationQuery="simpleImported::Self.rel7#rel15.ent4#att122"/>
+    <Attribute name="Esperienza" id="ent7#att203b" type="string" derivationQuery="simpleImported::Self.rel7#rel15.rel34#rel118b.ent34b#att202b"/>
+    <Attribute name="Istruzione" id="ent7#att204b" type="string" derivationQuery="simpleImported::Self.rel7#rel15.rel35#rel116b.ent33b#att200b"/>
+  </Entity>
+  <Entity id="ent8" name="Punteggio sottofattore" duration="persistent" gr:x="219" gr:y="902" db:database="db1" db:table="helper_punteggio_sottofattore">
+    <Attribute name="OID" id="ent8#att34" type="string" key="true" db:column="id"/>
+    <Attribute name="Sottofattore" id="ent8#att35" type="string" db:column="sottofattore"/>
+    <Attribute name="Grezzo" id="ent8#att36" type="decimal" db:column="punteggio_grezzo">
+      <Comment xml:space="preserve">
+    Somma delle risposte di un Sottofattore (pesata?)
+  </Comment>
+    </Attribute>
+    <Attribute name="N risposte" id="ent8#att45" type="integer" db:column="n_risposte"/>
+    <Attribute name="id_fattore" id="ent8#att49" type="integer" db:column="id_fattore"/>
+    <Attribute name="Campione" id="ent8#att54" type="decimal" db:column="punteggio_riferimento"/>
+    <Attribute name="Punteggio" id="ent8#att55" type="decimal" db:column="punteggio_normalizzato">
+      <Comment xml:space="preserve">
+    Punteggio grezzo elaborato usando il Campione statistico
+  </Comment>
+    </Attribute>
+    <Attribute name="id_intervista" id="ent8#att56" type="integer" db:column="id_intervista"/>
+    <Attribute name="Descrizione basso" id="ent8#att112" contentType="text/html" type="text" db:column="descrizione_basso">
+      <Comment xml:space="preserve">
+    Copia dall'entit&amp;#224; Sottofattore
+  </Comment>
+    </Attribute>
+    <Attribute name="Descrizione alto" id="ent8#att113" contentType="text/html" type="text" db:column="descrizione_alto">
+      <Comment xml:space="preserve">
+    Copia dall'entit&amp;#224; Sottofattore
+  </Comment>
+    </Attribute>
+    <Attribute name="id_sottofattore" id="ent8#att123" type="integer" db:column="id_sottofattore"/>
+    <Comment xml:space="preserve">tabella statistiche delle risposte ragguppate per sottofattore, aggiornata 
+    dal trigger ogni volta che viene completata un'intervista</Comment>
+  </Entity>
+  <Entity id="ent10" name="Campione" duration="persistent" gr:x="234" gr:y="1524" db:database="db1" db:table="campione">
+    <Attribute name="OID" id="ent10#att50" type="integer" key="true" db:column="id"/>
+    <Attribute name="id_fattore" id="ent10#att51" type="integer" db:column="id_fattore"/>
+    <Attribute name="Valore" id="ent10#att52" type="decimal" db:column="valore"/>
+    <Attribute name="Dev std" id="ent10#att57" type="decimal" db:column="dev_standard"/>
+    <Attribute name="id_gruppo" id="ent10#att68" type="integer" db:column="id_gruppo"/>
+    <Attribute name="Fattore" id="ent10#att71" type="string" derivationQuery="simpleImported::Self.rel48#rel37.rel47#rel13.ent6#att25"/>
+    <Attribute name="Sottofattore" id="ent10#att72" type="string" derivationQuery="simpleImported::Self.rel48#rel37.ent5#att26"/>
+    <Comment xml:space="preserve">
+    Valori statistici di riferimento per il calcolo del Punteggio
+  </Comment>
+  </Entity>
+  <Entity id="ent12" name="Testo" duration="persistent" gr:x="1060" gr:y="2030" db:database="db1" db:table="testo">
+    <Attribute name="OID" id="ent12#att65" type="string" key="true" db:column="codice"/>
+    <Attribute name="testo" id="ent12#att67" contentType="text/html" type="text" db:column="testo"/>
+    <Attribute name="cod" id="ent12#att159b0" type="string" db:column="cod"/>
+  </Entity>
+  <Entity id="ent13" name="Gruppo campione" duration="persistent" gr:x="-19" gr:y="1587" db:database="db1" db:table="gruppo_campione">
+    <Attribute name="OID" id="ent13#att69" type="integer" key="true" db:column="id"/>
+    <Attribute name="Descrizione" id="ent13#att70" type="string" db:column="descrizione"/>
+    <Comment xml:space="preserve">
+    Insiemi di valori di riferimento distinti per Sesso e per Contesto
+  </Comment>
+  </Entity>
+  <Entity id="ent14" name="Classifica affinit&#224;" duration="persistent" gr:x="26" gr:y="357" db:database="db1" db:table="classifica_affinita" db:isView="true">
+    <Attribute name="OID" id="ent14#att73" type="integer" key="true" db:column="id_intervista"/>
+    <Attribute name="Affinita" id="ent14#att74" type="decimal" db:column="affinita"/>
+    <Attribute name="Data/ora ultima modifica" id="ent14#att75" type="string" db:column="data_ora_modifica"/>
+    <Attribute name="Nome" id="ent14#att76" type="string" db:column="nome"/>
+    <Attribute name="Cognome" id="ent14#att77" type="string" db:column="cognome"/>
+    <Attribute name="Sesso" id="ent14#att78" type="string" db:column="sesso"/>
+    <Attribute name="Data di nascita" id="ent14#att79" type="date" db:column="data_nascita"/>
+    <Attribute name="N&#176;" id="ent14#att87" type="integer" db:column="id_intervista"/>
+    <Attribute name="PG" id="ent14#att124" type="integer" db:column="pos"/>
+    <Attribute name="Anno" id="ent14#att161a" type="integer" db:column="anno"/>
+    <Comment xml:space="preserve"/>
+  </Entity>
+  <Entity id="ent15" name="Dettaglio affinit&#224;" duration="persistent" gr:x="62" gr:y="230" db:database="db1" db:table="dettaglio_affinita">
+    <Attribute name="OID" id="ent15#att88" type="string" key="true" db:column="id"/>
+    <Attribute name="Fattore" id="ent15#att89" type="string" db:column="fattore"/>
+    <Attribute name="Conteggio" id="ent15#att90" type="integer" db:column="conta_idoneita"/>
+    <Comment xml:space="preserve"/>
+  </Entity>
+  <Entity id="ent16" name="Aggregazione" duration="persistent" gr:x="993" gr:y="1232" db:database="db1" db:table="aggregazione" attributeOrder="ent16#att92 ent16#att93 ent16#att96 ent16#att97 ent16#att161b ent16#att160a ent16#att154b0 ent16#att195b0 ent16#att1p">
+    <Attribute name="OID" id="ent16#att92" type="integer" key="true" db:column="id"/>
+    <Attribute name="Nome" id="ent16#att93" type="string" db:column="nome"/>
+    <Attribute name="Descrizione basso" id="ent16#att96" contentType="text/html" type="text" db:column="descrizione_basso">
+      <Comment xml:space="preserve">Descrizione nella lingua (italiano) utilizzata dall'amministratore.</Comment>
+    </Attribute>
+    <Attribute name="Descrizione alto" id="ent16#att97" contentType="text/html" type="text" db:column="descrizione_alto">
+      <Comment xml:space="preserve">Descrizione nella lingua (italiano) utilizzata dall'amministratore.</Comment>
+    </Attribute>
+    <Attribute name="Macro aggregazione" id="ent16#att161b" type="string" derivationQuery="simpleImported::Self.rel90#rel87b.ent27b#att159b"/>
+    <Attribute name="Descrizione" id="ent16#att160a" contentType="text/html" type="text" db:column="descrizione">
+      <Comment xml:space="preserve">Contiene la descrizione dell'aggregazione, in italiano, alto o basso a 
+    seconda del punteggio</Comment>
+    </Attribute>
+    <Attribute name="Visualizzazione" id="ent16#att154b0" type="string" db:column="visualizzazione">
+      <Comment xml:space="preserve">quando ha valore 1 le competenze vengono visualizzate nell'applicazione, 
+    quando ha valore 0 la competenza non viene considerata</Comment>
+    </Attribute>
+    <Attribute name="Descrizione medio" id="ent16#att195b0" type="text" db:column="descrizione_medio"/>
+    <Comment xml:space="preserve">Raggruppamento alternativo dei sottofattori.</Comment>
+    <Attribute id="ent16#att1p" name="Macro Aggregazione OID" type="integer" db:column="macro_aggregazioneoid"/>
+  </Entity>
+  <Entity id="ent17" name="Punteggio aggregazione" duration="persistent" gr:x="737" gr:y="862" db:database="db1" db:table="helper_punteggio_aggregazione">
+    <Attribute name="OID" id="ent17#att98" type="string" key="true" db:column="id"/>
+    <Attribute name="Nome Aggregazione" id="ent17#att100" type="string" db:column="nome">
+      <Comment xml:space="preserve">Contiene il nome dell'aggregazione mostrato all'amministratore.</Comment>
+    </Attribute>
+    <Attribute name="Descrizione" id="ent17#att101" contentType="text/html" type="text" db:column="descrizione"/>
+    <Attribute name="id_intervista" id="ent17#att103" type="integer" db:column="id_intervista"/>
+    <Attribute name="id_aggregazione" id="ent17#att104" type="integer" db:column="id_aggregazione"/>
+    <Attribute name="Punteggio" id="ent17#att105" type="decimal" db:column="punteggio"/>
+    <Attribute name="Nome" id="ent17#att154a" type="string" db:column="nome_candidato"/>
+    <Attribute name="Cognome" id="ent17#att155a" type="string" db:column="cognome_candidato"/>
+    <Attribute name="Descrizione utente" id="ent17#att160b0" contentType="text/html" type="text" db:column="descrizione_utente">
+      <Comment xml:space="preserve">Contiene la descrizione dell'aggregazione, alto o basso a seconda del 
+    punteggio, e in funzione della lingua dell'utente</Comment>
+    </Attribute>
+    <Attribute name="Nome aggregazione utente" id="ent17#att171b0" type="string" db:column="nome_utente">
+      <Comment xml:space="preserve">Contiene il nome dell'aggregazione in funzione della lingua dell'utente.</Comment>
+    </Attribute>
+    <Comment xml:space="preserve">tabelle media dei punteggi dei sottofattori aggregati e scelta della 
+    descrizione da mostrare se punteggio maggiore o minore di 5, aggiornata 
+    dal trigger ogni volta che viene completata un'intervista</Comment>
+  </Entity>
+  <Entity id="ent18" name="Sede" duration="persistent" gr:x="1365" gr:y="425" db:database="db1" db:table="sede">
+    <Attribute name="OID" id="ent18#att116" type="integer" key="true" db:column="id"/>
+    <Attribute name="Denominazione" id="ent18#att117" type="string" db:column="denominazione"/>
+    <Attribute name="Indirizzo" id="ent18#att118" type="string" db:column="indirizzo"/>
+    <Attribute name="CAP" id="ent18#att119" type="string" db:column="cap"/>
+    <Attribute name="Citt&#224;" id="ent18#att120" type="string" db:column="citta"/>
+    <Attribute name="id_azienda" id="ent18#att139" type="integer" db:column="id_azienda"/>
+    <Attribute name="Azienda" id="ent18#att157a" type="string" derivationQuery="simpleImported::Self.rel99#rel71.ent20#att128"/>
+    <Attribute name="Stato" id="ent18#att190a" type="string" derivationQuery="simpleImported::Self.rel101#rel101a.ent32b0#att178b0"/>
+  </Entity>
+  <Entity id="ent19" name="Classifica per sede" duration="persistent" gr:x="52" gr:y="687" db:database="db1" db:table="posizione_sede" db:isView="true">
+    <Generalization superEntity="ent14">
+      <db:JoinColumn name="id_intervista" attribute="ent14#att73"/>
+    </Generalization>
+    <Attribute name="PS" id="ent19#att126" type="integer" db:column="pos"/>
+    <Comment xml:space="preserve"/>
+  </Entity>
+  <Entity id="ent20" name="Company" duration="persistent" gr:x="1057" gr:y="45" db:database="db1" db:table="azienda">
+    <Attribute name="OID" id="ent20#att127" type="integer" key="true" db:column="id_azienda"/>
+    <Attribute name="Ragione sociale" id="ent20#att128" type="string" db:column="ragione_sociale"/>
+    <Attribute name="Partita IVA" id="ent20#att129" type="string" db:column="partita_iva"/>
+    <Attribute name="Codice azienda" id="ent20#att131" type="string" db:column="codice_azienda"/>
+    <Attribute name="Flag attiva" id="ent20#att132" type="boolean" db:column="flag_attiva" db:trueValue="1" db:falseValue="0"/>
+    <Attribute name="Scadenza" id="ent20#att133" type="date" db:column="scadenza_abbonamento"/>
+    <Attribute name="Max interviste" id="ent20#att134" type="integer" db:column="max_interviste">
+      <Comment xml:space="preserve">
+    Numero massimo di interviste che possono essere fatte dall'azienda che ha 
+    acquistato l'abbonamento (se trattasi di abbonamento a quota)
+  </Comment>
+    </Attribute>
+    <Attribute name="N&#176; interviste" id="ent20#att135" type="integer" db:column="der_attr" db:table="dvx_ent20_att135" derivationQuery="0">
+      <db:JoinColumn attribute="ent20#att127" name="oid_2"/>
+    </Attribute>
+    <Attribute name="Inizio servizio" id="ent20#att136" type="date" db:column="inizio_abbonamento"/>
+    <Attribute name="Ultimo rinnovo" id="ent20#att137" type="date" db:column="ultimo_rinnovo"/>
+    <Attribute name="Logo" id="ent20#att153" contentType="image" type="blob" db:column="logo"/>
+    <Attribute name="Data aggiornamento statistiche" id="ent20#att160a0" type="date" db:column="data_aggiornamento_statistiche"/>
+    <Attribute name="Visualizzazione risultati test" id="ent20#att170a" type="boolean" db:column="visualizzazione_risultati_test" db:trueValue="1" db:falseValue="0"/>
+    <Attribute name="N&#176; interviste complete" id="ent20#att197a" type="string" db:column="der_attr" db:table="dvx_ent20_att197a">
+      <db:JoinColumn attribute="ent20#att127" name="oid_2"/>
+    </Attribute>
+  </Entity>
+  <Entity id="ent22" name="Intervista completa" duration="persistent" gr:x="218" gr:y="155" db:database="db1" db:table="intervista_completa" db:isView="true">
+    <Generalization superEntity="ent7">
+      <db:JoinColumn name="oid_2" attribute="ent7#att30"/>
+    </Generalization>
+    <Attribute name="Anno" id="ent22#att165b" type="string" db:column="anno">
+      <Comment xml:space="preserve">
+    derivato dalla data di ultima modifica dell'intervista
+  </Comment>
+    </Attribute>
+    <Comment xml:space="preserve">
+    VIEW custom
+  </Comment>
+  </Entity>
+  <Entity id="ent25" name="Servizio" duration="persistent" gr:x="1185" gr:y="-156" db:database="db1" db:table="servizio">
+    <Attribute name="OID" id="ent25#att151" type="integer" key="true" db:column="id"/>
+    <Attribute name="Nome" id="ent25#att152" type="string" db:column="nome"/>
+    <Attribute name="Ordine" id="ent25#att162b" type="integer" db:column="ordine">
+      <Comment xml:space="preserve">
+    per ordinare l'elenco dei servizi
+  </Comment>
+    </Attribute>
+    <Attribute name="Etichetta" id="ent25#att173b" type="string" db:column="etichetta"/>
+    <Comment xml:space="preserve">
+    Elenco di servizio comprati dall'azienda (es. Fabbisogno formativo, Skill 
+    view ..)
+  </Comment>
+  </Entity>
+  <Entity id="ent26b" name="Motivo intervista" duration="persistent" gr:x="388" gr:y="1161" db:database="db1" db:table="motivo_intervistatable">
+    <Attribute name="OID" id="ent26b#att154b" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="Motivo" id="ent26b#att155b" type="string" db:column="motivo"/>
+    <Comment xml:space="preserve">
+    Per il momento i valori consentiti sono:
+- selezione
+- valutazione personale
+  </Comment>
+  </Entity>
+  <Entity id="ent27b" name="Macro aggregazione" duration="persistent" gr:x="769" gr:y="1310" db:database="db1" db:table="macro_aggregazionetable">
+    <Attribute name="OID" id="ent27b#att158b" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="Nome" id="ent27b#att159b" type="string" db:column="nome"/>
+    <Attribute name="Descrizione" id="ent27b#att160b" type="string" db:column="descrizione"/>
+    <Attribute name="Ordine" id="ent27b#att174b" type="integer" db:column="ordine"/>
+    <Comment xml:space="preserve">Contiene il nome della macro aggregazione mostrato all'amministratore.</Comment>
+  </Entity>
+  <Entity id="ent28b" name="Valutazione intervistatore" duration="persistent" gr:x="1358" gr:y="729" db:database="db1" db:table="valutazionetable">
+    <Attribute name="OID" id="ent28b#att166b" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="Punteggio" id="ent28b#att167b" type="integer" db:column="punteggio"/>
+    <Attribute name="Competenza" id="ent28b#att168b" type="string" derivationQuery="simpleImported::Self.rel91#rel99b.ent16#att93"/>
+    <Attribute name="id_competenza" id="ent28b#att169b" type="integer" db:column="id_competenza"/>
+    <Attribute name="id_intervistatore" id="ent28b#att170b" type="integer" db:column="id_intervistatore"/>
+    <Attribute name="id_candidato" id="ent28b#att171b" type="integer" db:column="id_candidato"/>
+    <Attribute name="Ordine macro aggregazione" id="ent28b#att175b" type="integer" derivationQuery="simpleImported::Self.rel91#rel99b.rel90#rel87b.ent27b#att174b"/>
+    <Attribute name="Descrizione alto" id="ent28b#att178b" contentType="text/html" type="text" derivationQuery="simpleImported::Self.rel91#rel99b.ent16#att97"/>
+    <Attribute name="Descrizione basso" id="ent28b#att179b" contentType="text/html" type="text" derivationQuery="simpleImported::Self.rel91#rel99b.ent16#att96"/>
+    <Attribute name="Descrizione medio" id="ent28b#att199b0" type="text" derivationQuery="simpleImported::Self.rel91#rel99b.ent16#att195b0"/>
+    <Comment xml:space="preserve">
+    il candidato compila un questionario di valutazione del potenziale per una 
+    certa posizione. a questa posizione sono associate delle particolare 
+    competenze. L'intervistatore dopo un colloquio con il candidato inserisce 
+    una sua valutazione (da 1 a 10) per le competenze associate alla posizione 
+    in esame
+  </Comment>
+  </Entity>
+  <Entity id="ent29b" name="Domanda questionario" duration="persistent" gr:x="1956" gr:y="873" db:database="db1" db:table="domanda_questionariotable">
+    <Attribute name="OID" id="ent29b#att176b" type="string" key="true" db:column="codice"/>
+    <Attribute name="Domanda" id="ent29b#att181b" type="string" db:column="domanda"/>
+    <Attribute name="Pdf" id="ent29b#att159a" type="string" db:column="pdf">
+      <Comment xml:space="preserve">
+    Etichetta da mostrare nel report pdf
+  </Comment>
+    </Attribute>
+  </Entity>
+  <Entity id="ent30b" name="Valutazione finale" duration="persistent" gr:x="1700" gr:y="667" db:database="db1" db:table="valutazione_finaletable">
+    <Attribute name="OID" id="ent30b#att182b" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="id_candidato" id="ent30b#att183b" type="integer" db:column="id_candidato"/>
+    <Attribute name="Altri dettagli" id="ent30b#att180b" type="text" db:column="altri_dettagli"/>
+    <Attribute name="Contenuti del lavoro" id="ent30b#att184b" type="text" db:column="contenuti_del_lavoro"/>
+    <Attribute name="Formazione candidato" id="ent30b#att185b" type="text" db:column="formazione_candidato"/>
+    <Attribute name="Formazione esperto" id="ent30b#att186b" type="text" db:column="formazione_esperto"/>
+    <Attribute name="Responsabilita candidato" id="ent30b#att187b" type="text" db:column="responsabilita_candidato"/>
+    <Attribute name="Sintesi candidato" id="ent30b#att188b" type="text" db:column="sintesi_candidato"/>
+    <Attribute name="Sintesi valutatore" id="ent30b#att189b" type="text" db:column="sintesi_valutatore"/>
+    <Attribute name="Sintesi intervistatore" id="ent30b#att190b" type="text" db:column="sintesi_intervistatore"/>
+    <Attribute name="Ulteriori sviluppi candidato" id="ent30b#att191b" type="text" db:column="ulteriori_sviluppi_candidato"/>
+    <Attribute name="Ulteriori sviluppi esperto" id="ent30b#att192b" type="text" db:column="ulteriori_sviluppi_esperto"/>
+    <Attribute name="Varie candidato" id="ent30b#att193b" type="text" db:column="varie_candidato"/>
+    <Attribute name="Varie esperto" id="ent30b#att194b" type="text" db:column="varie_esperto"/>
+    <Attribute name="Valutazione generale" id="ent30b#att195b" type="text" db:column="valutazione_generale"/>
+    <Attribute name="Ragione" id="ent30b#att196b" type="text" db:column="ragione"/>
+    <Attribute name="Posizione piu alta" id="ent30b#att197b" type="string" db:column="posizione_piu_alta"/>
+    <Attribute name="Posizione stesso livello" id="ent30b#att198b" type="string" db:column="posizione_stesso_livello"/>
+    <Attribute name="Posizione" id="ent30b#att156a" type="string" db:column="posizione"/>
+    <Attribute name="Data ultima revisione" id="ent30b#att158a" type="date" db:column="data_ultima_revisione"/>
+  </Entity>
+  <Entity id="ent26b0" name="Lingua" duration="persistent" gr:x="1031" gr:y="1787" db:database="db1" db:table="linguatable">
+    <Attribute name="OID" id="ent26b0#att155b0" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="codice lingua" id="ent26b0#att156b0" type="string" db:column="codice_lingua"/>
+    <Attribute name="descrizione lingua" id="ent26b0#att157b0" type="string" db:column="descrizione_lingua"/>
+    <Attribute name="codice paese" id="ent26b0#att158b0" type="string" db:column="codice_paese"/>
+    <Attribute name="image" id="ent26b0#att174b0" contentType="image" type="blob" db:column="image_2"/>
+  </Entity>
+  <Entity id="ent27b0" name="Descrizioni" duration="persistent" gr:x="986" gr:y="1536" db:database="db1" db:table="descrizionitable">
+    <Attribute name="OID" id="ent27b0#att164b0" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="Descrizione alto" id="ent27b0#att165b0" contentType="text/html" type="text" db:column="descrizione_alto"/>
+    <Attribute name="Descrizione basso" id="ent27b0#att166b0" contentType="text/html" type="text" db:column="descrizione_basso"/>
+    <Attribute name="Descrizione medio" id="ent27b0#att196b0" contentType="text/html" type="text" db:column="descrizione_medio"/>
+    <Comment xml:space="preserve">Contiene le descrizioni delle aggregazioni in lingue diverse.</Comment>
+  </Entity>
+  <Entity id="ent28b0" name="Nome " duration="persistent" gr:x="786" gr:y="1576" db:database="db1" db:table="nome_table">
+    <Attribute name="OID" id="ent28b0#att167b0" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="Nome" id="ent28b0#att168b0" type="string" db:column="nome"/>
+    <Attribute name="Ordine" id="ent28b0#att172b0" type="integer" derivationQuery="simpleImported::Self.rel111#rel96b0.ent27b#att174b"/>
+    <Comment xml:space="preserve">Contiene il nome della Macro aggregazione in lingue diverse. Si utilizza 
+    per mostrare le macro aggregazioni nelle lingua di colui che esegue il 
+    test.</Comment>
+  </Entity>
+  <Entity id="ent29b0" name="Nome aggregazione" duration="persistent" gr:x="1194" gr:y="1570" db:database="db1" db:table="nome_aggregazionetable">
+    <Attribute name="OID" id="ent29b0#att169b0" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="Nome" id="ent29b0#att170b0" type="string" db:column="nome"/>
+    <Comment xml:space="preserve">Contiene i nomi delle aggregazioni in lingue diverse. Sono utilizzate per 
+    mostrare le competenze nella lingua di colui che esegue il test.</Comment>
+  </Entity>
+  <Entity id="ent30b0" name="Area" duration="persistent" gr:x="1028" gr:y="749" db:database="db1" db:table="areatable">
+    <Attribute name="OID" id="ent30b0#att161b0" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="Nome" id="ent30b0#att175b0" type="string" db:column="nome">
+      <Comment xml:space="preserve">Descrizione nella lingua (italiano) utilizzata dall'amministratore.</Comment>
+    </Attribute>
+  </Entity>
+  <Entity id="ent31b0" name="Ruolo" duration="persistent" gr:x="1573" gr:y="1295" db:database="db1" db:table="ruolotable">
+    <Attribute name="OID" id="ent31b0#att173b0" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="Nome" id="ent31b0#att176b0" type="string" db:column="nome">
+      <Comment xml:space="preserve">Descrizione nella lingua (italiano) utilizzata dall'amministratore.</Comment>
+    </Attribute>
+    <Attribute name="Descrizione" id="ent31b0#att195a" type="text" db:column="descrizione"/>
+  </Entity>
+  <Entity id="ent32b0" name="Paese" duration="persistent" gr:x="649" gr:y="143" db:database="db1" db:table="paesetable">
+    <Attribute name="OID" id="ent32b0#att177b0" type="integer" key="true" db:column="id_row"/>
+    <Attribute name="Nome" id="ent32b0#att178b0" type="string" db:column="nome"/>
+    <Attribute name="Codice" id="ent32b0#att179b0" type="string" db:column="codice"/>
+  </Entity>
+  <Entity id="ent33b0" name="Regione" duration="persistent" gr:x="865" gr:y="157" db:database="db1" db:table="regionetable">
+    <Attribute name="OID" id="ent33b0#att180b0" type="string" key="true" db:column="nome"/>
+    <Attribute name="Nome" id="ent33b0#att182b0" type="string" db:column="nome"/>
+  </Entity>
+  <Entity id="ent35b0" name="Nome area" duration="persistent" gr:x="1030" gr:y="886" db:database="db1" db:table="nome_areatable" attributeOrder="ent35b0#att184b0 ent35b0#att185b0 ent35b0#att3p">
+    <Attribute name="OID" id="ent35b0#att184b0" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="Nome" id="ent35b0#att185b0" type="string" db:column="nome"/>
+    <Comment xml:space="preserve">Contiene le descrizioni dei corsi di laurea in lingue diverse. Sono 
+    utilizzate per mostrare i corsi di laurea nella lingua di colui che esegue 
+    il test.</Comment>
+    <Attribute id="ent35b0#att3p" name="lingua" type="string" derivationQuery="simpleImported::Self.rel120#rel127b0.ent26b0#att157b0"/>
+  </Entity>
+  <Entity id="ent36b0" name="Nome ruolo" duration="persistent" gr:x="1582" gr:y="1452" db:database="db1" db:table="nome_ruolotable" attributeOrder="ent36b0#att186b0 ent36b0#att187b0 ent36b0#att2p">
+    <Attribute name="OID" id="ent36b0#att186b0" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="Nome" id="ent36b0#att187b0" type="string" db:column="nome"/>
+    <Comment xml:space="preserve">Contiene le descrizioni delle specializzazioni in lingue diverse. Sono 
+    utilizzate per mostrare le specializzazioni nella lingua di colui che 
+    esegue il test.</Comment>
+    <Attribute id="ent36b0#att2p" name="lingua" type="string" derivationQuery="simpleImported::Self.rel119#rel117b0.ent26b0#att157b0"/>
+  </Entity>
+  <Entity id="ent34b0" name="Media sottofattori" duration="persistent" gr:x="-77" gr:y="873" db:database="db1" db:table="media_sottofattori" db:isView="true">
+    <Attribute name="OID" id="ent34b0#att188b0" type="string" key="true" db:column="id"/>
+    <Attribute name="media" id="ent34b0#att192b0" type="decimal" db:column="media"/>
+    <Attribute name="nome fattore" id="ent34b0#att193b0" type="string" db:column="nome_fattore"/>
+    <Attribute name="testo" id="ent34b0#att155a0" type="text" db:column="testo_fattore"/>
+    <Attribute name="nome fattore in lingua" id="ent34b0#att207b0" type="string" db:column="nome_fattore_inlingua"/>
+    <Attribute name="testo in lingua" id="ent34b0#att208b0" type="string" db:column="testo_fattore_inlingua"/>
+  </Entity>
+  <Entity id="ent26a0" name="Statistiche" duration="persistent" gr:x="1563" gr:y="459" db:database="db1" db:table="statistiche">
+    <Attribute name="OID" id="ent26a0#att156a0" type="integer" key="true" db:column="oid_2" db:idGenerator="identity"/>
+    <Attribute name="Etichetta" id="ent26a0#att157a0" type="string" db:column="etichetta"/>
+    <Attribute name="Tipo" id="ent26a0#att158a0" type="string" db:column="tipo"/>
+    <Attribute name="Valore" id="ent26a0#att159a0" type="integer" db:column="valore"/>
+    <Attribute name="Aziendaoid" id="ent26a0#att178a" type="integer" db:column="aziendaoid"/>
+    <Comment xml:space="preserve">popolata da una stored procedure, contiene le statistiche raggruppate per 
+    tipo</Comment>
+  </Entity>
+  <Entity id="ent37b0" name="Localizzazione fattore" duration="persistent" gr:x="388" gr:y="1785" db:database="db1" db:table="localizzazione_fattoretable">
+    <Attribute name="OID" id="ent37b0#att197b0" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="Fattore" id="ent37b0#att198b0" type="string" db:column="fattore"/>
+    <Attribute name="Testo" id="ent37b0#att206b0" type="text" db:column="testo"/>
+    <Comment xml:space="preserve">Contiene il nome del fattore in lingue diverse. Si utilizza per mostrare i 
+    fattore nelle lingua di colui che esegue il test</Comment>
+  </Entity>
+  <Entity id="ent29a" name="Documento" duration="persistent" gr:x="986" gr:y="-159" db:database="db1" db:table="documentotable">
+    <Attribute name="OID" id="ent29a#att219a" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="Titolo" id="ent29a#att220a" type="string" db:column="titolo"/>
+    <Attribute name="Descrizione" id="ent29a#att221a" type="string" db:column="descrizione"/>
+    <Attribute name="File" id="ent29a#att223a" type="blob" db:column="file"/>
+    <Comment xml:space="preserve">documenti uploadabili dal super admin, e associabili alla singola azienda</Comment>
+  </Entity>
+  <Entity id="ent26a" name="Competenze ruolo" duration="persistent" gr:x="1250" gr:y="1282" db:database="db1" db:table="competenze_ruolotable">
+    <Attribute name="OID" id="ent26a#att163a" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="valore atteso" id="ent26a#att164a" type="decimal" db:column="valore_atteso"/>
+    <Attribute name="Nome aggregazione" id="ent26a#att165a" type="string" derivationQuery="simpleImported::Self.rel94#rel85a.ent16#att93"/>
+    <Attribute name="Ordine macro aggregazione" id="ent26a#att166a" type="integer" derivationQuery="simpleImported::Self.rel94#rel85a.rel90#rel87b.ent27b#att174b"/>
+  </Entity>
+  <Entity id="ent27a" name="Statistiche ruolo" duration="persistent" gr:x="1918" gr:y="1285" db:database="db1" db:table="statistiche_ruolo">
+    <Attribute name="OID" id="ent27a#att167a" type="integer" key="true" db:column="oid_2" db:idGenerator="identity"/>
+    <Attribute name="Etichetta" id="ent27a#att168a" type="string" db:column="etichetta"/>
+    <Attribute name="Valore" id="ent27a#att169a" type="float" db:column="valore"/>
+    <Attribute name="Etichetta grafico" id="ent27a#att191a" type="string" db:column="etichetta_grafico"/>
+  </Entity>
+  <Entity id="ent32b" name="Nome istruzione" duration="persistent" gr:x="619" gr:y="2011" db:database="db1" db:table="nome_istruzionetable">
+    <Attribute name="OID" id="ent32b#att163b" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="Testo" id="ent32b#att164b" type="string" db:column="testo"/>
+    <Attribute name="Ordine" id="ent32b#att156b" type="integer" derivationQuery="simpleImported::Self.rel132#rel111b.ent33b#att206b"/>
+  </Entity>
+  <Entity id="ent33b" name="Istruzione" duration="persistent" gr:x="573" gr:y="1875" db:database="db1" db:table="istruzionetable">
+    <Attribute name="OID" id="ent33b#att199b" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="Testo" id="ent33b#att200b" type="string" db:column="testo"/>
+    <Attribute name="Ordine" id="ent33b#att206b" type="integer" db:column="ordine"/>
+  </Entity>
+  <Entity id="ent34b" name="Esperienza" duration="persistent" gr:x="686" gr:y="1878" db:database="db1" db:table="esperienzatable">
+    <Attribute name="OID" id="ent34b#att201b" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="Testo" id="ent34b#att202b" type="string" db:column="testo"/>
+    <Attribute name="Ordine" id="ent34b#att207b" type="integer" db:column="ordine"/>
+  </Entity>
+  <Entity id="ent31b" name="Nome esperienza" duration="persistent" gr:x="775" gr:y="2011" db:database="db1" db:table="nome_esperienzatable">
+    <Attribute name="OID" id="ent31b#att157b" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="Testo" id="ent31b#att172b" type="string" db:column="testo"/>
+    <Attribute name="Ordine" id="ent31b#att205b" type="integer" derivationQuery="simpleImported::Self.rel133#rel113b.ent34b#att207b"/>
+  </Entity>
+  <Entity id="ent28a" name="statistiche somiglianza ruolo" duration="persistent" gr:x="1786" gr:y="350" db:database="db1" db:table="statistiche_somiglianza_ruolo" attributeOrder="ent28a#att171a ent28a#att172a ent28a#att173a ent28a#att174a ent28a#att175a ent28a#att176a ent28a#att177a ent28a#att5a ent28a#att6a">
+    <Attribute name="OID" id="ent28a#att171a" type="integer" key="true" db:column="oid_2" db:idGenerator="identity"/>
+    <Attribute name="Etichetta" id="ent28a#att172a" type="string" db:column="etichetta"/>
+    <Attribute name="Valore" id="ent28a#att173a" type="decimal" db:column="valore"/>
+    <Attribute name="Sedeoid" id="ent28a#att174a" type="integer" db:column="sedeoid"/>
+    <Attribute name="Ruolooid" id="ent28a#att175a" type="integer" db:column="ruolooid"/>
+    <Attribute name="Aziendaoid" id="ent28a#att176a" type="integer" db:column="aziendaoid"/>
+    <Attribute name="Soggettooid" id="ent28a#att177a" type="integer" db:column="soggettooid"/>
+    <Comment xml:space="preserve">calcolata dalla funzione calcola_statistiche_somiglianza_ruolo</Comment>
+    <Attribute id="ent28a#att6a" name="Istruzioneoid" type="integer" db:column="istruzioneoid"/>
+    <Attribute id="ent28a#att5a" name="Attivit&#224;oid" type="integer" db:column="areaoid"/>
+  </Entity>
+  <Entity id="ent38b" name="Nome motivo intervista" duration="persistent" gr:x="439" gr:y="2018" db:database="db1" db:table="nome_motivo_intervistatable">
+    <Attribute name="OID" id="ent38b#att210b" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="Nome" id="ent38b#att211b" type="string" db:column="nome"/>
+  </Entity>
+  <Entity id="ent30a" name="Radar valutazione" duration="persistent" gr:x="2017" gr:y="349" db:database="db1" db:table="radar_valutazione" db:isView="true">
+    <Attribute name="OID" id="ent30a#att180a" type="string" key="true" db:column="id"/>
+    <Attribute name="Punteggio" id="ent30a#att181a" type="decimal" db:column="punteggio"/>
+    <Attribute name="Competenza" id="ent30a#att182a" type="string" db:column="competenza"/>
+    <Attribute name="Valore atteso" id="ent30a#att183a" type="decimal" db:column="valore_atteso"/>
+    <Attribute name="Intervistato" id="ent30a#att184a" type="integer" db:column="intervistato"/>
+  </Entity>
+  <Entity id="ent31a" name="Radar eterovalutazione" duration="persistent" gr:x="2029" gr:y="557" db:database="db1" db:table="radar_eterovalutazione" db:isView="true">
+    <Attribute name="OID" id="ent31a#att185a" type="string" key="true" db:column="id"/>
+    <Attribute name="Eterovalutazione" id="ent31a#att186a" type="decimal" db:column="eterovalutazione"/>
+    <Attribute name="Competenza" id="ent31a#att187a" type="string" db:column="competenza"/>
+    <Attribute name="Valore atteso" id="ent31a#att188a" type="decimal" db:column="valore_atteso"/>
+    <Attribute name="Intervistato" id="ent31a#att189a" type="integer" db:column="intervistato"/>
+  </Entity>
+  <Entity id="ent32a" name="Testo azienda" duration="persistent" gr:x="1335" gr:y="72" db:database="db1" db:table="testotable">
+    <Attribute name="OID" id="ent32a#att193a" type="integer" key="true" db:column="oid_2"/>
+    <Attribute name="Fine test" id="ent32a#att194a" type="string" db:column="fine_test"/>
+  </Entity>
+  <Entity id="ent33a" name="Esportazione" duration="volatile" gr:x="1857" gr:y="132">
+    <Attribute name="OID" id="ent33a#att192a" type="integer" key="true"/>
+    <Attribute name="File" id="ent33a#att196a" type="blob"/>
+  </Entity>
+  <Entity id="ent34a" name="Totali gap" duration="persistent" gr:x="1846" gr:y="1528" db:database="db1" db:table="totali_gap" db:isView="true" attributeOrder="ent34a#att198a ent34a#att203a ent34a#att231a ent34a#att200a ent34a#att202a ent34a#att199a ent34a#att201a ent34a#att204a ent34a#att205a ent34a#att206a ent34a#att207a ent34a#att208a ent34a#att209a ent34a#att210a ent34a#att211a">
+    <Attribute name="OID" id="ent34a#att198a" type="integer" key="true" db:column="oid"/>
+    <Attribute name="4 - 5" id="ent34a#att199a" type="integer" db:column="tra_4_5"/>
+    <Attribute name="2 - 3" id="ent34a#att200a" type="integer" db:column="tra_2_3"/>
+    <Attribute name="5 - 6" id="ent34a#att201a" type="integer" db:column="tra_5_6"/>
+    <Attribute name="3 - 4" id="ent34a#att202a" type="integer" db:column="tra_3_4"/>
+    <Attribute name="0 - 1" id="ent34a#att203a" type="integer" db:column="tra_0_1"/>
+    <Attribute name="6 - 7" id="ent34a#att204a" type="integer" db:column="tra_6_7"/>
+    <Attribute name="7 - 8" id="ent34a#att205a" type="integer" db:column="tra_7_8"/>
+    <Attribute name="8 - 9" id="ent34a#att206a" type="integer" db:column="tra_8_9"/>
+    <Attribute name="9 - 10" id="ent34a#att207a" type="integer" db:column="tra_9_10"/>
+    <Attribute name="Con gap" id="ent34a#att208a" type="integer" db:column="con_gap"/>
+    <Attribute name="Nella media" id="ent34a#att209a" type="integer" db:column="nella_media"/>
+    <Attribute name="Nome aggregazione" id="ent34a#att210a" type="string" db:column="nome"/>
+    <Attribute name="Senza gap" id="ent34a#att211a" type="integer" db:column="senza_gap"/>
+    <Attribute name="1 - 2" id="ent34a#att231a" type="integer" db:column="tra_1_2"/>
+    <Comment xml:space="preserve">Vista che calcola il numero totale di canditati con gap formativo, senza 
+    gap e nella media</Comment>
+  </Entity>
+  <Entity id="ent35a" name="Totali gap per area" duration="persistent" gr:x="1520" gr:y="1664" db:database="db1" db:table="totali_gap_per_area" db:isView="true" attributeOrder="ent35a#att212a ent35a#att217a ent35a#att230a ent35a#att214a ent35a#att216a ent35a#att213a ent35a#att215a ent35a#att218a ent35a#att222a ent35a#att224a ent35a#att225a ent35a#att226a ent35a#att227a ent35a#att228a ent35a#att229a">
+    <Attribute name="OID" id="ent35a#att212a" type="integer" key="true" db:column="oid"/>
+    <Attribute name="4 - 5" id="ent35a#att213a" type="integer" db:column="tra_4_5"/>
+    <Attribute name="2 - 3" id="ent35a#att214a" type="integer" db:column="tra_2_3"/>
+    <Attribute name="5 - 6" id="ent35a#att215a" type="integer" db:column="tra_5_6"/>
+    <Attribute name="3 - 4" id="ent35a#att216a" type="integer" db:column="tra_3_4"/>
+    <Attribute name="0 - 1" id="ent35a#att217a" type="integer" db:column="tra_0_1"/>
+    <Attribute name="6 - 7" id="ent35a#att218a" type="integer" db:column="tra_6_7"/>
+    <Attribute name="7 - 8" id="ent35a#att222a" type="integer" db:column="tra_7_8"/>
+    <Attribute name="8 - 9" id="ent35a#att224a" type="integer" db:column="tra_8_9"/>
+    <Attribute name="9 - 10" id="ent35a#att225a" type="integer" db:column="tra_9_10"/>
+    <Attribute name="Con gap" id="ent35a#att226a" type="integer" db:column="con_gap"/>
+    <Attribute name="Nella media" id="ent35a#att227a" type="integer" db:column="nella_media"/>
+    <Attribute name="Nome aggregazione" id="ent35a#att228a" type="string" db:column="nome"/>
+    <Attribute name="Senza gap" id="ent35a#att229a" type="integer" db:column="senza_gap"/>
+    <Attribute name="1 - 2" id="ent35a#att230a" type="integer" db:column="tra_1_2"/>
+  </Entity>
+  <Relationship id="User2Group_Group2User" name="User_Group" sourceEntity="User" targetEntity="Group" db:database="db1" db:table="user_grouptable" gr:bendpoints="-80,37,80,34">
+    <RelationshipRole1 id="User2Group" name="User2Group" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="useroid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="Group2User" name="Group2User" maxCard="N">
+      <db:JoinColumn attribute="groupOID" name="groupoid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="User2DefaultGroup_DefaultGroup2User" name="User_DefaultGroup" sourceEntity="User" targetEntity="Group" db:database="db1" db:table="usertable" gr:bendpoints="-82,-21,78,-25">
+    <RelationshipRole1 id="User2DefaultGroup" name="User2DefaultGroup" maxCard="1">
+      <db:JoinColumn attribute="userOID" name="oid_2"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="DefaultGroup2User" name="DefaultGroup2User" maxCard="N">
+      <db:JoinColumn attribute="groupOID" name="groupoid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="Group2SiteView_SiteView2Group" name="Group_DefaultModule" sourceEntity="Group" targetEntity="SiteView" db:database="db1" db:table="grouptable">
+    <RelationshipRole1 id="Group2SiteView_SiteView2Group#Group2SiteView" name="Group2DefaultModule" maxCard="1">
+      <db:JoinColumn attribute="groupOID" name="oid_2"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="Group2SiteView_SiteView2Group#SiteView2Group" name="DefaultModule2Group" maxCard="N">
+      <db:JoinColumn attribute="siteViewOID" name="siteviewoid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="Group2Module_Module2Group" name="Group_Module" sourceEntity="Group" targetEntity="SiteView" db:database="db1" db:table="group_moduletable" gr:bendpoints="-81,-37,79,-21">
+    <RelationshipRole1 id="Group2Module" name="Group2Module" maxCard="N">
+      <db:JoinColumn attribute="groupOID" name="groupoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="Module2Group" name="Module2Group" maxCard="N">
+      <db:JoinColumn attribute="siteViewOID" name="moduleoid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel1" name="Risposta_Domanda" sourceEntity="ent1" targetEntity="ent2" db:database="db1" db:table="rispostatable">
+    <RelationshipRole1 id="rel1#rel4" name="Domanda_2_Risposta" maxCard="N">
+      <db:JoinColumn attribute="ent1#att1" name="domandaoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel1#rel3" name="Risposta_2_Domanda" maxCard="1">
+      <db:JoinColumn attribute="ent2#att4" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel2" name="Domanda_Sottofattore" sourceEntity="ent1" targetEntity="ent5" db:database="db1" db:table="domandatable">
+    <RelationshipRole1 id="rel2#rel11" name="Domanda_2_Sottofattore" maxCard="1">
+      <db:JoinColumn attribute="ent1#att1" name="oid_2"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel2#rel12" name="Sottofattore_2_Domanda" maxCard="N">
+      <db:JoinColumn attribute="ent5#att23" name="id_sottofattore"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel5" name="Domanda_Lingua" sourceEntity="ent1" targetEntity="ent26b0" db:database="db1" db:table="domandatable">
+    <RelationshipRole1 id="rel5#rel91b0" name="Domanda_2_Lingua" maxCard="1">
+      <db:JoinColumn attribute="ent1#att1" name="oid_2"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel5#rel92b0" name="Lingua_2_Domanda" maxCard="N">
+      <db:JoinColumn attribute="ent26b0#att155b0" name="linguaoid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel6" name="Intervista_Risposta" sourceEntity="ent2" targetEntity="ent7" db:database="db1" db:table="intervista_risposta">
+    <RelationshipRole1 id="rel6#rel18" name="Risposta_2_Intervista" maxCard="N">
+      <db:JoinColumn attribute="ent2#att4" name="id_risposta"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel6#rel17" name="Intervista_2_Risposta" maxCard="N">
+      <db:JoinColumn attribute="ent7#att30" name="id_intervista"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel7" name="Intervista_Soggetto" sourceEntity="ent4" targetEntity="ent7" db:database="db1" db:table="intervista">
+    <RelationshipRole1 id="rel7#rel16" name="Soggetto_2_Intervista" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="id_soggetto"/>
+      <Comment xml:space="preserve">
+    Interviste multiple non previste
+  </Comment>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel7#rel15" name="Intervista_2_Soggetto" maxCard="1">
+      <db:JoinColumn attribute="ent7#att30" name="id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel8" name="Soggetto_Sede" sourceEntity="ent4" targetEntity="ent18" db:database="db1" db:table="soggettotable" gr:bendpoints="181,97,-118,-108">
+    <RelationshipRole1 id="rel8#rel55" name="Soggetto_2_Sede" maxCard="1">
+      <db:JoinColumn attribute="userOID" name="oid_2"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel8#rel56" name="Sede_2_Soggetto" maxCard="N">
+      <db:JoinColumn attribute="ent18#att116" name="id_sede_preferita"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel9" name="Intervistatore_Sede" sourceEntity="ent4" targetEntity="ent18" db:database="db1" db:table="intervistatore_sede">
+    <RelationshipRole1 id="rel9#rel61" name="Intervistatore_2_Sede" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="id_intervistatore"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel9#rel62" name="Sede_2_Intervistatore" maxCard="N">
+      <db:JoinColumn attribute="ent18#att116" name="id_sede"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel10" name="Subject_2_Company" sourceEntity="ent4" targetEntity="ent20" db:database="db1" db:table="soggettotable">
+    <RelationshipRole1 id="rel10#rel69" name="Subject_2_Company" maxCard="1">
+      <db:JoinColumn attribute="userOID" name="oid_2"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel10#rel70" name="Company_2_Subject" maxCard="N">
+      <db:JoinColumn attribute="ent20#att127" name="id_azienda"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel19" name="Valutazione_Candidato" sourceEntity="ent4" targetEntity="ent28b" db:database="db1" db:table="valutazionetable" gr:bendpoints="250,36,-349,-167">
+    <RelationshipRole1 id="rel19#rel94b" name="Candidato_2_Valutazione" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="id_candidato"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel19#rel93b" name="Valutazione_2_Candidato" maxCard="1">
+      <db:JoinColumn attribute="ent28b#att166b" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel20" name="Valutazione_Intervistatore" sourceEntity="ent4" targetEntity="ent28b" db:database="db1" db:table="valutazionetable">
+    <RelationshipRole1 id="rel20#rel96b" name="Intervistatore_2_Valutazione" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="id_intervistatore"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel20#rel95b" name="Valutazione_2_Intervistatore" maxCard="1">
+      <db:JoinColumn attribute="ent28b#att166b" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel21" name="Candidato_Intervistatore" sourceEntity="ent4" targetEntity="ent4" db:database="db1" db:table="soggettotable" gr:bendpoints="120,-60,120,-60;120,-111,120,-111">
+    <RelationshipRole1 id="rel21#rel101b" name="Candidato_2_Intervistatore" maxCard="1">
+      <db:JoinColumn attribute="userOID" name="oid_2"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel21#rel102b" name="Intervistatore_2_Candidato" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="id_intervistatore"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel22" name="Valutazione finale_Candidato" sourceEntity="ent4" targetEntity="ent30b" db:database="db1" db:table="valutazione_finaletable" gr:bendpoints="665,51,-208,-131">
+    <RelationshipRole1 id="rel22#rel104b" name="Candidato_2_Valutazione finale" maxCard="1">
+      <db:JoinColumn attribute="userOID" name="id_candidato"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel22#rel103b" name="Valutazione finale_2_Candidato" maxCard="1">
+      <db:JoinColumn attribute="ent30b#att182b" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel23" name="Soggetto_Lingua" sourceEntity="ent4" targetEntity="ent26b0" db:database="db1" db:table="soggettotable" gr:bendpoints="162,454,6,-501">
+    <RelationshipRole1 id="rel23#rel93b0" name="Soggetto_2_Lingua" maxCard="1">
+      <db:JoinColumn attribute="userOID" name="oid_2"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel23#rel94b0" name="Lingua_2_Soggetto" maxCard="N">
+      <db:JoinColumn attribute="ent26b0#att155b0" name="linguaoid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel24" name="Soggetto_Paesi" sourceEntity="ent4" targetEntity="ent32b0" db:database="db1" db:table="soggettotable">
+    <RelationshipRole1 id="rel24#rel109b0" name="Soggetto_2_Paesi" maxCard="1">
+      <db:JoinColumn attribute="userOID" name="oid_2"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel24#rel110b0" name="Paesi_2_Soggetto" maxCard="N">
+      <db:JoinColumn attribute="ent32b0#att177b0" name="paeseoid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel25" name="Soggetto_Ruolo" sourceEntity="ent4" targetEntity="ent31b0" db:database="db1" db:table="soggettotable" gr:bendpoints="325,393,-510,-143">
+    <RelationshipRole1 id="rel25#rel123b0" name="Soggetto_2_Ruolo" maxCard="1">
+      <db:JoinColumn attribute="userOID" name="oid_2"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel25#rel124b0" name="Ruolo_2_Soggetto" maxCard="N">
+      <db:JoinColumn attribute="ent31b0#att173b0" name="ruolooid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel26" name="Soggetto_Regione" sourceEntity="ent4" targetEntity="ent33b0" db:database="db1" db:table="soggettotable">
+    <RelationshipRole1 id="rel26#rel125b0" name="Soggetto_2_Regione" maxCard="1">
+      <db:JoinColumn attribute="userOID" name="oid_2"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel26#rel126b0" name="Regione_2_Soggetto" maxCard="N">
+      <db:JoinColumn attribute="ent33b0#att180b0" name="regioneoid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel31" name="Soggetto_Area" sourceEntity="ent4" targetEntity="ent30b0" db:database="db1" db:table="soggettotable" gr:bendpoints="152,227,-112,-74">
+    <RelationshipRole1 id="rel31#rel119b0" name="Soggetto_2_Area" maxCard="1">
+      <db:JoinColumn attribute="userOID" name="oid_2"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel31#rel120b0" name="Area_2_Soggetto" maxCard="N">
+      <db:JoinColumn attribute="ent30b0#att161b0" name="areaoid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel32" name="Area_Tutor" sourceEntity="ent4" targetEntity="ent30b0" db:database="db1" db:table="area_tutortable">
+    <RelationshipRole1 id="rel32#rel106b0" name="Tutor_2_Area" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="soggettooid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel32#rel105b0" name="Area_2_Tutor" maxCard="N">
+      <db:JoinColumn attribute="ent30b0#att161b0" name="areaoid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel33" name="Tutor_Intervista_area" sourceEntity="ent4" targetEntity="ent7" db:database="db1" db:table="dvx_ent4_rel131b0" gr:bendpoints="-132,-72,139,-88">
+    <RelationshipRole1 id="rel33#rel131b0" name="Tutor_2_Intervista_area" maxCard="N" derivationQuery="Self.rel32#rel106b0(as Var1).rel31#rel120b0(as Var2).rel7#rel16(as Var3)">
+      <db:JoinColumn attribute="userOID" name="src_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel33#rel132b0" name="Intervista_area_2_Tutor" maxCard="N">
+      <db:JoinColumn attribute="ent7#att30" name="targ_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel34" name="Esperienza_Soggetto" sourceEntity="ent4" targetEntity="ent34b" db:database="db1" db:table="soggettotable" gr:bendpoints="-100,163,-20,-884">
+    <RelationshipRole1 id="rel34#rel118b" name="Soggetto_2_Esperienza" maxCard="1">
+      <db:JoinColumn attribute="userOID" name="oid_2"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel34#rel117b" name="Esperienza_2_Soggetto" maxCard="N">
+      <db:JoinColumn attribute="ent34b#att201b" name="esperienzaoid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel35" name="Istruzione_Soggetto" sourceEntity="ent4" targetEntity="ent33b" db:database="db1" db:table="soggettotable" gr:bendpoints="-113,144,78,-900">
+    <RelationshipRole1 id="rel35#rel116b" name="Soggetto_2_Istruzione" maxCard="1">
+      <db:JoinColumn attribute="userOID" name="oid_2"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel35#rel115b" name="Istruzione_2_Soggetto" maxCard="N">
+      <db:JoinColumn attribute="ent33b#att199b" name="istruzioneoid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel36" name="Ruolo_Tutor" sourceEntity="ent4" targetEntity="ent31b0" db:database="db1" db:table="ruolo_tutortable" gr:bendpoints="664,401,-171,-135;716,432,-119,-104">
+    <RelationshipRole1 id="rel36#rel120b" name="Tutor_2_Ruolo" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="soggettooid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel36#rel119b" name="Ruolo_2_Tutor" maxCard="N">
+      <db:JoinColumn attribute="ent31b0#att173b0" name="ruolooid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel39" name="Tutor_Intervista ruolo" sourceEntity="ent4" targetEntity="ent7" db:database="db1" db:table="dvx_ent4_rel103a" gr:bendpoints="-126,-97,144,-113">
+    <RelationshipRole1 id="rel39#rel103a" name="Tutor_2_IntervistaRuolo" maxCard="N" derivationQuery="Self.rel36#rel120b(as Var1).rel25#rel124b0(as Var2).rel7#rel16(as Var3)">
+      <db:JoinColumn attribute="userOID" name="src_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel39#rel104a" name="IntervistaRuolo_2_Tutor" maxCard="N">
+      <db:JoinColumn attribute="ent7#att30" name="targ_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel40" name="Tutor_IntervistaSede" sourceEntity="ent4" targetEntity="ent7" db:database="db1" db:table="dvx_ent4_rel105a" gr:bendpoints="-128,-39,142,-55">
+    <RelationshipRole1 id="rel40#rel105a" name="Tutor_2_IntervistaSede" maxCard="N" derivationQuery="Self.rel9#rel61(as Var1).rel8#rel56(as Var2).rel7#rel16(as Var3)">
+      <db:JoinColumn attribute="userOID" name="src_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel40#rel106a" name="IntervistaSede_2_Tutor" maxCard="N">
+      <db:JoinColumn attribute="ent7#att30" name="targ_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel47" name="Sottofattore_Fattore" sourceEntity="ent5" targetEntity="ent6" db:database="db1" db:table="sottofattore">
+    <RelationshipRole1 id="rel47#rel13" name="Sottofattore_2_Fattore" maxCard="1">
+      <db:JoinColumn attribute="ent5#att23" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel47#rel14" name="Fattore_2_Sottofattore" maxCard="N">
+      <db:JoinColumn attribute="ent6#att24" name="id_fattore"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel48" name="Campione_Sottofattore" sourceEntity="ent5" targetEntity="ent10" db:database="db1" db:table="campione">
+    <RelationshipRole1 id="rel48#rel38" name="Sottofattore_2_Campione" maxCard="N">
+      <db:JoinColumn attribute="ent5#att23" name="id_fattore"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel48#rel37" name="Campione_2_Sottofattore" maxCard="1">
+      <db:JoinColumn attribute="ent10#att50" name="id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel53" name="Aggregazione_Sottofattore" sourceEntity="ent5" targetEntity="ent16" db:database="db1" db:table="aggregazione_sottofattore">
+    <RelationshipRole1 id="rel53#rel44" name="Sottofattore_2_Aggregazione" maxCard="N">
+      <db:JoinColumn attribute="ent5#att23" name="id_sottofattore"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel53#rel43" name="Aggregazione_2_Sottofattore" maxCard="N">
+      <db:JoinColumn attribute="ent16#att92" name="id_aggregazione"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel54" name="Punteggio sottofattore_Fattore" sourceEntity="ent6" targetEntity="ent8" db:database="db1" db:table="helper_punteggio_sottofattore">
+    <RelationshipRole1 id="rel54#rel42" name="Fattore_2_Punteggio sottofattore" maxCard="N">
+      <db:JoinColumn attribute="ent6#att24" name="id_fattore"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel54#rel41" name="Punteggio sottofattore_2_Fattore" maxCard="1">
+      <db:JoinColumn attribute="ent8#att34" name="id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel63" name="Fattore_Media sottofattori" sourceEntity="ent8" targetEntity="ent34b0" db:database="db1" db:table="media_sottofattori" db:isView="true">
+    <RelationshipRole1 id="rel63#rel135b0" name="Fattore_2_Media sottofattori" maxCard="N">
+      <db:JoinColumn attribute="ent8#att34" name="id_fattore"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel63#rel136b0" name="Media sottofattori_2_Fattore" maxCard="1">
+      <db:JoinColumn attribute="ent34b0#att188b0" name="id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel64" name="Nome fattore_Fattore" sourceEntity="ent6" targetEntity="ent37b0" db:database="db1" db:table="localizzazione_fattoretable">
+    <RelationshipRole1 id="rel64#rel114b0" name="Fattore_2_Nome fattore" maxCard="N">
+      <db:JoinColumn attribute="ent6#att24" name="fattoreoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel64#rel113b0" name="Nome fattore_2_Fattore" maxCard="1">
+      <db:JoinColumn attribute="ent37b0#att197b0" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel65" name="Intervista_Punteggio sottofattore" sourceEntity="ent7" targetEntity="ent8" db:database="db1" db:table="helper_punteggio_sottofattore">
+    <RelationshipRole1 id="rel65#rel27" name="Intervista_2_Punteggio sottofattore" maxCard="N">
+      <db:JoinColumn attribute="ent7#att30" name="id_intervista"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel65#rel28" name="Punteggio sottofattore_2_Intervista" maxCard="1">
+      <db:JoinColumn attribute="ent8#att34" name="id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel66" name="Punteggio aggregazione_Intervista" sourceEntity="ent7" targetEntity="ent17" db:database="db1" db:table="helper_punteggio_aggregazione">
+    <RelationshipRole1 id="rel66#rel46" name="Intervista_2_Punteggio aggregazione" maxCard="N">
+      <db:JoinColumn attribute="ent7#att30" name="id_intervista"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel66#rel45" name="Punteggio aggregazione_2_Intervista" maxCard="1">
+      <db:JoinColumn attribute="ent17#att98" name="id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel67" name="Dettaglio affinit&#224;_Intervista" sourceEntity="ent7" targetEntity="ent15" db:database="db1" db:table="dettaglio_affinita">
+    <RelationshipRole1 id="rel67#rel52" name="Intervista_2_Dettaglio affinit&#224;" maxCard="N">
+      <db:JoinColumn attribute="ent7#att30" name="id_intervista"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel67#rel51" name="Dettaglio affinit&#224;_2_Intervista" maxCard="1">
+      <db:JoinColumn attribute="ent15#att88" name="id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel68" name="Classifica affinit&#224;_Intervista" sourceEntity="ent7" targetEntity="ent14" db:database="db1" db:table="classifica_affinita" db:isView="true">
+    <RelationshipRole1 id="rel68#rel58" name="Intervista_2_Classifica affinit&#224;" maxCard="1">
+      <db:JoinColumn attribute="ent7#att30" name="id_intervista"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel68#rel57" name="Classifica affinit&#224;_2_Intervista" maxCard="1">
+      <db:JoinColumn attribute="ent14#att73" name="id_intervista"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel73" name="Intervista_Azienda" sourceEntity="ent7" targetEntity="ent20" db:database="db1" db:table="dvx_ent7_rel75" gr:bendpoints="172,-171,-307,118">
+    <RelationshipRole1 id="rel73#rel75" name="Intervista_2_Azienda" maxCard="N" derivationQuery="Self.rel7#rel15(as Var1).rel10#rel69(as Var2)">
+      <db:JoinColumn attribute="ent7#att30" name="src_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel73#rel76" name="Azienda_2_Intervista" maxCard="N">
+      <db:JoinColumn attribute="ent20#att127" name="targ_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel74" name="Intervista_Sede derivata" sourceEntity="ent7" targetEntity="ent18" db:database="db1" db:table="intervista_sede_derivata" gr:bendpoints="190,133,-380,-56" db:isView="true">
+    <RelationshipRole1 id="rel74#rel77" name="Intervista_2_Sede" maxCard="N">
+      <db:JoinColumn attribute="ent7#att30" name="id_intervista"/>
+      <Comment xml:space="preserve">
+    VIEW
+  </Comment>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel74#rel78" name="Sede_2_Intervista" maxCard="N">
+      <db:JoinColumn attribute="ent18#att116" name="id_sede_preferita"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel79" name="Intervista_Area" sourceEntity="ent7" targetEntity="ent30b0" db:database="db1" db:table="dvx_ent7_rel111b0" gr:bendpoints="253,247,-291,-48">
+    <RelationshipRole1 id="rel79#rel111b0" name="Intervista_2_Area" maxCard="1" derivationQuery="Self.rel7#rel15(as Var1).rel31#rel119b0(as Var2)">
+      <db:JoinColumn attribute="ent7#att30" name="src_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel79#rel112b0" name="Area_2_Intervista" maxCard="N">
+      <db:JoinColumn attribute="ent30b0#att161b0" name="targ_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel80" name="Media sottofattori_Intervista" sourceEntity="ent7" targetEntity="ent34b0" db:database="db1" db:table="media_sottofattori" db:isView="true">
+    <RelationshipRole1 id="rel80#rel138b0" name="Intervista_2_Media sottofattori" maxCard="N">
+      <db:JoinColumn attribute="ent7#att30" name="id_intervista"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel80#rel137b0" name="Media sottofattori_2_Intervista" maxCard="1">
+      <db:JoinColumn attribute="ent34b0#att188b0" name="id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel81" name="Intervista_Motivo intervista" sourceEntity="ent7" targetEntity="ent26b" db:database="db1" db:table="intervista">
+    <RelationshipRole1 id="rel81#rel85b" name="Intervista_2_Motivo intervista" maxCard="1">
+      <db:JoinColumn attribute="ent7#att30" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel81#rel86b" name="Motivo intervista_2_Intervista" maxCard="N">
+      <db:JoinColumn attribute="ent26b#att154b" name="motivo_intervistaoid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel82" name="Ruolo_Intervista" sourceEntity="ent7" targetEntity="ent31b0" db:database="db1" db:table="dvx_ent7_rel94a" gr:bendpoints="428,354,-678,-166">
+    <RelationshipRole1 id="rel82#rel94a" name="Intervista_2_Ruolo" maxCard="N" derivationQuery="Self.rel7#rel15(as Var1).rel25#rel123b0(as Var2)">
+      <db:JoinColumn attribute="ent7#att30" name="src_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel82#rel93a" name="Ruolo_2_Intervista" maxCard="N">
+      <db:JoinColumn attribute="ent31b0#att173b0" name="targ_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel85" name="Campione_Gruppo campione" sourceEntity="ent10" targetEntity="ent13" db:database="db1" db:table="campione">
+    <RelationshipRole1 id="rel85#rel29" name="Campione_2_Gruppo campione" maxCard="1">
+      <db:JoinColumn attribute="ent10#att50" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel85#rel30" name="Gruppo campione_2_Campione" maxCard="N">
+      <db:JoinColumn attribute="ent13#att69" name="id_gruppo"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel86" name="Testo_Lingua" sourceEntity="ent12" targetEntity="ent26b0" db:database="db1" db:table="testo">
+    <RelationshipRole1 id="rel86#rel85b0" name="Testo_2_Lingua" maxCard="1">
+      <db:JoinColumn attribute="ent12#att65" name="codice"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel86#rel86b0" name="Lingua_2_Testo" maxCard="N">
+      <db:JoinColumn attribute="ent26b0#att155b0" name="linguaoid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel87" name="Classifica affinit&#224;_Sede" sourceEntity="ent14" targetEntity="ent18" db:database="db1" db:table="dvx_ent14_rel59" gr:bendpoints="349,277,-662,-80">
+    <RelationshipRole1 id="rel87#rel59" name="Classifica affinit&#224;_2_Sede" maxCard="N" derivationQuery="Self.rel68#rel57(as Var1).rel7#rel15(as Var2).rel8#rel55(as Var3)">
+      <db:JoinColumn attribute="ent14#att73" name="src_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel87#rel60" name="Sede_2_Classifica affinit&#224;" maxCard="N">
+      <db:JoinColumn attribute="ent18#att116" name="targ_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel88" name="Classifica affinit&#224;_Area" sourceEntity="ent14" targetEntity="ent30b0" db:database="db1" db:table="dvx_ent14_rel133b0" gr:bendpoints="583,438,-784,-83">
+    <RelationshipRole1 id="rel88#rel133b0" name="Classifica affinit&#224;_2_Area" maxCard="N" derivationQuery="Self.rel68#rel57(as Var1).rel7#rel15(as Var2).rel31#rel119b0(as Var3)">
+      <db:JoinColumn attribute="ent14#att73" name="src_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel88#rel134b0" name="Area_2_Classifica affinit&#224;" maxCard="N">
+      <db:JoinColumn attribute="ent30b0#att161b0" name="targ_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel89" name="Punteggio aggregazione_Aggregazione" sourceEntity="ent16" targetEntity="ent17" db:database="db1" db:table="helper_punteggio_aggregazione">
+    <RelationshipRole1 id="rel89#rel50" name="Aggregazione_2_Punteggio aggregazione" maxCard="N">
+      <db:JoinColumn attribute="ent16#att92" name="id_aggregazione"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel89#rel49" name="Punteggio aggregazione_2_Aggregazione" maxCard="1">
+      <db:JoinColumn attribute="ent17#att98" name="id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel90" name="Aggregazione_Macro aggregazione" sourceEntity="ent16" targetEntity="ent27b" db:database="db1" db:table="aggregazione">
+    <RelationshipRole1 id="rel90#rel87b" name="Aggregazione_2_Macro aggregazione" maxCard="1">
+      <db:JoinColumn attribute="ent16#att92" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel90#rel88b" name="Macro aggregazione_2_Aggregazione" maxCard="N">
+      <db:JoinColumn attribute="ent27b#att158b" name="macro_aggregazioneoid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel91" name="Valutazione_Competenza" sourceEntity="ent16" targetEntity="ent28b" db:database="db1" db:table="valutazionetable">
+    <RelationshipRole1 id="rel91#rel100b" name="Competenza_2_Valutazione" maxCard="N">
+      <db:JoinColumn attribute="ent16#att92" name="id_competenza"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel91#rel99b" name="Valutazione_2_Competenza" maxCard="1">
+      <db:JoinColumn attribute="ent28b#att166b" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel92" name="Descrizioni_Aggregazione" sourceEntity="ent16" targetEntity="ent27b0" db:database="db1" db:table="descrizionitable">
+    <RelationshipRole1 id="rel92#rel100b0" name="Aggregazione_2_Descrizioni" maxCard="N">
+      <db:JoinColumn attribute="ent16#att92" name="aggregazioneoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel92#rel99b0" name="Descrizioni_2_Aggregazione" maxCard="1">
+      <db:JoinColumn attribute="ent27b0#att164b0" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel93" name="Nome aggregazione_Aggregazione" sourceEntity="ent16" targetEntity="ent29b0" db:database="db1" db:table="nome_aggregazionetable">
+    <RelationshipRole1 id="rel93#rel88b0" name="Aggregazione_2_Nome aggregazione" maxCard="N">
+      <db:JoinColumn attribute="ent16#att92" name="aggregazioneoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel93#rel87b0" name="Nome aggregazione_2_Aggregazione" maxCard="1">
+      <db:JoinColumn attribute="ent29b0#att169b0" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel94" name="Competenze ruolo_Aggregazione" sourceEntity="ent16" targetEntity="ent26a" db:database="db1" db:table="competenze_ruolotable">
+    <RelationshipRole1 id="rel94#rel86a" name="Aggregazione_2_Competenze ruolo" maxCard="N">
+      <db:JoinColumn attribute="ent16#att92" name="aggregazioneoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel94#rel85a" name="Competenze ruolo_2_Aggregazione" maxCard="1">
+      <db:JoinColumn attribute="ent26a#att163a" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel95" name="Totali gap_Aggregazione" sourceEntity="ent16" targetEntity="ent34a" db:database="db1" db:table="totali_gap" db:isView="true">
+    <RelationshipRole1 id="rel95#rel114a" name="Aggregazione_2_Totali gap" maxCard="N">
+      <db:JoinColumn attribute="ent16#att92" name="id_aggregazione"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel95#rel113a" name="Totali gap_2_Aggregazione" maxCard="1">
+      <db:JoinColumn attribute="ent34a#att198a" name="oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel96" name="Totali gap per corso_Aggregazione" sourceEntity="ent16" targetEntity="ent35a" db:database="db1" db:table="totali_gap_per_area" db:isView="true">
+    <RelationshipRole1 id="rel96#rel124a" name="Aggregazione_2_Totali gap per corso" maxCard="N">
+      <db:JoinColumn attribute="ent16#att92" name="id_aggregazione"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel96#rel123a" name="Totali gap per corso_2_Aggregazione" maxCard="1">
+      <db:JoinColumn attribute="ent35a#att212a" name="oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel97" name="Punteggio aggregazione_Macro aggregazione" sourceEntity="ent17" targetEntity="ent27b" db:database="db1" db:table="dvx_ent17_rel89b">
+    <RelationshipRole1 id="rel97#rel89b" name="Punteggio aggregazione_2_Macro aggregazione" maxCard="1" derivationQuery="Self.rel89#rel49(as Var1).rel90#rel87b(as Var2)">
+      <db:JoinColumn attribute="ent17#att98" name="src_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel97#rel90b" name="Macro aggregazione_2_Punteggio aggregazione" maxCard="N">
+      <db:JoinColumn attribute="ent27b#att158b" name="targ_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel98" name="Competenze ruolo_Punteggio aggregazione" sourceEntity="ent17" targetEntity="ent26a" db:database="db1" db:table="dvx_ent17_rel110a" gr:bendpoints="233,95,-246,-197">
+    <RelationshipRole1 id="rel98#rel110a" name="Punteggio aggregazione_2_Competenze ruolo" maxCard="N" derivationQuery="Self.rel89#rel49(as Var1).rel94#rel86a(as Var2)">
+      <db:JoinColumn attribute="ent17#att98" name="src_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel98#rel109a" name="Competenze ruolo_2_Punteggio aggregazione" maxCard="N">
+      <db:JoinColumn attribute="ent26a#att163a" name="targ_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel99" name="Sede_Azienda" sourceEntity="ent18" targetEntity="ent20" db:database="db1" db:table="sede">
+    <RelationshipRole1 id="rel99#rel71" name="Sede_2_Azienda" maxCard="1">
+      <db:JoinColumn attribute="ent18#att116" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel99#rel72" name="Azienda_2_Sede" maxCard="N">
+      <db:JoinColumn attribute="ent20#att127" name="id_azienda"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel100" name="Statistiche_Sede" sourceEntity="ent18" targetEntity="ent26a0" db:database="db1" db:table="statistiche">
+    <RelationshipRole1 id="rel100#rel88a0" name="Sede_2_Statistiche" maxCard="N">
+      <db:JoinColumn attribute="ent18#att116" name="sedeoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel100#rel87a0" name="Statistiche_2_Sede" maxCard="1">
+      <db:JoinColumn attribute="ent26a0#att156a0" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel101" name="Sede_Paese" sourceEntity="ent18" targetEntity="ent32b0" db:database="db1" db:table="sede">
+    <RelationshipRole1 id="rel101#rel101a" name="Sede_2_Paese" maxCard="1">
+      <db:JoinColumn attribute="ent18#att116" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel101#rel102a" name="Paese_2_Sede" maxCard="N">
+      <db:JoinColumn attribute="ent32b0#att177b0" name="paeseoid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel102" name="Azienda_Servizio" sourceEntity="ent20" targetEntity="ent25" db:database="db1" db:table="azienda_servizio">
+    <RelationshipRole1 id="rel102#rel83" name="Azienda_2_Servizio" maxCard="N">
+      <db:JoinColumn attribute="ent20#att127" name="id_azienda"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel102#rel84" name="Servizio_2_Azienda" maxCard="N">
+      <db:JoinColumn attribute="ent25#att151" name="id_servizio"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel103" name="Azienda_Documento" sourceEntity="ent20" targetEntity="ent29a" db:database="db1" db:table="azienda_documentotable">
+    <RelationshipRole1 id="rel103#rel131a" name="Azienda_2_Documento" maxCard="N">
+      <db:JoinColumn attribute="ent20#att127" name="aziendaoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel103#rel132a" name="Documento_2_Azienda" maxCard="N">
+      <db:JoinColumn attribute="ent29a#att219a" name="documentooid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel104" name="Area_Azienda" sourceEntity="ent20" targetEntity="ent30b0" db:database="db1" db:table="areatable">
+    <RelationshipRole1 id="rel104#rel96a" name="Azienda_2_Area" maxCard="N">
+      <db:JoinColumn attribute="ent20#att127" name="aziendaoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel104#rel95a" name="Area_2_Azienda" maxCard="1">
+      <db:JoinColumn attribute="ent30b0#att161b0" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel105" name="Ruolo_Azienda" sourceEntity="ent20" targetEntity="ent31b0" db:database="db1" db:table="ruolotable" gr:bendpoints="459,201,-167,-609">
+    <RelationshipRole1 id="rel105#rel98a" name="Azienda_2_Ruolo" maxCard="N">
+      <db:JoinColumn attribute="ent20#att127" name="aziendaoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel105#rel97a" name="Ruolo_2_Azienda" maxCard="1">
+      <db:JoinColumn attribute="ent31b0#att173b0" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel106" name="Azienda_Testo" sourceEntity="ent20" targetEntity="ent32a" db:database="db1" db:table="testotable">
+    <RelationshipRole1 id="rel106#rel99a" name="Azienda_2_Testo" maxCard="N">
+      <db:JoinColumn attribute="ent20#att127" name="aziendaoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel106#rel100a" name="Testo_2_Azienda" maxCard="1">
+      <db:JoinColumn attribute="ent32a#att193a" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel107" name="Totali gap_Azienda" sourceEntity="ent20" targetEntity="ent34a" db:database="db1" db:table="totali_gap" db:isView="true">
+    <RelationshipRole1 id="rel107#rel112a" name="Azienda_2_Totali gap" maxCard="N">
+      <db:JoinColumn attribute="ent20#att127" name="id_azienda"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel107#rel111a" name="Totali gap_2_Azienda" maxCard="1">
+      <db:JoinColumn attribute="ent34a#att198a" name="oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel108" name="Totali gap per area_Azienda" sourceEntity="ent20" targetEntity="ent35a" db:database="db1" db:table="totali_gap_per_area" db:isView="true">
+    <RelationshipRole1 id="rel108#rel126a" name="Azienda_2_Totali gap per area" maxCard="N">
+      <db:JoinColumn attribute="ent20#att127" name="id_azienda"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel108#rel125a" name="Totali gap per area_2_Azienda" maxCard="1">
+      <db:JoinColumn attribute="ent35a#att212a" name="oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel109" name="Nome motivo intervista_Motivo intervista" sourceEntity="ent26b" targetEntity="ent38b" db:database="db1" db:table="nome_motivo_intervistatable">
+    <RelationshipRole1 id="rel109#rel126b" name="Motivo intervista_2_Nome motivo intervista" maxCard="N">
+      <db:JoinColumn attribute="ent26b#att154b" name="motivo_intervistaoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel109#rel125b" name="Nome motivo intervista_2_Motivo intervista" maxCard="1">
+      <db:JoinColumn attribute="ent38b#att210b" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel110" name="Valutazione_Macro aggregazione" sourceEntity="ent27b" targetEntity="ent28b" db:database="db1" db:table="dvx_ent28b_rel97b">
+    <RelationshipRole1 id="rel110#rel98b" name="Macro aggregazione_2_Valutazione" maxCard="N">
+      <db:JoinColumn attribute="ent27b#att158b" name="targ_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel110#rel97b" name="Valutazione_2_Macro aggregazione" maxCard="1" derivationQuery="Self.rel91#rel99b(as Var1).rel90#rel87b(as Var2)">
+      <db:JoinColumn attribute="ent28b#att166b" name="src_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel111" name="Macro aggregazione_nome" sourceEntity="ent27b" targetEntity="ent28b0" db:database="db1" db:table="nome_table">
+    <RelationshipRole1 id="rel111#rel95b0" name="Macro aggregazione_2_nome" maxCard="N">
+      <db:JoinColumn attribute="ent27b#att158b" name="macro_aggregazioneoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel111#rel96b0" name="nome_2_Macro aggregazione" maxCard="1">
+      <db:JoinColumn attribute="ent28b0#att167b0" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel112" name="Competenze ruolo_Macro aggregazione" sourceEntity="ent27b" targetEntity="ent26a" db:database="db1" db:table="dvx_ent26a_rel89a" gr:bendpoints="301,-104,-151,-149">
+    <RelationshipRole1 id="rel112#rel90a" name="Macro aggregazione_2_Competenze ruolo" maxCard="N">
+      <db:JoinColumn attribute="ent27b#att158b" name="targ_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel112#rel89a" name="Competenze ruolo_2_Macro aggregazione" maxCard="1" derivationQuery="Self.rel94#rel85a(as Var1).rel90#rel87b(as Var2)">
+      <db:JoinColumn attribute="ent26a#att163a" name="src_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel113" name="Totali gap_Macro aggregazione" sourceEntity="ent27b" targetEntity="ent34a" db:database="db1" db:table="totali_gap" db:isView="true">
+    <RelationshipRole1 id="rel113#rel116a" name="Macro aggregazione_2_Totali gap" maxCard="N">
+      <db:JoinColumn attribute="ent27b#att158b" name="macro_aggregazioneoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel113#rel115a" name="Totali gap_2_Macro aggregazione" maxCard="1">
+      <db:JoinColumn attribute="ent34a#att198a" name="oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel114" name="Totali gap per corso_Macro aggregazione" sourceEntity="ent27b" targetEntity="ent35a" db:database="db1" db:table="totali_gap_per_area" db:isView="true">
+    <RelationshipRole1 id="rel114#rel118a" name="Macro aggregazione_2_Totali gap per corso" maxCard="N">
+      <db:JoinColumn attribute="ent27b#att158b" name="macro_aggregazioneoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel114#rel117a" name="Totali gap per corso_2_Macro aggregazione" maxCard="1">
+      <db:JoinColumn attribute="ent35a#att212a" name="oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel115" name="Valutazione finale_Domanda questionario" sourceEntity="ent29b" targetEntity="ent30b" db:database="db1" db:table="valutazione_finale_domanda">
+    <RelationshipRole1 id="rel115#rel110b" name="Domanda questionario_2_Valutazione finale" maxCard="N">
+      <db:JoinColumn attribute="ent29b#att176b" name="domanda_questionariooid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel115#rel109b" name="Valutazione finale_2_Domanda questionario" maxCard="N">
+      <db:JoinColumn attribute="ent30b#att182b" name="valutazione_finaleoid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel116" name="nome_Lingua" sourceEntity="ent26b0" targetEntity="ent28b0" db:database="db1" db:table="nome_table">
+    <RelationshipRole1 id="rel116#rel98b0" name="Lingua_2_nome" maxCard="N">
+      <db:JoinColumn attribute="ent26b0#att155b0" name="linguaoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel116#rel97b0" name="nome_2_Lingua" maxCard="1">
+      <db:JoinColumn attribute="ent28b0#att167b0" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel117" name="Descrizioni_Lingua" sourceEntity="ent26b0" targetEntity="ent27b0" db:database="db1" db:table="descrizionitable">
+    <RelationshipRole1 id="rel117#rel102b0" name="Lingua_2_Descrizioni" maxCard="N">
+      <db:JoinColumn attribute="ent26b0#att155b0" name="linguaoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel117#rel101b0" name="Descrizioni_2_Lingua" maxCard="1">
+      <db:JoinColumn attribute="ent27b0#att164b0" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel118" name="Nome aggregazione_Lingua" sourceEntity="ent26b0" targetEntity="ent29b0" db:database="db1" db:table="nome_aggregazionetable">
+    <RelationshipRole1 id="rel118#rel90b0" name="Lingua_2_Nome aggregazione" maxCard="N">
+      <db:JoinColumn attribute="ent26b0#att155b0" name="linguaoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel118#rel89b0" name="Nome aggregazione_2_Lingua" maxCard="1">
+      <db:JoinColumn attribute="ent29b0#att169b0" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel119" name="Nome ruolo_Lingua" sourceEntity="ent26b0" targetEntity="ent36b0" db:database="db1" db:table="nome_ruolotable" gr:bendpoints="286,-216,-237,156">
+    <RelationshipRole1 id="rel119#rel118b0" name="Lingua_2_Nome ruolo" maxCard="N">
+      <db:JoinColumn attribute="ent26b0#att155b0" name="linguaoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel119#rel117b0" name="Nome ruolo_2_Lingua" maxCard="1">
+      <db:JoinColumn attribute="ent36b0#att186b0" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel120" name="Nome area_Lingua" sourceEntity="ent26b0" targetEntity="ent35b0" db:database="db1" db:table="nome_areatable" gr:bendpoints="365,-116,-101,179">
+    <RelationshipRole1 id="rel120#rel128b0" name="Lingua_2_Nome area" maxCard="N">
+      <db:JoinColumn attribute="ent26b0#att155b0" name="linguaoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel120#rel127b0" name="Nome area_2_Lingua" maxCard="1">
+      <db:JoinColumn attribute="ent35b0#att184b0" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel121" name="Nome fattore_Lingua" sourceEntity="ent26b0" targetEntity="ent37b0" db:database="db1" db:table="localizzazione_fattoretable">
+    <RelationshipRole1 id="rel121#rel140b0" name="Lingua_2_Nome fattore" maxCard="N">
+      <db:JoinColumn attribute="ent26b0#att155b0" name="linguaoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel121#rel139b0" name="Nome fattore_2_Lingua" maxCard="1">
+      <db:JoinColumn attribute="ent37b0#att197b0" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel122" name="Esperienza_Lingua" sourceEntity="ent26b0" targetEntity="ent31b" db:database="db1" db:table="nome_esperienzatable">
+    <RelationshipRole1 id="rel122#rel106b" name="Lingua_2_Esperienza" maxCard="N">
+      <db:JoinColumn attribute="ent26b0#att155b0" name="linguaoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel122#rel105b" name="Esperienza_2_Lingua" maxCard="1">
+      <db:JoinColumn attribute="ent31b#att157b" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel123" name="Istruzione_Lingua" sourceEntity="ent26b0" targetEntity="ent32b" db:database="db1" db:table="nome_istruzionetable">
+    <RelationshipRole1 id="rel123#rel108b" name="Lingua_2_Istruzione" maxCard="N">
+      <db:JoinColumn attribute="ent26b0#att155b0" name="linguaoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel123#rel107b" name="Istruzione_2_Lingua" maxCard="1">
+      <db:JoinColumn attribute="ent32b#att163b" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel124" name="Nome motivo intervista_Lingua" sourceEntity="ent26b0" targetEntity="ent38b" db:database="db1" db:table="nome_motivo_intervistatable">
+    <RelationshipRole1 id="rel124#rel128b" name="Lingua_2_Nome motivo intervista" maxCard="N">
+      <db:JoinColumn attribute="ent26b0#att155b0" name="linguaoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel124#rel127b" name="Nome motivo intervista_2_Lingua" maxCard="1">
+      <db:JoinColumn attribute="ent38b#att210b" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel125" name="TestoAzienda_Lingua" sourceEntity="ent26b0" targetEntity="ent32a" db:database="db1" db:table="testotable">
+    <RelationshipRole1 id="rel125#rel108a" name="Lingua_2_TestoAzienda" maxCard="N">
+      <db:JoinColumn attribute="ent26b0#att155b0" name="linguaoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel125#rel107a" name="TestoAzienda_2_Lingua" maxCard="1">
+      <db:JoinColumn attribute="ent32a#att193a" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel126" name="Area_Nome area" sourceEntity="ent30b0" targetEntity="ent35b0" db:database="db1" db:table="nome_areatable">
+    <RelationshipRole1 id="rel126#rel121b0" name="Area_2_Nome area" maxCard="N">
+      <db:JoinColumn attribute="ent30b0#att161b0" name="areaoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel126#rel122b0" name="Nome area_2_Area" maxCard="1">
+      <db:JoinColumn attribute="ent35b0#att184b0" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel127" name="Totali gap per corso_Area" sourceEntity="ent30b0" targetEntity="ent35a" db:database="db1" db:table="totali_gap_per_area" db:isView="true">
+    <RelationshipRole1 id="rel127#rel122a" name="Area_2_Totali gap per corso" maxCard="N">
+      <db:JoinColumn attribute="ent30b0#att161b0" name="areaoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel127#rel121a" name="Totali gap per corso_2_Area" maxCard="1">
+      <db:JoinColumn attribute="ent35a#att212a" name="oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel128" name="Nome ruolo_Ruolo" sourceEntity="ent31b0" targetEntity="ent36b0" db:database="db1" db:table="nome_ruolotable">
+    <RelationshipRole1 id="rel128#rel116b0" name="Nome_2_Nome ruolo" maxCard="N">
+      <db:JoinColumn attribute="ent31b0#att173b0" name="ruolooid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel128#rel115b0" name="Nome ruolo_2_Ruolo" maxCard="1">
+      <db:JoinColumn attribute="ent36b0#att186b0" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel129" name="Competenze ruolo_Ruolo" sourceEntity="ent31b0" targetEntity="ent26a" db:database="db1" db:table="competenze_ruolotable">
+    <RelationshipRole1 id="rel129#rel88a" name="Ruolo_2_Competenze ruolo" maxCard="N">
+      <db:JoinColumn attribute="ent31b0#att173b0" name="ruolooid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel129#rel87a" name="Competenze ruolo_2_Ruolo" maxCard="1">
+      <db:JoinColumn attribute="ent26a#att163a" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel130" name="Ruolo_Statistiche ruolo" sourceEntity="ent31b0" targetEntity="ent27a" db:database="db1" db:table="statistiche_ruolo">
+    <RelationshipRole1 id="rel130#rel91a" name="Ruolo_2_Statistiche ruolo" maxCard="N">
+      <db:JoinColumn attribute="ent31b0#att173b0" name="ruolooid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel130#rel92a" name="Statistiche ruolo_2_Ruolo" maxCard="1">
+      <db:JoinColumn attribute="ent27a#att167a" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel131" name="Regioni_Paesi" sourceEntity="ent32b0" targetEntity="ent33b0" db:database="db1" db:table="regionetable">
+    <RelationshipRole1 id="rel131#rel108b0" name="Paesi_2_Regioni" maxCard="N">
+      <db:JoinColumn attribute="ent32b0#att177b0" name="paeseoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel131#rel107b0" name="Regioni_2_Paesi" maxCard="1">
+      <db:JoinColumn attribute="ent33b0#att180b0" name="nome"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel132" name="Nome Istruzione_Istruzione" sourceEntity="ent32b" targetEntity="ent33b" db:database="db1" db:table="nome_istruzionetable">
+    <RelationshipRole1 id="rel132#rel111b" name="Nome Istruzione_2_Istruzione" maxCard="1">
+      <db:JoinColumn attribute="ent32b#att163b" name="oid_2"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel132#rel112b" name="Istruzione_2_Nome Istruzione" maxCard="N">
+      <db:JoinColumn attribute="ent33b#att199b" name="istruzioneoid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel133" name="Nome Esperienza_Esperienza" sourceEntity="ent34b" targetEntity="ent31b" db:database="db1" db:table="nome_esperienzatable">
+    <RelationshipRole1 id="rel133#rel114b" name="Esperienza_2_Nome Esperienza" maxCard="N">
+      <db:JoinColumn attribute="ent34b#att201b" name="esperienzaoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel133#rel113b" name="Nome Esperienza_2_Esperienza" maxCard="1">
+      <db:JoinColumn attribute="ent31b#att157b" name="oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <db:Database id="db1" url="jdbc:postgresql:skillview" username="postgres" password="postgres" name="skillview" type="PostgreSQL 8" schema="public"/>
+  <Relationship id="rel1q" name="Azienda_ServizioSelezionatore" sourceEntity="ent20" targetEntity="ent25" gr:bendpoints="123,-223,46,103" db:database="db1" db:table="azienda_servizioselezionatore">
+    <RelationshipRole1 id="rel1q#role1q" name="AziendaToServizioSelezionatore" maxCard="N">
+      <db:JoinColumn attribute="ent20#att127" name="azienda_idazienda"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel1q#role2q" name="ServizioSelezionatoreToAzienda" maxCard="N">
+      <db:JoinColumn attribute="ent25#att151" name="servizio_id"/>
+    </RelationshipRole2>
+  </Relationship>
+</DataModel>

@@ -1,0 +1,44 @@
+<Page xmlns:gr="http://www.webratio.com/2006/WebML/Graph" xmlns:layout="http://www.webratio.com/2006/WebML/Layout" gr:x="170" gr:y="80" id="sv1#page1" name="Ask for information">
+  <ContentUnits>
+    <EntryUnit id="sv1#page1#enu1" name="Mail" gr:x="59" gr:y="35" fieldOrder="sv1#page1#enu1#fld3 sv1#page1#enu1#fld1 sv1#page1#enu1#fld2">
+      <Field id="sv1#page1#enu1#fld1" name="Oggetto" type="string" modifiable="true" preloaded="true">
+        <VRules>
+          <MandatoryValidationRule id="sv1#page1#enu1#fld1#mnd1" name="Validation Rule2"/>
+        </VRules>
+      </Field>
+      <Field id="sv1#page1#enu1#fld2" name="Testo" type="text" modifiable="true" preloaded="false">
+        <VRules>
+          <MandatoryValidationRule id="sv1#page1#enu1#fld2#mnd2" name="Validation Rule3"/>
+        </VRules>
+      </Field>
+      <Field id="sv1#page1#enu1#fld3" name="Destinatari in cc" type="string" modifiable="true"/>
+      <Link id="sv1#page1#enu1#ln1" name="Link1" to="sv1#scu1" automaticCoupling="true" type="transport" validate="true"/>
+    </EntryUnit>
+  </ContentUnits>
+  <layout:Grid>
+    <layout:Row>
+      <layout:Cell>
+        <layout:Unit unitId="sv1#page1#enu1">
+          <layout:LayoutParameter name="mandatory-fields" value="true" type="unit"/>
+          <layout:Field field="sv1#page1#enu1#fld3"/>
+          <layout:Field field="sv1#page1#enu1#fld1"/>
+          <layout:Field field="sv1#page1#enu1#fld2">
+            <layout:LayoutParameter name="width" value="60" type="field"/>
+          </layout:Field>
+        </layout:Unit>
+      </layout:Cell>
+      <layout:Cell/>
+      <layout:Cell/>
+    </layout:Row>
+    <layout:Row>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+    </layout:Row>
+    <layout:Row>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+    </layout:Row>
+  </layout:Grid>
+</Page>

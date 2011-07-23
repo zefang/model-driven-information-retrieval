@@ -1,0 +1,16 @@
+<Area xmlns:gr="http://www.webratio.com/2006/WebML/Graph" gr:x="272" gr:y="62" id="sv1#area2" name="Book requests" landmark="true">
+  <OperationUnits>
+    <CreateUnit id="sv1#area2#cru1" name="Create book" gr:x="180" gr:y="18" entity="ent25a">
+      <OKLink id="sv1#area2#cru1#oln1" name="OKLink72" to="sv1#area2#cnu1" automaticCoupling="true"/>
+    </CreateUnit>
+    <ConnectUnit id="sv1#area2#cnu1" name="ConnectUserToBook" gr:x="0" gr:y="0" relationship="rel19a#role37a">
+      <SourceSelector id="sv1#area2#cnu1#su1" defaultPolicy="fill" booleanOperator="and">
+        <KeyCondition id="sv1#area2#cnu1#su1#kcond1" name="KeyCondition63" predicate="in" implied="false"/>
+      </SourceSelector>
+      <TargetSelector id="sv1#area2#cnu1#su2" defaultPolicy="fill" booleanOperator="and">
+        <KeyCondition id="sv1#area2#cnu1#su2#kcond2" name="KeyCondition64" predicate="in" implied="false"/>
+      </TargetSelector>
+      <OKLink id="sv1#area2#cnu1#oln3" name="OKLink3" to="sv1#area2#page2" automaticCoupling="true"/>
+    </ConnectUnit>
+  </OperationUnits>
+</Area>

@@ -1,0 +1,161 @@
+<Page xmlns:gr="http://www.webratio.com/2006/WebML/Graph" xmlns:layout="http://www.webratio.com/2006/WebML/Layout" id="sv1#area1#page1" name="Enter New Publication" protected="true" gr:x="0" gr:y="11">
+  <ContentUnits>
+    <EntryUnit id="sv1#area1#page1#enu1" name="New publication" gr:x="121" gr:y="35" fieldOrder="sv1#area1#page1#enu1#sfld1 sv1#area1#page1#enu1#fld8 sv1#area1#page1#enu1#fld5 sv1#area1#page1#enu1#fld1 sv1#area1#page1#enu1#fld9 sv1#area1#page1#enu1#fld10 sv1#area1#page1#enu1#fld12 sv1#area1#page1#enu1#fld17 sv1#area1#page1#enu1#fld13 sv1#area1#page1#enu1#fld14 sv1#area1#page1#enu1#fld11 sv1#area1#page1#enu1#fld4 sv1#area1#page1#enu1#fld2 sv1#area1#page1#enu1#fld16 sv1#area1#page1#enu1#fld21 sv1#area1#page1#enu1#fld6 sv1#area1#page1#enu1#fld18 sv1#area1#page1#enu1#fld3 sv1#area1#page1#enu1#fld7 sv1#area1#page1#enu1#fld19 sv1#area1#page1#enu1#fld20 sv1#area1#page1#enu1#fld15" linkOrder="sv1#area1#page1#enu1#ln2">
+      <Field id="sv1#area1#page1#enu1#fld1" name="Titolo" type="string" modifiable="true">
+        <VRules>
+          <MandatoryValidationRule id="sv1#area1#page1#enu1#fld1#mnd1" name="obbligatorio"/>
+        </VRules>
+      </Field>
+      <Field id="sv1#area1#page1#enu1#fld2" name="Luogo" type="string" modifiable="true"/>
+      <Field id="sv1#area1#page1#enu1#fld3" name="ISBN" type="string" modifiable="true"/>
+      <Field id="sv1#area1#page1#enu1#fld4" name="Editore" type="string" modifiable="true"/>
+      <Field id="sv1#area1#page1#enu1#fld5" name="Autori esterni" type="string" modifiable="true"/>
+      <Field id="sv1#area1#page1#enu1#fld6" name="Anno" type="string" modifiable="true"/>
+      <Field id="sv1#area1#page1#enu1#fld7" name="Pagine" type="string" modifiable="true"/>
+      <Field id="sv1#area1#page1#enu1#fld8" name="Autori interni" type="string" modifiable="true"/>
+      <Field id="sv1#area1#page1#enu1#fld9" name="Titolo contributo" type="string" modifiable="true">
+        <VRules>
+          <MandatoryValidationRule id="sv1#area1#page1#enu1#fld9#mnd2" name="obbligatorio"/>
+        </VRules>
+      </Field>
+      <Field id="sv1#area1#page1#enu1#fld10" name="Titolo libro" type="string" modifiable="true"/>
+      <Field id="sv1#area1#page1#enu1#fld11" name="Curatori" type="string" modifiable="true"/>
+      <Field id="sv1#area1#page1#enu1#fld12" name="Titolo rivista" type="string" modifiable="true"/>
+      <Field id="sv1#area1#page1#enu1#fld13" name="Volume" type="string" modifiable="true"/>
+      <Field id="sv1#area1#page1#enu1#fld14" name="Numero" type="string" modifiable="true"/>
+      <Field id="sv1#area1#page1#enu1#fld15" name="Note" type="text" modifiable="true" contentType="text/plain"/>
+      <Field id="sv1#area1#page1#enu1#fld16" name="Data" type="date" modifiable="true"/>
+      <Field id="sv1#area1#page1#enu1#fld17" name="Nome congresso" type="string" modifiable="true">
+        <VRules>
+          <MandatoryValidationRule id="sv1#area1#page1#enu1#fld17#mnd3" name="obbligatorio"/>
+        </VRules>
+      </Field>
+      <Field id="sv1#area1#page1#enu1#fld18" name="Curatore atti" type="string" modifiable="true"/>
+      <Field id="sv1#area1#page1#enu1#fld19" name="Codice brevetto" type="string" modifiable="true"/>
+      <Field id="sv1#area1#page1#enu1#fld20" name="Data rilascio" type="date" modifiable="true"/>
+      <SelectionField id="sv1#area1#page1#enu1#sfld1" name="Tipo pubblicazione" ajaxEventEnabled="true" ajaxEventIndicator="true" type="string"/>
+      <Field id="sv1#area1#page1#enu1#fld21" name="Ente organizzatore" type="string" modifiable="true"/>
+      <Link id="sv1#area1#page1#enu1#ln2" name="Link2" to="sv1#area1#cru2" automaticCoupling="true" type="normal" validate="true"/>
+    </EntryUnit>
+    <SelectorUnit id="sv1#area1#page1#seu1" name="Publication type" gr:x="0" gr:y="0" entity="ent4a">
+      <Link id="sv1#area1#page1#seu1#ln1" name="Link120" to="sv1#area1#page1#enu1" type="transport" automaticCoupling="false" validate="true">
+        <LinkParameter id="sv1#area1#page1#seu1#ln1#par1" name="Descrizione_Tipo pubblicazione [label]" source="ent4a#att24aArray" target="sv1#area1#page1#enu1#sfld1_label"/>
+        <LinkParameter id="sv1#area1#page1#seu1#ln1#par2" name="oid_Tipo pubblicazione [output]" source="ent4a#att22aArray" target="sv1#area1#page1#enu1#sfld1_output"/>
+      </Link>
+      <SortAttribute attribute="ent4a#att24a" order="ascending"/>
+    </SelectorUnit>
+  </ContentUnits>
+  <layout:Grid>
+    <layout:Row>
+      <layout:Cell>
+        <layout:Unit unitId="sv1#area1#page1#enu1">
+          <layout:Field field="sv1#area1#page1#enu1#sfld1"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld8" layout:fieldVisibilityCondition="sv1#area1#page1#cexpr11"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld5" layout:fieldVisibilityCondition="sv1#area1#page1#cexpr11"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld1" layout:fieldVisibilityCondition="sv1#area1#page1#cexpr8"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld9" layout:fieldVisibilityCondition="sv1#area1#page1#cexpr12"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld10" layout:fieldVisibilityCondition="sv1#area1#page1#cexpr2"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld12" layout:fieldVisibilityCondition="sv1#area1#page1#cexpr3"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld17" layout:fieldVisibilityCondition="sv1#area1#page1#cexpr4"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld13" layout:fieldVisibilityCondition="sv1#area1#page1#cexpr3"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld14" layout:fieldVisibilityCondition="sv1#area1#page1#cexpr3"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld11" layout:fieldVisibilityCondition="sv1#area1#page1#cexpr2"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld4" layout:fieldVisibilityCondition="sv1#area1#page1#cexpr6"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld2" layout:fieldVisibilityCondition="sv1#area1#page1#cexpr9"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld16" layout:fieldVisibilityCondition="sv1#area1#page1#cexpr4"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld21" layout:fieldVisibilityCondition="sv1#area1#page1#cexpr4"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld6" layout:fieldVisibilityCondition="sv1#area1#page1#cexpr6"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld18" layout:fieldVisibilityCondition="sv1#area1#page1#cexpr4"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld3" layout:fieldVisibilityCondition="sv1#area1#page1#cexpr6"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld7" layout:fieldVisibilityCondition="sv1#area1#page1#cexpr10"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld19" layout:fieldVisibilityCondition="sv1#area1#page1#cexpr5"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld20" layout:fieldVisibilityCondition="sv1#area1#page1#cexpr5"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld15" layout:fieldVisibilityCondition="sv1#area1#page1#cexpr11"/>
+          <layout:Link link="sv1#area1#page1#enu1#ln2"/>
+        </layout:Unit>
+        <layout:LayoutParameter name="icon-name" value="1000" type="frame"/>
+      </layout:Cell>
+    </layout:Row>
+    <layout:LayoutParameter name="icon-name" value="1000" type="frame"/>
+  </layout:Grid>
+  <Variable id="sv1#area1#page1#var1" name="tipo_pubblicazione" type="string"/>
+  <ConditionExpression id="sv1#area1#page1#cexpr1" name="LA1 o LA2 o LE1 o LE2">
+    <TextValue xml:space="preserve">import com.webratio.rtx.core.*
+
+String testValue = BeanHelper.asString(tipo_pubblicazione)
+
+return ( "LA1".equals(testValue) || "LA2".equals(testValue) || "LE1".equals(testValue) || "LE2".equals(testValue))</TextValue>
+  </ConditionExpression>
+  <ConditionExpression id="sv1#area1#page1#cexpr2" name="CL1 o CL2">
+    <TextValue xml:space="preserve">import com.webratio.rtx.core.*
+
+String testValue = BeanHelper.asString(tipo_pubblicazione)
+
+return ( "CL1".equals(testValue) || "CL2".equals(testValue) )</TextValue>
+  </ConditionExpression>
+  <ConditionExpression id="sv1#area1#page1#cexpr3" name="RV1 o RV2">
+    <TextValue xml:space="preserve">import com.webratio.rtx.core.*
+
+String testValue = BeanHelper.asString(tipo_pubblicazione)
+
+return ( "RV1".equals(testValue) || "RV2".equals(testValue) ) </TextValue>
+  </ConditionExpression>
+  <ConditionExpression id="sv1#area1#page1#cexpr4" name="CV1 o CV2">
+    <TextValue xml:space="preserve">import com.webratio.rtx.core.*
+
+String testValue = BeanHelper.asString(tipo_pubblicazione)
+
+return ( "CV1".equals(testValue) || "CV2".equals(testValue) )</TextValue>
+  </ConditionExpression>
+  <ConditionExpression id="sv1#area1#page1#cexpr5" name="BV1 o BV2">
+    <TextValue xml:space="preserve">import com.webratio.rtx.core.*
+
+String testValue = BeanHelper.asString(tipo_pubblicazione)
+return (("BV1".equals(testValue)) || ("BV2".equals(testValue)))</TextValue>
+  </ConditionExpression>
+  <ConditionExpression id="sv1#area1#page1#cexpr6" name="LA1 o LA2 o LE1 o LE2 o CL1 o CL2">
+    <TextValue xml:space="preserve">import com.webratio.rtx.core.*
+
+String testValue = BeanHelper.asString(tipo_pubblicazione)
+
+return ( "LA1".equals(testValue) || "LA2".equals(testValue) || "LE1".equals(testValue) || "LE2".equals(testValue) || "CL1".equals(testValue) || "CL2".equals(testValue))</TextValue>
+  </ConditionExpression>
+  <ConditionExpression id="sv1#area1#page1#cexpr7" name="LA1 o LA2 o LE1 o LE2 o BV1 o BV2">
+    <TextValue xml:space="preserve">import com.webratio.rtx.core.*
+
+String testValue = BeanHelper.asString(tipo_pubblicazione)
+
+return ( "LA1".equals(testValue) || "LA2".equals(testValue) || "LE1".equals(testValue) || "LE2".equals(testValue) || "BV1".equals(testValue) || "BV2".equals(testValue))</TextValue>
+  </ConditionExpression>
+  <ConditionExpression id="sv1#area1#page1#cexpr8" name="LA1 o LA2 o LE1 o LE2 o BV1 o BV2 o RV1 o RV2">
+    <TextValue xml:space="preserve">import com.webratio.rtx.core.*
+
+String testValue = BeanHelper.asString(tipo_pubblicazione)
+
+return ( "LA1".equals(testValue) || "LA2".equals(testValue) || "LE1".equals(testValue) || "LE2".equals(testValue) || "BV1".equals(testValue) || "BV2".equals(testValue) || "RV1".equals(testValue) || "RV2".equals(testValue))</TextValue>
+  </ConditionExpression>
+  <ConditionExpression id="sv1#area1#page1#cexpr9" name="LA1 o LA2 o LE1 o LE2 o CL1 o CL2 o CV1 o CV2">
+    <TextValue xml:space="preserve">import com.webratio.rtx.core.*
+
+String testValue = BeanHelper.asString(tipo_pubblicazione)
+
+return ( "LA1".equals(testValue) || "LA2".equals(testValue) || "LE1".equals(testValue) || "LE2".equals(testValue) || "CL1".equals(testValue) || "CL2".equals(testValue) || "CV1".equals(testValue) || "CV2".equals(testValue))</TextValue>
+  </ConditionExpression>
+  <ConditionExpression id="sv1#area1#page1#cexpr10" name="LA1 o LA2 o LE1 o LE2 o CL1 o CL2 o CV1 o CV2 o RV1 o RV2">
+    <TextValue xml:space="preserve">import com.webratio.rtx.core.*
+
+String testValue = BeanHelper.asString(tipo_pubblicazione)
+
+return ( "LA1".equals(testValue) || "LA2".equals(testValue) || "LE1".equals(testValue) || "LE2".equals(testValue) || "CL1".equals(testValue) || "CL2".equals(testValue) || "CV1".equals(testValue) || "CV2".equals(testValue) || "RV1".equals(testValue) || "RV2".equals(testValue))</TextValue>
+  </ConditionExpression>
+  <ConditionExpression id="sv1#area1#page1#cexpr11" name="NOT NULL">
+    <TextValue xml:space="preserve">tipo_pubblicazione != null</TextValue>
+  </ConditionExpression>
+  <ConditionExpression id="sv1#area1#page1#cexpr12" name="CL1 o CL2 o CV1 o CV2">
+    <TextValue xml:space="preserve">import com.webratio.rtx.core.*
+
+String testValue = BeanHelper.asString(tipo_pubblicazione)
+
+return ( "CL1".equals(testValue) || "CL2".equals(testValue) || "CV1".equals(testValue) || "CV2".equals(testValue))</TextValue>
+  </ConditionExpression>
+</Page>

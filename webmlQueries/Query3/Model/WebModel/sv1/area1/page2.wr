@@ -1,0 +1,35 @@
+<Page xmlns:gr="http://www.webratio.com/2006/WebML/Graph" xmlns:layout="http://www.webratio.com/2006/WebML/Layout" id="sv1#area1#page2" name="List" landmark="true" gr:x="366" gr:y="116">
+  <ContentUnits>
+    <PowerIndexUnit id="sv1#area1#page2#pwu2" name="User list" gr:x="26" gr:y="28" entity="ent4" sortable="true" displayAttributes="ent4#att13 ent4#att12 userName " blockFactor="20" blockWindow="10">
+      <Selector id="sv1#area1#page2#pwu2#su1" booleanOperator="and" defaultPolicy="fill">
+        <RelationshipRoleCondition id="sv1#area1#page2#pwu2#su1#rcond3" name="azienda" role="rel10#rel70" implied="false" type="required" predicate="in"/>
+        <AttributesCondition id="sv1#area1#page2#pwu2#su1#acond1" name="user" attributes="userOID" implied="false" booleanOperator="or" predicate="eq"/>
+      </Selector>
+      <SortAttribute attribute="ent4#att13" order="ascending"/>
+      <SortAttribute attribute="ent4#att12" order="ascending"/>
+      <SortAttribute attribute="userName" order="ascending"/>
+    </PowerIndexUnit>
+  </ContentUnits>
+  <layout:Grid>
+    <layout:Row>
+      <layout:Cell>
+        <layout:Unit unitId="sv1#area1#page2#pwu2">
+          <layout:LayoutParameter name="show-attribute-name" value="false" type="unit"/>
+          <layout:LayoutParameter name="show-bullet" value="false" type="unit"/>
+          <layout:LayoutParameter name="link-position" value="right" type="unit"/>
+          <layout:Attribute attribute="ent4#att13"/>
+          <layout:Attribute attribute="ent4#att12"/>
+          <layout:Attribute attribute="userName"/>
+          <layout:Link link="sv1#area1#page2#pwu2ent4#att13"/>
+          <layout:Link link="sv1#area1#page2#pwu2ent4#att12"/>
+          <layout:Link link="sv1#area1#page2#pwu2userName"/>
+          <layout:Link link="sv1#area1#page2#pwu2First"/>
+          <layout:Link link="sv1#area1#page2#pwu2Previous"/>
+          <layout:Link link="sv1#area1#page2#pwu2Block"/>
+          <layout:Link link="sv1#area1#page2#pwu2Next"/>
+          <layout:Link link="sv1#area1#page2#pwu2Last"/>
+        </layout:Unit>
+      </layout:Cell>
+    </layout:Row>
+  </layout:Grid>
+</Page>
