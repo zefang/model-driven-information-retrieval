@@ -15,6 +15,7 @@ import org.eclipse.smila.processing.Pipelet;
 import org.eclipse.smila.processing.ProcessingException;
 import org.eclipse.smila.search.api.helper.QueryParameterAccessor;
 import org.jdom.input.DOMBuilder;
+import org.jdom.output.DOMOutputter;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.w3c.dom.DOMImplementation;
@@ -55,7 +56,7 @@ public class TranslateWebMLToXMIPipelet implements Pipelet {
 	      final int resultOffset = parameters.getOffset();
 	      final List<String> resultAttributes = parameters.getResultAttributes();
 
-		File webmlQueryProject = new File(QUERY_PATH + query); //TODO prendere nome query dal record
+		File webmlQueryProject = new File(_queryPath, query); //TODO prendere nome query dal record
 		
 		//webmlQueryProject MUST be a directory
 		if (!webmlQueryProject.isDirectory()) {
@@ -75,19 +76,18 @@ public class TranslateWebMLToXMIPipelet implements Pipelet {
 			
 			//converting from w3c.dom to jdom
 			DOMBuilder builder = new DOMBuilder();
-			outputDocument.appendChild(webmlProject);
-			org.jdom.Document jdomDoc = builder.build(outputDocument);
+			org.jdom.Element jdomRoot = builder.build(webmlProject);
+			org.jdom.Document jdomDoc = new org.jdom.Document((org.jdom.Element) jdomRoot.clone());
 			XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
 		    String xmiContent = outputter.outputString(jdomDoc);
 		    try {
-		    	blackboard.getRecord(recordIds[0]).setAttachment("xmiContent", xmiContent.getBytes());
+		    	//blackboard.getRecord(recordIds[0]).setAttachment("xmiContent", xmiContent.getBytes());
+		    	blackboard.getRecord(recordIds[0]).getMetadata().put("xmiContent", xmiContent);
 		    } catch (BlackboardAccessException e) {
 		    	e.printStackTrace();
 		    }
 		}
 			
-				
-		
 		return recordIds;
 	}
 
