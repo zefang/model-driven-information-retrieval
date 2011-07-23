@@ -19,5 +19,6 @@ SMILA-Pipelets: it.polimi.mdir.webml.pipelet.SplitPipelet,
  it.polimi.mdir.webml.pipelet.IndexerPipelet,
  it.polimi.mdir.webml.pipelet.TranslateWebMLToXMIPipelet,
  it.polimi.mdir.webml.pipelet.search.KeywordExtractorPipelet,
+ it.polimi.mdir.webml.pipelet.search.WebmlTestServletCallerPipelet
 Bundle-ClassPath: lib/jdom.jar,
  .

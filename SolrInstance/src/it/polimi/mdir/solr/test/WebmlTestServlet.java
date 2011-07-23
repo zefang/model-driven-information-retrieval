@@ -128,6 +128,8 @@ public class WebmlTestServlet extends HttpServlet {
 	
 	  public void doPost (HttpServletRequest  req, HttpServletResponse  res)
 	    throws ServletException, IOException {
+		  System.out.println("I'm in the WebmlTestServlet doPost() method");
+		  doGet(req, res);
 	  }
 	
 	  public void destroy () {
