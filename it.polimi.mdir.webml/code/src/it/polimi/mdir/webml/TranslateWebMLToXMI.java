@@ -63,12 +63,14 @@ public class TranslateWebMLToXMI {
 				webmlProject.setAttribute("xmi:version", "2.1");
 				
 				processProject(projects[i], webmlProject);
+				
+				writeToFile(webmlProject);
 			}
 		}
 		
 	}
 	
-	private static void processProject(File project, Element projectNode) {
+	public static void processProject(File project, Element projectNode) {
 		String projectName = project.getName();
 		
 		projectNode.setAttribute("xmi:id", projectName);
@@ -77,7 +79,6 @@ public class TranslateWebMLToXMI {
 		processDataModel(projectName, projectNode);
 		processWebModel(projectName, projectNode);
 		
-		writeToFile(projectNode);
 	}
 	
 	private static void processDataModel(String projectName, Element parentNode) {
@@ -387,7 +388,7 @@ public class TranslateWebMLToXMI {
 	private static void processTransactions(File rootDirectory, Element parentNode) {
 		File[] trans = rootDirectory.listFiles(new TransactionsFileFilter());
 		for (int i = 0; i < trans.length; i++) { 
-			//TODO here we treat the Transactions as OperationGroups
+			//here we treat the Transactions as OperationGroups
 			processOperationGroup(trans[i], parentNode); 
 		}
 	}
@@ -444,7 +445,7 @@ public class TranslateWebMLToXMI {
 	 * Given an Element (OperationUnit) processes its Links
 	 */
 	private static void processLinks(Element el, Element parentNode) {
-		String[] linkTypes = {"Link", "OKLink", "KOLink"}; //TODO ci sono altri link types?
+		String[] linkTypes = {"Link", "OKLink", "KOLink"}; //TODO are there any other link types?
 		for (int k = 0; k < linkTypes.length; k++) {
 			NodeList links = el.getElementsByTagName(linkTypes[k]); 
 			for (int i = 0; i < links.getLength(); i++) {
