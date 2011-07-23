@@ -32,6 +32,13 @@
         </proc:configuration>
       </proc:invokePipelet>
     </extensionActivity>
+    
+    <extensionActivity>
+      <proc:invokePipelet name="invokeKeywordExtractorPipelet">
+        <proc:pipelet class="it.polimi.mdir.webml.pipelet.search.KeywordExtractorPipelet" />
+        <proc:variables input="request" />
+      </proc:invokePipelet>
+    </extensionActivity>
 
     <reply name="end" partnerLink="Pipeline" portType="proc:ProcessorPortType" operation="process"
       variable="request" />
