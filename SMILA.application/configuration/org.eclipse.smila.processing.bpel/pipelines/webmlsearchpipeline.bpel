@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<process name="WebmlSearchPipeline" targetNamespace="http://www.eclipse.org/smila/processor"
+  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:proc="http://www.eclipse.org/smila/processor" xmlns:rec="http://www.eclipse.org/smila/record" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+
+  <import location="processor.wsdl" namespace="http://www.eclipse.org/smila/processor"
+    importType="http://schemas.xmlsoap.org/wsdl/" />
+
+  <partnerLinks>
+    <partnerLink name="Pipeline" partnerLinkType="proc:ProcessorPartnerLinkType" myRole="service" />
+  </partnerLinks>
+
+  <extensions>
+    <extension namespace="http://www.eclipse.org/smila/processor" mustUnderstand="no" />
+  </extensions>
+
+  <variables>
+    <variable name="request" messageType="proc:ProcessorMessage" />
+  </variables>
+
+  <sequence>
+    <receive name="start" partnerLink="Pipeline" portType="proc:ProcessorPortType"
+      operation="process" variable="request" createInstance="yes" />
+
+    <extensionActivity>
+      <proc:invokePipelet name="invokeTranslateWebMLToXMIPipelet">
+        <proc:pipelet class="it.polimi.mdir.webml.pipelet.TranslateWebMLToXMIPipelet" />
+        <proc:variables input="request" />
+        <proc:configuration>
+          <rec:Val key="queryPath">C:\Users\Lox\workspaceSMILA\webmlQueries\</rec:Val>
+        </proc:configuration>
+      </proc:invokePipelet>
+    </extensionActivity>
+
+    <reply name="end" partnerLink="Pipeline" portType="proc:ProcessorPortType" operation="process"
+      variable="request" />
+    <exit />
+  </sequence>
+</process>
