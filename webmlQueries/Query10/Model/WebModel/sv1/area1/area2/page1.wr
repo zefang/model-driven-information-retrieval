@@ -1,0 +1,28 @@
+<Page xmlns:gr="http://www.webratio.com/2006/WebML/Graph" xmlns:layout="http://www.webratio.com/2006/WebML/Layout" gr:x="14" gr:y="34" id="sv1#area1#area2#page1" name="Contracts">
+  <ContentUnits>
+    <PowerIndexUnit gr:x="21" gr:y="36" id="sv1#area1#area2#page1#pwu1" name="Contract types" sortable="true" checkable="false" useCountQuery="false" linkOrder="sv1#area1#area2#page1#pwu1#ln1" entity="ent1s">
+      <Link id="sv1#area1#area2#page1#pwu1#ln1" name="Link1" to="sv1#area1#area2#dlu1" automaticCoupling="true" type="normal" validate="true"/>
+    </PowerIndexUnit>
+  </ContentUnits>
+  <layout:Grid>
+    <layout:Row>
+      <layout:Cell>
+        <layout:Unit unitId="sv1#area1#area2#page1#pwu1">
+          <layout:Link link="sv1#area1#area2#page1#pwu1#ln1"/>
+        </layout:Unit>
+      </layout:Cell>
+      <layout:Cell/>
+      <layout:Cell/>
+    </layout:Row>
+    <layout:Row>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+    </layout:Row>
+    <layout:Row>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+    </layout:Row>
+  </layout:Grid>
+</Page>

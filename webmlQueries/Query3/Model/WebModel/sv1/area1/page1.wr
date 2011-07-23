@@ -1,0 +1,90 @@
+<Page xmlns:gr="http://www.webratio.com/2006/WebML/Graph" xmlns:layout="http://www.webratio.com/2006/WebML/Layout" id="sv1#area1#page1" name="Modify user" gr:x="0" gr:y="0">
+  <ContentUnits>
+    <EntryUnit id="sv1#area1#page1#enu1" name="Modify user data" gr:x="168" gr:y="13" linkOrder="sv1#area1#page1#enu1#ln1 sv1#area1#page1#enu1#ln6">
+      <Field id="sv1#area1#page1#enu1#fld1" name="Nome" preloaded="true" modifiable="true" type="string">
+        <Slot id="sv1#area1#page1#enu1#fld1#slot1" name="Slot 16" output="true" label="true"/>
+        <VRules>
+          <MandatoryValidationRule id="sv1#area1#page1#enu1#fld1#mnd1" name="obbligatorio"/>
+        </VRules>
+      </Field>
+      <Field id="sv1#area1#page1#enu1#fld2" name="Cognome" preloaded="true" modifiable="true" type="string">
+        <Slot id="sv1#area1#page1#enu1#fld2#slot2" name="Slot 15" output="true" label="true"/>
+        <VRules>
+          <MandatoryValidationRule id="sv1#area1#page1#enu1#fld2#mnd2" name="obbligatorio"/>
+        </VRules>
+      </Field>
+      <Field id="sv1#area1#page1#enu1#fld3" name="Username" preloaded="true" modifiable="true" type="string">
+        <Slot id="sv1#area1#page1#enu1#fld3#slot3" name="Slot 18" output="true" label="true"/>
+        <VRules>
+          <MandatoryValidationRule id="sv1#area1#page1#enu1#fld3#mnd3" name="obbligatorio"/>
+        </VRules>
+      </Field>
+      <Field id="sv1#area1#page1#enu1#fld4" name="Password" preloaded="true" modifiable="true" type="string">
+        <Slot id="sv1#area1#page1#enu1#fld4#slot4" name="Slot 17" output="true" label="true"/>
+        <VRules>
+          <MandatoryValidationRule id="sv1#area1#page1#enu1#fld4#mnd4" name="obbligatorio"/>
+        </VRules>
+      </Field>
+      <Field id="sv1#area1#page1#enu1#fld5" name="id_soggetto" preloaded="true" hidden="true" type="string">
+        <Slot id="sv1#area1#page1#enu1#fld5#slot5" name="Slot 19" output="true" label="true"/>
+        <VRules>
+          <MandatoryValidationRule id="sv1#area1#page1#enu1#fld5#mnd5" name="obbligatorio"/>
+        </VRules>
+      </Field>
+      <Field id="sv1#area1#page1#enu1#fld6" name="email" preloaded="true" modifiable="true" type="string">
+        <Slot id="sv1#area1#page1#enu1#fld6#slot6" name="Slot 89" output="true" label="true"/>
+        <VRules>
+          <MandatoryValidationRule id="sv1#area1#page1#enu1#fld6#mnd6" name="obbligatorio"/>
+          <EMailValidationRule id="sv1#area1#page1#enu1#fld6#email1" name="Validation Rule 28"/>
+        </VRules>
+      </Field>
+      <Field id="sv1#area1#page1#enu1#fld7" name="Telefono" preloaded="true" modifiable="true" type="decimal">
+        <Slot id="sv1#area1#page1#enu1#fld7#slot7" name="Slot 68" output="true" label="true"/>
+        <VRules>
+          <MandatoryValidationRule id="sv1#area1#page1#enu1#fld7#mnd7" name="obbligatorio"/>
+        </VRules>
+      </Field>
+      <SelectionField id="sv1#area1#page1#enu1#sfld1" name="Competenza:" type="string">
+        <Slot id="sv1#area1#page1#enu1#sfld1#slot8" name="label" label="true"/>
+        <Slot id="sv1#area1#page1#enu1#sfld1#slot9" name="output" output="true"/>
+        <VRules>
+          <MandatoryValidationRule id="sv1#area1#page1#enu1#sfld1#mnd8" name="not null"/>
+        </VRules>
+      </SelectionField>
+      <Link id="sv1#area1#page1#enu1#ln1" name="Cancel" to="sv1#area1#page2#pwu2" automaticCoupling="true" type="normal" validate="true"/>
+      <Link id="sv1#area1#page1#enu1#ln6" name="Link6" to="sv1#area1#mfu2" automaticCoupling="true" type="normal" validate="true"/>
+    </EntryUnit>
+    <DataUnit id="sv1#area1#page1#dau2" name="default group" gr:x="30" gr:y="166" entity="Group">
+      <Selector id="sv1#area1#page1#dau2#su3" booleanOperator="and" defaultPolicy="fill">
+        <RelationshipRoleCondition id="sv1#area1#page1#dau2#su3#rcond1" name="user2group" role="User2DefaultGroup" implied="false" type="required" predicate="in"/>
+      </Selector>
+      <Link id="sv1#area1#page1#dau2#ln4" name="Link 976" to="sv1#area1#page1#enu1" type="transport" validate="true">
+        <LinkParameter id="sv1#area1#page1#dau2#ln4#par10" name="OID_2_Competenza: - Preselection" source="data.groupOID" target="sv1#area1#page1#enu1#sfld1_presel" blank="false"/>
+      </Link>
+    </DataUnit>
+    <DataUnit id="sv1#area1#page1#dau3" name="subject" gr:x="0" gr:y="0" entity="ent4">
+      <Selector id="sv1#area1#page1#dau3#su2" booleanOperator="and" defaultPolicy="fill">
+        <AttributesCondition id="sv1#area1#page1#dau3#su2#acond2" name="oid" attributes="userOID" implied="false" booleanOperator="or" predicate="eq"/>
+      </Selector>
+      <Link id="sv1#area1#page1#dau3#ln2" name="Link2" to="sv1#area1#page1#dau2" automaticCoupling="true" type="transport" validate="true"/>
+      <Link id="sv1#area1#page1#dau3#ln3" name="Link3" to="sv1#area1#page1#enu1" automaticCoupling="true" type="transport" validate="true"/>
+    </DataUnit>
+  </ContentUnits>
+  <layout:Grid>
+    <layout:Row>
+      <layout:Cell>
+        <layout:Unit unitId="sv1#area1#page1#enu1">
+          <layout:Field field="sv1#area1#page1#enu1#fld1"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld2"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld3"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld4"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld6"/>
+          <layout:Field field="sv1#area1#page1#enu1#fld7"/>
+          <layout:Field field="sv1#area1#page1#enu1#sfld1"/>
+          <layout:Link link="sv1#area1#page1#enu1#ln1"/>
+          <layout:Link link="sv1#area1#page1#enu1#ln6"/>
+        </layout:Unit>
+      </layout:Cell>
+    </layout:Row>
+  </layout:Grid>
+</Page>

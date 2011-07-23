@@ -1,0 +1,10 @@
+<Area xmlns:gr="http://www.webratio.com/2006/WebML/Graph" gr:x="11" gr:y="40" id="sv1#area1#area2" name="Contract type" landmark="true" defaultPage="sv1#area1#area2#page1">
+  <OperationUnits>
+    <DeleteUnit gr:x="191" gr:y="201" id="sv1#area1#area2#dlu1" name="Delete" entity="ent1s">
+      <Selector id="sv1#area1#area2#dlu1#su1" defaultPolicy="fill" booleanOperator="and">
+        <KeyCondition id="sv1#area1#area2#dlu1#su1#kcond1" name="KeyCondition1" predicate="in" implied="false"/>
+      </Selector>
+      <OKLink id="sv1#area1#area2#dlu1#oln1" name="OKLink1" to="sv1#area1#area2#page1" automaticCoupling="true"/>
+    </DeleteUnit>
+  </OperationUnits>
+</Area>

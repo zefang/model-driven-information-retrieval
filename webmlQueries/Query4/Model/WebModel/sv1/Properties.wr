@@ -1,0 +1,14 @@
+<SiteView xmlns:gr="http://www.webratio.com/2006/WebML/Graph" id="sv1" name="Client Details">
+  <OperationUnits>
+    <CreateUnit id="sv1#cru1" name="Create" gr:x="150" gr:y="20" entity="ent12"/>
+    <ModifyUnit id="sv1#mfu1" name="Modify" gr:x="180" gr:y="110" entity="ent12">
+      <Selector id="sv1#mfu1#su4" defaultPolicy="fill" booleanOperator="and">
+        <KeyCondition id="sv1#mfu1#su4#kcond2" name="KeyCondition4" predicate="in" implied="false"/>
+      </Selector>
+    </ModifyUnit>
+    <IsNotNullUnit id="sv1#inn1" name="Exist" gr:x="500" gr:y="-20">
+      <KOLink id="sv1#inn1#kln1" name="KOLink1" to="sv1#cru1" automaticCoupling="true"/>
+      <OKLink id="sv1#inn1#oln1" name="OKLink1" to="sv1#mfu1" automaticCoupling="true"/>
+    </IsNotNullUnit>
+  </OperationUnits>
+</SiteView>

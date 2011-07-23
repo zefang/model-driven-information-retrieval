@@ -1,0 +1,49 @@
+<Page xmlns:gr="http://www.webratio.com/2006/WebML/Graph" xmlns:layout="http://www.webratio.com/2006/WebML/Layout" id="sv1#area2#page1" name="New book request" gr:x="150" gr:y="140">
+  <ContentUnits>
+    <EntryUnit id="sv1#area2#page1#enu1" name="New book" gr:x="0" gr:y="4">
+      <Field id="sv1#area2#page1#enu1#fld1" name="Autore" type="string" modifiable="true">
+        <VRules>
+          <MandatoryValidationRule id="sv1#area2#page1#enu1#fld1#mnd1" name="obbligatorio"/>
+        </VRules>
+      </Field>
+      <Field id="sv1#area2#page1#enu1#fld2" name="Titolo" type="string" modifiable="true">
+        <VRules>
+          <MandatoryValidationRule id="sv1#area2#page1#enu1#fld2#mnd2" name="obbligatorio"/>
+        </VRules>
+      </Field>
+      <Field id="sv1#area2#page1#enu1#fld3" name="Editore-data" type="string" modifiable="true">
+        <VRules>
+          <MandatoryValidationRule id="sv1#area2#page1#enu1#fld3#mnd3" name="obbligatorio"/>
+        </VRules>
+      </Field>
+      <Field id="sv1#area2#page1#enu1#fld4" name="Prezzo" type="decimal" modifiable="true">
+        <VRules>
+          <MandatoryValidationRule id="sv1#area2#page1#enu1#fld4#mnd4" name="obbligatorio"/>
+        </VRules>
+      </Field>
+      <Field id="sv1#area2#page1#enu1#fld5" name="Prezzo netto 20%" type="string" modifiable="true">
+        <VRules>
+          <MandatoryValidationRule id="sv1#area2#page1#enu1#fld5#mnd5" name="obbligatorio"/>
+        </VRules>
+      </Field>
+      <Link id="sv1#area2#page1#enu1#ln2" name="Link2" to="sv1#area2#cru1" automaticCoupling="true" type="transport" validate="true"/>
+    </EntryUnit>
+    <GetUnit id="sv1#area2#page1#gtu1" name="User" gr:x="101" gr:y="0" contextParameters="UserCtxParam">
+      <Link id="sv1#area2#page1#gtu1#ln3" name="Link3" to="sv1#area2#cnu1" automaticCoupling="true" type="transport" validate="true"/>
+    </GetUnit>
+  </ContentUnits>
+  <layout:Grid>
+    <layout:Row>
+      <layout:Cell label="Nuova richiesta libro" layout:frameLayout="MECC_Style/frame" layout:cellLayout="Print Frame">
+        <layout:Unit unitId="sv1#area2#page1#enu1" manualLinks="true" layout:frameLayout="MECC_Style/HeaderFrame">
+          <layout:Field field="sv1#area2#page1#enu1#fld1"/>
+          <layout:Field field="sv1#area2#page1#enu1#fld2"/>
+          <layout:Field field="sv1#area2#page1#enu1#fld3"/>
+          <layout:Field field="sv1#area2#page1#enu1#fld4"/>
+          <layout:Field field="sv1#area2#page1#enu1#fld5"/>
+        </layout:Unit>
+        <layout:Unit label="link" unitId="sv1#area2#page1#enu1" manualFields="true" manualLinks="true" layout:frameLayout="None"/>
+      </layout:Cell>
+    </layout:Row>
+  </layout:Grid>
+</Page>

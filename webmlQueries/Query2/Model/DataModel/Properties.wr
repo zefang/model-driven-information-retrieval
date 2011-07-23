@@ -1,0 +1,970 @@
+<DataModel xmlns:db="http://www.webratio.com/2006/WebML/Database" xmlns:gr="http://www.webratio.com/2006/WebML/Graph">
+  <Entity id="User" name="User" duration="persistent" gr:x="979" gr:y="880" attributeOrder="userOID userName password email User#att60a User#att61a User#att62a User#att4a User#att5a User#att6a User#att7a User#att8a User#att9a User#att10a User#att11a User#att12a User#att13a User#att14a User#att15a User#att16a User#att17a User#att26a User#att21w User#att62w" db:table="user" db:database="db3a">
+    <Attribute name="OID" id="userOID" type="integer" key="true" db:column="oid"/>
+    <Attribute name="UserName" id="userName" type="string" db:column="username"/>
+    <Attribute name="Password" id="password" type="password" db:column="password"/>
+    <Attribute name="EMail" id="email" type="string" db:column="email"/>
+    <Attribute name="Nome" id="User#att60a" type="string" db:column="nome"/>
+    <Attribute name="Cognome" id="User#att61a" type="string" db:column="cognome"/>
+    <Attribute name="Gruppo di default" id="User#att62a" type="string" derivationQuery="simpleImported::Self.User2DefaultGroup.groupName"/>
+    <Attribute id="User#att4a" name="Numero matricola" type="string" db:column="numero_matricola"/>
+    <Attribute id="User#att5a" name="Dipartimento" type="string" db:column="dipartimento"/>
+    <Attribute id="User#att6a" name="Categoria" type="string" db:column="categoria"/>
+    <Attribute id="User#att7a" name="Cap" type="string" db:column="cap"/>
+    <Attribute id="User#att8a" name="Citt&#224;" type="string" db:column="citta"/>
+    <Attribute id="User#att9a" name="Luogo Nascita" type="string" db:column="luogo_nascita"/>
+    <Attribute id="User#att10a" name="Data Nascita" type="date" db:column="data_nascita"/>
+    <Attribute id="User#att11a" name="Codice Fiscale" type="string" db:column="codice_fiscale"/>
+    <Attribute id="User#att12a" name="PIVA" type="string" db:column="piva"/>
+    <Attribute id="User#att13a" name="Indirizzo_F_PC" type="string" db:column="indirizzo_f_pc"/>
+    <Attribute id="User#att14a" name="COD_Sezione" type="string" db:column="cod_sezione"/>
+    <Attribute id="User#att15a" name="Cellulare" type="string" db:column="cellulare"/>
+    <Attribute id="User#att16a" name="Tel_Interno" type="string" db:column="tel_interno"/>
+    <Attribute id="User#att17a" name="Indirizzo" type="string" db:column="indirizzo"/>
+    <Attribute id="User#att26a" name="Sezione" type="string" derivationQuery="simpleImported::Self.rel1a#role1a.ent1a#att3a"/>
+    <Attribute id="User#att21w" name="Qualifica" type="string" db:column="qualifica"/>
+    <Attribute id="User#att62w" name="Indirizzo_F_PC2" type="string" db:column="indirizzo_f_pc2"/>
+    <Attribute id="User#att63w" name="Indirizzo_F_PC3" type="string" db:column="indirizzo_f_pc3"/>
+    <Attribute id="User#att64w" name="Indirizzo_F_PC4" type="string" db:column="indirizzo_f_pc4"/>
+    <Attribute id="User#att66w" name="Indirizzo_F_PC5" type="string" db:column="indirizzo_f_pc5"/>
+  </Entity>
+  <Entity id="Group" name="Group" duration="persistent" gr:x="696" gr:y="895" db:table="group" db:database="db3a">
+    <Attribute name="OID" id="groupOID" type="integer" key="true" db:column="oid"/>
+    <Attribute name="GroupName" id="groupName" type="string" db:column="groupname"/>
+    <Attribute name="Gruppo di sistema" id="Group#att65a" type="boolean" db:column="gruppo_di_sistema"/>
+  </Entity>
+  <Entity id="Module" name="Module" duration="persistent" gr:x="650" gr:y="1051" db:table="module" db:database="db3a">
+    <Attribute name="OID" id="moduleOID" type="integer" key="true" db:column="oid"/>
+    <Attribute name="ModuleID" id="moduleID" type="string" db:column="moduleid"/>
+    <Attribute name="ModuleName" id="moduleName" type="string" db:column="modulename"/>
+  </Entity>
+  <Entity id="ent14a" name="Indirizzo" duration="persistent" gr:x="1294" gr:y="834" db:database="db3a" db:table="indirizzo">
+    <Attribute name="OID" id="ent14a#att95a" type="integer" key="true" db:column="oid"/>
+    <Attribute name="Indirizzo" id="ent14a#att96a" type="string" db:column="indirizzo"/>
+    <Attribute name="Citt&#224;" id="ent14a#att97a" type="string" db:column="citt"/>
+    <Attribute name="CAP" id="ent14a#att98a" type="string" db:column="cap"/>
+    <Attribute name="Numero di telefono" id="ent14a#att99a" type="string" db:column="numero_di_telefono"/>
+    <Attribute name="Nazione" id="ent14a#att100a" type="string" db:column="nazione"/>
+    <Attribute name="Provincia" id="ent14a#att101a" type="string" db:column="provincia"/>
+    <Attribute name="Nome" id="ent14a#att104a" type="string" derivationQuery="simpleImported::Self.rel7w#role14w.User#att60a"/>
+    <Attribute name="Cognome" id="ent14a#att105a" type="string" derivationQuery="simpleImported::Self.rel7w#role14w.User#att61a"/>
+  </Entity>
+  <Entity id="ent16a" name="Ordine" duration="persistent" gr:x="1235" gr:y="591" db:table="ordine" db:database="db3a">
+    <Attribute name="OID" id="ent16a#att106a" type="integer" key="true" db:column="oid"/>
+    <Attribute name="Data inserimento" id="ent16a#att107a" type="timestamp" db:column="data_inserimento"/>
+    <Attribute name="Totale" id="ent16a#att108a" subType="sbt1a" type="float" db:table="ordine_totale_view" derivationQuery="sum(Self.rel5#rel63a(as Var1).ent17a#att114a)" db:column="der_attr">
+      <db:JoinColumn attribute="ent16a#att106a" name="oid"/>
+    </Attribute>
+    <Attribute name="Stato" id="ent16a#att118a" type="string" db:column="stato"/>
+    <Attribute name="Data evasione" id="ent16a#att119a" type="timestamp" db:column="data_evasione"/>
+  </Entity>
+  <Entity id="ent17a" name="Riga d'ordine" duration="persistent" gr:x="1546" gr:y="564" db:table="riga_d_ordine" db:database="db3a">
+    <Attribute name="OID" id="ent17a#att109a" type="integer" key="true" db:column="oid"/>
+    <Attribute name="Codice prodotto" id="ent17a#att110a" type="string" db:column="codice_prodotto"/>
+    <Attribute name="Nome prodotto" id="ent17a#att111a" type="string" db:column="nome_prodotto"/>
+    <Attribute name="Prezzo unitario" id="ent17a#att112a" subType="sbt1a" type="float" db:column="prezzo_unitario"/>
+    <Attribute name="Quantit&#224;" id="ent17a#att113a" type="integer" db:column="quantit"/>
+    <Attribute name="Totale" id="ent17a#att114a" subType="sbt1a" type="float" db:table="riga_d_ordine_totale_view" derivationQuery="Self.ent17a#att112a * Self.ent17a#att113a" db:column="der_attr">
+      <db:JoinColumn attribute="ent17a#att109a" name="oid"/>
+    </Attribute>
+    <Attribute name="ID Prodotto" id="ent17a#att116a" type="string" db:column="id_prodotto"/>
+  </Entity>
+  <Relationship id="User2Group_Group2User" name="User_Group" sourceEntity="User" targetEntity="Group" gr:bendpoints="-145,-130,98,170" db:table="user_group" db:database="db3a">
+    <RelationshipRole1 id="User2Group" name="User2Group" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="useroid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="Group2User" name="Group2User" maxCard="N">
+      <db:JoinColumn attribute="groupOID" name="groupoid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="User2DefaultGroup_DefaultGroup2User" name="User_DefaultGroup" sourceEntity="User" targetEntity="Group" gr:bendpoints="-200,-105,77,180" db:table="user" db:database="db3a">
+    <RelationshipRole1 id="User2DefaultGroup" name="User2DefaultGroup" maxCard="1">
+      <db:JoinColumn attribute="userOID" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="DefaultGroup2User" name="DefaultGroup2User" maxCard="N">
+      <db:JoinColumn attribute="groupOID" name="groupoid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel1" name="AllGroup_User" sourceEntity="User" targetEntity="Group" db:table="user_2_allgroup_view" db:database="db3a">
+    <RelationshipRole1 id="rel1#rel56a" name="User_2_AllGroup" maxCard="N" derivationQuery="Self TO Group(as TargetEntity) where TargetEntity in Self.User2Group or TargetEntity in Self.User2DefaultGroup">
+      <db:JoinColumn attribute="userOID" name="s_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel1#rel55a" name="AllGroup_2_User" maxCard="N">
+      <db:JoinColumn attribute="groupOID" name="t_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel2" name="User_Ordine" sourceEntity="User" targetEntity="ent16a" db:table="ordine" db:database="db3a">
+    <RelationshipRole1 id="rel2#rel65a" name="User_2_Ordine" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="useroid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel2#rel66a" name="Ordine_2_User" maxCard="1">
+      <db:JoinColumn attribute="ent16a#att106a" name="oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="Group2Module_Module2Group" name="Group_Module" sourceEntity="Group" targetEntity="Module" gr:bendpoints="35,87,57,-83" db:table="group_module" db:database="db3a">
+    <RelationshipRole1 id="Group2Module" name="Group2Module" maxCard="N">
+      <db:JoinColumn attribute="groupOID" name="groupoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="Module2Group" name="Module2Group" maxCard="N">
+      <db:JoinColumn attribute="moduleOID" name="moduleoid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="Group2DefaultModule_DefaultModule2Group" name="Group_DefaultModule" sourceEntity="Group" targetEntity="Module" gr:bendpoints="-73,86,-51,-84" db:table="group" db:database="db3a">
+    <RelationshipRole1 id="Group2DefaultModule" name="Group2DefaultModule" maxCard="1">
+      <db:JoinColumn attribute="groupOID" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="DefaultModule2Group" name="DefaultModule2Group" maxCard="N">
+      <db:JoinColumn attribute="moduleOID" name="moduleoid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel3" name="AllModule_Group" sourceEntity="Group" targetEntity="Module" db:table="group_2_allmodule_view" db:database="db3a">
+    <RelationshipRole1 id="rel3#rel58a" name="Group_2_AllModule" maxCard="N" derivationQuery="Self TO Module(as TargetEntity) where TargetEntity in Self.Group2DefaultModule or TargetEntity in Self.Group2Module">
+      <db:JoinColumn attribute="groupOID" name="s_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel3#rel57a" name="AllModule_2_Group" maxCard="N">
+      <db:JoinColumn attribute="moduleOID" name="t_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel4" name="Ordine_Indirizzo" sourceEntity="ent14a" targetEntity="ent16a" db:table="ordine" db:database="db3a">
+    <RelationshipRole1 id="rel4#rel68a" name="Indirizzo_2_Ordine" maxCard="N"/>
+    <RelationshipRole2 id="rel4#rel67a" name="Ordine_2_Indirizzo" maxCard="1"/>
+  </Relationship>
+  <Relationship id="rel5" name="Ordine_Riga d'ordine" sourceEntity="ent16a" targetEntity="ent17a" db:table="riga_d_ordine" db:database="db3a">
+    <RelationshipRole1 id="rel5#rel63a" name="Ordine_2_Riga d'ordine" maxCard="N">
+      <db:JoinColumn attribute="ent16a#att106a" name="ordineoid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel5#rel64a" name="Riga d'ordine_2_Ordine" maxCard="1">
+      <db:JoinColumn attribute="ent17a#att109a" name="oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <db:Database id="db3a" url="jdbc:postgresql:meccanica" username="postgres" name="meccanica" type="PostgreSQL 8" password="cG9zdGdyZXM=" cryptedPassword="true"/>
+  <SubType id="sbt1a" name="Currency" type="float"/>
+  <Entity gr:x="1424" gr:y="1364" id="ent1a" name="Sezione" duration="persistent" attributeOrder="ent1a#att1a ent1a#att2a ent1a#att3a" db:table="sezione" db:database="db3a">
+    <Attribute id="ent1a#att1a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent1a#att2a" name="Codice" type="string" db:column="codice"/>
+    <Attribute id="ent1a#att3a" name="Nome" type="string" db:column="nome"/>
+  </Entity>
+  <Relationship id="rel1a" name="User_Sezione" sourceEntity="User" targetEntity="ent1a" db:table="user" db:database="db3a">
+    <RelationshipRole1 id="rel1a#role1a" name="UserToSezione" maxCard="1">
+      <db:JoinColumn attribute="userOID" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel1a#role2a" name="SezioneToUser" maxCard="N">
+      <db:JoinColumn attribute="ent1a#att1a" name="sezione_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="1820" gr:y="1526" id="ent2a" name="Publication" duration="persistent" attributeOrder="ent2a#att18a ent2a#att35a ent2a#att36a ent2a#att37a ent2a#att38a ent2a#att39a ent2a#att40a ent2a#att41a ent2a#att42a ent2a#att43a ent2a#att44a ent2a#att45a ent2a#att46a ent2a#att47a ent2a#att48a ent2a#att49a ent2a#att50a ent2a#att51a ent2a#att55a ent2a#att57a ent2a#att58a ent2a#att20a ent2a#att19a ent2a#att178a ent2a#att52a" db:table="pubblicazione" db:database="db3a">
+    <Attribute id="ent2a#att18a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent2a#att35a" name="Titolo" type="string" db:column="titolo"/>
+    <Attribute id="ent2a#att36a" name="Luogo" type="string" db:column="luogo"/>
+    <Attribute id="ent2a#att37a" name="ISBN" type="string" db:column="isbn"/>
+    <Attribute id="ent2a#att38a" name="Editore" type="string" db:column="editore"/>
+    <Attribute id="ent2a#att39a" name="Autori esterni" type="string" db:column="autori_esterni"/>
+    <Attribute id="ent2a#att40a" name="Anno" type="string" db:column="anno"/>
+    <Attribute id="ent2a#att41a" name="Pagine" type="string" db:column="pagine"/>
+    <Attribute id="ent2a#att42a" name="Autori interni" type="string" db:column="autori_interni"/>
+    <Attribute id="ent2a#att43a" name="Titolo contributo" type="string" db:column="titolo_contributo"/>
+    <Attribute id="ent2a#att44a" name="Titolo libro" type="string" db:column="titolo_libro"/>
+    <Attribute id="ent2a#att45a" name="Curatori" type="string" db:column="curatori"/>
+    <Attribute id="ent2a#att46a" name="Titolo rivista" type="string" db:column="titolo_rivista"/>
+    <Attribute id="ent2a#att47a" name="Volume" type="string" db:column="volume"/>
+    <Attribute id="ent2a#att48a" name="Numero" type="string" db:column="numero"/>
+    <Attribute id="ent2a#att49a" name="Note" type="text" db:column="note_2" contentType="text/plain"/>
+    <Attribute id="ent2a#att50a" name="Data" type="date" db:column="data"/>
+    <Attribute id="ent2a#att51a" name="Nome congresso" type="string" db:column="nome_congresso"/>
+    <Attribute id="ent2a#att55a" name="Curatore atti" type="string" db:column="curatore_atti"/>
+    <Attribute id="ent2a#att57a" name="Codice brevetto" type="string" db:column="codice_brevetto"/>
+    <Attribute id="ent2a#att58a" name="Data rilascio" type="string" db:column="data_rilascio"/>
+    <Attribute id="ent2a#att20a" name="Tipo" type="string" derivationQuery="simpleImported::Self.rel3a#role6a.ent4a#att24a"/>
+    <Attribute id="ent2a#att19a" name="Codice pubblicazione" type="string" derivationQuery="simpleImported::Self.rel3a#role6a.ent4a#att23a"/>
+    <Attribute id="ent2a#att178a" name="Sezione pubblicazione" type="string" derivationQuery="simpleImported::Self.rel2a#role3a.rel1a#role1a.ent1a#att3a"/>
+    <Attribute id="ent2a#att52a" name="Ente organizzatore" type="string" db:column="ente_organizzatore"/>
+  </Entity>
+  <Entity gr:x="1815" gr:y="1366" id="ent4a" name="Publication type" duration="persistent" attributeOrder="ent4a#att22a ent4a#att23a ent4a#att24a" db:table="tipo_pubblicazione" db:database="db3a">
+    <Attribute id="ent4a#att22a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent4a#att23a" name="Publication type" type="string" db:column="tipo_pubblicazione"/>
+    <Attribute id="ent4a#att24a" name="Description" type="string" db:column="descrizione"/>
+  </Entity>
+  <Relationship id="rel3a" name="Tipo pubblicazione_Pubblicazione" sourceEntity="ent4a" targetEntity="ent2a" db:table="pubblicazione" db:database="db3a">
+    <RelationshipRole1 id="rel3a#role5a" name="Tipo pubblicazioneToPubblicazione" maxCard="N">
+      <db:JoinColumn attribute="ent4a#att22a" name="tipo_pubblicazione_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel3a#role6a" name="PubblicazioneToTipo pubblicazione" maxCard="1">
+      <db:JoinColumn attribute="ent2a#att18a" name="oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel2a" name="Pubblicazione_User" sourceEntity="ent2a" targetEntity="User" db:table="pubblicazione" db:database="db3a">
+    <RelationshipRole1 id="rel2a#role3a" name="PubblicazioneToUser" maxCard="1">
+      <db:JoinColumn attribute="ent2a#att18a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel2a#role4a" name="UserToPubblicazione" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="user_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="672" gr:y="1423" id="ent3a" name="Richiesta accesso" duration="persistent" attributeOrder="ent3a#att21a ent3a#att25a ent3a#att29a ent3a#att30a ent3a#att141a ent3a#att142a ent3a#att143a ent3a#att144a ent3a#att145a ent3a#att146a ent3a#att147a ent3a#att148a ent3a#att149a ent3a#att154a ent3a#att157a ent3a#att158a ent3a#att63a ent3a#att64a ent3a#att70a" db:table="richiesta_accesso" db:database="db3a">
+    <Attribute id="ent3a#att21a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent3a#att25a" name="Nome richiedente" type="string" derivationQuery="simpleImported::Self.rel4a#role7a.User#att60a"/>
+    <Attribute id="ent3a#att29a" name="Cognome richiedente" type="string" derivationQuery="simpleImported::Self.rel4a#role7a.User#att61a"/>
+    <Attribute id="ent3a#att30a" name="Sezione" type="string" derivationQuery="simpleImported::Self.rel4a#role7a.User#att26a"/>
+    <Attribute id="ent3a#att141a" name="Fine attivit&#224;" type="date" db:column="fine_attivita"/>
+    <Attribute id="ent3a#att142a" name="EMail" type="string" db:column="email"/>
+    <Attribute id="ent3a#att143a" name="Nome" type="string" db:column="nome"/>
+    <Attribute id="ent3a#att144a" name="Tipo personale" type="string" derivationQuery="simpleImported::Self.rel11a#role21a.ent6a#att128a"/>
+    <Attribute id="ent3a#att145a" name="Matricola" type="string" db:column="matricola"/>
+    <Attribute id="ent3a#att146a" name="Telefono" type="string" db:column="telefono"/>
+    <Attribute id="ent3a#att147a" name="Inizio attivit&#224;" type="date" db:column="inizio_attivita"/>
+    <Attribute id="ent3a#att148a" name="Tessera riconoscimento" type="string" db:column="tessera_riconoscimento"/>
+    <Attribute id="ent3a#att149a" name="Cognome" type="string" db:column="cognome"/>
+    <Attribute id="ent3a#att154a" name="Apparecchiatura" type="string" db:column="apparecchiatura"/>
+    <Attribute id="ent3a#att157a" name="Data ritiro" type="date" db:column="data_ritiro"/>
+    <Attribute id="ent3a#att158a" name="Data richiesta" type="date" db:column="data_richiesta"/>
+    <Attribute id="ent3a#att63a" name="Inviata" type="boolean" db:column="inviata"/>
+    <Attribute id="ent3a#att64a" name="Approvata" type="boolean" db:column="approvata"/>
+    <Attribute id="ent3a#att70a" name="Data approvazione" type="date" db:column="data_approvazione"/>
+  </Entity>
+  <Relationship id="rel4a" name="Richiesta accesso_User" sourceEntity="ent3a" targetEntity="User" db:table="richiesta_accesso" db:database="db3a" gr:bendpoints="166,-263,-141,253">
+    <RelationshipRole1 id="rel4a#role7a" name="Richiesta accessoToUser" maxCard="1">
+      <db:JoinColumn attribute="ent3a#att21a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel4a#role8a" name="UserToRichiesta accesso" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="user_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="485" gr:y="1623" id="ent6a" name="Tipo personale" duration="persistent" attributeOrder="ent6a#att127a ent6a#att128a" db:table="tipo_personale" db:database="db3a">
+    <Attribute id="ent6a#att127a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent6a#att128a" name="Descrizione" type="string" db:column="descrizione"/>
+  </Entity>
+  <Entity gr:x="425" gr:y="1516" id="ent7a" name="Spazio autorizzazione" duration="persistent" attributeOrder="ent7a#att136a ent7a#att139a" db:table="spazio_autorizzazione" db:database="db3a">
+    <Attribute id="ent7a#att136a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent7a#att139a" name="Descrizione" type="string" db:column="descrizione"/>
+  </Entity>
+  <Relationship id="rel11a" name="Richiesta accesso_Tipo personale" sourceEntity="ent3a" targetEntity="ent6a" db:table="richiesta_accesso" db:database="db3a">
+    <RelationshipRole1 id="rel11a#role21a" name="Richiesta accessoToTipo personale" maxCard="1">
+      <db:JoinColumn attribute="ent3a#att21a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel11a#role22a" name="Tipo personaleToRichiesta accesso" maxCard="N">
+      <db:JoinColumn attribute="ent6a#att127a" name="tipo_personale_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel12a" name="Richiesta accesso_Spazio autorizzazione" sourceEntity="ent3a" targetEntity="ent7a" db:table="richiesta_accesso_spazio_autor" db:database="db3a">
+    <RelationshipRole1 id="rel12a#role23a" name="Richiesta accessoToSpazio autorizzazione" maxCard="N">
+      <db:JoinColumn attribute="ent3a#att21a" name="richiesta_accesso_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel12a#role24a" name="Spazio autorizzazioneToRichiesta accesso" maxCard="N">
+      <db:JoinColumn attribute="ent7a#att136a" name="spazio_autorizzazione_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="468" gr:y="1714" id="ent11a" name="Area abilitazione" duration="persistent" attributeOrder="ent11a#att152a ent11a#att153a" db:table="area_abilitazione" db:database="db3a">
+    <Attribute id="ent11a#att152a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent11a#att153a" name="Descrizione" type="string" db:column="descrizione"/>
+  </Entity>
+  <Entity gr:x="430" gr:y="1833" id="ent5a" name="Abilitazioni richieste" duration="persistent" attributeOrder="ent5a#att28a ent5a#att31a ent5a#att32a" db:table="abilitazioni_richieste" db:database="db3a">
+    <Attribute id="ent5a#att28a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent5a#att31a" name="Apparecchiatura" type="string" db:column="apparecchiatura"/>
+    <Attribute id="ent5a#att32a" name="Area" type="string" derivationQuery="simpleImported::Self.rel6a#role11a.ent11a#att153a"/>
+  </Entity>
+  <Relationship id="rel5a" name="Abiltazioni richieste_Richiesta accesso" sourceEntity="ent5a" targetEntity="ent3a" db:table="abilitazioni_richieste" db:database="db3a">
+    <RelationshipRole1 id="rel5a#role9a" name="Abiltazioni richiesteToRichiesta accesso" maxCard="1">
+      <db:JoinColumn attribute="ent5a#att28a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel5a#role10a" name="Richiesta accessoToAbiltazioni richieste" maxCard="N">
+      <db:JoinColumn attribute="ent3a#att21a" name="richiesta_accesso_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel6a" name="Abiltazioni richieste_Area abilitazione" sourceEntity="ent5a" targetEntity="ent11a" db:table="abilitazioni_richieste" db:database="db3a">
+    <RelationshipRole1 id="rel6a#role11a" name="Abiltazioni richiesteToArea abilitazione" maxCard="1">
+      <db:JoinColumn attribute="ent5a#att28a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel6a#role12a" name="Area abilitazioneToAbiltazioni richieste" maxCard="N">
+      <db:JoinColumn attribute="ent11a#att152a" name="area_abilitazione_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="1089" gr:y="1773" id="ent8a" name="Buono ordine" duration="persistent" attributeOrder="ent8a#att27a ent8a#att33a ent8a#att34a ent8a#att59a ent8a#att129a ent8a#att138a ent8a#att150a ent8a#att151a ent8a#att155a ent8a#att156a ent8a#att170a ent8a#att171a ent8a#att172a ent8a#att173a ent8a#att180a ent8a#att181a ent8a#att182a ent8a#att174a ent8a#att175a ent8a#att176a ent8a#att293a ent8a#att10w ent8a#att12w ent8a#att55w ent8a#att56w ent8a#att57w ent8a#att58w ent8a#att59w ent8a#att67w ent8a#att68w ent8a#att69w ent8a#att70w ent8a#att71w ent8a#att72w" db:table="buono_ordine" db:database="db3a">
+    <Attribute id="ent8a#att27a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent8a#att33a" name="Ditta" type="string" db:column="ditta"/>
+    <Attribute id="ent8a#att34a" name="Indirizzo" type="string" db:column="indirizzo"/>
+    <Attribute id="ent8a#att59a" name="Num offerta" type="integer" db:column="num_offerta"/>
+    <Attribute id="ent8a#att129a" name="Destinazione" type="string" db:column="destinazione"/>
+    <Attribute id="ent8a#att138a" name="Prog" type="string" db:column="prog"/>
+    <Attribute id="ent8a#att150a" name="Conto" type="string" db:column="conto"/>
+    <Attribute id="ent8a#att151a" name="Causale" type="string" db:column="causale"/>
+    <Attribute id="ent8a#att155a" name="Materiale consumo" type="boolean" db:column="materiale_consumo"/>
+    <Attribute id="ent8a#att156a" name="Materiale inventariabile" type="boolean" db:column="materiale_inverntariabile"/>
+    <Attribute id="ent8a#att170a" name="RAEE equivalente" type="boolean" db:column="raee_equivalente"/>
+    <Attribute id="ent8a#att171a" name="Allegato" type="blob" db:column="allegato"/>
+    <Attribute id="ent8a#att172a" name="AEE equivalente" type="boolean" db:column="aee_equivalente"/>
+    <Attribute id="ent8a#att173a" name="Consegnatario" type="string" db:column="consegnatario"/>
+    <Attribute id="ent8a#att180a" name="Totale fornitura" type="decimal" db:column="totale_fornitura_2"/>
+    <Attribute id="ent8a#att181a" name="Iva" type="integer" db:column="iva"/>
+    <Attribute id="ent8a#att182a" name="Data" type="date" db:column="data"/>
+    <Attribute id="ent8a#att174a" name="Totale imponibile" type="decimal" db:column="totale_imponibile"/>
+    <Attribute id="ent8a#att175a" name="Approvata" type="boolean" db:column="da_approvare"/>
+    <Attribute id="ent8a#att176a" name="Confermata" type="boolean" db:column="confermata"/>
+    <Attribute id="ent8a#att293a" name="Inviata" type="boolean" db:column="completato"/>
+    <Attribute id="ent8a#att10w" name="Destinatario buono da riconsegnare" type="string" db:column="destinatario_buono_da_riconseg"/>
+    <Attribute id="ent8a#att12w" name="Conclusa" type="boolean" db:column="conclusa"/>
+    <Attribute id="ent8a#att55w" name="Spedizione buono" type="string" derivationQuery="simpleImported::Self.rel26a#role52a.ent33a#att235a"/>
+    <Attribute id="ent8a#att56w" name="CDR" type="string" derivationQuery="simpleImported::Self.rel7a#role13a.ent19a#att163a"/>
+    <Attribute id="ent8a#att57w" name="Ammortizzazione" type="string" derivationQuery="simpleImported::Self.rel24a#role48a.ent31a#att231a"/>
+    <Attribute id="ent8a#att58w" name="Esito consultazione" type="string" derivationQuery="simpleImported::Self.rel25a#role50a.ent32a#att233a"/>
+    <Attribute id="ent8a#att59w" name="Conto2" type="string" derivationQuery="simpleImported::Self.rel8a#role15a.ent21a#att168a"/>
+    <Attribute id="ent8a#att67w" name="Fax" type="string" db:column="fax"/>
+    <Attribute id="ent8a#att68w" name="E-mail" type="string" db:column="e_mail"/>
+    <Attribute id="ent8a#att69w" name="Indirizzo buono da riconsegnare" type="string" db:column="indirizzo_buono_da_riconsegnar"/>
+    <Attribute id="ent8a#att70w" name="Servizi" type="boolean" db:column="servizi"/>
+    <Attribute id="ent8a#att71w" name="Numero pezzi da inventariare" type="string" db:column="numero_pezzi_da_inventariare"/>
+    <Attribute id="ent8a#att72w" name="Valuta straniera" type="string" db:column="valuta_straniera"/>
+  </Entity>
+  <Entity gr:x="888" gr:y="2316" id="ent19a" name="CDR" duration="persistent" attributeOrder="ent19a#att161a ent19a#att162a ent19a#att163a ent19a#att164a" db:table="cdr" db:database="db3a">
+    <Attribute id="ent19a#att161a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent19a#att162a" name="Centro" type="string" db:column="centro"/>
+    <Attribute id="ent19a#att163a" name="Sigla" type="string" db:column="sigla"/>
+    <Attribute id="ent19a#att164a" name="Denominazione" type="string" db:column="denominazione"/>
+  </Entity>
+  <Relationship id="rel7a" name="Buono ordine_CDR" sourceEntity="ent8a" targetEntity="ent19a" db:table="buono_ordine" db:database="db3a">
+    <RelationshipRole1 id="rel7a#role13a" name="Buono ordineToCDR" maxCard="1">
+      <db:JoinColumn attribute="ent8a#att27a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel7a#role14a" name="CDRToBuono ordine" maxCard="N">
+      <db:JoinColumn attribute="ent19a#att161a" name="cdr_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="1379" gr:y="2344" id="ent21a" name="Piano conti" duration="persistent" attributeOrder="ent21a#att165a ent21a#att166a ent21a#att167a ent21a#att168a ent21a#att169a" db:table="piano_conti" db:database="db3a">
+    <Attribute id="ent21a#att165a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent21a#att166a" name="Conto finanziario" type="string" db:column="conto_finanziario"/>
+    <Attribute id="ent21a#att167a" name="Nome conto" type="string" db:column="nome_conto"/>
+    <Attribute id="ent21a#att168a" name="Codice causale" type="string" db:column="codice_causale"/>
+    <Attribute id="ent21a#att169a" name="Descrizione causale" type="string" db:column="descrizione_causale"/>
+  </Entity>
+  <Relationship id="rel8a" name="Buono ordine_Piano conti" sourceEntity="ent8a" targetEntity="ent21a" db:table="buono_ordine" db:database="db3a">
+    <RelationshipRole1 id="rel8a#role15a" name="Buono ordineToPiano conti" maxCard="1">
+      <db:JoinColumn attribute="ent8a#att27a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel8a#role16a" name="Piano contiToBuono ordine" maxCard="N">
+      <db:JoinColumn attribute="ent21a#att165a" name="piano_conti_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel13a" name="Buono ordine_User" sourceEntity="ent8a" targetEntity="User" db:table="buono_ordine" db:database="db3a">
+    <RelationshipRole1 id="rel13a#role25a" name="Buono ordineToUser" maxCard="1">
+      <db:JoinColumn attribute="ent8a#att27a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel13a#role26a" name="UserToBuono ordine" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="user_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel15a" name="Pubblicazione_Sezione" sourceEntity="ent2a" targetEntity="ent1a" db:table="pubblicazionetosezione_view" db:database="db3a">
+    <RelationshipRole1 id="rel15a#role29a" name="PubblicazioneToSezione" maxCard="1" derivationQuery="imported::Self.rel2a#role3a(as Var1).rel1a#role1a(as Var2)">
+      <db:JoinColumn attribute="ent2a#att18a" name="s_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel15a#role30a" name="SezioneToPubblicazione" maxCard="N">
+      <db:JoinColumn attribute="ent1a#att1a" name="T_sezione_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity id="ent22a" name="Prodotti buono ordine" duration="persistent" attributeOrder="ent22a#att75a ent22a#att81a ent22a#att137a ent22a#att140a" gr:x="1381" gr:y="2176" db:table="prodotti_buono_ordine" db:database="db3a">
+    <Attribute id="ent22a#att75a" name="oid" key="true" type="integer" db:column="oid"/>
+    <Attribute id="ent22a#att81a" name="Quantit&#224;" type="integer" db:column="quantita"/>
+    <Attribute id="ent22a#att137a" name="Prezzo" type="decimal" db:column="prezzo"/>
+    <Attribute id="ent22a#att140a" name="Descrizione" type="string" db:column="descrizione"/>
+  </Entity>
+  <Relationship id="rel10a" name="Prodotti buono ordine_Buono ordine" sourceEntity="ent22a" targetEntity="ent8a" db:table="prodotti_buono_ordine" db:database="db3a">
+    <RelationshipRole1 id="rel10a#role19a" name="Prodotti buono ordineToBuono ordine" maxCard="1">
+      <db:JoinColumn attribute="ent22a#att75a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel10a#role20a" name="Buono ordineToProdotti buono ordine" maxCard="N">
+      <db:JoinColumn attribute="ent8a#att27a" name="buono_ordine_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel9a" name="Buono ordine_Titolare" sourceEntity="ent8a" targetEntity="User" gr:bendpoints="-35,-398,98,458" db:table="buono_ordine" db:database="db3a">
+    <RelationshipRole1 id="rel9a#role17a" name="Buono ordineToTitolare" maxCard="1">
+      <db:JoinColumn attribute="ent8a#att27a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel9a#role18a" name="TitolareToBuono ordine" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="user_oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="331" gr:y="1946" id="ent23a" name="Documento trasporto" duration="persistent" attributeOrder="ent23a#att160a ent23a#att177a ent23a#att179a ent23a#att183a ent23a#att184a ent23a#att185a ent23a#att186a ent23a#att187a ent23a#att188a ent23a#att189a ent23a#att193a ent23a#att194a ent23a#att195a ent23a#att196a ent23a#att197a ent23a#att198a ent23a#att199a ent23a#att200a ent23a#att204a ent23a#att205a ent23a#att206a ent23a#att207a" db:table="documento_trasporto" db:database="db3a">
+    <Attribute id="ent23a#att160a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent23a#att177a" name="Ditta" type="string" db:column="ditta"/>
+    <Attribute id="ent23a#att179a" name="Rag Sociale" type="string" db:column="rag_sociale"/>
+    <Attribute id="ent23a#att183a" name="Via" type="string" db:column="via"/>
+    <Attribute id="ent23a#att184a" name="Numero" type="string" db:column="numero"/>
+    <Attribute id="ent23a#att185a" name="Cap" type="string" db:column="cap"/>
+    <Attribute id="ent23a#att186a" name="Citt&#224;" type="string" db:column="citta"/>
+    <Attribute id="ent23a#att187a" name="Provincia" type="string" db:column="provincia"/>
+    <Attribute id="ent23a#att188a" name="Materiale da trasportare" type="text" db:column="materiale_da_trasportare"/>
+    <Attribute id="ent23a#att189a" name="Causale trasporto" type="text" db:column="causale_trasporto"/>
+    <Attribute id="ent23a#att193a" name="Piano ric num" type="string" db:column="piano_ric_num"/>
+    <Attribute id="ent23a#att194a" name="Colli" type="string" db:column="colli"/>
+    <Attribute id="ent23a#att195a" name="Data" type="date" db:column="data"/>
+    <Attribute id="ent23a#att196a" name="Mezzo" type="string" db:column="mezzo"/>
+    <Attribute id="ent23a#att197a" name="Aspetto esteriore" type="string" db:column="aspetto_esteriore"/>
+    <Attribute id="ent23a#att198a" name="Autista" type="string" db:column="autista"/>
+    <Attribute id="ent23a#att199a" name="Uscita materiale" type="date" db:column="uscita_materiale"/>
+    <Attribute id="ent23a#att200a" name="Rientro materiale" type="date" db:column="rientro_materiale"/>
+    <Attribute id="ent23a#att204a" name="Inviato" type="boolean" db:column="inviato"/>
+    <Attribute id="ent23a#att205a" name="Nome" type="string" derivationQuery="simpleImported::Self.rel14a#role27a.User#att60a"/>
+    <Attribute id="ent23a#att206a" name="Cognome" type="string" derivationQuery="simpleImported::Self.rel14a#role27a.User#att61a"/>
+    <Attribute id="ent23a#att207a" name="Sezione" type="string" derivationQuery="simpleImported::Self.rel14a#role27a.rel1a#role1a.ent1a#att3a"/>
+  </Entity>
+  <Relationship id="rel14a" name="Documento trasporto_User" sourceEntity="ent23a" targetEntity="User" gr:bendpoints="188,-480,-241,461" db:table="documento_trasporto" db:database="db3a">
+    <RelationshipRole1 id="rel14a#role27a" name="Documento trasportoToUser" maxCard="1">
+      <db:JoinColumn attribute="ent23a#att160a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel14a#role28a" name="UserToDocumento trasporto" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="user_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="199" gr:y="2014" id="ent24a" name="Riferimento" duration="persistent" attributeOrder="ent24a#att202a ent24a#att203a" db:table="riferimento" db:database="db3a">
+    <Attribute id="ent24a#att202a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent24a#att203a" name="Descrizione" type="string" db:column="descrizione"/>
+  </Entity>
+  <Relationship id="rel16a" name="Riferimento_Documento trasporto" sourceEntity="ent24a" targetEntity="ent23a" db:table="riferimento_documento_trasport" db:database="db3a">
+    <RelationshipRole1 id="rel16a#role31a" name="RiferimentoToDocumento trasporto" maxCard="N">
+      <db:JoinColumn attribute="ent24a#att202a" name="riferimento_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel16a#role32a" name="Documento trasportoToRiferimento" maxCard="N">
+      <db:JoinColumn attribute="ent23a#att160a" name="documento_trasporto_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="1350" gr:y="1551" id="ent25a" name="Libro" duration="persistent" attributeOrder="ent25a#att208a ent25a#att209a ent25a#att210a ent25a#att211a ent25a#att212a ent25a#att213a ent25a#att214a ent25a#att190a" db:table="libro" db:database="db3a">
+    <Attribute id="ent25a#att208a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent25a#att209a" name="Autore" type="string" db:column="autore"/>
+    <Attribute id="ent25a#att210a" name="Titolo" type="string" db:column="titolo"/>
+    <Attribute id="ent25a#att211a" name="Editore" type="string" db:column="editore"/>
+    <Attribute id="ent25a#att212a" name="Data" type="date" db:column="data"/>
+    <Attribute id="ent25a#att213a" name="Prezzo" type="decimal" db:column="prezzo"/>
+    <Attribute id="ent25a#att214a" name="Prezzo netto" type="string" db:column="prezzo_netto"/>
+    <Attribute id="ent25a#att190a" name="Inviato" type="boolean" db:column="inviato"/>
+  </Entity>
+  <Relationship id="rel19a" name="User_Libro" sourceEntity="User" targetEntity="ent25a" db:table="user_libro" db:database="db3a">
+    <RelationshipRole1 id="rel19a#role37a" name="UserToLibro" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="user_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel19a#role38a" name="LibroToUser" maxCard="N">
+      <db:JoinColumn attribute="ent25a#att208a" name="libro_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="1400" gr:y="1840" id="ent27a" name="Verbale di collaudo" duration="persistent" attributeOrder="ent27a#att191a ent27a#att192a ent27a#att201a ent27a#att215a ent27a#att216a ent27a#att217a ent27a#att223a ent27a#att224a ent27a#att228a ent27a#att11w ent27a#att13w" db:table="verbale_collaudo" db:database="db3a">
+    <Attribute id="ent27a#att191a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent27a#att192a" name="Buono ordine" type="string" db:column="buono_ordine"/>
+    <Attribute id="ent27a#att201a" name="Data" type="date" db:column="data"/>
+    <Attribute id="ent27a#att215a" name="Ditta" type="string" db:column="ditta"/>
+    <Attribute id="ent27a#att216a" name="Fondo" type="string" db:column="fondo"/>
+    <Attribute id="ent27a#att217a" name="Importo" type="decimal" db:column="importo"/>
+    <Attribute id="ent27a#att223a" name="Data verbale" type="date" db:column="data_verbale"/>
+    <Attribute id="ent27a#att224a" name="Inviato" type="boolean" db:column="inviato"/>
+    <Attribute id="ent27a#att228a" name="Ubicazione" type="string" db:column="ubicazione"/>
+    <Attribute id="ent27a#att11w" name="Note stato" type="text" contentType="text/plain" db:column="note_stato"/>
+    <Attribute id="ent27a#att13w" name="Esito" type="string" db:column="esito"/>
+  </Entity>
+  <Entity gr:x="1577" gr:y="1960" id="ent29a" name="Stato" duration="persistent" attributeOrder="ent29a#att220a ent29a#att221a" db:table="stato" db:database="db3a">
+    <Attribute id="ent29a#att220a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent29a#att221a" name="Descrizione" type="string" db:column="descrizione"/>
+  </Entity>
+  <Relationship id="rel20a" name="User_Verbale di collaudo" sourceEntity="User" targetEntity="ent27a" db:table="verbale_collaudo" db:database="db3a">
+    <RelationshipRole1 id="rel20a#role39a" name="User_Verbale di collaudo" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="user_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel20a#role40a" name="Verbale di collaudo_User" maxCard="1">
+      <db:JoinColumn attribute="ent27a#att191a" name="oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel22a" name="Verbale collaudo_Stato" sourceEntity="ent27a" targetEntity="ent29a" db:database="db3a" db:table="verbale_collaudo">
+    <RelationshipRole1 id="rel22a#role43a" name="Verbale collaudoToStato" maxCard="1">
+      <db:JoinColumn attribute="ent27a#att191a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel22a#role44a" name="StatoToVerbale collaudo" maxCard="N">
+      <db:JoinColumn attribute="ent29a#att220a" name="stato_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel23a" name="Responsabile_Verbale di collaudo" sourceEntity="User" targetEntity="ent27a" gr:bendpoints="69,469,-115,-202" db:table="verbale_collaudo" db:database="db3a">
+    <RelationshipRole1 id="rel23a#role45a" name="ResponsabileToVerbale di collaudo" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="user_oid_2"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel23a#role46a" name="Verbale di collaudoToResponsabile" maxCard="1">
+      <db:JoinColumn attribute="ent27a#att191a" name="oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="862" gr:y="2185" id="ent31a" name="Ammortizzazione buono" duration="persistent" attributeOrder="ent31a#att230a ent31a#att231a" db:table="ammortizzazione_buono" db:database="db3a">
+    <Attribute id="ent31a#att230a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent31a#att231a" name="Descrizione" type="string" db:column="descrizione"/>
+  </Entity>
+  <Relationship id="rel24a" name="Ammortizzazione buono_Buono ordine" sourceEntity="ent31a" targetEntity="ent8a" db:table="buono_ordine" db:database="db3a">
+    <RelationshipRole1 id="rel24a#role47a" name="Ammortizzazione buonoToBuono ordine" maxCard="N">
+      <db:JoinColumn attribute="ent31a#att230a" name="ammortizzazione_buono_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel24a#role48a" name="Buono ordineToAmmortizzazione buono" maxCard="1">
+      <db:JoinColumn attribute="ent8a#att27a" name="oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="879" gr:y="2057" id="ent32a" name="Esito consultazione" duration="persistent" attributeOrder="ent32a#att232a ent32a#att233a" db:table="esito_consultazione" db:database="db3a">
+    <Attribute id="ent32a#att232a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent32a#att233a" name="Descrizione" type="string" db:column="descrizione"/>
+  </Entity>
+  <Relationship id="rel25a" name="Esito consultazione_Buono ordine" sourceEntity="ent32a" targetEntity="ent8a" db:table="buono_ordine" db:database="db3a">
+    <RelationshipRole1 id="rel25a#role49a" name="Esito consultazioneToBuono ordine" maxCard="N">
+      <db:JoinColumn attribute="ent32a#att232a" name="esito_consultazione_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel25a#role50a" name="Buono ordineToEsito consultazione" maxCard="1">
+      <db:JoinColumn attribute="ent8a#att27a" name="oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="885" gr:y="1943" id="ent33a" name="Spedizione buono" duration="persistent" attributeOrder="ent33a#att234a ent33a#att235a" db:database="db3a" db:table="spedizione_buono">
+    <Attribute id="ent33a#att234a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent33a#att235a" name="Descrizione" type="string" db:column="descrizione"/>
+  </Entity>
+  <Relationship id="rel26a" name="Spedizione buono_Buono ordine" sourceEntity="ent33a" targetEntity="ent8a" db:database="db3a" db:table="buono_ordine">
+    <RelationshipRole1 id="rel26a#role51a" name="Spedizione buonoToBuono ordine" maxCard="N">
+      <db:JoinColumn attribute="ent33a#att234a" name="spedizione_buono_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel26a#role52a" name="Buono ordineToSpedizione buono" maxCard="1">
+      <db:JoinColumn attribute="ent8a#att27a" name="oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="1609" gr:y="1148" id="ent35a" name="Richiesta veicolo" duration="persistent" attributeOrder="ent35a#att238a ent35a#att241a ent35a#att242a ent35a#att247a ent35a#att248a ent35a#att249a ent35a#att250a ent35a#att262a ent35a#att265a ent35a#att16w ent35a#att17w ent35a#att14w ent35a#att15w ent35a#att18w" db:table="richiesta_veicolo" db:database="db3a">
+    <Attribute id="ent35a#att238a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent35a#att241a" name="Luogo destinazione" type="string" db:column="luogo_destinazione"/>
+    <Attribute id="ent35a#att242a" name="Motivo e ambito" type="string" db:column="motivo_e_ambito"/>
+    <Attribute id="ent35a#att247a" name="Consegna auto" type="timestamp" db:column="consegna_auto"/>
+    <Attribute id="ent35a#att248a" name="Rientro auto" type="timestamp" db:column="rientro_auto"/>
+    <Attribute id="ent35a#att249a" name="Libro macchina" type="string" db:column="libro_macchina"/>
+    <Attribute id="ent35a#att250a" name="Data richiesta" type="date" db:column="data_richiesta"/>
+    <Attribute id="ent35a#att262a" name="Inviata" type="boolean" db:column="inviata"/>
+    <Attribute id="ent35a#att265a" name="Km percorsi" type="string" db:column="km_percorsi"/>
+    <Attribute id="ent35a#att16w" name="Dal" type="timestamp" db:column="dal"/>
+    <Attribute id="ent35a#att17w" name="Al" type="timestamp" db:column="al"/>
+    <Attribute id="ent35a#att14w" name="Veicolo" type="string" derivationQuery="simpleImported::Self.rel31a#role57a.ent36a#att244a"/>
+    <Attribute id="ent35a#att15w" name="Pagamento" type="string" derivationQuery="simpleImported::Self.rel32a#role59a.ent37a#att246a"/>
+    <Attribute id="ent35a#att18w" name="Completata" type="boolean" db:column="completata"/>
+  </Entity>
+  <Relationship id="rel28a" name="User_Richiesta veicolo" sourceEntity="User" targetEntity="ent35a" db:table="richiesta_veicolo" db:database="db3a">
+    <RelationshipRole1 id="rel28a#role55a" name="UserToRichiesta veicolo" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="user_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel28a#role56a" name="Richiesta veicoloToUser" maxCard="1">
+      <db:JoinColumn attribute="ent35a#att238a" name="oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="1826" gr:y="1106" id="ent36a" name="Tipo veicolo" duration="persistent" attributeOrder="ent36a#att243a ent36a#att244a" db:table="tipo_veicolo" db:database="db3a">
+    <Attribute id="ent36a#att243a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent36a#att244a" name="Descrizione" type="string" db:column="descrizione"/>
+  </Entity>
+  <Relationship id="rel31a" name="Richiesta veicolo_Tipo veicolo" sourceEntity="ent35a" targetEntity="ent36a" db:table="richiesta_veicolo" db:database="db3a">
+    <RelationshipRole1 id="rel31a#role57a" name="Richiesta veicoloToTipo veicolo" maxCard="1">
+      <db:JoinColumn attribute="ent35a#att238a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel31a#role58a" name="Tipo veicoloToRichiesta veicolo" maxCard="N">
+      <db:JoinColumn attribute="ent36a#att243a" name="tipo_veicolo_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="1832" gr:y="1252" id="ent37a" name="Pagamento veicolo" duration="persistent" attributeOrder="ent37a#att245a ent37a#att246a" db:table="pagamento_veicolo" db:database="db3a">
+    <Attribute id="ent37a#att245a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent37a#att246a" name="Descrizione" type="string" db:column="descrizione"/>
+  </Entity>
+  <Relationship id="rel32a" name="Richiesta veicolo_Pagamento veicolo" sourceEntity="ent35a" targetEntity="ent37a" db:table="richiesta_veicolo" db:database="db3a">
+    <RelationshipRole1 id="rel32a#role59a" name="Richiesta veicoloToPagamento veicolo" maxCard="1">
+      <db:JoinColumn attribute="ent35a#att238a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel32a#role60a" name="Pagamento veicoloToRichiesta veicolo" maxCard="N">
+      <db:JoinColumn attribute="ent37a#att245a" name="pagamento_veicolo_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel33a" name="Conducente_Richiesta veicolo" sourceEntity="User" targetEntity="ent35a" gr:bendpoints="319,37,-270,104" db:table="richiesta_veicolo" db:database="db3a">
+    <RelationshipRole1 id="rel33a#role61a" name="ConducenteToRichiesta veicolo" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="user_oid_2"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel33a#role62a" name="Richiesta veicoloToConducente" maxCard="1">
+      <db:JoinColumn attribute="ent35a#att238a" name="oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="2002" gr:y="1093" id="ent38a" name="Disponibilita veicolo" duration="persistent" attributeOrder="ent38a#att253a ent38a#att254a ent38a#att255a" db:table="disponibilita_veicolo" db:database="db3a">
+    <Attribute id="ent38a#att253a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent38a#att254a" name="Disponibile dal" type="date" db:column="disponibile_dal"/>
+    <Attribute id="ent38a#att255a" name="Disponibile al" type="date" db:column="disponibile_al"/>
+  </Entity>
+  <Relationship id="rel34a" name="Tipo veicolo_Disponibilita veicolo" sourceEntity="ent36a" targetEntity="ent38a" db:table="tipo_veicolo" db:database="db3a">
+    <RelationshipRole1 id="rel34a#role63a" name="Tipo veicoloToDisponibilita veicolo" maxCard="1">
+      <db:JoinColumn attribute="ent36a#att243a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel34a#role64a" name="Disponibilita veicoloToTipo veicolo" maxCard="N">
+      <db:JoinColumn attribute="ent38a#att253a" name="disponibilita_veicolo_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="2055" gr:y="1385" id="ent39a" name="Modulistica" duration="persistent" attributeOrder="ent39a#att159a ent39a#att251a ent39a#att252a ent39a#att256a ent39a#att257a" db:table="modulistica" db:database="db3a">
+    <Attribute id="ent39a#att159a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent39a#att251a" name="Tipo" type="string" db:column="tipo"/>
+    <Attribute id="ent39a#att252a" name="Titolo" type="string" db:column="titolo"/>
+    <Attribute id="ent39a#att256a" name="File" type="blob" db:column="file"/>
+    <Attribute id="ent39a#att257a" name="Pdf" type="blob" db:column="pdf"/>
+  </Entity>
+  <Entity gr:x="2185" gr:y="1384" id="ent40a" name="Documenti" duration="persistent" db:table="documenti" db:database="db3a">
+    <Attribute id="ent40a#att258a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent40a#att259a" name="File" type="blob" db:column="file"/>
+    <Attribute id="ent40a#att260a" name="Tipo" type="string" db:column="tipo"/>
+    <Attribute id="ent40a#att261a" name="Titolo" type="string" db:column="titolo"/>
+  </Entity>
+  <Entity gr:x="1573" gr:y="794" id="ent41a" name="Richiesta riunione" duration="persistent" attributeOrder="ent41a#att266a ent41a#att268a ent41a#att276a ent41a#att277a ent41a#att278a ent41a#att279a ent41a#att19w ent41a#att20w" db:database="db3a" db:table="richiesta_riunione">
+    <Attribute id="ent41a#att266a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent41a#att268a" name="Durata riunione" type="string" db:column="durata_riunione"/>
+    <Attribute id="ent41a#att276a" name="Sala" type="string" derivationQuery="simpleImported::Self.rel78a#role71a.ent42a#att270a"/>
+    <Attribute id="ent41a#att277a" name="Data richiesta" type="date" db:column="data_richiesta"/>
+    <Attribute id="ent41a#att278a" name="Inviata" type="boolean" db:column="inviata"/>
+    <Attribute id="ent41a#att279a" name="Referente" type="string" db:column="referente"/>
+    <Attribute id="ent41a#att19w" name="Dal" type="timestamp" db:column="dal"/>
+    <Attribute id="ent41a#att20w" name="Al" type="timestamp" db:column="al"/>
+  </Entity>
+  <Entity gr:x="1776" gr:y="867" id="ent42a" name="Sala riuinione" duration="persistent" attributeOrder="ent42a#att269a ent42a#att270a" db:table="sala_riuinione" db:database="db3a">
+    <Attribute id="ent42a#att269a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent42a#att270a" name="Descrizione" type="string" db:column="descrizione"/>
+  </Entity>
+  <Relationship id="rel70a" name="User_Richiesta riunione" sourceEntity="User" targetEntity="ent41a" gr:bendpoints="398,-48,-192,225" db:database="db3a" db:table="richiesta_riunione">
+    <RelationshipRole1 id="rel70a#role67a" name="UserToRichiesta riunione" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="user_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel70a#role68a" name="Richiesta riunioneToUser" maxCard="1">
+      <db:JoinColumn attribute="ent41a#att266a" name="oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel78a" name="Richiesta riunione_Sala riuinione" sourceEntity="ent41a" targetEntity="ent42a" db:database="db3a" db:table="richiesta_riunione">
+    <RelationshipRole1 id="rel78a#role71a" name="Richiesta riunioneToSala riuinione" maxCard="1">
+      <db:JoinColumn attribute="ent41a#att266a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel78a#role72a" name="Sala riuinioneToRichiesta riunione" maxCard="N">
+      <db:JoinColumn attribute="ent42a#att269a" name="sala_riuinione_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="-173" gr:y="1620" id="ent43a" name="Autocertificazione missione" duration="persistent" attributeOrder="ent43a#att271a ent43a#att274a ent43a#att275a ent43a#att282a ent43a#att283a ent43a#att284a ent43a#att285a ent43a#att286a ent43a#att287a ent43a#att288a ent43a#att289a ent43a#att290a ent43a#att291a ent43a#att292a ent43a#att315a ent43a#att316a ent43a#att317a ent43a#att318a ent43a#att319a ent43a#att320a ent43a#att324a ent43a#att325a ent43a#att24w ent43a#att27w ent43a#att28w ent43a#att29w" db:table="autocertificazione_missione" db:database="db3a">
+    <Attribute id="ent43a#att271a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent43a#att274a" name="Inizio evento" type="date" db:column="inizio_evento"/>
+    <Attribute id="ent43a#att275a" name="Fine evento" type="date" db:column="fine_evento"/>
+    <Attribute id="ent43a#att282a" name="Motivo missione" type="text" db:column="motivo_missione"/>
+    <Attribute id="ent43a#att283a" name="Utilizzo mezzo" type="text" db:column="utilizzo_mezzo"/>
+    <Attribute id="ent43a#att284a" name="Percorrenza" type="string" db:column="percorrenza"/>
+    <Attribute id="ent43a#att285a" name="Importo benzina" type="string" db:column="importo_benzina"/>
+    <Attribute id="ent43a#att286a" name="Motivazione albergo" type="string" db:column="motivazione_albergo"/>
+    <Attribute id="ent43a#att287a" name="Seguito" type="string" db:column="seguito"/>
+    <Attribute id="ent43a#att288a" name="Andata volo" type="string" db:column="andata_volo"/>
+    <Attribute id="ent43a#att289a" name="Ritorno volo" type="string" db:column="ritorno_volo"/>
+    <Attribute id="ent43a#att290a" name="Motivo taxi" type="string" db:column="motivo_taxi"/>
+    <Attribute id="ent43a#att291a" name="Altro" type="text" db:column="altro"/>
+    <Attribute id="ent43a#att292a" name="Documento smarrito" type="text" db:column="documento_smarrito"/>
+    <Attribute id="ent43a#att315a" name="Luogo nascita" type="string" db:column="luogo_nascita"/>
+    <Attribute id="ent43a#att316a" name="Data nascita" type="date" db:column="data_nascita"/>
+    <Attribute id="ent43a#att317a" name="Residenza" type="string" db:column="residenza"/>
+    <Attribute id="ent43a#att318a" name="Cittadinanza" type="string" db:column="cittadinanza"/>
+    <Attribute id="ent43a#att319a" name="Data richiesta" type="date" db:column="data_richiesta"/>
+    <Attribute id="ent43a#att320a" name="Inviata" type="boolean" db:column="inviata"/>
+    <Attribute id="ent43a#att324a" name="Data missione" type="string" db:column="data_missione"/>
+    <Attribute id="ent43a#att325a" name="Num missione" type="integer" db:column="num_missione"/>
+    <Attribute id="ent43a#att24w" name="Nome" type="string" db:column="nome"/>
+    <Attribute id="ent43a#att27w" name="Cognome" type="string" db:column="cognome"/>
+    <Attribute id="ent43a#att28w" name="Matricola" type="string" db:column="matricola"/>
+    <Attribute id="ent43a#att29w" name="Tipo evento" type="string" derivationQuery="simpleImported::Self.rel69a#role65a.ent44a#att273a"/>
+  </Entity>
+  <Entity gr:x="50" gr:y="2078" id="ent44a" name="Tipo evento" duration="persistent" attributeOrder="ent44a#att272a ent44a#att273a" db:table="tipo_evento" db:database="db3a">
+    <Attribute id="ent44a#att272a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent44a#att273a" name="Descrizione" type="string" db:column="descrizione"/>
+  </Entity>
+  <Relationship id="rel69a" name="Autocertificazione missione_Tipo evento" sourceEntity="ent43a" targetEntity="ent44a" db:table="autocertificazione_missione" db:database="db3a">
+    <RelationshipRole1 id="rel69a#role65a" name="Autocertificazione missioneToTipo evento" maxCard="1">
+      <db:JoinColumn attribute="ent43a#att271a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel69a#role66a" name="Tipo eventoToAutocertificazione missione" maxCard="N">
+      <db:JoinColumn attribute="ent44a#att272a" name="tipo_evento_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="153" gr:y="1260" id="ent45a" name="Incarico missione" duration="persistent" attributeOrder="ent45a#att294a ent45a#att295a ent45a#att296a ent45a#att303a ent45a#att304a ent45a#att305a ent45a#att306a ent45a#att307a ent45a#att312a ent45a#att313a ent45a#att314a ent45a#att326a ent45a#att327a ent45a#att328a ent45a#att329a ent45a#att330a ent45a#att331a ent45a#att332a ent45a#att333a ent45a#att334a ent45a#att335a ent45a#att311a ent45a#att22w ent45a#att23w ent45a#att60w ent45a#att61w" db:table="incarico_missione" db:database="db3a">
+    <Attribute id="ent45a#att294a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent45a#att295a" name="Data richiesta" type="date" db:column="data_richiesta"/>
+    <Attribute id="ent45a#att296a" name="Inviata" type="boolean" db:column="inviata"/>
+    <Attribute id="ent45a#att303a" name="Luogo missione" type="string" db:column="luogo_missione"/>
+    <Attribute id="ent45a#att304a" name="Inizio missione" type="date" db:column="inizio_missione"/>
+    <Attribute id="ent45a#att305a" name="Fine missione" type="date" db:column="fine_missione"/>
+    <Attribute id="ent45a#att306a" name="Motivo missione" type="text" db:column="motivo_missione"/>
+    <Attribute id="ent45a#att307a" name="Progetto" type="string" db:column="progetto"/>
+    <Attribute id="ent45a#att312a" name="Spese presunte" type="decimal" db:column="spese_presunte"/>
+    <Attribute id="ent45a#att313a" name="Vitto e alloggio" type="decimal" db:column="vitto_e_alloggio"/>
+    <Attribute id="ent45a#att314a" name="Totale" type="decimal" db:column="totale"/>
+    <Attribute id="ent45a#att326a" name="CDR" type="string" derivationQuery="simpleImported::Self.rel77a#role69a.ent19a#att164a"/>
+    <Attribute id="ent45a#att327a" name="Qualifica" type="string" db:column="qualifica"/>
+    <Attribute id="ent45a#att328a" name="Numero giorni" type="string" db:column="numero_giorni"/>
+    <Attribute id="ent45a#att329a" name="Tipo" type="string" db:column="tipo"/>
+    <Attribute id="ent45a#att330a" name="Marca" type="string" db:column="marca"/>
+    <Attribute id="ent45a#att331a" name="Allestimento" type="string" db:column="allestimento"/>
+    <Attribute id="ent45a#att332a" name="Targa" type="string" db:column="targa"/>
+    <Attribute id="ent45a#att333a" name="Modello" type="string" db:column="modello"/>
+    <Attribute id="ent45a#att334a" name="Alimentazione" type="string" db:column="alimentazione"/>
+    <Attribute id="ent45a#att335a" name="Motivazione" type="string" db:column="motivazione"/>
+    <Attribute id="ent45a#att311a" name="Da approvare" type="boolean" db:column="da_approvare"/>
+    <Attribute id="ent45a#att22w" name="Descrizione mezzo di trasporto" type="string" derivationQuery="simpleImported::Self.rel90a#role96a.ent47a#att309a"/>
+    <Attribute id="ent45a#att23w" name="Descrizione saldo spese" type="text" derivationQuery="simpleImported::Self.rel89a#role94a.ent49a#att323a"/>
+    <Attribute id="ent45a#att60w" name="&#8364;/gg (max &#8364; 200,00/gg)" type="string" db:column="gg_max_200_00_gg"/>
+    <Attribute id="ent45a#att61w" name="Si applica la specifica" type="string" db:column="si_applica_la_specifica"/>
+  </Entity>
+  <Relationship id="rel77a" name="Incarico missione_CDR" sourceEntity="ent45a" targetEntity="ent19a" db:table="incarico_missione" db:database="db3a">
+    <RelationshipRole1 id="rel77a#role69a" name="Incarico missioneToCDR" maxCard="1">
+      <db:JoinColumn attribute="ent45a#att294a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel77a#role70a" name="CDRToIncarico missione" maxCard="N">
+      <db:JoinColumn attribute="ent19a#att161a" name="cdr_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel79a" name="Incarico missione_User" sourceEntity="ent45a" targetEntity="User" gr:bendpoints="272,-44,-331,-53" db:table="incarico_missione" db:database="db3a">
+    <RelationshipRole1 id="rel79a#role73a" name="Incarico missioneToUser" maxCard="1">
+      <db:JoinColumn attribute="ent45a#att294a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel79a#role74a" name="UserToIncarico missione" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="user_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel81a" name="Incarico missione_Utente autorizzato" sourceEntity="ent45a" targetEntity="User" gr:bendpoints="366,-332,-468,129" db:database="db3a" db:table="incarico_missione">
+    <RelationshipRole1 id="rel81a#role77a" name="Incarico missioneToUtente autorizzato" maxCard="1">
+      <db:JoinColumn attribute="ent45a#att294a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel81a#role78a" name="Utente autorizzatoToIncarico missione" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="user_oid_3"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="-12" gr:y="1413" id="ent47a" name="Mezzo trasporto" duration="persistent" attributeOrder="ent47a#att308a ent47a#att309a" db:table="mezzo_trasporto" db:database="db3a">
+    <Attribute id="ent47a#att308a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent47a#att309a" name="Descrizione" type="string" db:column="descrizione"/>
+  </Entity>
+  <Entity gr:x="-47" gr:y="1529" id="ent49a" name="Saldo spese" duration="persistent" attributeOrder="ent49a#att322a ent49a#att323a" db:table="saldo_spese" db:database="db3a">
+    <Attribute id="ent49a#att322a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent49a#att323a" name="Descrizione" type="text" db:column="descrizione"/>
+  </Entity>
+  <Relationship id="rel88a" name="Incarico missione_Titolare" sourceEntity="ent45a" targetEntity="User" db:table="incarico_missione" db:database="db3a">
+    <RelationshipRole1 id="rel88a#role91a" name="Incarico missioneToTitolare" maxCard="1">
+      <db:JoinColumn attribute="ent45a#att294a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel88a#role92a" name="TitolareToIncarico missione" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="user_oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel89a" name="Saldo spese_Incarico missione" sourceEntity="ent49a" targetEntity="ent45a" db:table="incarico_missione" db:database="db3a">
+    <RelationshipRole1 id="rel89a#role93a" name="Saldo speseToIncarico missione" maxCard="N">
+      <db:JoinColumn attribute="ent49a#att322a" name="saldo_spese_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel89a#role94a" name="Incarico missioneToSaldo spese" maxCard="1">
+      <db:JoinColumn attribute="ent45a#att294a" name="oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel90a" name="Mezzo trasporto_Incarico missione" sourceEntity="ent47a" targetEntity="ent45a" db:database="db3a" db:table="incarico_missione">
+    <RelationshipRole1 id="rel90a#role95a" name="Mezzo trasportoToIncarico missione" maxCard="N">
+      <db:JoinColumn attribute="ent47a#att308a" name="mezzo_trasporto_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel90a#role96a" name="Incarico missioneToMezzo trasporto" maxCard="1">
+      <db:JoinColumn attribute="ent45a#att294a" name="oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel80a" name="Autocertificazione missione_User" sourceEntity="ent43a" targetEntity="User" db:table="autocertificazione_missione" db:database="db3a">
+    <RelationshipRole1 id="rel80a#role75a" name="Autocertificazione missioneToUser" maxCard="1">
+      <db:JoinColumn attribute="ent43a#att271a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel80a#role76a" name="UserToAutocertificazione missione" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="user_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="-114" gr:y="2343" id="ent48a" name="Rendiconto missione" duration="persistent" attributeOrder="ent48a#att338a ent48a#att339a ent48a#att340a ent48a#att345a ent48a#att346a ent48a#att347a ent48a#att348a ent48a#att349a ent48a#att350a ent48a#att351a ent48a#att352a ent48a#att353a ent48a#att354a ent48a#att355a ent48a#att356a ent48a#att357a ent48a#att358a ent48a#att359a ent48a#att360a ent48a#att361a ent48a#att362a ent48a#att363a ent48a#att364a ent48a#att365a ent48a#att366a ent48a#att367a ent48a#att368a ent48a#att369a ent48a#att370a ent48a#att321a ent48a#att337a ent48a#att341a ent48a#att30w ent48a#att31w ent48a#att32w" db:table="rendiconto_missione" db:database="db3a">
+    <Attribute id="ent48a#att338a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent48a#att339a" name="Data richiesta" type="date" db:column="data_richiesta"/>
+    <Attribute id="ent48a#att340a" name="Inviata" type="boolean" db:column="inviata"/>
+    <Attribute id="ent48a#att345a" name="Data missione" type="date" db:column="data_missione"/>
+    <Attribute id="ent48a#att346a" name="Num missione" type="integer" db:column="num_missione"/>
+    <Attribute id="ent48a#att347a" name="Motivo missione" type="string" db:column="motivo_missione"/>
+    <Attribute id="ent48a#att348a" name="Spese viaggio" type="decimal" db:column="spese_viaggio"/>
+    <Attribute id="ent48a#att349a" name="Spese alloggio" type="decimal" db:column="spese_alloggio"/>
+    <Attribute id="ent48a#att350a" name="Spese vitto" type="decimal" db:column="spese_vitto"/>
+    <Attribute id="ent48a#att351a" name="Altre spese" type="decimal" db:column="altre_spese"/>
+    <Attribute id="ent48a#att352a" name="Luogo missione" type="string" db:column="luogo_missione"/>
+    <Attribute id="ent48a#att353a" name="Inizio missione" type="date" db:column="inizio_missione"/>
+    <Attribute id="ent48a#att354a" name="Ora inizio" type="time" db:column="ora_inizio"/>
+    <Attribute id="ent48a#att355a" name="Fine missione" type="date" db:column="fine_missione"/>
+    <Attribute id="ent48a#att356a" name="Ora fine" type="time" db:column="ora_fine"/>
+    <Attribute id="ent48a#att357a" name="Andata frontiera" type="date" db:column="andata_frontiera"/>
+    <Attribute id="ent48a#att358a" name="Ora andata" type="time" db:column="ora_andata"/>
+    <Attribute id="ent48a#att359a" name="Ritorno frontiera" type="date" db:column="ritorno_frontiera"/>
+    <Attribute id="ent48a#att360a" name="Ora ritorno" type="time" db:column="ora_ritorno"/>
+    <Attribute id="ent48a#att361a" name="Anticipazione" type="decimal" db:column="anticipazione"/>
+    <Attribute id="ent48a#att362a" name="Mandato" type="string" db:column="mandato"/>
+    <Attribute id="ent48a#att363a" name="Data mandato" type="date" db:column="data_mandato"/>
+    <Attribute id="ent48a#att364a" name="CIN" type="string" db:column="cin"/>
+    <Attribute id="ent48a#att365a" name="ABI" type="string" db:column="abi"/>
+    <Attribute id="ent48a#att366a" name="CAB" type="string" db:column="cab"/>
+    <Attribute id="ent48a#att367a" name="CC" type="string" db:column="cc"/>
+    <Attribute id="ent48a#att368a" name="Banca" type="string" db:column="banca"/>
+    <Attribute id="ent48a#att369a" name="CDR" type="string" db:column="cdr"/>
+    <Attribute id="ent48a#att370a" name="Progetto" type="string" db:column="progetto"/>
+    <Attribute id="ent48a#att321a" name="Altro pagamento" type="string" db:column="altro_pagamento"/>
+    <Attribute id="ent48a#att337a" name="Totale" type="decimal" db:column="totale"/>
+    <Attribute id="ent48a#att341a" name="Allegato" type="blob" db:column="allegato"/>
+    <Attribute id="ent48a#att30w" name="Nome" type="string" db:column="nome"/>
+    <Attribute id="ent48a#att31w" name="Cognome" type="string" db:column="cognome"/>
+    <Attribute id="ent48a#att32w" name="Matricola" type="string" db:column="matricola"/>
+  </Entity>
+  <Relationship id="rel82a" name="Rendiconto missione_User" sourceEntity="ent48a" targetEntity="User" db:table="rendiconto_missione" db:database="db3a">
+    <RelationshipRole1 id="rel82a#role79a" name="Rendiconto missioneToUser" maxCard="1">
+      <db:JoinColumn attribute="ent48a#att338a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel82a#role80a" name="UserToRendiconto missione" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="user_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel83a" name="Rendiconto missione_IncaricatoMissione" sourceEntity="ent48a" targetEntity="User" gr:bendpoints="323,-309,-780,1170;561,-729,-542,750" db:table="rendiconto_missione" db:database="db3a">
+    <RelationshipRole1 id="rel83a#role81a" name="Rendiconto missioneToIncaricato" maxCard="1">
+      <db:JoinColumn attribute="ent48a#att338a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel83a#role82a" name="IncaricatoToRendiconto missione" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="user_oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="321" gr:y="924" id="ent50a" name="Richiesta prova" duration="persistent" attributeOrder="ent50a#att342a ent50a#att343a ent50a#att344a ent50a#att372a ent50a#att373a ent50a#att375a ent50a#att391a" db:table="richiesta_prova" db:database="db3a">
+    <Attribute id="ent50a#att342a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent50a#att343a" name="Nome committente" type="string" db:column="nome"/>
+    <Attribute id="ent50a#att344a" name="Cognome committente" type="string" db:column="cognome"/>
+    <Attribute id="ent50a#att372a" name="Azienda" type="string" db:column="azienda"/>
+    <Attribute id="ent50a#att373a" name="Email committente" type="string" db:column="email_committente"/>
+    <Attribute id="ent50a#att375a" name="Data richiesta" type="date" db:column="data_richiesta"/>
+    <Attribute id="ent50a#att391a" name="Inviata" type="boolean" db:column="inviata"/>
+  </Entity>
+  <Entity gr:x="-79" gr:y="776" id="ent51a" name="OffertaConferma prova" duration="persistent" attributeOrder="ent51a#att376a ent51a#att377a ent51a#att378a ent51a#att379a ent51a#att380a ent51a#att381a ent51a#att384a ent51a#att385a ent51a#att386a ent51a#att387a ent51a#att390a ent51a#att392a ent51a#att53a ent51a#att54a ent51a#att56a ent51a#att66a ent51a#att67a ent51a#att68a ent51a#att69a ent51a#att73a ent51a#att74a ent51a#att76a ent51a#att77a" db:table="offertaconferma_prova" db:database="db3a">
+    <Attribute id="ent51a#att376a" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent51a#att377a" name="Ragione sociale" type="string" db:column="ragione_sociale"/>
+    <Attribute id="ent51a#att378a" name="Via" type="string" db:column="via"/>
+    <Attribute id="ent51a#att379a" name="Cap" type="string" db:column="cap"/>
+    <Attribute id="ent51a#att380a" name="Citt&#224;" type="string" db:column="citta"/>
+    <Attribute id="ent51a#att381a" name="Prov" type="string" db:column="prov"/>
+    <Attribute id="ent51a#att384a" name="Piva" type="string" db:column="piva"/>
+    <Attribute id="ent51a#att385a" name="Persona riferimento" type="string" db:column="persona_riferimento"/>
+    <Attribute id="ent51a#att386a" name="Oggetto prove" type="text" db:column="oggetto_prove"/>
+    <Attribute id="ent51a#att387a" name="Modalit&#224; esecutive" type="text" db:column="modalita_esecutive"/>
+    <Attribute id="ent51a#att390a" name="Data documento" type="date" db:column="data_documento"/>
+    <Attribute id="ent51a#att392a" name="Inviata" type="boolean" db:column="inviata"/>
+    <Attribute id="ent51a#att53a" name="Cod cliente" type="string" db:column="cod_cliente"/>
+    <Attribute id="ent51a#att54a" name="Cod commessa" type="string" db:column="cod_commessa"/>
+    <Attribute id="ent51a#att56a" name="Costo prove" type="decimal" db:column="costo_prove"/>
+    <Attribute id="ent51a#att66a" name="Modalit&#224; pagamento" type="text" db:column="modalita_pagamento"/>
+    <Attribute id="ent51a#att67a" name="Caratteristiche richieste" type="text" db:column="caratteristiche_richieste"/>
+    <Attribute id="ent51a#att68a" name="Modalit&#224; consegna" type="text" db:column="modalita_consegna"/>
+    <Attribute id="ent51a#att69a" name="Conservazione oggetti" type="string" db:column="conservazione_oggetti"/>
+    <Attribute id="ent51a#att73a" name="Richiesta del" type="date" db:column="richiesta_del"/>
+    <Attribute id="ent51a#att74a" name="Tipo ordine" type="string" db:column="tipo_ordine"/>
+    <Attribute id="ent51a#att76a" name="Spettabile" type="string" db:column="spettabile"/>
+    <Attribute id="ent51a#att77a" name="Tempi esecuzione" type="string" db:column="tempi_esecuzione"/>
+  </Entity>
+  <Relationship id="rel84a" name="Richiesta prova_User" sourceEntity="ent50a" targetEntity="User" db:table="richiesta_prova" db:database="db3a">
+    <RelationshipRole1 id="rel84a#role83a" name="Richiesta provaToUser" maxCard="1">
+      <db:JoinColumn attribute="ent50a#att342a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel84a#role84a" name="UserToRichiesta prova" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="user_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel85a" name="OffertaConferma prova_User" sourceEntity="ent51a" targetEntity="User" gr:bendpoints="453,130,-461,43" db:table="offertaconferma_prova" db:database="db3a">
+    <RelationshipRole1 id="rel85a#role85a" name="OffertaConferma provaToUser" maxCard="1">
+      <db:JoinColumn attribute="ent51a#att376a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel85a#role86a" name="UserToOffertaConferma prova" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="user_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="893" gr:y="1607" id="ent1w" name="File" duration="persistent" attributeOrder="ent1w#att1w ent1w#att2w ent1w#att3w ent1w#att4w ent1w#att5w" db:database="db3a" db:table="file">
+    <Attribute id="ent1w#att1w" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent1w#att2w" name="File" type="blob" db:column="file" uploadPolicy="overwrite">
+      <Comment xml:space="preserve">Il file che viene uplodato dall'utente
+</Comment>    </Attribute>    <Attribute id="ent1w#att3w" name="Tipo" type="string" db:column="tipo">      <Comment xml:space="preserve">Folder: se si crea una cartella
+Image: se si upload un file</Comment>
+    </Attribute>
+    <Attribute id="ent1w#att4w" name="Nome" type="string" db:column="nome">
+      <Comment xml:space="preserve">Nome del file che si upload</Comment>
+    </Attribute>
+    <Attribute id="ent1w#att5w" name="Visibilit&#224;" type="string" db:column="visibilita">
+      <Comment xml:space="preserve">Personale: sar&#224; visibile e modificabile solo all'utente che ha uplodato il file e agli utenti del gruppo Web Master
+Condiviso: sar&#224; visibile a tutti gli utenti ma modificabile solo all'utente che ha uplodato il file e agli utenti del gruppo Web Master
+Giunta: sar&#224; visibile agli utenti autorizzati dell'area giunta (area16a)
+Commissione Scientifica: sar&#224; visibile agli utenti autorizzati dell'area commissione scientifica (area17a)</Comment>
+    </Attribute>
+  </Entity>
+  <Relationship id="rel1w" name="File_File" sourceEntity="ent1w" targetEntity="ent1w" gr:bendpoints="82,36,82,36;82,-36,82,-36" db:database="db3a" db:table="file">
+    <RelationshipRole1 id="rel1w#role1w" name="File(Figlio)_To_File(Padre)" maxCard="1">
+      <db:JoinColumn attribute="ent1w#att1w" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel1w#role2w" name="File(Padre)_To_File(Figlio)" maxCard="N">
+      <db:JoinColumn attribute="ent1w#att1w" name="file_oid"/>
+    </RelationshipRole2>
+    <Comment xml:space="preserve">Relazione padre/figlio per cartelle/sottocartelle e relativi file</Comment>
+  </Relationship>
+  <Relationship id="rel2w" name="File_User" sourceEntity="ent1w" targetEntity="User" db:database="db3a" db:table="file" gr:bendpoints="-1,-158,-106,332">
+    <RelationshipRole1 id="rel2w#role3w" name="FileToUser" maxCard="1">
+      <db:JoinColumn attribute="ent1w#att1w" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel2w#role4w" name="UserToFile" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="user_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity id="ent2w" name="Comunicazioni" duration="persistent" gr:x="2057" gr:y="1592" attributeOrder="ent2w#att6w ent2w#att7w ent2w#att8w ent2w#att9w" db:database="db3a" db:table="comunicazioni">
+    <Attribute id="ent2w#att6w" name="oid" key="true" type="integer" db:column="oid"/>
+    <Attribute id="ent2w#att7w" name="File" type="blob" uploadPolicy="overwrite" db:column="file"/>
+    <Attribute id="ent2w#att8w" name="Tipo" type="string" db:column="tipo"/>
+    <Attribute id="ent2w#att9w" name="Titolo" type="string" db:column="titolo"/>
+  </Entity>
+  <Relationship id="rel3w" name="Richiesta accesso_UserApprovatore" sourceEntity="ent3a" targetEntity="User" gr:bendpoints="177,-247,-130,269" db:database="db3a" db:table="richiesta_accesso">
+    <RelationshipRole1 id="rel3w#role5w" name="Richiesta accessoToUserApprovatore" maxCard="1">
+      <db:JoinColumn attribute="ent3a#att21a" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel3w#role6w" name="UserApprovatoreToRichiesta accesso" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="user_oid_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="409" gr:y="1249" id="ent3w" name="Categoria" duration="persistent" attributeOrder="ent3w#att25w ent3w#att26w" db:database="db3a" db:table="categoria">
+    <Attribute id="ent3w#att25w" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent3w#att26w" name="Descrizione" type="string" db:column="descrizione"/>
+  </Entity>
+  <Relationship id="rel5w" name="Categoria_Incarico missione" sourceEntity="ent3w" targetEntity="ent45a" db:database="db3a" db:table="incarico_missione">
+    <RelationshipRole1 id="rel5w#role9w" name="CategoriaToIncarico missione" maxCard="N">
+      <db:JoinColumn attribute="ent3w#att25w" name="categoria_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel5w#role10w" name="Incarico missioneToCategoria" maxCard="1">
+      <db:JoinColumn attribute="ent45a#att294a" name="oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Entity gr:x="693" gr:y="158" id="ent4w" name="Didattica" duration="persistent" attributeOrder="ent4w#att33w ent4w#att34w ent4w#att35w ent4w#att36w ent4w#att37w ent4w#att38w ent4w#att39w ent4w#att40w ent4w#att41w ent4w#att42w ent4w#att43w ent4w#att44w ent4w#att45w ent4w#att46w ent4w#att47w ent4w#att48w ent4w#att49w ent4w#att50w ent4w#att51w ent4w#att52w ent4w#att53w ent4w#att54w" db:database="db3a" db:table="didattica">
+    <Attribute id="ent4w#att33w" key="true" name="oid" type="integer" db:column="oid"/>
+    <Attribute id="ent4w#att34w" name="Anno" type="string" db:column="anno"/>
+    <Attribute id="ent4w#att35w" name="Semestre" type="string" db:column="semestre"/>
+    <Attribute id="ent4w#att36w" name="Corso" type="string" db:column="corso"/>
+    <Attribute id="ent4w#att37w" name="Docente" type="string" db:column="docente"/>
+    <Attribute id="ent4w#att38w" name="Seminarista" type="string" db:column="seminarista"/>
+    <Attribute id="ent4w#att39w" name="Ore" type="string" db:column="ore"/>
+    <Attribute id="ent4w#att40w" name="Costo" type="string" db:column="costo"/>
+    <Attribute id="ent4w#att41w" name="Inizio" type="date" db:column="inizio"/>
+    <Attribute id="ent4w#att42w" name="Fine" type="date" db:column="fine"/>
+    <Attribute id="ent4w#att43w" name="Indirizzo e-mail" type="string" db:column="indirizzo_e_mail"/>
+    <Attribute id="ent4w#att44w" name="Telefono interno" type="string" db:column="telefono_interno"/>
+    <Attribute id="ent4w#att45w" name="Telefono cellulare" type="string" db:column="telefono_cellulare"/>
+    <Attribute id="ent4w#att46w" name="Indirizzo" type="string" db:column="indirizzo"/>
+    <Attribute id="ent4w#att47w" name="Cap" type="string" db:column="cap"/>
+    <Attribute id="ent4w#att48w" name="Citt&#224;" type="string" db:column="citta"/>
+    <Attribute id="ent4w#att49w" name="Luogo di nascita" type="string" db:column="luogo_di_nascita"/>
+    <Attribute id="ent4w#att50w" name="Data di nascita" type="date" db:column="data_di_nascita"/>
+    <Attribute id="ent4w#att51w" name="Codice fiscale" type="string" db:column="codice_fiscale"/>
+    <Attribute id="ent4w#att52w" name="Partita iva" type="string" db:column="partita_iva"/>
+    <Attribute id="ent4w#att53w" name="Inviata" type="boolean" db:column="inviata"/>
+    <Attribute id="ent4w#att54w" name="Data inserimento" type="date" db:column="data_inserimento"/>
+  </Entity>
+  <Relationship id="rel4w" name="Didattica_User" sourceEntity="ent4w" targetEntity="User" db:database="db3a" db:table="didattica">
+    <RelationshipRole1 id="rel4w#role7w" name="DidatticaToUser" maxCard="1">
+      <db:JoinColumn attribute="ent4w#att33w" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel4w#role8w" name="UserToDidattica" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="user_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel7w" name="User_Indirizzo" sourceEntity="User" targetEntity="ent14a" db:database="db3a" db:table="indirizzo">
+    <RelationshipRole1 id="rel7w#role13w" name="UserToIndirizzo" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="user_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel7w#role14w" name="IndirizzoToUser" maxCard="1">
+      <db:JoinColumn attribute="ent14a#att95a" name="oid"/>
+    </RelationshipRole2>
+  </Relationship>
+</DataModel>

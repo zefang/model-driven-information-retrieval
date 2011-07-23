@@ -1,0 +1,28 @@
+<Page xmlns:gr="http://www.webratio.com/2006/WebML/Graph" xmlns:layout="http://www.webratio.com/2006/WebML/Layout" id="sv1#area2#page5" name="Modify document" gr:x="0" gr:y="70">
+  <ContentUnits>
+    <EntryUnit id="sv1#area2#page5#enu3" name="Document data" gr:x="65" gr:y="30" linkOrder="sv1#area2#page5#enu3#ln6">
+      <Link id="sv1#area2#page5#enu3#ln6" name="Link6" to="sv1#area2#mfu1" automaticCoupling="true" type="normal" validate="true"/>
+    </EntryUnit>
+  </ContentUnits>
+  <layout:Grid>
+    <layout:Row>
+      <layout:Cell>
+        <layout:Unit unitId="sv1#area2#page5#enu3">
+          <layout:Link link="sv1#area2#page5#enu3#ln6"/>
+        </layout:Unit>
+      </layout:Cell>
+      <layout:Cell/>
+      <layout:Cell/>
+    </layout:Row>
+    <layout:Row>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+    </layout:Row>
+    <layout:Row>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+    </layout:Row>
+  </layout:Grid>
+</Page>

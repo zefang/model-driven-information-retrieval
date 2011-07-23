@@ -1,0 +1,10 @@
+<SiteView xmlns:gr="http://www.webratio.com/2006/WebML/Graph" id="sv1" name="Responsibles" homePage="sv1#page1">
+  <OperationUnits>
+    <ScriptUnit id="sv1#scu1" name="compose mail" gr:x="381" gr:y="165" script="WEB-INF/descr/componi-mail.groovy">
+      <OKLink id="sv1#scu1#oln3" name="OKLink3" to="sv1#mlu1" automaticCoupling="true"/>
+    </ScriptUnit>
+    <MailUnit id="sv1#mlu1" name="info" gr:x="623" gr:y="232" format="html" template="WEB-INF/descr/mail-generica.mt">
+      <SubjectTemplate xml:space="preserve">$$oggetto$$</SubjectTemplate>
+    </MailUnit>
+  </OperationUnits>
+</SiteView>
