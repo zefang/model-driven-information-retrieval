@@ -78,12 +78,8 @@ public class WebmlTestServletCallerPipelet implements Pipelet {
 		    }
 		    rd.close();
 			
-		} catch (BlackboardAccessException e) {
+		} catch (Exception e) {
 			_log.write("Error in WebmltestServletCallerPipelet:\n" + e.toString());
-			e.printStackTrace();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		

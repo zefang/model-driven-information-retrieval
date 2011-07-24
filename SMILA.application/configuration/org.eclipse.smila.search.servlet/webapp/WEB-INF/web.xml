@@ -24,5 +24,18 @@
     <servlet-name>search</servlet-name>
     <url-pattern>/search</url-pattern>
   </servlet-mapping>
+  
+  
+  <!-- WebML Search Servlet-->
+     
+  <servlet>
+    <servlet-name>webmlSearch</servlet-name>
+    <servlet-class>org.eclipse.smila.search.servlet.WebmlSearchServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>webmlSearch</servlet-name>
+    <url-pattern>/webmlSearch</url-pattern>
+  </servlet-mapping>
 
 </web-app>
