@@ -1,5 +1,8 @@
 package it.polimi.mdir.webml.pipelet.search;
 
+import it.polimi.mdir.logger.Log;
+import it.polimi.mdir.logger.LogFactory;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,6 +29,8 @@ public class KeywordExtractorPipelet implements Pipelet {
 
 	private final static Namespace XMI_NAMESPACE = Namespace.getNamespace("xmi", "http://schema.omg.org/spec/XMI/2.1");
 	private final static Namespace WEBML_NAMESPACE = Namespace.getNamespace("webml", "http://www.webml.org");
+	
+	private Log _log = LogFactory.getLog();
 	
 	@Override
 	public void configure(AnyMap configuration) throws ProcessingException {
@@ -56,11 +61,8 @@ public class KeywordExtractorPipelet implements Pipelet {
 			
 			System.out.println("keywordString = " + keywordString);
 			
-		} catch (BlackboardAccessException e) {
-			e.printStackTrace();
-		} catch (JDOMException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
+			_log.write("Error in KeywordExtractorPipelet: " + e.toString());
 			e.printStackTrace();
 		}
 		
