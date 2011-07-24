@@ -1,14 +1,12 @@
 package it.polimi.mdir.webml.pipelet.search;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 
 import it.polimi.mdir.logger.Log;
@@ -53,22 +51,32 @@ public class WebmlTestServletCallerPipelet implements Pipelet {
 			  parameters += "&"+ URLEncoder.encode("mm", "UTF-8") +"="+ URLEncoder.encode(mm, "UTF-8");
 			  parameters += "&"+ URLEncoder.encode("qf", "UTF-8") +"="+ URLEncoder.encode(qf, "UTF-8");
 			
-			String url = "http://localhost:8983/solr/testWebml";
+			String url = "http://localhost:8983/solr/testWebml?"+parameters;
 			
 			URL servletUrl = new URL(url);
+			HttpURLConnection.setFollowRedirects(true);
 			HttpURLConnection connection = (HttpURLConnection) servletUrl.openConnection();
-			connection.setRequestMethod("POST");
-			//connection.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
-		    //connection.setUseCaches(false);
-		    //connection.setDoInput(true);
+			connection.setRequestMethod("GET");
+			connection.setDoInput(true);
 		    connection.setDoOutput(true);
+			connection.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
+		    connection.setUseCaches(false);
+		    connection.setDefaultUseCaches(false);
 		    connection.setInstanceFollowRedirects(true);
-		    //connection.setReadTimeout(10000);
+		    connection.setReadTimeout(10000);
 		    
 			OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 			out.write(parameters);
 			out.flush();
 			out.close();
+			
+			// Get the response
+		    BufferedReader rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		    String line;
+		    while ((line = rd.readLine()) != null) {
+		        System.out.println(line);
+		    }
+		    rd.close();
 			
 		} catch (BlackboardAccessException e) {
 			_log.write("Error in WebmltestServletCallerPipelet:\n" + e.toString());
