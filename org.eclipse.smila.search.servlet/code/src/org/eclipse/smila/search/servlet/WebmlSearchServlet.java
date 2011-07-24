@@ -29,8 +29,13 @@ public class WebmlSearchServlet extends SMILASearchServlet {
 	/**
 	 * In this case the default pipeline is the webml pipeline.
 	 */
-	private final String DEFAULT_PIPELINE = "WebmlSearchPipeline";
-
+	private static final String DEFAULT_PIPELINE = "WebmlSearchPipeline";
+	
+	/**
+	 * Default stylesheet name.
+	 */
+	private static final String DEFAULT_STYLESHEET = "WebmlSearchDefault";
+	
 	  /**
 	   * extract query parameters from request, create SMILA Query record and send it to a SearchService, transform the DOM
 	   * result to HTML using an XSLT stylesheet.
@@ -64,13 +69,13 @@ public class WebmlSearchServlet extends SMILASearchServlet {
 	    Document resultDoc = null;
 	    try {
 	      if (searchService == null) {
-	        resultDoc =
-	          getErrorBuilder().buildError(
-	            new ServletException(
-	              "The SearchService is not available. Please wait a moment and try again."));
+//	        resultDoc =
+//	          getErrorBuilder().buildError(
+//	            new ServletException(
+//	              "The SearchService is not available. Please wait a moment and try again."));
 	      } else {
 	        resultDoc = query.executeRequestXml(searchService);
-	        appendIndexList(resultDoc);
+	      //  appendIndexList(resultDoc);
 	      }
 	    } catch (final ParserConfigurationException ex) {
 	      throw new ServletException(

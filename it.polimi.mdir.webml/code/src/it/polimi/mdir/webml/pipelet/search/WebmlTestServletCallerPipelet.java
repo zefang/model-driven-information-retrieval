@@ -79,7 +79,7 @@ public class WebmlTestServletCallerPipelet implements Pipelet {
 		    rd.close();
 			
 		} catch (Exception e) {
-			_log.write("Error in WebmltestServletCallerPipelet:\n" + e.toString());
+			_log.write("Error in WebmltestServletCallerPipelet:" + e.toString());
 			e.printStackTrace();
 		}
 		
