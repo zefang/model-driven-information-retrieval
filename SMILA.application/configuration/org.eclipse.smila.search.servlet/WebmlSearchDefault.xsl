@@ -18,13 +18,13 @@
   <xsl:output method="html" encoding="UTF-8" indent="yes"
     doctype-public="-//W3C//DTD HTML 4.0 Transitional//EN" />
 
-  <xsl:param name="stylesheet" select="'SMILASearchDefault'" />
+  <xsl:param name="stylesheet" select="'WebmlSearchDefault'" />
   <xsl:variable name="totalHits" select="/s:SearchResult/r:Record/r:Val[@key='count']" />
 
   <xsl:template match="/s:SearchResult">
     <html>
       <head>
-        <title>SMILA - Test search application</title>
+        <title>Webml Query Servlet</title>
         <link rel="shortcut icon" href="SMILA.ico" type="image/x-icon" />
         <link rel="stylesheet" type="text/css" href="stylesheets/Smila/reset-fonts-grids.css" />
         <link rel="stylesheet" type="text/css" href="stylesheets/Smila/menu.css" />
@@ -130,7 +130,12 @@
       </div>
       <div id="logo">
         <a href="http://www.eclipse.org/smila">
-          <img src="images/Smila/SMILA_Tagline_Large.jpg" alt="www.eclipse.org/smila" hspace="86" width="316" hight="90"/>
+          <img src="images/Smila/SMILA_Tagline_Large.jpg" alt="www.eclipse.org/smila" hspace="86" width="316" height="90"/>
+        </a>
+      </div>
+      <div id="logo">
+        <a href="http://www.polimi.it">
+          <img src="images/polimi/logoPolitecnico.gif" alt="www.polimi.it" hspace="86" height="90"/>
         </a>
       </div>
       <div id="otherSites">
@@ -169,7 +174,8 @@
         <ul>
           <li>
             <a href="search">Default</a>
-            <a href="search?style=SMILASearchAdvanced">Advanced</a>
+            <!-- TODO: integrare UML qui -->
+            <!-- <a href="search?style=SMILASearchAdvanced">Advanced</a>  -->
           </li>
         </ul>
       </div>
@@ -184,7 +190,7 @@
       <ul id="footernav">
         <li>
           <a>
-            <xsl:attribute name="href">search</xsl:attribute>
+            <xsl:attribute name="href">webmlSearch</xsl:attribute>
             Home
           </a>
         </li>
@@ -192,7 +198,7 @@
           <a href="license/epl-v10.html">Eclipse Public License - v 1.0</a>
         </li>
       </ul>
-      <span id="copyright">Copyright © 2009. All Rights Reserved.</span>
+      <span id="copyright">Copyright © 2011. All Rights Reserved.</span>
     </div>
   </xsl:template>
 
