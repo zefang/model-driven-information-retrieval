@@ -38,7 +38,9 @@ import jxl.format.Colour;
  * 
  * NOTICE: THIS CLASS IS A LITTLE 
  * DIFFERENT FROM PREVIOUS ExcelWriter.java
- * 
+ * -> it reads XML result files like resultX-Y.xml
+ * where X is the query number and Y is the experiment
+ * label (e.g. A, B, C or D)
  */
 public class ExcelWriterBatch {
 	
