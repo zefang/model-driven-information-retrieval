@@ -18,6 +18,7 @@ import jxl.write.biff.RowsExceededException;
 import jxl.format.Colour;
 
 /**
+ * WebML version
  * 
  * This class writes to
  * excel files the test results
@@ -30,17 +31,15 @@ import jxl.format.Colour;
  * 
  * There is ONE sheet for each
  * meta-query instance and you
- * need 4 xml files for each of them
- * result1-A.xml
+ * need 2 xml files for each of them
  * result1-B.xml
  * result1-C.xml
- * result1-D.xml
  * 
  * NOTICE: THIS CLASS IS A LITTLE 
  * DIFFERENT FROM PREVIOUS ExcelWriter.java
  * -> it reads XML result files like resultX-Y.xml
  * where X is the query number and Y is the experiment
- * label (e.g. A, B, C or D)
+ * label (e.g. B, C)
  */
 public class ExcelWriterBatchWebml {
 	
@@ -84,10 +83,8 @@ public class ExcelWriterBatchWebml {
 		int row = 6;
 		
 		ArrayList<String> resultList = new ArrayList<String>();
-		String projectIdStr = "";
-		String projectNameStr = "";
-		String classIdStr = "";
-		String classNameStr = "";
+		String areaIdStr = "";
+		String areaNameStr = "";
 		String scoreStr = "";
 		String rankingStr = "";
 				
@@ -97,8 +94,8 @@ public class ExcelWriterBatchWebml {
 		// Adding "table" headers	
 		addTableHeader(sheet, this.column, row, "Ranking");
 		addTableHeader(sheet, this.column+1, row, "Document Id");
-		addTableHeader(sheet, this.column+3, row, "Area Name");
-		addTableHeader(sheet, this.column+4, row, "Score");
+		addTableHeader(sheet, this.column+2, row, "Area Name");
+		addTableHeader(sheet, this.column+3, row, "Score");
 				
 		// Load xquery and xml result file
 		XQueryWrapper xq = new XQueryWrapper(XQUERY_PATH + "testPresentationWebml.xquery");
@@ -106,26 +103,17 @@ public class ExcelWriterBatchWebml {
 		resultList = xq.executeQuery();
 		
 		for (int i=0; i<resultList.size(); i++) {
-			String[] splittedResult = resultList.get(i).split(" ");
-			projectIdStr = splittedResult[0];	
-			projectNameStr = splittedResult[1];
-			classIdStr = splittedResult[2];
-			classNameStr = splittedResult[3];
-			scoreStr = splittedResult[4];
+			String[] splittedResult = resultList.get(i).split("\\%");
+			areaIdStr = splittedResult[0];	
+			areaNameStr = splittedResult[1];
+			scoreStr = splittedResult[2];
 			
 			rankingStr = Integer.toString(i+1);
 			
 			addTableCell(sheet, this.column, row+i+1, rankingStr);
-			// If ExperimentA write projectId..
-			if(experiment.equals(Experiment.B)) {
-				addTableCell(sheet, this.column+1, row+i+1, projectIdStr);
-			} else {
-			// ..Write classId
-				addTableCell(sheet, this.column+1, row+i+1, classIdStr);
-			}
-			addTableCell(sheet, this.column+2, row+i+1, projectNameStr);
-			addTableCell(sheet, this.column+3, row+i+1, classNameStr);
-			addTableCell(sheet, this.column+4, row+i+1, scoreStr);
+			addTableCell(sheet, this.column+1, row+i+1, areaIdStr);
+			addTableCell(sheet, this.column+2, row+i+1, areaNameStr);
+			addTableCell(sheet, this.column+3, row+i+1, scoreStr);
 		}		
 	}
 	
