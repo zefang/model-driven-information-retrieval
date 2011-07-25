@@ -1,6 +1,6 @@
 package it.polimi.mdir.test.run;
 
-import it.polimi.mdir.test.ExcelUtils.ExcelWriterBatchUML;
+import it.polimi.mdir.test.ExcelUtils.ExcelWriterBatchWebml;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -24,23 +24,17 @@ import jxl.read.biff.BiffException;
 import jxl.write.WriteException;
 
 /**
- * UML Version.
- * Calls the 4 UML experiments and writes their results.
+ * WebML Version.
+ * Calls the 2 WebML experiments and writes their results.
  * This is done for each query instance and for each experiment.
  *
  */
-public class BatchTestUML {
+public class BatchTestWebml {
 	
-	private static final String[] experiments = {"A", "B", "C", "D"};
+	private static final String[] experiments = {"B", "C"};
 	
 	private static String XML_RESULTS_PATH;
 	
-	
-	/**
-	 * @param args: only 1 parameter passed as input to main method
-	 * 				which is the meta-query label (e.g. "MQ1")
-	 * @throws IOException
-	 */
 	public static void main(String[] args) throws IOException {
 		String originalQueryString = "";
 		String query = "";
@@ -53,10 +47,7 @@ public class BatchTestUML {
 		// This string will contain the lines coming from the servlet which is called
 		String line = "";
 		// This string will contain the response from the servlet which is called
-		String response = "";
-							
-		// Meta-Query Instance label (e.g. MQ1)
-		String mqLabel = args[0];
+		String response = "";					
 		
 		// Read configuration file
 		init();
@@ -68,13 +59,11 @@ public class BatchTestUML {
 
 		for(int queryInst=0; queryInst<queryArray.length; queryInst++) {
 		
-			sheetTitle = mqLabel + "-INST" + (queryInst+1);
+			sheetTitle = "INST" + (queryInst+1);
 			
 			String[] urls = 
-				{"http://localhost:8983/solr/text_experiment_A/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&score=score+desc,classId+desc&rows=10&wt=standard&debugQuery=on", 
-				 "http://localhost:8983/solr/text_experiment_B/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&score=score+desc,classId+desc&rows=10&wt=standard&debugQuery=on",
-				 "http://localhost:8983/solr/text_experiment_C/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&score=score+desc,classId+desc&rows=10&wt=standard&debugQuery=on",
-				 "http://localhost:8983/solr/text_experiment_D/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&score=score+desc,classId+desc&rows=10&wt=standard&debugQuery=on"};		  
+				{"http://localhost:8983/solr/webml_B/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on", 
+				 "http://localhost:8983/solr/webml_C/select?fl=*%2Cscore&qt=PLDisMaxQParserPlugin&start=0&rows=10&wt=standard&debugQuery=on"};
 	
 			query = queryArray[queryInst];
 			originalQueryString = queryArray[queryInst];
@@ -116,7 +105,7 @@ public class BatchTestUML {
 			for (int i=0; i<experiments.length; i++) {
 				
 				// Debug code
-				System.out.println("---> META-QUERY: [" + mqLabel + "] | STARTING QUERY INSTANCE [" + (queryInst+1) + "]: " + queryArray[queryInst] + " | EXPERIMENT [" + experiments[i] + "] ...");
+				System.out.println("---> STARTING QUERY INSTANCE [" + (queryInst+1) + "]: " + queryArray[queryInst] + " | EXPERIMENT [" + experiments[i] + "] ...");
 				
 				// New file		  
 				BufferedWriter file = new BufferedWriter(new FileWriter(XML_RESULTS_PATH + "result" + (queryInst+1) + "-" + experiments[i] + ".xml"));
@@ -156,7 +145,7 @@ public class BatchTestUML {
 			}
 	
 			// Write a new excel sheet 
-			ExcelWriterBatchUML excelWriterBatch = new ExcelWriterBatchUML();
+			ExcelWriterBatchWebml excelWriterBatch = new ExcelWriterBatchWebml();
 			try {
 				excelWriterBatch.write(sheetTitle, originalQueryString, (queryInst+1));
 			} catch (BiffException e) {
@@ -166,7 +155,7 @@ public class BatchTestUML {
 			}
 			
 			// Debug code
-			System.out.println("... OK: META-QUERY: [" + mqLabel + "] | QUERY INSTANCE [" + (queryInst+1) + "]: " + queryArray[queryInst]);
+			System.out.println("... OK: QUERY INSTANCE [" + (queryInst+1) + "]: " + queryArray[queryInst]);
 			
 		}
 	}
