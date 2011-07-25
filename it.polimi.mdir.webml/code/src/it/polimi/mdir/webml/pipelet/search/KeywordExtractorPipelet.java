@@ -52,30 +52,33 @@ public class KeywordExtractorPipelet implements Pipelet {
 		try {
 			//final InputStream xmiContentStream = blackboard.getAttachmentAsStream(recordIds[0], "xmiContent");
 			final String xmiContentStream = blackboard.getMetadata(recordIds[0]).getStringValue("xmiContent");
-			InputStream is = new ByteArrayInputStream(xmiContentStream.getBytes("UTF-8"));
-			SAXBuilder builder = new SAXBuilder();
-			Document doc = builder.build(is);
-			Iterator<Element> packedElements = doc.getDescendants(new ElementFilter("packagedElement"));
-			while (packedElements.hasNext()) {
-				Element nextElement = packedElements.next();
-				if (checkEligibility(nextElement)) {
-					keywordString += nextElement.getAttributeValue("name") + " ";
+			if (xmiContentStream != null) {
+				InputStream is = new ByteArrayInputStream(xmiContentStream.getBytes("UTF-8"));
+				SAXBuilder builder = new SAXBuilder();
+				Document doc = builder.build(is);
+				Iterator<Element> packedElements = doc.getDescendants(new ElementFilter("packagedElement"));
+				while (packedElements.hasNext()) {
+					Element nextElement = packedElements.next();
+					if (checkEligibility(nextElement)) {
+						keywordString += nextElement.getAttributeValue("name") + " ";
+					}
 				}
+				
+				blackboard.getRecord(recordIds[0]).getMetadata().put("keywords", keywordString.trim());
+				
+				System.out.println("keywordString = " + keywordString);
+				
+				//Append keywords to file
+				//Disabled by default
+				/*
+				File f = new File("C:/keywords.txt");
+				FileWriter fw = new FileWriter(f, true);
+				PrintWriter pw = new PrintWriter(fw);
+				pw.println(keywordString);
+				pw.close();
+				*/	
 			}
 			
-			blackboard.getRecord(recordIds[0]).getMetadata().put("keywords", keywordString.trim());
-			
-			System.out.println("keywordString = " + keywordString);
-			
-			//Append keywords to file
-			//Disabled by default
-			/*
-			File f = new File("C:/keywords.txt");
-			FileWriter fw = new FileWriter(f, true);
-			PrintWriter pw = new PrintWriter(fw);
-			pw.println(keywordString);
-			pw.close();
-			*/
 		} catch (Exception e) {
 			_log.write("Error in KeywordExtractorPipelet: " + e.toString());
 			e.printStackTrace();
