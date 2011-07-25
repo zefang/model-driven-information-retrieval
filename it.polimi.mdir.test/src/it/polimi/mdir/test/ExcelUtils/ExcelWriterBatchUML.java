@@ -18,6 +18,7 @@ import jxl.write.biff.RowsExceededException;
 import jxl.format.Colour;
 
 /**
+ * UML version
  * 
  * This class writes to
  * excel files the test results
@@ -107,7 +108,7 @@ public class ExcelWriterBatchUML {
 		resultList = xq.executeQuery();
 		
 		for (int i=0; i<resultList.size(); i++) {
-			String[] splittedResult = resultList.get(i).split("%");
+			String[] splittedResult = resultList.get(i).split("\\%");
 			projectIdStr = splittedResult[0];	
 			projectNameStr = splittedResult[1];
 			classIdStr = splittedResult[2];
