@@ -60,7 +60,6 @@ public class WebmlSearchServlet extends SMILASearchServlet {
 	    }
 	    QueryBuilder query = null;
 	    
-	    // TODO: get default pipeline name from configuration
 	    final HttpRequestParser parser = new HttpRequestParser(DEFAULT_PIPELINE);
 	    query = parser.parse(request);
 	    
@@ -83,7 +82,6 @@ public class WebmlSearchServlet extends SMILASearchServlet {
 	    }
 	    String stylesheet = query.getMetadata().getStringValue("style");
 	    if (StringUtils.isEmpty(stylesheet)) {
-	      // TODO: get default stylesheet name from configuration
 	      stylesheet = DEFAULT_STYLESHEET;
 	    }
 	    try {
@@ -96,12 +94,12 @@ public class WebmlSearchServlet extends SMILASearchServlet {
 	        result = transform(resultDoc, stylesheet);
 	      }
 	      
-	      if (query.getMetadata().get("query") == null) {
+	      String queryString = query.getMetadata().getStringValue("query"); 
+	      if (queryString == null) {
 	    	  response.getOutputStream().write(result);
 		      response.getOutputStream().flush();  
 	      } else {
-	    	  //TODO add GET 'queryString' parameter
-	    	  response.sendRedirect("http://localhost:8983/solr/admin/testPresentationWebml.jsp");
+	    	  response.sendRedirect("http://localhost:8983/solr/admin/testPresentationWebml.jsp?queryString="+queryString);
 	      }
 	      
 	    } catch (final XMLUtilsException e) {
