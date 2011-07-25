@@ -39,44 +39,46 @@ public class WebmlTestServletCallerPipelet implements Pipelet {
 		try {
 			String keywords = blackboard.getRecord(recordIds[0]).getMetadata().getStringValue("keywords");
 			
-			System.out.println("This is WebmlTestServletCallerPipelet");
-			
-			//TODO parametrize mm and qf
-			String q = keywords;
-			String mm = "0";
-			String qf = "content";
-			
-			
-			String parameters =  URLEncoder.encode("q", "UTF-8") +"="+ URLEncoder.encode(q, "UTF-8");
-			  parameters += "&"+ URLEncoder.encode("mm", "UTF-8") +"="+ URLEncoder.encode(mm, "UTF-8");
-			  parameters += "&"+ URLEncoder.encode("qf", "UTF-8") +"="+ URLEncoder.encode(qf, "UTF-8");
-			
-			String url = "http://localhost:8983/solr/testWebml?"+parameters;
-			
-			URL servletUrl = new URL(url);
-			HttpURLConnection.setFollowRedirects(true);
-			HttpURLConnection connection = (HttpURLConnection) servletUrl.openConnection();
-			connection.setRequestMethod("GET");
-			connection.setDoInput(true);
-		    connection.setDoOutput(true);
-			connection.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
-		    connection.setUseCaches(false);
-		    connection.setDefaultUseCaches(false);
-		    connection.setInstanceFollowRedirects(true);
-		    connection.setReadTimeout(10000);
-		    
-			OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-			out.write(parameters);
-			out.flush();
-			out.close();
-			
-			// Get the response
-		    BufferedReader rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-		    String line;
-		    while ((line = rd.readLine()) != null) {
-		        System.out.println(line);
-		    }
-		    rd.close();
+			if (keywords != null) {
+				System.out.println("This is WebmlTestServletCallerPipelet");
+				
+				//TODO parametrize mm and qf
+				String q = keywords;
+				String mm = "0";
+				String qf = "content";
+				
+				
+				String parameters =  URLEncoder.encode("q", "UTF-8") +"="+ URLEncoder.encode(q, "UTF-8");
+				  parameters += "&"+ URLEncoder.encode("mm", "UTF-8") +"="+ URLEncoder.encode(mm, "UTF-8");
+				  parameters += "&"+ URLEncoder.encode("qf", "UTF-8") +"="+ URLEncoder.encode(qf, "UTF-8");
+				
+				String url = "http://localhost:8983/solr/testWebml?"+parameters;
+				
+				URL servletUrl = new URL(url);
+				HttpURLConnection.setFollowRedirects(true);
+				HttpURLConnection connection = (HttpURLConnection) servletUrl.openConnection();
+				connection.setRequestMethod("GET");
+				connection.setDoInput(true);
+			    connection.setDoOutput(true);
+				connection.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
+			    connection.setUseCaches(false);
+			    connection.setDefaultUseCaches(false);
+			    connection.setInstanceFollowRedirects(true);
+			    connection.setReadTimeout(10000);
+			    
+				OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
+				out.write(parameters);
+				out.flush();
+				out.close();
+				
+				// Get the response
+			    BufferedReader rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			    String line;
+			    while ((line = rd.readLine()) != null) {
+			        System.out.println(line);
+			    }
+			    rd.close();	
+			}
 			
 		} catch (Exception e) {
 			_log.write("Error in WebmltestServletCallerPipelet:" + e.toString());

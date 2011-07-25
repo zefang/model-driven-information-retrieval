@@ -59,36 +59,37 @@ public class TranslateWebMLToXMIPipelet implements Pipelet {
 		      final int resultOffset = parameters.getOffset();
 		      final List<String> resultAttributes = parameters.getResultAttributes();
 	
-			File webmlQueryProject = new File(_queryPath, query); //TODO prendere nome query dal record
+		    if (query != null && !query.isEmpty()) {
+		    	File webmlQueryProject = new File(_queryPath, query);
+				
+				//webmlQueryProject MUST be a directory
+				if (!webmlQueryProject.isDirectory()) {
+					_log.write("Error in TranslateWebMLToXMIPipelet: "+
+								webmlQueryProject.getAbsolutePath() + " is not a directory");
+				} else {
+					DOMImplementation impl = DOMImplementationImpl.getDOMImplementation();
+					Document outputDocument = impl.createDocument(null, "webml", null);
+					Element webmlProject = outputDocument.createElement("webml:Project");
+					
+					webmlProject.setAttribute("xmlns:xmi", "http://schema.omg.org/spec/XMI/2.1");
+					webmlProject.setAttribute("xmlns:webml", "http://www.webml.org");
+					webmlProject.setAttribute("xmi:version", "2.1");
+					
+					TranslateWebMLToXMI translate = new TranslateWebMLToXMI(_queryPath, outputDocument);
+					translate.processProject(webmlQueryProject, webmlProject);
+					
+					//converting from w3c.dom to jdom
+					DOMBuilder builder = new DOMBuilder();
+					org.jdom.Element jdomRoot = builder.build(webmlProject);
+					org.jdom.Document jdomDoc = new org.jdom.Document((org.jdom.Element) jdomRoot.clone());
+					XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
+				    String xmiContent = outputter.outputString(jdomDoc);
+				    
+				    //blackboard.getRecord(recordIds[0]).setAttachment("xmiContent", xmiContent.getBytes());
+				    blackboard.getRecord(recordIds[0]).getMetadata().put("xmiContent", xmiContent);
+				}
+		    }
 			
-			
-			//webmlQueryProject MUST be a directory
-			if (!webmlQueryProject.isDirectory()) {
-				_log.write("Error in TranslateWebMLToXMIPipelet: "+
-							webmlQueryProject.getAbsolutePath() + " is not a directory");
-			} else {
-				DOMImplementation impl = DOMImplementationImpl.getDOMImplementation();
-				Document outputDocument = impl.createDocument(null, "webml", null);
-				Element webmlProject = outputDocument.createElement("webml:Project");
-				
-				webmlProject.setAttribute("xmlns:xmi", "http://schema.omg.org/spec/XMI/2.1");
-				webmlProject.setAttribute("xmlns:webml", "http://www.webml.org");
-				webmlProject.setAttribute("xmi:version", "2.1");
-				
-				TranslateWebMLToXMI translate = new TranslateWebMLToXMI(_queryPath, outputDocument);
-				translate.processProject(webmlQueryProject, webmlProject);
-				
-				//converting from w3c.dom to jdom
-				DOMBuilder builder = new DOMBuilder();
-				org.jdom.Element jdomRoot = builder.build(webmlProject);
-				org.jdom.Document jdomDoc = new org.jdom.Document((org.jdom.Element) jdomRoot.clone());
-				XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
-			    String xmiContent = outputter.outputString(jdomDoc);
-			    
-			    //blackboard.getRecord(recordIds[0]).setAttachment("xmiContent", xmiContent.getBytes());
-			    blackboard.getRecord(recordIds[0]).getMetadata().put("xmiContent", xmiContent);
-			}
-		
 		} catch (Exception e) {
 			_log.write("Error in TranslateWebMLToXMIPipelet: " + e.toString());
 			e.printStackTrace();
