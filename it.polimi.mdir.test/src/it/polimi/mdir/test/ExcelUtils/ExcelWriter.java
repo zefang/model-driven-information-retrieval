@@ -58,7 +58,7 @@ public class ExcelWriter {
 		in.close();
 
 		XQUERY_PATH = pathConfig.getProperty("X-QUERY");
-		XML_RESULTS_PATH = pathConfig.getProperty("XML-RESULTS");
+		XML_RESULTS_PATH = pathConfig.getProperty("XML_RESULTS");
 		
 	}
 	

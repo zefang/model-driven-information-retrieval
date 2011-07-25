@@ -23,12 +23,24 @@ import javax.xml.transform.stream.StreamSource;
 import jxl.read.biff.BiffException;
 import jxl.write.WriteException;
 
-public class BatchTest {
+/**
+ * UML Version.
+ * Calls the 4 UML experiments and writes their results.
+ * This is done for each query instance and for each experiment.
+ *
+ */
+public class BatchTestUML {
 	
 	private static final String[] experiments = {"A", "B", "C", "D"};
 	
 	private static String XML_RESULTS_PATH;
 	
+	
+	/**
+	 * @param args: only 1 parameter passed as input to main method
+	 * 				which is the meta-query label (e.g. "MQ1")
+	 * @throws IOException
+	 */
 	public static void main(String[] args) throws IOException {
 		String originalQueryString = "";
 		String query = "";
