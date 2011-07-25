@@ -74,7 +74,7 @@ public class WebmlSearchServlet extends SMILASearchServlet {
 //	            new ServletException(
 //	              "The SearchService is not available. Please wait a moment and try again."));
 	      } else {
-	        resultDoc = query.executeRequestXml(searchService);
+	    	  resultDoc = query.executeRequestXml(searchService);
 	      //  appendIndexList(resultDoc);
 	      }
 	    } catch (final ParserConfigurationException ex) {

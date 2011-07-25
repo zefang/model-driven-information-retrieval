@@ -221,23 +221,12 @@ public class SplitPipelet implements Pipelet {
 	 * The element to check
 	 */
 	private boolean checkEligibility(Element element) {
-		//check Areas
-		if (element.getAttributeValue("type", XMI_NAMESPACE).equals("webml:Area"))  {
+		//check SiteViews and Areas 
+		if (element.getAttributeValue("type", XMI_NAMESPACE).equals("webml:SiteView")
+		    || element.getAttributeValue("type", XMI_NAMESPACE).equals("webml:Area"))  {
+			
 			//check if they have just subareas (e.g. if their children are only Areas)
 			Iterator<Element> childrenItr = element.getChildren().iterator();
-			boolean justAreas = true;
-			while (childrenItr.hasNext()) {
-				if (!childrenItr.next().getAttributeValue("type", XMI_NAMESPACE).equals("webml:Area")) {
-					justAreas = false;
-				}
-			}
-			return !justAreas;
-		}
-		
-		//check Siteviews
-		if (element.getAttributeValue("type", XMI_NAMESPACE).equals("webml:SiteView")) {
-			//check if they have just subareas (e.g. if their children are only Areas)
-			Iterator<Element> childrenItr = element.getChildren().iterator(); //if there is an Area then it must at least be a children of the SiteView 
 			boolean justAreas = true;
 			while (childrenItr.hasNext()) {
 				if (!childrenItr.next().getAttributeValue("type", XMI_NAMESPACE).equals("webml:Area")) {
