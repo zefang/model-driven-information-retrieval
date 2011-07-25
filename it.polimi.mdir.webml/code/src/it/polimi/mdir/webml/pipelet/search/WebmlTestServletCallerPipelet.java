@@ -75,7 +75,7 @@ public class WebmlTestServletCallerPipelet implements Pipelet {
 			    BufferedReader rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			    String line;
 			    while ((line = rd.readLine()) != null) {
-			        System.out.println(line);
+			        //System.out.println(line);
 			    }
 			    rd.close();	
 			}
