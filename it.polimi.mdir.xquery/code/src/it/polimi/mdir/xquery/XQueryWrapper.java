@@ -1,7 +1,5 @@
 package it.polimi.mdir.xquery;
 
-
-
 import java.io.FileInputStream;
 import java.util.ArrayList;
 
@@ -13,7 +11,6 @@ import javax.xml.xquery.XQResultSequence;
 
 public class XQueryWrapper {
 	
-	
 	private static final String DRIVER = "org.basex.api.xqj.BXQDataSource";
 	
 	private XQDataSource _xqDatasource;
@@ -24,24 +21,25 @@ public class XQueryWrapper {
 	private FileInputStream _queryFile;
 	
 	
-	
+	/**
+	 * The main() method is used only to do tests.<br /><br />
+	 * 
+	 * How to use XQueryWrapper:<br />
+	 * Instantiate XQueryWrapper class ppassing as parameter
+	 * the path of the xquery that you want to run.<br />
+	 * If there are variables to bind, call the bindVariable() method. Which at
+	 * the moment can bind only variables of type String.<br />
+	 * At the end call executeQuery(), which will return an ArrayList of String types
+	 * containing the result of the xquery. 
+	 * 
+	 *  @param queryPath
+	 *  Path to the xquery that you want to run. 
+	 * 
+	 */
 	public XQueryWrapper(String queryPath) {
 		configure(queryPath);
 	}
 	
-	/**
-	 * @author Lorenzo Furrer
-	 * 
-	 * Funzionamento: ignora il metodo main(), serve solo per fare le prove.
-	 * 
-	 * Per utilizzarlo, istanziare una classe XQueryWrapper passando come 
-	 * parametro il path del file con la query.
-	 * Se ci sono variabili poi bisogna fare il bind chiamando il metodo bindVariable.
-	 * Al momento può bindare solo stringhe, dovrebbe essere sufficiente.
-	 * Alla fine usare executeQuery().
-	 * Non so ancora che tipo fare ritornare a executeQuery, si vedrà. 
-	 * 
-	 */
 	public static void main(String[] args) {
 		
 		try {
@@ -58,7 +56,7 @@ public class XQueryWrapper {
 			XQResultSequence result = expr.executeQuery();
 			
 			ArrayList<String> listResults = new ArrayList<String>();
-			String resultString = "";
+			//String resultString = "";
 			
 			while (result.next()) {
 				listResults.add(result.getObject().toString());
@@ -72,6 +70,11 @@ public class XQueryWrapper {
 
 	}
 	
+	/**
+	 * Initializes the various objects needed to perform the xquery.
+	 * @param queryPath
+	 * Path to the xquery that you want to run. 
+	 */
 	private void configure(String queryPath) {
 		try {
 			_xqDatasource = (XQDataSource) Class.forName(DRIVER).newInstance();
@@ -86,6 +89,12 @@ public class XQueryWrapper {
 		
 	}
 	
+	/**
+	 * Performs the selected xquery.
+	 * 
+	 * @return
+	 * An ArrayList containing the results of the xquery as Strings.
+	 */
 	public ArrayList<String> executeQuery() {
 		
 		ArrayList<String> resultList = new ArrayList<String>();
@@ -103,6 +112,15 @@ public class XQueryWrapper {
 		return resultList;
 	}
 	
+	/**
+	 * Binds the passed parameter to a variable of the xquery.
+	 * At the moment it accepts only String types.
+	 *  
+	 * @param variableName
+	 * The name of the variable of the xquery.
+	 * @param value
+	 * The value to assign to this variable.
+	 */
 	public void bindVariable(String variableName, String value) {
 		
 		try {

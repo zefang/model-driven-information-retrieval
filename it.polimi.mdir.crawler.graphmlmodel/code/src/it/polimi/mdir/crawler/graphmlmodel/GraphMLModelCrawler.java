@@ -47,7 +47,7 @@ import org.eclipse.smila.datamodel.DataFactoryCreator;
 import org.eclipse.smila.utils.file.EncodingHelper;
 
 /**
- * The Class ModelCrawler.
+ * The Class GraphMLModelCrawler.
  */
 public class GraphMLModelCrawler extends AbstractCrawler {
 
