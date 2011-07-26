@@ -2,14 +2,15 @@ package it.polimi.mdir.graph.processing;
 
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
+import java.util.Properties;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -33,32 +34,52 @@ import edu.uci.ics.jung.graph.Graph;
 
 import it.polimi.mdir.graph.processing.GraphUtils.RelationType;
 
+/**
+ * This class Translates an UML Graph in the XMI format (.uml) to 
+ * a file in GraphML format (.gml).<br />
+ * It also creates the graph with the JUNG API and serializes it (.ser files) 
+ * for future use.<br />
+ * It gets a parameter from the comand line that is the location of the 
+ * configuration.properties file containing 4 keys:
+ * <ul>
+ * 	<li>XQUERY_PATH: the path to the folder containing the xqueries.</li>
+ * 	<li>UML_PATH: the path of the folder where the .uml files are located</li>
+ * 	<li>GRAPHML_PATH:the path where  the .gml will be written in output.</li>
+ *  <li>SERIALIZATION_PATH: The path to where to put the serialized file (.ser)</li>
+ * </ul>
+ */
 public class TranslateXMItoGraphML {
 	
 	private static String XQUERY_PATH = "";
 	private static String UML_PATH = "";
 	private static String GRAPHML_PATH = "";
-	private static int	  nDocs;
-	private static File	  currentFile;
-	private static String currentDoc = "";
+	private static String SERIALIZATION_PATH = "";
 	
-	private static void initialization() throws IOException {
-		XQUERY_PATH = ConfigLoader.XQUERY_PATH;
-		UML_PATH = ConfigLoader.UML_PATH;
-		GRAPHML_PATH = ConfigLoader.GRAPHML_PATH;
+	private static void initialization(String configFilePath) throws IOException {
+		Properties config = new Properties();
+		FileInputStream in = new FileInputStream(configFilePath);
+		config.load(in);
+		XQUERY_PATH = config.getProperty("XQUERY_PATH");
+		UML_PATH = config.getProperty("UML_PATH");
+		GRAPHML_PATH = config.getProperty("GRAPHML_PATH");
+		SERIALIZATION_PATH = config.getProperty("SERIALIZATION_PATH");
+		in.close();
 	}
 	
 	public static void main(String[] args) throws IOException {
-		
-		initialization();
+		if (args.length < 1) {
+			System.out.println("Error: Missing parameter\n Correct usage: TranslateXMIToGraphML path-to-'configuration.properties'-file");
+			return;
+		}
+		initialization(args[0]);
 		
 		File f = new File(UML_PATH);
 		File[] files = f.listFiles(new UmlFileFilter());
-		nDocs = files.length;
+		int nDocs = files.length;
 		
         for (int docCount=0; docCount<nDocs; docCount++) {      	
-        	currentFile = files[docCount];
-        	currentDoc = currentFile.getName();
+        	File currentFile = files[docCount];
+        	String currentDoc = currentFile.getName();
         	
         	System.out.print(docCount + "-> Processing: " + currentDoc);
 			
@@ -124,63 +145,13 @@ public class TranslateXMItoGraphML {
 			}
 
 			//Get edges
-			getEdges("composition", graph, document);
-			getEdges("association", graph, document);
-			getEdges("generalization", graph, document);
+			getEdges(currentDoc, "composition", graph, document);
+			getEdges(currentDoc, "association", graph, document);
+			getEdges(currentDoc, "generalization", graph, document);
 			
-	        //Writes the file
-			try {
-				TransformerFactory transformerFactory = TransformerFactory.newInstance();
-				transformerFactory.setAttribute("indent-number", 2);
-				Transformer transformer = transformerFactory.newTransformer();
-				transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-				
-				StringWriter writer = new StringWriter();
-				StreamResult result = new StreamResult(writer);
-				DOMSource source = new DOMSource(graphml);
-				transformer.transform(source, result);
-				
-				String outputName = GRAPHML_PATH + removeExtension(currentDoc) + ".gml";
-				File resultFile = new File(outputName);
-				FileWriter outputWriter = new FileWriter(resultFile);
-				outputWriter.write(writer.toString());
-				outputWriter.close();
-				
-				System.out.println("...DONE!");
-			} catch (TransformerConfigurationException e) {
-				e.printStackTrace();
-			} catch (TransformerFactoryConfigurationError e) {
-				e.printStackTrace();
-			} catch (TransformerException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			writeGMLFile(currentDoc, graphml);
 			
-			Graph<Node, Edge> g = GraphFactory.createGraphFromGraphML(GRAPHML_PATH + removeExtension(currentDoc)+".gml");
-			//TODO
-			//DEBUG CODE --> TO DELETE
-			/*
-			Collection<Edge> edges = g.getEdges();
-			Iterator<Edge> it = edges.iterator();
-			while(it.hasNext()) {
-				Edge edge = it.next();		
-				if(edge.getRelationType().contains("ASSOCIATION") || edge.getRelationType().contains("COMPOSITION")) {
-					System.out.println("EDGE ID: " + edge.getId() + " LOWER VALUE: " + edge.getLowerValue() + " UPPER VALUE: " + edge.getUpperValue());
-				}
-			}
-			*/
-			
-			//Serialize GraphML file
-			try {
-				FileOutputStream fileOut = new FileOutputStream(ConfigLoader.SERIALIZATION_PATH + removeExtension(currentDoc)+".ser");
-				ObjectOutputStream out = new ObjectOutputStream(fileOut);
-				out.writeObject(g);
-				out.close();
-					fileOut.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			serializeGraph(currentDoc);
 				
         }
         
@@ -188,17 +159,22 @@ public class TranslateXMItoGraphML {
 	
 	
 	/**
-	 * 	Compositions are returned in the format relationId$sourceId$targetId$upperValue-lowerValue
-	 * 		if there is NO lowerValue (e.g. "1-" and NOT "1-1") then loweValue = 0
-	 *  Associations are returned in the format relationId$sourceId$targetId.
-	 *  Generalizations are returned in the format relationId$child$father.
+	 * 	Compositions are returned in the format relationId$sourceId$targetId$upperValue-lowerValue<br />
+	 * 	if there is NO lowerValue (e.g. "1-" and NOT "1-1") then lowerValue = 0 <br />
+	 *  Associations are returned in the format relationId$sourceId$targetId.<br />
+	 *  Generalizations are returned in the format relationId$child$father.<br />
 	 *  
+	 * @param currentDoc
+	 * the name of the current .uml file. 
 	 * @param relation
-	 * can be either "composition", "association" or "generalization"
+	 * The type of relationship to retrieve.<br />
+	 * It can be either "composition", "association" or "generalization"
 	 * @param graph
+	 * An Element to which to append the edges.
 	 * @param document
+	 * An instance of Document to create the Elements
 	 */
-	private static void getEdges(String relation, Element graph, Document document) {
+	private static void getEdges(String currentDoc, String relation, Element graph, Document document) {
 		String xquery ="";
 		String relationType = "";
 		String oppositeRelationType = "";
@@ -313,6 +289,70 @@ public class TranslateXMItoGraphML {
 		}
 	}
 	
+	/**
+	 * Writes the correctly indentated .gml file on disk
+	 * @param currentDoc
+	 * the name of the current .uml file.
+	 * @param root
+	 * The root Element of the document
+	 */
+	private static void writeGMLFile(String currentDoc, Element root) {
+		try {
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			transformerFactory.setAttribute("indent-number", 2);
+			Transformer transformer = transformerFactory.newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			
+			StringWriter writer = new StringWriter();
+			StreamResult result = new StreamResult(writer);
+			DOMSource source = new DOMSource(root);
+			transformer.transform(source, result);
+			
+			String outputName = GRAPHML_PATH + removeExtension(currentDoc) + ".gml";
+			File resultFile = new File(outputName);
+			FileWriter outputWriter = new FileWriter(resultFile);
+			outputWriter.write(writer.toString());
+			outputWriter.close();
+			
+			System.out.println("...DONE!");
+		} catch (TransformerConfigurationException e) {
+			e.printStackTrace();
+		} catch (TransformerFactoryConfigurationError e) {
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * First it creates a graph in memory with the JUNG libraries.<br /> 
+	 * Then it serializes it.
+	 * @param currentDoc
+	 * the name of the current .uml file.
+	 */
+	private static void serializeGraph(String currentDoc) {
+		Graph<Node, Edge> g = GraphFactory.createGraphFromGraphML(GRAPHML_PATH + removeExtension(currentDoc)+".gml");
+		
+		try {
+			FileOutputStream fileOut = new FileOutputStream(SERIALIZATION_PATH + removeExtension(currentDoc)+".ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(g);
+			out.close();
+			fileOut.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * This method removes 3 letter extensions (including the dot) from a string.
+	 * @param fileName
+	 * The string to which the extension will be removed
+	 * @return
+	 * The string without its extension.
+	 */
 	private static String removeExtension(String fileName) {
 		return fileName.substring(0,fileName.length()-4);
 	}
