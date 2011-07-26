@@ -18,9 +18,7 @@ public class ConfigLoader {
 	static {
 		try {
 			config = new Properties();
-			//config.load(ConfigLoader.class.getClassLoader().getResourceAsStream("configuration.properties"));
-			FileInputStream in = new FileInputStream("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/configuration.properties");
-			config.load(in);
+			config.load(ConfigLoader.class.getClassLoader().getResourceAsStream("configuration.properties"));
 			
 			XQUERY_PATH = config.getProperty("XQUERY_PATH");
 			UML_PATH = config.getProperty("UML_PATH");
