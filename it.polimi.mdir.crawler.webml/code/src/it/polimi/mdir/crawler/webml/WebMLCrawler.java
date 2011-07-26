@@ -442,14 +442,7 @@ public class WebMLCrawler extends AbstractCrawler {
       case XMI_CONTENT:
     	String xmiContent = "";
     	try {
-			BufferedReader in = new BufferedReader(new FileReader(file));
-			String line;
-			while ((line = in.readLine()) != null)   {
-				xmiContent += line+"\n";
-			}
-			in.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+    		xmiContent = FileUtils.readFileToString(file);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

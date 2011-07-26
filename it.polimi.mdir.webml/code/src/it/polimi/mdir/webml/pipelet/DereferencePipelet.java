@@ -30,8 +30,6 @@ import org.jdom.output.XMLOutputter;
  */
 public class DereferencePipelet implements Pipelet {
 
-	private HashMap<String, String> map = new HashMap<String, String>();
-	private HashMap<String, String> map2 = new HashMap<String, String>();
 	private final static Namespace XMI_NAMESPACE = Namespace.getNamespace("xmi", "http://schema.omg.org/spec/XMI/2.1");
 	private final static String PACKAGED_ELEMENT = "packagedElement";
 	
@@ -62,6 +60,7 @@ public class DereferencePipelet implements Pipelet {
 				Document doc = builder.build(xmiContentStream);
 				
 				//Get all the Entities and the Attributes and put them in the HashMap
+				HashMap<String, String> entitiesMap = new HashMap<String, String>();
 				Element root = doc.getRootElement();
 				List<Element> rootChildren = root.getChildren();
 				Element dataModelElement = rootChildren.get(0); 
@@ -70,19 +69,20 @@ public class DereferencePipelet implements Pipelet {
 					Element element = packagedElements.next();
 					if (element.getAttributeValue("type", XMI_NAMESPACE).equals("webml:Entity") ||
 							element.getAttributeValue("type", XMI_NAMESPACE).equals("webml:Attribute")) {
-						map.put(element.getAttributeValue("id", XMI_NAMESPACE), element.getAttributeValue("name"));
+						entitiesMap.put(element.getAttributeValue("id", XMI_NAMESPACE), element.getAttributeValue("name"));
 					}
 				}
-				System.out.println("Dereference -> map.size(): " + map.size());
+				System.out.println("Dereference -> entitiesMap.size(): " + entitiesMap.size());
 				
-				//get all the other stuff and put them in the other map
 				Element webModelElement = rootChildren.get(1);
 				
 				/*
+				//get all the other Elements and put them in the other map (Because they can be pointed to by Links)
+				HashMap<String, String> linksMap = new HashMap<String, String>();
 				Iterator<Element> webModelElements = webModelElement.getDescendants(new ElementFilter(PACKAGED_ELEMENT));
 				while (webModelElements.hasNext()) {
 					Element element = webModelElements.next();
-					map2.put(element.getAttributeValue("id", XMI_NAMESPACE), element.getAttributeValue("name"));
+					linksMap.put(element.getAttributeValue("id", XMI_NAMESPACE), element.getAttributeValue("name"));
 				}
 				*/
 				
@@ -95,14 +95,14 @@ public class DereferencePipelet implements Pipelet {
 							element.getAttributeValue("entity") != null) {
 
 						//Substitute entities
-						element.setAttribute("entity", map.get(element.getAttributeValue("entity")));
+						element.setAttribute("entity", entitiesMap.get(element.getAttributeValue("entity")));
 
 						//Substitute display attributes
 						String displayAttributes = element.getAttributeValue("displayAttributes") ;
 						String[] displayAttr = displayAttributes.split("\\s");
 						displayAttributes = "";
 						for (int i = 0; i < displayAttr.length; i++) {
-							displayAttr[i] = map.get(displayAttr[i]);
+							displayAttr[i] = entitiesMap.get(displayAttr[i]);
 							displayAttributes += displayAttr[i] + " ";
 						}
 						element.setAttribute("displayAttributes", displayAttributes.trim());		
@@ -114,7 +114,7 @@ public class DereferencePipelet implements Pipelet {
 						//substitute "to" in Links
 						if (element.getAttributeValue("type",XMI_NAMESPACE).contains("Link")) {
 							System.out.println(element.getAttributeValue("to"));
-							element.setAttribute("to", map2.get(element.getAttributeValue("to")));
+							element.setAttribute("to", linksMap.get(element.getAttributeValue("to")));
 						}
 					}
 					*/
