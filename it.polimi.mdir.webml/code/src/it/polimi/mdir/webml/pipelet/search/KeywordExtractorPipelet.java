@@ -64,7 +64,8 @@ public class KeywordExtractorPipelet implements Pipelet {
 					}
 				}
 				
-				blackboard.getRecord(recordIds[0]).getMetadata().put("keywords", keywordString.trim());
+				keywordString = keywordString.trim();
+				blackboard.getRecord(recordIds[0]).getMetadata().put("keywords", keywordString);
 				
 				System.out.println("keywordString = " + keywordString);
 				

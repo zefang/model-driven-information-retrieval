@@ -1,9 +1,12 @@
 package it.polimi.mdir.webml;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Properties;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -26,14 +29,28 @@ public class TranslateWebMLToXMIWrapper {
 	private static int numProjects = 0;
 	private static Document outputDocument = null;
 	
-	private static void initialization(){
-		WEBML_PATH = ConfigLoader.WEBML_PATH;
-		OUTPUT_PATH = ConfigLoader.OUTPUT_PATH;
+	private static void initialization(String configFilePath){
+		Properties config = new Properties();
+		FileInputStream in;
+		try {
+			in = new FileInputStream(configFilePath);
+			config.load(in);
+			WEBML_PATH = config.getProperty("WEBML_PATH");
+			OUTPUT_PATH = config.getProperty("OUTPUT_PATH");
+			in.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void main(String[] args) {
-		
-		initialization();
+		if (args.length < 1) {
+			System.out.println("Error: Missing parameter\n Correct usage: TranslateWebMLToXMIWrapper path-to-'configuration.properties'-file");
+			return;
+		}
+		initialization(args[0]);
 		
 		File webmlPath = new File(WEBML_PATH);
 		File[] projects = webmlPath.listFiles();

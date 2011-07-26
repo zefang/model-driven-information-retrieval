@@ -14,9 +14,7 @@ public class ConfigLoader {
 	static {
 		try {
 			config = new Properties();
-			//config.load(ConfigLoader.class.getClassLoader().getResourceAsStream("configuration.properties"));
-			FileInputStream in = new FileInputStream("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.webml/configuration.properties");
-			config.load(in);
+			config.load(ConfigLoader.class.getClassLoader().getResourceAsStream("configuration.properties"));
 			
 			WEBML_PATH = config.getProperty("WEBML_PATH");
 			OUTPUT_PATH = config.getProperty("OUTPUT_PATH");
