@@ -1,0 +1,99 @@
+function [DCGMean iDCGMean nDCGMean] = testMain(abs_path, mq_label, mqinst_num, dataset)
+% 1) input: abs_path of output.xls (abs path still not used!)
+% 2) input: MQ label (e.g. MQ1)
+% 3) input: number of MQ instances
+% 4) input: dataset (uml/webml)
+%
+% computes DCG and iDCG for all the instances of the given MQ
+% then it averages by instance for each experiment
+% output:
+% 1) DCGMean (a cell array with 4 cells: the DCG mean for this meta query)
+% 2) iDCGMean (one array with the iDCG for this meta query)
+% 3) nDCGMean
+
+% TODO: usa ABSPATH!!!!
+
+% contains DCG functions for all meta query instance
+% each cell contains 4 arrays containing the DCG for the 4 experiments
+DCGOutput = cell(1,mqinst_num);
+
+% contains iDCG functions for all meta query instance
+% each cell contains 1 array containing the iDCG for the meta query
+% instance
+iDCGOutput = cell(1,mqinst_num);
+
+fprintf('------- DCG/iDCG -------- \n \n \n');
+
+% for all instances
+for i=1:mqinst_num
+    
+    if strcmp(dataset,'uml')
+        % construct MQISNT label (e.g. MQ1-INST1)
+        mqinst_label = strcat(mq_label, '-INST', num2str(i));
+    elseif strcmp(dataset,'webml')
+            
+    else
+    end
+    
+    fprintf('NOW starting %s \n', mqinst_label);
+    
+    % reads the proper spreadsheet for the system (basic mode)
+    % [num,txt_system,raw] = xlsread('output.xls',mqinst_label,'','basic');
+   
+    % reads the proper spreadsheet for the system
+    [num,txt_system,raw] = xlsread('output.xls',mqinst_label);
+    
+    % load spreadsheet for the groundtruth (basic mode)
+    % [num,txt_groundtruth,raw] = xlsread('groundtruth.xls',mqinst_label,'','basic');
+
+    % load spreadsheet for the groundtruth
+    [num,txt_groundtruth,raw] = xlsread('groundtruth.xls',mqinst_label);
+    
+    DCG_i = DCG(txt_system, txt_groundtruth);
+    iDCG_i = iDCG(txt_groundtruth);
+    
+    iDCGOutput{1,i} = iDCG_i;
+    DCGOutput{1,i} = DCG_i;
+end
+
+% compute nDCG
+nDCGOutput = nDCG(DCGOutput, iDCGOutput);
+nDCGMean = cell(1,4);
+% average nDCG for all meta query instances
+for j=1:4
+    nDCGMean{1,j} = cellfun(@mean, nDCGOutput(:,j));
+end
+
+% average DCG for all meta query instances
+DCGsum = cell(1,4);
+
+%TODO: find a smart way to do this mean with cell arrays
+
+%sum
+%for all experiment
+for j=1:4
+    DCGsum_j = zeros(10,1);
+    %for all instance
+    for i=1:mqinst_num
+       DCG_ij = DCGOutput{i}{j};
+       DCGsum_j = DCGsum_j + DCG_ij;
+    end
+    DCGsum{1,j} = DCGsum_j;
+end
+
+%divide
+for j=1:4
+   DCGMean{1,j} = DCGsum{1,j}/10;  
+end
+
+%sum
+iDCGsum = zeros(10,1);
+for i=1:mqinst_num
+    iDCGsum = iDCGsum + iDCGOutput{i};
+end
+
+%divide
+iDCGMean = iDCGsum/10;
+
+%plot it all!
+plotDCG(DCGMean, iDCGMean, nDCGMean, mq_label);
