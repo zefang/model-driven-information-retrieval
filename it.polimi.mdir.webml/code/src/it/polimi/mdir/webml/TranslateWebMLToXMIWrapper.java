@@ -22,6 +22,15 @@ import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+/**
+ * A utility class to call the TranslateWebMLToXMI class offline.<br/>
+ * It gets one parameter from command line that specifies 
+ * the path to the configuration.properties file which contains two paths.<br/>
+ * <ul>
+ * 	<li>WEBML_PATH: which specifies the parent folder of the webml projects to translate</li>
+ *  <li>OUTPUT_PATH: the location in which to save the .xmi files in output</li>
+ * </ul>  
+ */
 public class TranslateWebMLToXMIWrapper {
 
 	private static String WEBML_PATH = "";

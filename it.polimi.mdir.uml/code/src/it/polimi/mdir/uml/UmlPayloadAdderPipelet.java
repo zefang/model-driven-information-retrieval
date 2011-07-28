@@ -5,7 +5,6 @@
 package it.polimi.mdir.uml;
 
 import org.eclipse.smila.blackboard.Blackboard;
-import org.eclipse.smila.blackboard.BlackboardAccessException;
 import org.eclipse.smila.datamodel.AnyMap;
 import org.eclipse.smila.datamodel.Record;
 import org.eclipse.smila.processing.Pipelet;
@@ -69,7 +68,7 @@ public class UmlPayloadAdderPipelet implements Pipelet {
 						attributeName = attributeAndConceptTypeArray[0];
 						conceptType = attributeAndConceptTypeArray[1];
 						
-						//TODO: factorize it better! Switch case?
+						//TODO: factorize it better!
 						//Simple attribute
 						if (conceptType.contains("attribute")) {
 							attributeNamesString += attributeName.concat("|" + WeightRules.weightMap.get("attribute") + " ");	

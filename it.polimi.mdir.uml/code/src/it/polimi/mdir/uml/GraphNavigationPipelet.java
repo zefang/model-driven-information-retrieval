@@ -11,7 +11,6 @@ import java.util.Iterator;
 import it.polimi.mdir.graph.Edge;
 import it.polimi.mdir.graph.Node;
 import it.polimi.mdir.graph.processing.ConfigLoader;
-import it.polimi.mdir.graph.processing.GraphFactory;
 import it.polimi.mdir.graph.processing.ImportAttributes;
 import it.polimi.mdir.graph.processing.NavigateGraph;
 import it.polimi.mdir.graph.processing.WeightRules;
@@ -19,8 +18,6 @@ import it.polimi.mdir.logger.Log;
 import it.polimi.mdir.logger.LogFactory;
 
 import org.eclipse.smila.blackboard.Blackboard;
-import org.eclipse.smila.blackboard.BlackboardAccessException;
-import org.eclipse.smila.datamodel.Any;
 import org.eclipse.smila.datamodel.AnyMap;
 import org.eclipse.smila.datamodel.Record;
 import org.eclipse.smila.processing.Pipelet;
@@ -28,6 +25,10 @@ import org.eclipse.smila.processing.ProcessingException;
 
 import edu.uci.ics.jung.graph.Graph;
 
+/**
+ * this pipelet will navigate the graph to import the attributes 
+ * during the experiment D.
+ */
 public class GraphNavigationPipelet implements Pipelet {
 
 	private static final String MAX_HOPS = "maxHops";
@@ -68,11 +69,9 @@ public class GraphNavigationPipelet implements Pipelet {
 				}
 				rec.getMetadata().put("projectName", projectName.trim());
 				
-				
 				System.out.println("Start D " +  ++count + " -> " + className);
 				
-				//Graph<Node, Edge> g = GraphCollection.graphMap.get(fileName + ".gml");
-				//g.clone() would be ideal, but there isn't so...
+				//g.clone() would be ideal, but there isn't so use deserialization instead.
 				Graph<Node, Edge> g = null;
 				try {
 					FileInputStream fileIn = new FileInputStream(ConfigLoader.SERIALIZATION_PATH +projectName.split("\\|")[0] + ".ser");

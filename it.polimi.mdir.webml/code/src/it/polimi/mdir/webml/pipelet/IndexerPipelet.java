@@ -34,9 +34,9 @@ import org.w3c.dom.DOMImplementation;
 
 /**
  * This pipelet gets all the indexable content in the xmiContent of the Area record
- * and sends it to Solr for indexing.
+ * and sends it to Solr for indexing.<br/>
  * As of now only the "name" attribute of Areas, SiteViews, Pages and Units is used.
- * "name" and "to" attributes of Links is discarded too.
+ * "name" and "to" attributes of Links is discarded too.<br/>
  * "entity" and "displayAttributes" attributes are discarded too.
  */
 public class IndexerPipelet implements Pipelet {
@@ -66,7 +66,7 @@ public class IndexerPipelet implements Pipelet {
 	  _fieldType = _configuration.getStringValue("fieldType");  
   }
   
-  @Override
+@Override
   public String[] process(final Blackboard blackboard, final String[] recordIds) throws ProcessingException {
 	
 	  System.out.println("Start Indexing: " + ++count);
@@ -97,7 +97,7 @@ public class IndexerPipelet implements Pipelet {
 						if (splittedValue.length > 1) {
 							toIndex += splittedValue[1] + " ";
 						} else {
-							toIndex += value + " "; //TODO maybe we couldn't do this? in this case value would be "" right?
+							toIndex += value + " "; //TODO maybe we shouldn't do this? in this case value would be "" right?
 						}
 						
 						//discard "entity" and "displayAttributes" attributes
