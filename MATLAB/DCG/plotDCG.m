@@ -24,7 +24,7 @@ if strcmp(dataset,'uml')
     xlabel('rank position x');
     ylabel('DCG/iDCG at rank position x')
 
-    filename = 'UML-DCG';
+	filename = strcat('UML-',mq_label,'_DCG');
     print(DCG, '-dpng', filename);
     
     % nDCG at rank position x (from 1 to 10)
@@ -41,7 +41,7 @@ if strcmp(dataset,'uml')
     xlabel('rank position x');
     ylabel('nDCG at rank position x')
     
-    filename = 'UML-nDCG';
+    filename = strcat('UML-',mq_label,'_nDCG');
     print(nDCG, '-dpng', filename);
 
 % WebML dataset plotting code
@@ -62,7 +62,7 @@ else
 
     xlabel('rank position x');
     ylabel('DCG/iDCG at rank position x')
-
+    
     filename = 'WebML-DCG';
     print(DCG, '-dpng', filename);
     
