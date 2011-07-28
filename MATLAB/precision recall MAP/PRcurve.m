@@ -3,7 +3,7 @@ function [PRcurve, intPRcurve] = PRcurve(relevant_set, system_result)
 % 
 % INPUT:
 % relevant_set: cell array Nx1 where N is the number of relevant docs 
-% into the dataset There is only one column, which means that if the 
+% into the dataset. There is only one column, which means that if the 
 % document is present into the cell array, THEN it is relevant
 %
 % system_result: cell array Mx1 of doc_id where M is the number of doc

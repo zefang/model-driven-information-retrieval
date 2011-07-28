@@ -26,10 +26,14 @@ allIntPRCurves = cell(mqinst_num,1);
 % this is a experiments_numberX1 cell array because it contains
 % 10 results set (10 instances) for each experiment
 resultSetCellsForAllInstances = cell(configuration.experiments_number,1);
-resultSetCellsForAllInstances{1} = cell(mqinst_num,1);
-resultSetCellsForAllInstances{2} = cell(mqinst_num,1);
-resultSetCellsForAllInstances{3} = cell(mqinst_num,1);
-resultSetCellsForAllInstances{4} = cell(mqinst_num,1);
+for j=1:configuration.experiments_number
+    resultSetCellsForAllInstances{j} = cell(mqinst_num,1);
+end
+
+% resultSetCellsForAllInstances{1} = cell(mqinst_num,1);
+% resultSetCellsForAllInstances{2} = cell(mqinst_num,1);
+% resultSetCellsForAllInstances{3} = cell(mqinst_num,1);
+% resultSetCellsForAllInstances{4} = cell(mqinst_num,1);
 groundtruthForAllInstances = cell(mqinst_num,1);
 
 % for all instances
@@ -57,9 +61,18 @@ for i=1:mqinst_num
     resultSetCells(1,1:configuration.experiments_number)= makeCellSystem(txt_system, configuration, dataset);
     % contains groundtruth
     resultSetCells{1,configuration.experiments_number+1} = makeCellGroundtruth(txt_groundtruth, configuration, dataset);
+
+    % filtering groundtruth for webml (pruning the zeros)
+    if strcmp(dataset,'webml')
+        resultSetCells{1,configuration.experiments_number+1} = filterWebmlGroundtruth(resultSetCells{1,configuration.experiments_number+1});
+    end
     
     % this is needed for MAP later
     groundtruthForAllInstances{i} = makeCellGroundtruth(txt_groundtruth, configuration, dataset);
+    % filtering groundtruth for webml (pruning the zeros)
+    if strcmp(dataset,'webml')
+        groundtruthForAllInstances{i} = filterWebmlGroundtruth(groundtruthForAllInstances{i});
+    end
     groundtruthForAllInstances{i} = groundtruthForAllInstances{i}(:,1);
     
     fprintf('STARTED to compute (interpolated) PR curve for %s ...\n', mqinst_label);    
@@ -178,6 +191,7 @@ end
 x = 1:1:10;
 
 figure
+
 if strcmp(dataset,'uml')
     plot(x,PRCurveMean{1}(1,:),x,PRCurveMean{2}(1,:),x,PRCurveMean{3}(1,:),x,PRCurveMean{4}(1,:));
     hleg = legend('Experiment A', 'Experiment B', 'Experiment C', 'Experiment D', 'Location', 'NorthEastOutside');
