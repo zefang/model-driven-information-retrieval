@@ -14,14 +14,12 @@ import it.polimi.mdir.xquery.XQueryWrapper;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.IOException;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -145,12 +143,6 @@ public class GraphMLModelCrawler extends AbstractCrawler {
    * The _counter helper.
    */
   private CrawlerPerformanceCounterHelper<GraphMLModelCrawlerPerformanceAgent> _performanceCounters;
-
-  
-  /**
-   * The path for xquery files.
-   */
-  private static String XQUERY_PATH;
   
   private static int crawlerCount = 0;
   
@@ -161,7 +153,7 @@ public class GraphMLModelCrawler extends AbstractCrawler {
    */
   public GraphMLModelCrawler() {
     super();
-    _log.write("[DEBUG] Creating ModelCrawler instance");
+    _log.write("[DEBUG] Creating GraphMLModelCrawler instance");
   }
 
   /**
@@ -172,7 +164,7 @@ public class GraphMLModelCrawler extends AbstractCrawler {
    */
   @Override
   public void initialize(final DataSourceConnectionConfig config) throws CrawlerException, CrawlerCriticalException {
-    _log.write("[INFO] Initializing ModelCrawler...");
+    _log.write("[INFO] Initializing GraphMLModelCrawler...");
     synchronized (_openedMonitor) {
       if (_opened) {
         throw new CrawlerCriticalException(
@@ -199,17 +191,6 @@ public class GraphMLModelCrawler extends AbstractCrawler {
       }
     }
     _attachmentNames = attachmentsNames.toArray(new String[attachmentsNames.size()]);
-      
-    // Initialize config file for xquery files location
-    Properties xqueryConfig = new Properties();
-    try {
-		xqueryConfig.load(this.getClass().getClassLoader().getResourceAsStream("xqueryConfig.properties"));
-	} catch (IOException e) {
-		e.printStackTrace();
-	}
-	
-	XQUERY_PATH = xqueryConfig.getProperty("DIR");
-    
     
     _crawlThread = new CrawlingProducerThread(this, config);
     _crawlThread.start();
@@ -376,7 +357,7 @@ public class GraphMLModelCrawler extends AbstractCrawler {
   public void close() throws CrawlerException {
     synchronized (_openedMonitor) {
       _opened = false;
-      _log.write("[INFO] Closing ModelCrawler...");
+      _log.write("[INFO] Closing GraphMLModelCrawler...");
       _forceClosing = true;
       _isProducerRunning = false;
       _crawlThread = null;
@@ -431,7 +412,7 @@ public class GraphMLModelCrawler extends AbstractCrawler {
       case PATH:
         return file.getAbsolutePath();
       case PROJECT_ID:
-    	xq = new XQueryWrapper(XQUERY_PATH.concat("/getProjectId.xquery"));
+    	xq = new XQueryWrapper("../xquery/GraphMLModelCrawler/getProjectId.xquery");
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         String id = resultList.get(0);
@@ -442,13 +423,13 @@ public class GraphMLModelCrawler extends AbstractCrawler {
     	  String projectName = file.getName();
     	  return projectName.substring(0, projectName.length()-4);
       case CLASS_NAMES:
-        xq = new XQueryWrapper(XQUERY_PATH.concat("/getClassNames.xquery"));
+    	  xq = new XQueryWrapper("../xquery/GraphMLModelCrawler/getClassNames.xquery");
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         resultListString = arrayListToString(resultList);
         return resultListString; 
       case CLASS_IDS:
-      	xq = new XQueryWrapper(XQUERY_PATH.concat("/getClassIds.xquery"));
+    	  xq = new XQueryWrapper("../xquery/GraphMLModelCrawler/getClassIds.xquery");
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         resultListString = arrayListToString(resultList);
@@ -467,12 +448,12 @@ public class GraphMLModelCrawler extends AbstractCrawler {
     	 * 'classIdVALUE'$'attributeNameVALUE'+'conceptType:relTypeVALUE'+'lowerValue'-'upperValue'
     	 */
       case ATTRIBUTE_NAMES:
-        xq = new XQueryWrapper(XQUERY_PATH.concat("/getNodeAttributes.xquery"));
+    	  xq = new XQueryWrapper("../xquery/GraphMLModelCrawler/getNodeAttributes.xquery");
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         resultListString = arrayListToString(resultList);
         
-        xq = new XQueryWrapper(XQUERY_PATH.concat("/getEdgeAttributes.xquery"));
+        xq = new XQueryWrapper("../xquery/GraphMLModelCrawler/getEdgeAttributes.xquery");
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         if (!resultList.isEmpty()) {
