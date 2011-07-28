@@ -18,10 +18,22 @@ import it.polimi.mdir.logger.LogFactory;
 import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
 import edu.uci.ics.jung.graph.Graph;
 
+/**
+ * Provides methods for creating graphs.
+ */
 public class GraphFactory {
 	
 	private static final Log _log = LogFactory.getLog();
 	
+	/**
+	 * This method creates a graph in memory using the JUNG libraries
+	 * starting from a .gml in the GrapphML format.
+	 * 
+	 * @param fileName
+	 * The path of the file to convert.
+	 * @return
+	 * The edu.uci.ics.jung.graph.Graph<Node, Edge> instance. 
+	 */
 	public static Graph<Node, Edge> createGraphFromGraphML(String fileName) {
 		
 		HashMap<String, Node> nodeMap = new HashMap<String, Node>();

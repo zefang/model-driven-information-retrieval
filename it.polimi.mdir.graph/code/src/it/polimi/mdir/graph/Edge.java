@@ -2,6 +2,9 @@ package it.polimi.mdir.graph;
 
 import java.io.Serializable;
 
+/**
+ * This class represents an edge of a graph in the UML scenario.
+ */
 public class Edge implements Serializable {
 	
 	private static final long serialVersionUID = -862792027650369073L;
@@ -15,6 +18,10 @@ public class Edge implements Serializable {
 	private String sourceId;
 	private String targetId;
 	
+	/**
+	 * Used during graph navigation to tell apart the edges which have been 
+	 * already followed once. 
+	 */
 	private boolean hasBeenFollowed = false;
 	
 	public void setId(String id) {
@@ -38,6 +45,9 @@ public class Edge implements Serializable {
 		return associatedAttribute;
 	}
 	
+	/**
+	 * Returns this edge's relationType.
+	 */
 	public String toString() {
 		return this.relationType;
 	}

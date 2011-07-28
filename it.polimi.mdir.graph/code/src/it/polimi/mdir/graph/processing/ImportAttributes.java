@@ -12,8 +12,6 @@ import it.polimi.mdir.graph.processing.GraphUtils.RelationType;
 
 
 public class ImportAttributes extends OperationFunction {
-
-	private static final String NO_RELATION_TYPE = "none";
 	
 	private ArrayList<ImportCandidate> importedAttributes = new ArrayList<ImportCandidate>();
 	private ArrayList<ImportCandidate> importedClassNames = new ArrayList<ImportCandidate>();
@@ -23,8 +21,17 @@ public class ImportAttributes extends OperationFunction {
 	
 	private float penalty = 1.0f;
 	
+	/**
+	 * this method overrides the generic executeBusiessLogic method of operationFunction.<br />
+	 * In this case our business logic is importing the attributes of the neighbours of a Node
+	 * into the node itself.
+	 */
 	@Override
-	public void importAttributes(Node currentNode, Node callerNode, Edge followedEdge, int numHops, Graph<Node, Edge> g) {
+	public void executeBusinessLogic (Node currentNode, Node callerNode, Edge followedEdge, int numHops, Graph<Node, Edge> g) {
+		importAttributes(currentNode, callerNode, followedEdge, numHops, g);
+	}
+	
+	private void importAttributes(Node currentNode, Node callerNode, Edge followedEdge, int numHops, Graph<Node, Edge> g) {
 		
 		//Debug lines
 		if (false) {
@@ -41,7 +48,6 @@ public class ImportAttributes extends OperationFunction {
 		importCandidateClassName = null;
 		
 		//Assign penalty
-		//TODO: I know. It's really hard to read.
 		if (followedEdge != null) {
 			String relationType = followedEdge.getRelationType();
 			if (!(relationType.equals(RelationType.GENERALIZATION_CHILD_FATHER.toString())) && !(relationType.equals(RelationType.GENERALIZATION_FATHER_CHILD.toString()))) {
@@ -72,7 +78,7 @@ public class ImportAttributes extends OperationFunction {
 		
 		// penalty of this callerNode->currentNode relation has already been applied
 		// to attributes (vanilla and imported) of this node.
-		// Apply this penalty also to the attributes coming from nodes under this branch.
+		// Now, apply this penalty also to the attributes coming from nodes under this branch.
 		// They are already in the imported attributes. 
 		// To distinguish these nodes, we look at their callerNode.
 		// If it is equal to the currentNode, than they come under this.
@@ -83,7 +89,7 @@ public class ImportAttributes extends OperationFunction {
 			ImportCandidate candidate = importedAttributesItr.next();
 			if (candidate.getCallerNode().equals(currentNode.getId())) {
 				candidate.setWeight( candidate.getWeight() * penalty );
-				candidate.setCallerNode(callerNode.getId()); //TODO forse questo va fuori dall'IF?
+				candidate.setCallerNode(callerNode.getId());
 			}
 		}
 		Iterator<ImportCandidate> importedClassesItr = importedClassNames.iterator();
@@ -119,9 +125,7 @@ public class ImportAttributes extends OperationFunction {
 			}
 		}
 		
-		// TODO attenzione!!! bisogna prima risolverre i cicli! o forse no? 
-		// se non lo facciamo è sbagliatissimo o cambia poco?
-		
+		// TODO Warning! Do we have to resolve cycles? 
 		
 		/*************/ //debug code
 		if (false) {
@@ -222,6 +226,10 @@ public class ImportAttributes extends OperationFunction {
 		importCandidateClassName = new ImportCandidate(className, weight, callerNode.getId());
 	}
 	
+	/**
+	 * @return
+	 * The ArrayList<String> containing the imported attributes
+	 */
 	public ArrayList<String> getImportedAttributes() {
 		ArrayList<String> importedAtt = new ArrayList<String>();
 		Iterator<ImportCandidate> importedAttItr = importedAttributes.iterator();
@@ -231,6 +239,9 @@ public class ImportAttributes extends OperationFunction {
 		return importedAtt;
 	}
 	
+	/**
+	 * The ArrayList<String> containing the imported class names
+	 */
 	public ArrayList<String> getImportedClassNames() {
 		ArrayList<String> importedClasses = new ArrayList<String>();
 		Iterator<ImportCandidate> importedClassesItr = importedClassNames.iterator();

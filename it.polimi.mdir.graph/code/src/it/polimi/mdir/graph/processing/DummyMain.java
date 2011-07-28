@@ -1,10 +1,8 @@
 package it.polimi.mdir.graph.processing;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -12,6 +10,9 @@ import it.polimi.mdir.graph.Edge;
 import it.polimi.mdir.graph.Node;
 import edu.uci.ics.jung.graph.Graph;
 
+/**
+ * This is just a test class to see if navigation is performed correctly.
+ */
 public class DummyMain {
 	
 	private static String fileName = "PetriNet_extended.gml";

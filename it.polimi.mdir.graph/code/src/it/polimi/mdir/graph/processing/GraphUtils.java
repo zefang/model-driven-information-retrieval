@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+/**
+ * Provides utility variables and methods to manipulate graphs.
+ */
 public class GraphUtils {
 	
 	public enum RelationType {
@@ -18,6 +21,13 @@ public class GraphUtils {
 	    ASSOCIATION_1_1, ASSOCIATION_1_N
 	}
 
+	/**
+	 * Sorts a collecton of edges with respect to their id. 
+	 * @param edgesList
+	 * The list of edges to sort.
+	 * @return
+	 * A new sorted list.
+	 */
 	public static Collection<Edge> sortEdges(Collection<Edge> edgesList) {
 		if (edgesList.isEmpty())
 			return edgesList;
@@ -46,6 +56,15 @@ public class GraphUtils {
 		return toReturn;
 	}
 	
+	/**
+	 * Swaps two edges in an array.
+	 * @param edgeArray
+	 * the array containing the two edges to swap.
+	 * @param loc1
+	 * The index of the first item to swap.
+	 * @param loc2
+	 * The index of the second item to swap.
+	 */
 	private static void swap(Edge[] edgeArray, int loc1, int loc2) {
 		Edge temp = null;
 		temp = edgeArray[loc1];

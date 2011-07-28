@@ -1,17 +1,26 @@
 package it.polimi.mdir.graph.processing;
 
+
 public class ImportCandidate {
 
 	private String name;
 	private float weight;
-	private String callerNode;
+	private String callerNode; //used to tell under which branch this attribute was.
 	
+	/**
+	 * This class represents an attribute which is candidated to be imported in a node.
+	 */
 	public ImportCandidate(String name, float weight, String callerNode) {
 		setName(name);
 		setWeight(weight);
 		setCallerNode(callerNode);
 	}
 	
+	/**
+	 * @return
+	 * The name and the weight of this attribute in the form:<br />
+	 * name|weight
+	 */
 	public String getNameWeight() {
 		return name + "|" + weight;
 	}
