@@ -274,13 +274,20 @@ for j=1:configuration.experiments_number
 end
 
 if strcmp(dataset,'uml')
-    fprintf(' ---- MAP experiment A: %f ----\n',MAP(1,1));
-    fprintf(' ---- MAP experiment B: %f ----\n',MAP(2,1));
-    fprintf(' ---- MAP experiment C: %f ----\n',MAP(3,1));
-    fprintf(' ---- MAP experiment D: %f ----\n',MAP(4,1));
+    % open the file with write permission
+    fid = fopen('UML-MAP.txt','w');
+    fprintf(fid,'UML - MAP\r\n');
+    fprintf(fid,' ---- MAP experiment A: %f ----\r\n',MAP(1,1));
+    fprintf(fid,' ---- MAP experiment B: %f ----\r\n',MAP(2,1));
+    fprintf(fid,' ---- MAP experiment C: %f ----\r\n',MAP(3,1));
+    fprintf(fid,' ---- MAP experiment D: %f ----\r\n',MAP(4,1));
+    fclose(fid);
 else
-    fprintf(' ---- MAP experiment B: %f ----\n',MAP(1,1));
-    fprintf(' ---- MAP experiment C: %f ----\n',MAP(2,1));
+    fid = fopen('WebML-MAP.txt','w');
+    fprintf(fid,'WebML - MAP\r\n');
+    fprintf(fid,' ---- MAP experiment B: %f ----\r\n',MAP(1,1));
+    fprintf(fid,' ---- MAP experiment C: %f ----\r\n',MAP(2,1));
+    fclose(fid);
 end
 
 %%%% MRR %%%%
@@ -297,11 +304,17 @@ for j=1:configuration.experiments_number
     MRR(j,1) = MeanRR(groundtruthForAllInstances,resultSetCellsForAllInstances{j});
 end
 if strcmp(dataset,'uml')
-    fprintf(' ---- MRR experiment A: %f ----\n',MRR(1,1));
-    fprintf(' ---- MRR experiment B: %f ----\n',MRR(2,1));
-    fprintf(' ---- MRR experiment C: %f ----\n',MRR(3,1));
-    fprintf(' ---- MRR experiment D: %f ----\n',MRR(4,1));
+    fid = fopen('UML-MRR.txt','w');
+    fprintf(fid,'UML - MRR\r\n');
+    fprintf(fid,' ---- MRR experiment A: %f ----\r\n',MRR(1,1));
+    fprintf(fid,' ---- MRR experiment B: %f ----\r\n',MRR(2,1));
+    fprintf(fid,' ---- MRR experiment C: %f ----\r\n',MRR(3,1));
+    fprintf(fid,' ---- MRR experiment D: %f ----\r\n',MRR(4,1));
+    fclose(fid);
 else
-    fprintf(' ---- MRR experiment B: %f ----\n',MRR(1,1));
-    fprintf(' ---- MRR experiment C: %f ----\n',MRR(2,1));
+    fid = fopen('WebML-MRR.txt','w');
+    fprintf(fid,'WebML - MRR\r\n');
+    fprintf(fid,' ---- MRR experiment B: %f ----\r\n',MRR(1,1));
+    fprintf(fid,' ---- MRR experiment C: %f ----\r\n',MRR(2,1));
+    fclose(fid);
 end
