@@ -1,6 +1,5 @@
 package it.polimi.mdir.graph.processing;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -10,7 +9,9 @@ import edu.uci.ics.jung.graph.Graph;
 import it.polimi.mdir.graph.Edge;
 import it.polimi.mdir.graph.Node;
 
-
+/**
+ * Class containing methods for navigating a graph.
+ */
 public class NavigateGraph {
 	
 	private LinkedList<String> _nodeQueue = new LinkedList<String>();
@@ -20,7 +21,7 @@ public class NavigateGraph {
 	
 	@Deprecated
 	public void startNavigation() {
-		//TODO this method is deprecated 
+		//This method is deprecated 
 		//Need to load graph in memory first. decouple process method in CreateGraphPipelet.
 		
 		//_nodeQueue = getAllNodes(FILE_NAME); deprecated: use the methods of Graph 
@@ -43,11 +44,11 @@ public class NavigateGraph {
 	}
 	
 	/**
-	 *  Visits recursively the node and its neighbours.
-	 *  Note that we look at the outgoing edges, so if a node is reference by more than one 
-	 *  outgoing edge, we will process that node more times.
-	 *  Note that the business logic gets executed after visiting the neighbours so actually 
-	 *  it gets executed for the furthest nodes first, going upwards.
+	 *  Visits recursively the node and its neighbours.<br />
+	 *  Note that we look at the outgoing edges, so if a node is referenced by more than one 
+	 *  outgoing edge, we will process that node more times.<br />
+	 *  Note that the business logic is executed after visiting the neighbours so 
+	 *  it is actually executed from the deepest nodes first, going upwards.
 	 *  
 	 * @param g
 	 * The graph to which the node to visit belongs.
@@ -97,8 +98,8 @@ public class NavigateGraph {
 			}
 		}
 		
-		//TODO Do ya thang here
-		function.importAttributes(nodeToVisit, callerNode, followeEdge, numHops, g);
+		//Here a call to the business logic is performed 
+		function.executeBusinessLogic(nodeToVisit, callerNode, followeEdge, numHops, g);
 	}
 
 }

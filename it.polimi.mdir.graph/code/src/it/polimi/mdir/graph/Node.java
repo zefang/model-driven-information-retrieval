@@ -3,6 +3,9 @@ package it.polimi.mdir.graph;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * This class represents a node of a graph in the UML scenario.
+ */
 public class Node implements Serializable {
 
 	private static final long serialVersionUID = -3496537477960329525L;
@@ -37,6 +40,9 @@ public class Node implements Serializable {
 		return attributes;
 	}
 	
+	/**
+	 * Returns the className of this Node
+	 */
 	public String toString() {
 		return this.className;
 	}
