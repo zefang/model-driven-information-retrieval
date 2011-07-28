@@ -15,6 +15,9 @@ public class Log {
 	public Log() {
 	}
 	
+	/**
+	 * Creates the new MDIR.log file if it doesn't exist.
+	 */
 	@SuppressWarnings("unused")
 	private void create() {
 		_logFile = new File(PATH);
@@ -29,6 +32,11 @@ public class Log {
 		}
 	}
 	
+	/**
+	 * Writes a String in the SMILA.Application/MDIR.log file.
+	 * @param message
+	 * The message to write in the log.
+	 */
 	public void write(String message) {
 		try {
 			_logFile = new File(PATH);

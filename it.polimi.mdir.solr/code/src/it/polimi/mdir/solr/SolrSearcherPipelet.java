@@ -23,9 +23,9 @@ import org.eclipse.smila.search.api.SearchResultConstants;
 import org.eclipse.smila.search.api.helper.QueryParameterAccessor;
 
 /**
- * This pipelet integrates the Apache Solr's REST API and is designed to be used both in processing and in search
- * pipelines.
- * 
+ * This pipelet integrates the Apache Solr's REST API and is designed 
+ * to be used both in processing and in search pipelines.
+ * TODO: not used at the moment.
  */
 public class SolrSearcherPipelet implements Pipelet {
 
@@ -148,7 +148,8 @@ public class SolrSearcherPipelet implements Pipelet {
         rd.close();
         System.out.println("Searcher Response:\n" + response.toString());
         */
-      //TODO mi devo fare un mio SolrResponseHandler
+        
+      //TODO apparently I need a customized SolrResponseHandler
         final SolrSearcherResponseHandler srh = new SolrSearcherResponseHandler(blackboard, rIds); 
         p.parse(is, srh);
 
