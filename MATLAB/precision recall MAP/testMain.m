@@ -30,10 +30,6 @@ for j=1:configuration.experiments_number
     resultSetCellsForAllInstances{j} = cell(mqinst_num,1);
 end
 
-% resultSetCellsForAllInstances{1} = cell(mqinst_num,1);
-% resultSetCellsForAllInstances{2} = cell(mqinst_num,1);
-% resultSetCellsForAllInstances{3} = cell(mqinst_num,1);
-% resultSetCellsForAllInstances{4} = cell(mqinst_num,1);
 groundtruthForAllInstances = cell(mqinst_num,1);
 
 % for all instances
@@ -124,16 +120,6 @@ fprintf('Precision at fixed retrieval level k\n');
 experiments_P = cell(configuration.experiments_number,1);
 experiments_R = cell(configuration.experiments_number,1);
 
-% experimentA_P = [];
-% experimentA_R = [];
-% experimentB_P = [];
-% experimentB_R = [];
-% experimentC_P = [];
-% experimentC_R = [];
-% experimentD_P = [];
-% experimentD_R = [];
-
-
 for j=1:configuration.experiments_number
     for i=1:mqinst_num
         instanceCurves = allPRCurves{i};
@@ -142,50 +128,11 @@ for j=1:configuration.experiments_number
     end
 end
 
-
-% for i=1:mqinst_num
-%     
-%     instanceCurves = allPRCurves{i};
-%     
-%     for j=1:configuration.experiments_number         
-%         
-%         experiments_P{j} = [experiments_P{j}; instanceCurves{j}(:,1).'];
-%         
-% %         experimentA_P = [experimentA_P; instanceCurves{1}(:,1).'];
-% %         experimentA_R = [experimentA_R; instanceCurves{1}(:,2).'];
-% % 
-% %         experimentB_P = [experimentB_P; instanceCurves{2}(:,1).'];
-% %         experimentB_R = [experimentB_R; instanceCurves{2}(:,2).'];
-% % 
-% %         experimentC_P = [experimentC_P; instanceCurves{3}(:,1).'];
-% %         experimentC_R = [experimentC_R; instanceCurves{3}(:,2).'];
-% % 
-% %         experimentD_P = [experimentD_P; instanceCurves{4}(:,1).'];
-% %         experimentD_R = [experimentD_R; instanceCurves{4}(:,2).'];
-%     end
-% end
-
 PRCurveMean = cell(4,1);
 
 for j=1:configuration.experiments_number
-
     PRCurveMean{j} = [mean(cell2mat(experiments_P{j})); mean(cell2mat(experiments_R{j}))]; 
-
-%     PRCurveMean{1} = [mean(cell2mat(experimentA_P)); mean(cell2mat(experimentA_R))];
-%     PRCurveMean{2} = [mean(cell2mat(experimentB_P)); mean(cell2mat(experimentB_R))];
-%     PRCurveMean{3} = [mean(cell2mat(experimentC_P)); mean(cell2mat(experimentC_R))];
-%     PRCurveMean{4} = [mean(cell2mat(experimentD_P)); mean(cell2mat(experimentD_R))];
-
 end
-
-% for j=1:4
-%     figure
-%     plot(PRCurveMean{j}(2,:),PRCurveMean{j}(1,:),'r:+');
-%     title(strcat('precision-recall curve', num2str(j)));
-%     xlabel('recall')
-%     ylabel('precision')
-% end
-
 
 % k retrieval levels
 x = 1:1:10;
@@ -245,13 +192,6 @@ end
 
 experiments_elevenPoints = cell(configuration.experiments_number,1);
 
-% experimentA_elevenPoints = [];
-% experimentB_elevenPoints = [];
-% experimentC_elevenPoints = [];
-% experimentD_elevenPoints = [];
-
-
-
 for j=1:configuration.experiments_number
     for i=1:mqinst_num
         elevenPointsInstanceCurves = elevenPoints{i};
@@ -259,28 +199,10 @@ for j=1:configuration.experiments_number
     end
 end
 
-
-% for i=1:10
-%     
-%     elevenPointsInstanceCurves = elevenPoints{i};
-%     
-%     experimentA_elevenPoints = [experimentA_elevenPoints; elevenPointsInstanceCurves{1}.'];  
-%     experimentB_elevenPoints = [experimentB_elevenPoints; elevenPointsInstanceCurves{2}.'];
-%     experimentC_elevenPoints = [experimentC_elevenPoints; elevenPointsInstanceCurves{3}.'];
-%     experimentD_elevenPoints = [experimentD_elevenPoints; elevenPointsInstanceCurves{4}.'];
-%     
-% end
-
 elevenInterpAvgPr = cell(configuration.experiments_number,1);
 
-for j=1:configuration.experiments_number
-    
+for j=1:configuration.experiments_number  
     elevenInterpAvgPr{j} = mean(experiments_elevenPoints{j});
-    
-%     elevenInterpAvgPr{1} = mean(experimentA_elevenPoints);
-%     elevenInterpAvgPr{2} = mean(experimentB_elevenPoints);
-%     elevenInterpAvgPr{3} = mean(experimentC_elevenPoints);
-%     elevenInterpAvgPr{4} = mean(experimentD_elevenPoints);
 end
 
 figure
