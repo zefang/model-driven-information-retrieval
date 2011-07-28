@@ -13,7 +13,6 @@ import it.polimi.mdir.logger.Log;
 import it.polimi.mdir.logger.LogFactory;
 
 import org.eclipse.smila.blackboard.Blackboard;
-import org.eclipse.smila.blackboard.BlackboardAccessException;
 import org.eclipse.smila.datamodel.AnyMap;
 import org.eclipse.smila.processing.Pipelet;
 import org.eclipse.smila.processing.ProcessingException;
@@ -21,12 +20,16 @@ import edu.uci.ics.jung.graph.Graph;
 
 
 /**
- * @author Lorenzo Furrer
  *
- *	This pipelet serves the purpose of creating an instance of a graph in memory.
- *  Given a record corresponding to a project it will create its graph with JUNG
- *  and the instance created will be added to the GraphCollection to store it.
- *	
+ *	This pipelet serves the purpose of creating an instance of a graph in memory.<br />
+ *  Given a record corresponding to a project it will create its graph 
+ *  with JUNG libraries.<br />
+ *  It will also process a boolean parameter forceRewrite. When set to true
+ *  this pipelet will also proceed to serialize the graph just created.
+ *  When set to false it will not permorm the serialization since it is assumed that it 
+ *  has already been performed offline.
+ *  
+ *  @author Lorenzo Furrer
  */
 public class CreateGraphPipelet implements Pipelet {
 	
