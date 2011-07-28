@@ -1,4 +1,21 @@
 function [PRCurveMean elevenInterpAvgPr MAP MRR] = testMain(mq_label, mqinst_num, dataset)
+% testMain (PR/MAP/MRR) computes:
+% Precision/Recall curves at fixed recall levels averaged over a certain number of query instances and plots it
+% 11-point interpolated average precision and plots it
+% Mean Average Precision
+% Mean Reciprocal Rank
+% 
+% This can be done both for UML and WebML dataset. 
+% The preconditions to run this code is to have two excel files: one
+% containing the result sets for each query instance and another containing
+% the groundtruth for each query instance. Each query instance has a
+% differen spreadsheet. The name of the spreadsheet is resd by the code.
+% 
+% 1) input: mq_label (e.g. MQ1 for UML, INST for WebML). Notice that this
+% label is read by the code while reading the excel file. It references the
+% name of the excel spreadsheets.
+% 3) input: number of query/MQ instances
+% 4) input: dataset ('uml'/'webml')
 
 fprintf('------- Precision at fixed retrieval level k | 11-point interpolated average precision | Mean Average Precision MAP | Mean Reciprocal Rank MRR -------\n\n');
 
@@ -26,10 +43,10 @@ allIntPRCurves = cell(mqinst_num,1);
 % this is a experiments_numberX1 cell array because it contains
 % 10 results set (10 instances) for each experiment
 resultSetCellsForAllInstances = cell(configuration.experiments_number,1);
-resultSetCellsForAllInstances{1} = cell(mqinst_num,1);
-resultSetCellsForAllInstances{2} = cell(mqinst_num,1);
-resultSetCellsForAllInstances{3} = cell(mqinst_num,1);
-resultSetCellsForAllInstances{4} = cell(mqinst_num,1);
+for j=1:configuration.experiments_number
+    resultSetCellsForAllInstances{j} = cell(mqinst_num,1);
+end
+
 groundtruthForAllInstances = cell(mqinst_num,1);
 
 % for all instances
@@ -57,9 +74,18 @@ for i=1:mqinst_num
     resultSetCells(1,1:configuration.experiments_number)= makeCellSystem(txt_system, configuration, dataset);
     % contains groundtruth
     resultSetCells{1,configuration.experiments_number+1} = makeCellGroundtruth(txt_groundtruth, configuration, dataset);
+
+    % filtering groundtruth for webml (pruning the zeros)
+    if strcmp(dataset,'webml')
+        resultSetCells{1,configuration.experiments_number+1} = filterWebmlGroundtruth(resultSetCells{1,configuration.experiments_number+1});
+    end
     
     % this is needed for MAP later
     groundtruthForAllInstances{i} = makeCellGroundtruth(txt_groundtruth, configuration, dataset);
+    % filtering groundtruth for webml (pruning the zeros)
+    if strcmp(dataset,'webml')
+        groundtruthForAllInstances{i} = filterWebmlGroundtruth(groundtruthForAllInstances{i});
+    end
     groundtruthForAllInstances{i} = groundtruthForAllInstances{i}(:,1);
     
     fprintf('STARTED to compute (interpolated) PR curve for %s ...\n', mqinst_label);    
@@ -111,16 +137,6 @@ fprintf('Precision at fixed retrieval level k\n');
 experiments_P = cell(configuration.experiments_number,1);
 experiments_R = cell(configuration.experiments_number,1);
 
-% experimentA_P = [];
-% experimentA_R = [];
-% experimentB_P = [];
-% experimentB_R = [];
-% experimentC_P = [];
-% experimentC_R = [];
-% experimentD_P = [];
-% experimentD_R = [];
-
-
 for j=1:configuration.experiments_number
     for i=1:mqinst_num
         instanceCurves = allPRCurves{i};
@@ -129,55 +145,16 @@ for j=1:configuration.experiments_number
     end
 end
 
-
-% for i=1:mqinst_num
-%     
-%     instanceCurves = allPRCurves{i};
-%     
-%     for j=1:configuration.experiments_number         
-%         
-%         experiments_P{j} = [experiments_P{j}; instanceCurves{j}(:,1).'];
-%         
-% %         experimentA_P = [experimentA_P; instanceCurves{1}(:,1).'];
-% %         experimentA_R = [experimentA_R; instanceCurves{1}(:,2).'];
-% % 
-% %         experimentB_P = [experimentB_P; instanceCurves{2}(:,1).'];
-% %         experimentB_R = [experimentB_R; instanceCurves{2}(:,2).'];
-% % 
-% %         experimentC_P = [experimentC_P; instanceCurves{3}(:,1).'];
-% %         experimentC_R = [experimentC_R; instanceCurves{3}(:,2).'];
-% % 
-% %         experimentD_P = [experimentD_P; instanceCurves{4}(:,1).'];
-% %         experimentD_R = [experimentD_R; instanceCurves{4}(:,2).'];
-%     end
-% end
-
 PRCurveMean = cell(4,1);
 
 for j=1:configuration.experiments_number
-
     PRCurveMean{j} = [mean(cell2mat(experiments_P{j})); mean(cell2mat(experiments_R{j}))]; 
-
-%     PRCurveMean{1} = [mean(cell2mat(experimentA_P)); mean(cell2mat(experimentA_R))];
-%     PRCurveMean{2} = [mean(cell2mat(experimentB_P)); mean(cell2mat(experimentB_R))];
-%     PRCurveMean{3} = [mean(cell2mat(experimentC_P)); mean(cell2mat(experimentC_R))];
-%     PRCurveMean{4} = [mean(cell2mat(experimentD_P)); mean(cell2mat(experimentD_R))];
-
 end
-
-% for j=1:4
-%     figure
-%     plot(PRCurveMean{j}(2,:),PRCurveMean{j}(1,:),'r:+');
-%     title(strcat('precision-recall curve', num2str(j)));
-%     xlabel('recall')
-%     ylabel('precision')
-% end
-
 
 % k retrieval levels
 x = 1:1:10;
 
-figure
+PRCurveMeanFigure = figure;
 
 if strcmp(dataset,'uml')
     plot(x,PRCurveMean{1}(1,:),x,PRCurveMean{2}(1,:),x,PRCurveMean{3}(1,:),x,PRCurveMean{4}(1,:));
@@ -188,8 +165,11 @@ if strcmp(dataset,'uml')
     t = title({'UML: Precision at fixed retrieval levels (k = 1:1:10)', mq_label});
     set(t,'FontSize',10);
 
-    xlabel('k level');
+    xlabel('k level')
     ylabel('precision at k')
+    
+    filename = strcat('UML-', mq_label, '_P@k');
+    print(PRCurveMeanFigure, '-dpng', filename);
 else
     plot(x,PRCurveMean{1}(1,:),x,PRCurveMean{2}(1,:));
     hleg = legend('Experiment B', 'Experiment C', 'Location', 'NorthEastOutside');
@@ -199,8 +179,11 @@ else
     t = title({'WebML: Precision at fixed retrieval levels (k = 1:1:10)', mq_label});
     set(t,'FontSize',10);
 
-    xlabel('k level');
+    xlabel('k level')
     ylabel('precision at k')
+    
+    filename = 'WebML-P@k';
+    print(PRCurveMeanFigure, '-dpng', filename);
 end
 
 %%%% 11-point interpolated average precision %%%%
@@ -232,13 +215,6 @@ end
 
 experiments_elevenPoints = cell(configuration.experiments_number,1);
 
-% experimentA_elevenPoints = [];
-% experimentB_elevenPoints = [];
-% experimentC_elevenPoints = [];
-% experimentD_elevenPoints = [];
-
-
-
 for j=1:configuration.experiments_number
     for i=1:mqinst_num
         elevenPointsInstanceCurves = elevenPoints{i};
@@ -246,31 +222,13 @@ for j=1:configuration.experiments_number
     end
 end
 
-
-% for i=1:10
-%     
-%     elevenPointsInstanceCurves = elevenPoints{i};
-%     
-%     experimentA_elevenPoints = [experimentA_elevenPoints; elevenPointsInstanceCurves{1}.'];  
-%     experimentB_elevenPoints = [experimentB_elevenPoints; elevenPointsInstanceCurves{2}.'];
-%     experimentC_elevenPoints = [experimentC_elevenPoints; elevenPointsInstanceCurves{3}.'];
-%     experimentD_elevenPoints = [experimentD_elevenPoints; elevenPointsInstanceCurves{4}.'];
-%     
-% end
-
 elevenInterpAvgPr = cell(configuration.experiments_number,1);
 
-for j=1:configuration.experiments_number
-    
+for j=1:configuration.experiments_number  
     elevenInterpAvgPr{j} = mean(experiments_elevenPoints{j});
-    
-%     elevenInterpAvgPr{1} = mean(experimentA_elevenPoints);
-%     elevenInterpAvgPr{2} = mean(experimentB_elevenPoints);
-%     elevenInterpAvgPr{3} = mean(experimentC_elevenPoints);
-%     elevenInterpAvgPr{4} = mean(experimentD_elevenPoints);
 end
 
-figure
+figure =
 
 if strcmp(dataset,'uml')
     plot(r,elevenInterpAvgPr{1},r,elevenInterpAvgPr{2},r,elevenInterpAvgPr{3},r,elevenInterpAvgPr{4});

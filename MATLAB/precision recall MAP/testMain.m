@@ -1,4 +1,21 @@
 function [PRCurveMean elevenInterpAvgPr MAP MRR] = testMain(mq_label, mqinst_num, dataset)
+% testMain (PR/MAP/MRR) computes:
+% Precision/Recall curves at fixed recall levels averaged over a certain number of query instances and plots it
+% 11-point interpolated average precision and plots it
+% Mean Average Precision
+% Mean Reciprocal Rank
+% 
+% This can be done both for UML and WebML dataset. 
+% The preconditions to run this code is to have two excel files: one
+% containing the result sets for each query instance and another containing
+% the groundtruth for each query instance. Each query instance has a
+% differen spreadsheet. The name of the spreadsheet is resd by the code.
+% 
+% 1) input: mq_label (e.g. MQ1 for UML, INST for WebML). Notice that this
+% label is read by the code while reading the excel file. It references the
+% name of the excel spreadsheets.
+% 3) input: number of query/MQ instances
+% 4) input: dataset ('uml'/'webml')
 
 fprintf('------- Precision at fixed retrieval level k | 11-point interpolated average precision | Mean Average Precision MAP | Mean Reciprocal Rank MRR -------\n\n');
 
@@ -137,7 +154,7 @@ end
 % k retrieval levels
 x = 1:1:10;
 
-figure
+PRCurveMeanFigure = figure;
 
 if strcmp(dataset,'uml')
     plot(x,PRCurveMean{1}(1,:),x,PRCurveMean{2}(1,:),x,PRCurveMean{3}(1,:),x,PRCurveMean{4}(1,:));
@@ -148,8 +165,11 @@ if strcmp(dataset,'uml')
     t = title({'UML: Precision at fixed retrieval levels (k = 1:1:10)', mq_label});
     set(t,'FontSize',10);
 
-    xlabel('k level');
+    xlabel('k level')
     ylabel('precision at k')
+    
+    filename = strcat('UML-', mq_label, '_P@k');
+    print(PRCurveMeanFigure, '-dpng', filename);
 else
     plot(x,PRCurveMean{1}(1,:),x,PRCurveMean{2}(1,:));
     hleg = legend('Experiment B', 'Experiment C', 'Location', 'NorthEastOutside');
@@ -159,8 +179,11 @@ else
     t = title({'WebML: Precision at fixed retrieval levels (k = 1:1:10)', mq_label});
     set(t,'FontSize',10);
 
-    xlabel('k level');
+    xlabel('k level')
     ylabel('precision at k')
+    
+    filename = 'WebML-P@k';
+    print(PRCurveMeanFigure, '-dpng', filename);
 end
 
 %%%% 11-point interpolated average precision %%%%
@@ -205,7 +228,7 @@ for j=1:configuration.experiments_number
     elevenInterpAvgPr{j} = mean(experiments_elevenPoints{j});
 end
 
-figure
+elevenInterpAvgPrFigure = figure;
 
 if strcmp(dataset,'uml')
     plot(r,elevenInterpAvgPr{1},r,elevenInterpAvgPr{2},r,elevenInterpAvgPr{3},r,elevenInterpAvgPr{4});
@@ -216,8 +239,11 @@ if strcmp(dataset,'uml')
     t = title({'UML: 11-point interpolated average precision (r=0:0.1:1)', mq_label});
     set(t,'FontSize',10);
 
-    xlabel('r level');
+    xlabel('r level')
     ylabel('precision at r')
+    
+    filename = strcat('UML-', mq_label, '_11pIntAvgPr');
+    print(elevenInterpAvgPrFigure, '-dpng', filename);
 else
     plot(r,elevenInterpAvgPr{1},r,elevenInterpAvgPr{2});
     hleg = legend('Experiment B', 'Experiment C', 'Location', 'NorthEastOutside');
@@ -227,8 +253,11 @@ else
     t = title({'WebML: 11-point interpolated average precision (r=0:0.1:1)', mq_label});
     set(t,'FontSize',10);
 
-    xlabel('r level');
+    xlabel('r level')
     ylabel('precision at r')
+    
+    filename = 'WebML-11pIntAvgPr';
+    print(elevenInterpAvgPrFigure, '-dpng', filename);
 end
 
 %%%% MAP %%%%

@@ -2,7 +2,7 @@ function [DCGMean iDCGMean nDCGMean] = testMain(abs_path, mq_label, mqinst_num, 
 % 1) input: abs_path of output.xls (abs path still not used!)
 % 2) input: MQ label (e.g. MQ1)
 % 3) input: number of MQ instances
-% 4) input: dataset (uml/webml)
+% 4) input: dataset ('uml'/'webml')
 %
 % computes DCG and iDCG for all the instances of the given MQ
 % then it averages by instance for each experiment
@@ -10,6 +10,7 @@ function [DCGMean iDCGMean nDCGMean] = testMain(abs_path, mq_label, mqinst_num, 
 % 1) DCGMean (a cell array with 4 cells: the DCG mean for this meta query)
 % 2) iDCGMean (one array with the iDCG for this meta query)
 % 3) nDCGMean
+% This function also plots mean DCG/iDCG and mean nDCG and saves it to files.
 
 % TODO: usa ABSPATH!!!!
 
