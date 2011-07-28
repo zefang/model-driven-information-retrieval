@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -27,8 +26,6 @@ import it.polimi.mdir.logger.LogFactory;
 
 import org.eclipse.smila.blackboard.Blackboard;
 import org.eclipse.smila.datamodel.AnyMap;
-import org.eclipse.smila.datamodel.Record;
-import org.eclipse.smila.datamodel.Value;
 import org.eclipse.smila.processing.Pipelet;
 import org.eclipse.smila.processing.ProcessingException;
 import org.jdom.Document;
@@ -42,14 +39,17 @@ import com.sun.org.apache.xerces.internal.dom.DOMImplementationImpl;
 
 /**
  * This pipelet gets the various SMILA fields content and sends it to solr for analysis.
- * Then gets the analysis response and puts it in the record, keeping the original in the format:
+ * Then it gets the analysis response and puts it in the record, 
+ * keeping the original content in the format:<br/>
  * 'original'$'analyzed', without quotes.
  *
  */
 public class AnalyzerPayloadSubstitutionPipelet implements Pipelet {
 
 	private static final String CORE_NAME = "coreName";
-	private static final String ANALYSIS_FIELD = "analysisField"; //The Solr field which will do the analysis 
+	
+	//The name of the Solr field which will do the analysis
+	private static final String ANALYSIS_FIELD = "analysisField"; 
 	
 	private AnyMap _configuration;
 	private String _coreName = "";
@@ -110,12 +110,22 @@ public class AnalyzerPayloadSubstitutionPipelet implements Pipelet {
 private static final TransformerFactory TRANSFORMER_FACTORY = TransformerFactory.newInstance();
 	
 /**
- * Keeps tracks of the payload by using the start-end information.
+ * Calls the Solr Analyzer module.<br/>
+ * It keeps tracks of the payload by using the start-end information.
+ * If and only if there are payloads, after the WordDelimiterFilter the 
+ * tokens originated splicing the "father" token all retain the same start and end
+ * parameter values as the father. So we can use them to tell which is their father.
+ * 
  * @param id
+ * The id of the record that I'm going to analyze.
  * @param toAnalyze
+ * The string that needs to parsed by the solr analyzer.
  * @param fieldType
+ * The name of the field which solr will use as analyzer.
  * @return
+ * The analyzed content.
  */
+	@SuppressWarnings("unchecked")
 	private String callSolrAnalyzer(String id, String toAnalyze, String fieldType) {
 		String result = "";
 		

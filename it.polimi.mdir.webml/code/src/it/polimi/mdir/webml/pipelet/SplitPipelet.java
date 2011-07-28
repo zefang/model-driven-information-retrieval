@@ -4,7 +4,6 @@ import it.polimi.mdir.logger.Log;
 import it.polimi.mdir.logger.LogFactory;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -32,7 +31,8 @@ import org.jdom.output.XMLOutputter;
  * This Pipelet gets the SMILA record containing information on 
  * a whole WebML project and splits them to an Area granularity 
  * generating one record per Area.
- * Siteviews containing no other Areas, (so containing just Units) are treated as Areas too.
+ * Siteviews containing no other Areas, (i.e, containing just Units) 
+ * are treated as Areas too.
  * 
  */
 public class SplitPipelet implements Pipelet {

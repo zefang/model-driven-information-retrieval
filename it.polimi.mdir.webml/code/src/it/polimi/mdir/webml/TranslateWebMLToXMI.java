@@ -23,11 +23,22 @@ public class TranslateWebMLToXMI {
 	//TODO Transactions and OperationGroups are treated the same
 	//TODO Pages and MasterPages are treated the same
 	
+	/**
+	 * Translates a WebML Project in XMI (.xmi) format
+	 */
 	public TranslateWebMLToXMI(String webmlPath, Document outputDocument) {
 		_webmlPath = webmlPath;
 		_outputDocument = outputDocument;
 	}
 	
+	/**
+	 * Starts the translation.<br/>
+	 * It takes the name of the root folder of a project as name of the project.
+	 * @param project
+	 * The root folder of a project.
+	 * @param projectNode
+	 * The root of the w3c.dom Document.
+	 */
 	public void processProject(File project, Element projectNode) {
 		String projectName = project.getName();
 		
@@ -39,6 +50,13 @@ public class TranslateWebMLToXMI {
 		
 	}
 	
+	/**
+	 * Translates the DataModel.
+	 * @param projectName
+	 * The name of the project.
+	 * @param parentNode
+	 * The node to which to attach the harvested content.
+	 */
 	private void processDataModel(String projectName, Element parentNode) {
 		File dataModelProperties = new File(_webmlPath + projectName + "/Model/DataModel/Properties.wr");
 		
@@ -82,6 +100,12 @@ public class TranslateWebMLToXMI {
 		
 		
 	}
+	
+	/*
+	 * These 'Add' methods each take the parameters to create the w3c.dom Element
+	 * of their relative concept, as well as a parentNode which specifies the Element
+	 * in the w3c.dom document to which attach them to.  
+	 */
 	
 	private Element addEntity(String id, String name, Element parentNode) {
 		System.out.println("Added Entity id:"+ id + " name:" +name);
@@ -184,6 +208,14 @@ public class TranslateWebMLToXMI {
 		parentNode.appendChild(linkNode);
 	}
 	
+	
+	/**
+	 * Translates the WebModel part. 
+	 * @param projectName
+	 * The name of the project.
+	 * @param parentNode
+	 * The node to which to attach the harvested content.
+	 */
 	private void processWebModel(String projectName, Element parentNode) {
 		File webModelDirectory = new File(_webmlPath + projectName + "/Model/WebModel");
 		
@@ -204,6 +236,7 @@ public class TranslateWebMLToXMI {
 		
 	}
 	
+
 	private void processSiteView(File siteViewDirectory, Element parentNode) {
 		File siteViewProperties = new File(siteViewDirectory.getAbsolutePath()+"/Properties.wr");		
 		Document doc = generateNewDocInstance(siteViewProperties);
@@ -262,9 +295,8 @@ public class TranslateWebMLToXMI {
 	}
 	
 	/**
-	 * @param root
-	 * Process the Pages in the root given,
-	 * the root can be either a SiteView or an Area. 
+	 * Process the Pages in the root given.<br/>
+	 * The rootDirectory can be either the root of a SiteView or an Area.
 	 */
 	private void processPages(File rootDirectory, Element parentNode) {
 		File[] pages = rootDirectory.listFiles(new PageFileFilter());
@@ -309,9 +341,8 @@ public class TranslateWebMLToXMI {
 	}
 	
 	/**
-	 * @param root
-	 * Process the OperationGroups in the root given,
-	 * the root can be either a SiteView or an Area. 
+	 * Process the OperationGroups in the root given.<br/>
+	 * The rootDirectory can be either the root of a SiteView or an Area.
 	 */
 	private void processOperationGroups(File rootDirectory, Element parentNode) {
 		File[] opgs = rootDirectory.listFiles(new OperationGroupsFileFilter());
@@ -339,9 +370,8 @@ public class TranslateWebMLToXMI {
 	}
 	
 	/**
-	 * @param root
-	 * Process the Transactions in the root given,
-	 * the root can be either a SiteView or an Area. 
+	 * Process the Transactions in the root given.<br/>
+	 * The rootDirectory can be either the root of a SiteView or an Area.
 	 */
 	private void processTransactions(File rootDirectory, Element parentNode) {
 		File[] trans = rootDirectory.listFiles(new TransactionsFileFilter());
@@ -352,9 +382,8 @@ public class TranslateWebMLToXMI {
 	}
 	
 	/**
-	 * @param root
-	 * Process the Areas in the root given,
-	 * the root can be either a SiteView or an Area. 
+	 * Process the Areas in the root given.<br/>
+	 * The rootDirectory can be either the root of a SiteView or an Area.
 	 */
 	private void processAreas(File rootDirectory, Element parentNode) {
 		File[] areaList = rootDirectory.listFiles();
@@ -423,6 +452,13 @@ public class TranslateWebMLToXMI {
 	}
 	
 	
+	/**
+	 * Generates a new w3c.dom.Document instance
+	 * @param f
+	 * The file used to generate the Document
+	 * @return
+	 * A new instance of w3c.dom.Document
+	 */
 	private Document generateNewDocInstance(File f) {
 		Document doc = null;
 		try {

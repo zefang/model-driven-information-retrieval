@@ -5,18 +5,15 @@ import it.polimi.mdir.logger.LogFactory;
 import it.polimi.mdir.webml.TranslateWebMLToXMI;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import org.apache.xerces.dom.DOMImplementationImpl;
 import org.eclipse.smila.blackboard.Blackboard;
-import org.eclipse.smila.blackboard.BlackboardAccessException;
 import org.eclipse.smila.datamodel.AnyMap;
 import org.eclipse.smila.processing.Pipelet;
 import org.eclipse.smila.processing.ProcessingException;
 import org.eclipse.smila.search.api.helper.QueryParameterAccessor;
 import org.jdom.input.DOMBuilder;
-import org.jdom.output.DOMOutputter;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.w3c.dom.DOMImplementation;
@@ -24,10 +21,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * This is the Pipelet version of it.polimi.mdir.webml.TranslateWebMLToXMI.java
- * It processes a request containing the name of the Query in WebML format.
- * Differently from its standalone counterpart it translate only one query/project at a time.
- * In the configuration file it is possible to specify the folder where the queries are kept
+ * This pipelet processes a search request containing the name of the Query in WebML format.
+ * It calls it.polimi.mdir.webml.TranslateWebMLToXMI.<br/>
+ * In the configuration file it is possible to specify the folder where the queries are kept,
  */
 public class TranslateWebMLToXMIPipelet implements Pipelet {
 

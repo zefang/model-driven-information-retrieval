@@ -47,7 +47,6 @@ import org.w3c.dom.DOMImplementation;
  * The original content will be kept inside the field following this format:
  * "orginal content"$"analyzed content"
  * without quotes.
- *
  */
 public class AnalyzerSubstitutionPipelet implements Pipelet {
 

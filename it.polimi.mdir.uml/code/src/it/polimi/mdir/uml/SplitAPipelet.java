@@ -10,11 +10,13 @@ import it.polimi.mdir.logger.LogFactory;
 import org.eclipse.smila.blackboard.Blackboard;
 import org.eclipse.smila.datamodel.AnyMap;
 import org.eclipse.smila.datamodel.Record;
-import org.eclipse.smila.datamodel.filter.RecordFilterNotFoundException;
 import org.eclipse.smila.processing.Pipelet;
 import org.eclipse.smila.processing.ProcessingException;
 
-
+/**
+ * This pipelet will construct a record for the experiment A, by processing
+ * the ouput of the crawler.
+ */
 public class SplitAPipelet implements Pipelet {
 		
 	private static int count = 0;

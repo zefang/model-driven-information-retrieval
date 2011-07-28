@@ -12,13 +12,12 @@ import java.util.ArrayList;
 import org.eclipse.smila.blackboard.Blackboard;
 import org.eclipse.smila.datamodel.AnyMap;
 import org.eclipse.smila.datamodel.Record;
-import org.eclipse.smila.datamodel.filter.RecordFilterNotFoundException;
 import org.eclipse.smila.processing.Pipelet;
 import org.eclipse.smila.processing.ProcessingException;
 
 
 /**
- * This class constructs the attributeNames field
+ * This class constructs the attributeNames field for experiment B
  */
 public class SplitBPipelet implements Pipelet {
 	
