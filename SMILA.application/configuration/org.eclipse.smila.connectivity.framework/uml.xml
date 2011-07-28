@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/***********************************************************************************************************************
+ * Copyright (c) 2008 empolis GmbH and brox IT Solutions GmbH. All rights reserved. This program and the accompanying
+ * materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors: Ivan Churkin (brox IT Solutions GmbH) - initial creator
+ **********************************************************************************************************************/
+-->
+<DataSourceConnectionConfig
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../it.polimi.mdir.crawler.uml/schemas/UmlDataSourceConnectionConfigSchema.xsd"
+>
+  <DataSourceID>uml</DataSourceID>
+  <SchemaID>it.polimi.mdir.crawler.uml</SchemaID>
+  <DataConnectionID>
+    <Crawler>UmlCrawler</Crawler>
+  </DataConnectionID>
+  <RecordBuffer Size="40" FlushInterval="3000" />  
+  <DeltaIndexing>disabled</DeltaIndexing>  
+  <Attributes>
+	<Attribute Type="String" Name="FileName" HashAttribute="true">
+      <FileAttributes>FileName</FileAttributes>
+    </Attribute>
+    <Attribute Type="String" Name="Path" HashAttribute="true">
+      <FileAttributes>Path</FileAttributes>
+    </Attribute>
+    <Attribute Type="String" Name="projectId" KeyAttribute="true">
+      <FileAttributes>projectId</FileAttributes>
+    </Attribute>
+	<Attribute Type="String" Name="projectName" HashAttribute="true">
+      <FileAttributes>projectName</FileAttributes>
+    </Attribute>
+    <Attribute Type="String" Name="classNames" HashAttribute="true">
+      <FileAttributes>classNames</FileAttributes>
+    </Attribute>
+    <Attribute Type="String" Name="classIds" HashAttribute="true">
+      <FileAttributes>classIds</FileAttributes>
+    </Attribute>
+    <Attribute Type="String" Name="attributeNames" HashAttribute="true">
+      <FileAttributes>attributeNames</FileAttributes>
+    </Attribute>
+  </Attributes>
+  <Process>
+    <BaseDir>c:\UML_models_002</BaseDir>
+    <Filter Recursive="true" CaseSensitive="false">
+      <Include Name="*.uml"/>                  
+    </Filter>
+  </Process>
+</DataSourceConnectionConfig>

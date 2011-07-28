@@ -15,7 +15,7 @@
 
   <Rule Name="SolrAddPipeline Rule" WaitMessageTimeout="10" Threads="4" MaxMessageBlockSize="20">
     <Source BrokerId="broker1" Queue="SMILA.connectivity"/>
-    <Condition>Call_Pipeline='CustomPipeline' and Operation='ADD' and DataSourceID='model')</Condition>
+    <Condition>Call_Pipeline='CustomPipeline' and Operation='ADD' and DataSourceID='uml')</Condition>
     <Task>
     	<Process Workflow="SolrAddPipeline"/>
     </Task>
@@ -25,7 +25,7 @@
     <Source BrokerId="broker1" Queue="SMILA.connectivity"/>
     <Condition>Call_Pipeline='CustomPipeline' and Operation='ADD' and DataSourceID='webml'</Condition>
     <Task>
-      <Process Workflow="WebMLPipeline_C"/>
+      <Process Workflow="WebMLPipeline_B"/>
     </Task>
   </Rule>
 
