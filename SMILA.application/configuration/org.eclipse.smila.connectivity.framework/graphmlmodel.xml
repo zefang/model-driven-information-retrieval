@@ -43,7 +43,7 @@
     </Attribute>
   </Attributes>
   <Process>
-    <BaseDir>c:\UML_GraphML_models</BaseDir>
+    <BaseDir>C:\Users\Lox\workspaceSMILA\it.polimi.mdir.graph\result</BaseDir>
     <Filter Recursive="true" CaseSensitive="false">
       <Include Name="*.gml"/>                  
     </Filter>

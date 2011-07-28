@@ -2,16 +2,15 @@ package it.polimi.mdir.graph.visualization;
 
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
+
 import javax.swing.JFrame;
 
 import it.polimi.mdir.graph.Edge;
 import it.polimi.mdir.graph.Node;
-import it.polimi.mdir.graph.processing.ConfigLoader;
 import it.polimi.mdir.graph.processing.GraphFactory;
 import edu.uci.ics.jung.algorithms.layout.KKLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.graph.Graph;
-import edu.uci.ics.jung.samples.PluggableRendererDemo;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.CrossoverScalingControl;
 import edu.uci.ics.jung.visualization.control.PluggableGraphMouse;
@@ -21,15 +20,24 @@ import edu.uci.ics.jung.visualization.control.TranslatingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 
+/**
+ * this is a utility class to visualize GraphML files (.gml) using the JUNG
+ * visualization libraries.
+ * 
+ * It gets a command line parameter as input which represents the path 
+ * to the gml file that you want to view.
+ */
 public class GraphVisualizer {
 	
-	private static String GRAPHML_PATH = ConfigLoader.GRAPHML_PATH;
-	
 	public static void main(String[] args) {
+		if (args.length < 1) {
+			System.out.println("Error: missing parameter\n Correct usage: GraphVisualizer path-to-graphml-folder");
+			return;
+		}
 		
-		String fileName = "PetriNet_extended.gml";
+		String fileName = args[0];
 		
-		Graph<Node, Edge> g = GraphFactory.createGraphFromGraphML(GRAPHML_PATH + fileName);
+		Graph<Node, Edge> g = GraphFactory.createGraphFromGraphML(fileName);
 		
 		//ok now I got g.
 		Layout<Node, Edge> layout = new KKLayout<Node, Edge>(g);
@@ -56,10 +64,6 @@ public class GraphVisualizer {
 		frame.getContentPane().add(v);
 		frame.pack();
 		frame.setVisible(true);
-	}
-	
-	class Popu extends PluggableRendererDemo {
-		public PopupGraphMousePlugin p = new PopupGraphMousePlugin();
 	}
 	
 }
