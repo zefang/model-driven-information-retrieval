@@ -12,11 +12,8 @@ import it.polimi.mdir.logger.Log;
 import it.polimi.mdir.logger.LogFactory;
 import it.polimi.mdir.xquery.XQueryWrapper;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
@@ -24,7 +21,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -148,12 +144,6 @@ public class WebMLCrawler extends AbstractCrawler {
    * The _counter helper.
    */
   private CrawlerPerformanceCounterHelper<WebMLCrawlerPerformanceAgent> _performanceCounters;
-
-  
-  /**
-   * The path for xquery files.
-   */
-  private static String XQUERY_PATH;
   
   
   
@@ -200,17 +190,6 @@ public class WebMLCrawler extends AbstractCrawler {
       }
     }
     _attachmentNames = attachmentsNames.toArray(new String[attachmentsNames.size()]);
-      
-    // Initialize config file for xquery files location
-    Properties xqueryConfig = new Properties();
-    try {
-		xqueryConfig.load(this.getClass().getClassLoader().getResourceAsStream("xqueryConfig.properties"));
-	} catch (IOException e) {
-		e.printStackTrace();
-	}
-	
-	XQUERY_PATH = xqueryConfig.getProperty("DIR");
-    
     
     _crawlThread = new CrawlingProducerThread(this, config);
     _crawlThread.start();
@@ -433,7 +412,7 @@ public class WebMLCrawler extends AbstractCrawler {
         
         /*The project id is also the project name*/
       case PROJECT_ID:
-    	xq = new XQueryWrapper(XQUERY_PATH.concat("/getProjectId.xquery"));
+    	xq = new XQueryWrapper("../xquery/WebMLCrawler/getProjectId.xquery");
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         String id = resultList.get(0);
@@ -452,27 +431,7 @@ public class WebMLCrawler extends AbstractCrawler {
         throw new RuntimeException("Unknown file attributes type " + attribute.getFileAttributes());
     }
   }
-  
-  
-  // Converting an array list to one single (very long) string
-  
-  private String arrayListToString(ArrayList<String> array) {
-	
-	  String result = new String();
-	  
-	  for (int i=0; i<array.size(); i++) {
-		  
-		  if(i == 0)
-			  result = result.concat(array.get(i));
-		  else 
-			  result = result.concat(" " + array.get(i));
-	  }
-	  
-	  return result;	  
-	  
-  }
-  
-  
+
 
   /**
    * Read attachment.

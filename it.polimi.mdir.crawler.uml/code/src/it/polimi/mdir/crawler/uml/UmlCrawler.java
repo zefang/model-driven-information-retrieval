@@ -14,14 +14,12 @@ import it.polimi.mdir.xquery.XQueryWrapper;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.IOException;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -145,12 +143,7 @@ public class UmlCrawler extends AbstractCrawler {
    * The _counter helper.
    */
   private CrawlerPerformanceCounterHelper<UmlCrawlerPerformanceAgent> _performanceCounters;
-
   
-  /**
-   * The path for xquery files.
-   */
-  private static String XQUERY_PATH;
   
   
   
@@ -197,17 +190,6 @@ public class UmlCrawler extends AbstractCrawler {
       }
     }
     _attachmentNames = attachmentsNames.toArray(new String[attachmentsNames.size()]);
-      
-    // Initialize config file for xquery files location
-    Properties xqueryConfig = new Properties();
-    try {
-		xqueryConfig.load(this.getClass().getClassLoader().getResourceAsStream("xqueryConfig.properties"));
-	} catch (IOException e) {
-		e.printStackTrace();
-	}
-	
-	XQUERY_PATH = xqueryConfig.getProperty("DIR");
-    
     
     _crawlThread = new CrawlingProducerThread(this, config);
     _crawlThread.start();
@@ -428,7 +410,7 @@ public class UmlCrawler extends AbstractCrawler {
       case PATH:
         return file.getAbsolutePath();
       case PROJECT_ID:
-    	xq = new XQueryWrapper(XQUERY_PATH.concat("/getProjectId.xquery"));
+    	xq = new XQueryWrapper("../xquery/UmlCrawler/getProjectId.xquery");
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         String id = resultList.get(0);
@@ -439,13 +421,13 @@ public class UmlCrawler extends AbstractCrawler {
     	  String projectName = file.getName();
     	  return projectName.substring(0, projectName.length()-4);
       case CLASS_NAMES:
-        xq = new XQueryWrapper(XQUERY_PATH.concat("/getClassNames.xquery"));
+    	  xq = new XQueryWrapper("../xquery/UmlCrawler/getClassNames.xquery");
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         resultListString = arrayListToString(resultList);
         return resultListString; 
       case CLASS_IDS:
-      	xq = new XQueryWrapper(XQUERY_PATH.concat("/getClassIds.xquery"));
+    	  xq = new XQueryWrapper("../xquery/UmlCrawler/getClassIds.xquery");
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         resultListString = arrayListToString(resultList);
@@ -460,7 +442,7 @@ public class UmlCrawler extends AbstractCrawler {
     	 * 'classIdVALUE'$'attributeNameVALUE'+'conceptType:relTypeVALUE'+'lowerValue'-'upperValue'
     	 */
       case ATTRIBUTE_NAMES:
-        xq = new XQueryWrapper(XQUERY_PATH.concat("/getAttributeNames.xquery"));
+    	  xq = new XQueryWrapper("../xquery/UmlCrawler/getAttributeNames.xquery");
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         resultListString = arrayListToString(resultList);
