@@ -1,0 +1,8 @@
+experiments_number = 2
+expB_row = 8
+expB_col = 1
+expC_row = 8
+expC_col = 7
+groundtruth_row = 2
+groundtruth_col = 1
+groundtruth_relevance_offset = 3

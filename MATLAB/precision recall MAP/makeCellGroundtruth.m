@@ -1,4 +1,4 @@
-function resultSetCellsGroundtruth = makeCellGroundtruth(txt_groundtruth)
+function resultSetCellsGroundtruth = makeCellGroundtruth(txt_groundtruth, configuration, dataset)
 
 % RESULT SET FROM THE GROUNDTRUTH VALIDATION
 %     24,8 (first cell under ranking header)
@@ -12,8 +12,8 @@ function resultSetCellsGroundtruth = makeCellGroundtruth(txt_groundtruth)
 % rowGround colGround
 groundIndices = zeros(1,2);
 
-groundIndices(1,1) = 8;
-groundIndices(1,2) = 1;
+groundIndices(1,1) = configuration.groundtruth_row;
+groundIndices(1,2) = configuration.groundtruth_col;
 
 row = groundIndices(1) - 1;
 col = groundIndices(2);
@@ -41,12 +41,15 @@ end
 for i = 1:numDocs,
     % if the cell is NOT empty, get the docid
     if(isempty(txt_groundtruth{row+i,col+1}) == 0)
-        experimentCell{i,1} = txt_groundtruth{row+i,col+1};
+        if strcmp(dataset,'uml')
+            experimentCell{i,1} = txt_groundtruth{row+i,col+1};
+        else
+            experimentCell{i,1} = strcat(txt_groundtruth{row+i,col},'$',txt_groundtruth{row+i,col+1});
+        end
     end
-
-    % if the cell is NOT empty, get the score
-    if(isempty(txt_groundtruth{row+i,col+4}) == 0)
-        experimentCell{i,2} = txt_groundtruth{row+i,col+4};
+    
+    if(isempty(txt_groundtruth{row+i,col+1}) == 0)
+            experimentCell{i,2} = txt_groundtruth{row+i,col+configuration.groundtruth_relevance_offset};
     end
 end
 
