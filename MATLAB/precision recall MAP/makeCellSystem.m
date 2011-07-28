@@ -1,4 +1,4 @@
-function resultSetCellsSystem = makeCellSystem(txt_system)
+function resultSetCellsSystem = makeCellSystem(txt_system, configuration, dataset)
 % the output is a cell array
 % each entry is a document into the result set
 % cell{i,1} docid
@@ -20,24 +20,35 @@ function resultSetCellsSystem = makeCellSystem(txt_system)
 % rowExpB colExpB
 % ...
 % rowGround colGround
-indices = zeros(4,2);
+indices = zeros(configuration.experiments_number,2);
 
-indices(1,1) = 8;
-indices(1,2) = 1;
+% The ingestion of indices should be done in a better way
+% How to pass the indeces experiment programmatically
+% like configuration.expExpVar_row/col?
+if configuration.experiments_number == 4
+    indices(1,1) = configuration.expA_row;
+    indices(1,2) = configuration.expA_col;
 
-indices(2,1) = 8;
-indices(2,2) = 7;
+    indices(2,1) = configuration.expB_row;
+    indices(2,2) = configuration.expB_col;
 
-indices(3,1) = 8;
-indices(3,2) = 13;
+    indices(3,1) = configuration.expC_row;
+    indices(3,2) = configuration.expC_col;
 
-indices(4,1) = 8;
-indices(4,2) = 19;
+    indices(4,1) = configuration.expD_row;
+    indices(4,2) = configuration.expD_col;
+else
+    indices(1,1) = configuration.expB_row;
+    indices(1,2) = configuration.expB_col;
 
-resultSetCellsSystem = cell(1,4);
+    indices(2,1) = configuration.expC_row;
+    indices(2,2) = configuration.expC_col;
+end
+
+resultSetCellsSystem = cell(1,configuration.experiments_number);
 
 % for all experiments
-for j=1:4
+for j=1:configuration.experiments_number
     
     expIndices = indices(j,:);
     row = expIndices(1) - 1;
@@ -60,7 +71,7 @@ for j=1:4
         experimentCell = cell(1,1);
     else
         % initialization
-        experimentCell = cell(numDocs,2);
+        experimentCell = cell(numDocs,1);
     end
 
 
@@ -68,11 +79,6 @@ for j=1:4
         % if the cell is NOT empty, get the docid
         if(isempty(txt_system{row+i,col+1}) == 0)
             experimentCell{i,1} = txt_system{row+i,col+1};
-        end
-
-        % if the cell is NOT empty, get the score
-        if(isempty(txt_system{row+i,col+4}) == 0)
-            experimentCell{i,2} = txt_system{row+i,col+4};
         end
     end
 
