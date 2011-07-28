@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="it.polimi.mdir.crawler.uml"
+         name="it.polimi.mdir.crawler.uml"
+         point="org.eclipse.smila.connectivity.framework.schema.extension">
+      <schema
+            class="it.polimi.mdir.crawler.uml.DataSourceConnectionConfigPluginImpl">
+      </schema>
+   </extension>
+
+</plugin>
