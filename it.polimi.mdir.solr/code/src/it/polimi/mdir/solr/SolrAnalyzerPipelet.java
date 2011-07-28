@@ -30,10 +30,15 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
 /**
- * This pipelet integrates the Apache Solr's REST API and is designed to be used both in processing and in search
- * pipelines. It calls the "/analysis/document" service of solr. 
- * 
- * */
+ * This pipelet integrates the Apache Solr's REST API and 
+ * is designed to be used both in processing and in search
+ * pipelines.<br />
+ * It calls the "/analysis/document" service of solr.<br />
+ * It gets as BPEL parameters two sequences. the first one contains the SMILA fields
+ * of the record that I want to analyze.<br />
+ * The second sequence specifies, for each entry defined before, which
+ * analyzer to use. 
+ */
 
 public class SolrAnalyzerPipelet implements Pipelet {
 

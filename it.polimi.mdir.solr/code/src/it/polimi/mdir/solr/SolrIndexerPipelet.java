@@ -28,9 +28,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
 /**
- * This pipelet integrates the Apache Solr's REST API and is design to index data
+ * This pipelet integrates the Apache Solr's REST API and is designed to index data
  * in the specified core.
- * 
+ * It gets as BPEL parameters two sequences. the first one contains the SMILA fields
+ * of the record that I want to index.<br />
+ * The second sequence specifies which Solr fields, defined in the schema.xml, 
+ * to use to index each of the entries specified in the first sequence.
  * */
 public class SolrIndexerPipelet implements Pipelet {
 	

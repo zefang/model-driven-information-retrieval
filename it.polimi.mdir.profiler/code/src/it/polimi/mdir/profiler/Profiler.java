@@ -18,7 +18,7 @@ public class Profiler {
 	private static int _numClasses = -1;
 	
 	/**
-	 * @param args
+	 * Counts the number of packages and classes of the UML dataset.
 	 */
 	public static void main(String[] args) {
 		

@@ -2,7 +2,6 @@ package it.polimi.mdir.graph.processing;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -20,10 +19,14 @@ import junit.framework.TestCase;
 
 public class ImportAttributesTest extends TestCase {
 
+	/**
+	 * This test is outdated.
+	 */
+	@Deprecated
 	public void testImportAttributes() {
 		Graph<Node, Edge> g = null;
 		try {
-			FileInputStream fileIn = new FileInputStream(ConfigLoader.SERIALIZATION_PATH + "PetriNet_extended" + ".ser");
+			FileInputStream fileIn = new FileInputStream("C:/Users/Lox/workspaceSMILA/it.polimi.mdir.graph/serializations/" + "PetriNet_extended" + ".ser");
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 			g = (Graph<Node, Edge>) in.readObject();
 			in.close();
