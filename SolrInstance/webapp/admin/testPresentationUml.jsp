@@ -116,9 +116,10 @@ more comprehensible way relevant information of query results.
 				}
 			}
 
-			if (experiment == "C") {
+			if (experiment == "C" || experiment == "D") {
 				//tolgo payload
-				className = className.substr(0, className.indexOf("|")); 
+				className = className.substr(0, className.indexOf("|"));
+				projectName = projectName.substr(0, projectName.indexOf("|"));  
 			}
 			var graphPath = "../graphml/" + projectName + ".gml";
 			var rootNodeClassName = className; 
@@ -143,7 +144,7 @@ xqueryConfig.load(in);
 in.close();
 
 String XQUERY_PATH = xqueryConfig.getProperty("DIR");
-
+//String XQUERY_PATH = "./xquery";
 String[] experiments = new String[]{"A", "B", "C", "D"};
 
 ArrayList<String> resultList = new ArrayList<String>();
