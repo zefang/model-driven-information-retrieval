@@ -50,7 +50,7 @@ import it.polimi.mdir.graph.processing.GraphUtils.RelationType;
  */
 public class TranslateXMItoGraphML {
 	
-	private static String XQUERY_PATH = "";
+	private static final String XQUERY_PATH = "../it.polimi.mdir.graph/xquery/";
 	private static String UML_PATH = "";
 	private static String GRAPHML_PATH = "";
 	private static String SERIALIZATION_PATH = "";
@@ -59,7 +59,6 @@ public class TranslateXMItoGraphML {
 		Properties config = new Properties();
 		FileInputStream in = new FileInputStream(configFilePath);
 		config.load(in);
-		XQUERY_PATH = config.getProperty("XQUERY_PATH");
 		UML_PATH = config.getProperty("UML_PATH");
 		GRAPHML_PATH = config.getProperty("GRAPHML_PATH");
 		SERIALIZATION_PATH = config.getProperty("SERIALIZATION_PATH");
