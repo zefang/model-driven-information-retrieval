@@ -412,7 +412,7 @@ public class WebMLCrawler extends AbstractCrawler {
         
         /*The project id is also the project name*/
       case PROJECT_ID:
-    	xq = new XQueryWrapper("../xquery/WebMLCrawler/getProjectId.xquery");
+    	xq = new XQueryWrapper("../it.polimi.mdir.crawler.webml/xquery/getProjectId.xquery");
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         String id = resultList.get(0);

@@ -412,7 +412,7 @@ public class GraphMLModelCrawler extends AbstractCrawler {
       case PATH:
         return file.getAbsolutePath();
       case PROJECT_ID:
-    	xq = new XQueryWrapper("../xquery/GraphMLModelCrawler/getProjectId.xquery");
+    	xq = new XQueryWrapper("../it.polimi.mdir.crawler.graphmlmodel/xquery/getProjectId.xquery");
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         String id = resultList.get(0);
@@ -423,13 +423,13 @@ public class GraphMLModelCrawler extends AbstractCrawler {
     	  String projectName = file.getName();
     	  return projectName.substring(0, projectName.length()-4);
       case CLASS_NAMES:
-    	xq = new XQueryWrapper("../xquery/GraphMLModelCrawler/getClassNames.xquery");
+    	xq = new XQueryWrapper("../it.polimi.mdir.crawler.graphmlmodel/xquery/getClassNames.xquery");
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         resultListString = arrayListToString(resultList);
         return resultListString; 
       case CLASS_IDS:
-    	xq = new XQueryWrapper("../xquery/GraphMLModelCrawler/getClassIds.xquery");
+    	xq = new XQueryWrapper("../it.polimi.mdir.crawler.graphmlmodel/xquery/getClassIds.xquery");
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         resultListString = arrayListToString(resultList);
@@ -448,12 +448,12 @@ public class GraphMLModelCrawler extends AbstractCrawler {
     	 * 'classIdVALUE'$'attributeNameVALUE'+'conceptType:relTypeVALUE'+'lowerValue'-'upperValue'
     	 */
       case ATTRIBUTE_NAMES:
-    	xq = new XQueryWrapper("../xquery/GraphMLModelCrawler/getNodeAttributes.xquery");
+    	xq = new XQueryWrapper("../it.polimi.mdir.crawler.graphmlmodel/xquery/getNodeAttributes.xquery");
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         resultListString = arrayListToString(resultList);
         
-        xq = new XQueryWrapper("../xquery/GraphMLModelCrawler/getEdgeAttributes.xquery");
+        xq = new XQueryWrapper("../it.polimi.mdir.crawler.graphmlmodel/xquery/getEdgeAttributes.xquery");
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         if (!resultList.isEmpty()) {
