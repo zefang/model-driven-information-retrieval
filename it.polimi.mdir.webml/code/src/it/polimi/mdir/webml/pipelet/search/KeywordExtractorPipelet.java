@@ -4,22 +4,15 @@ import it.polimi.mdir.logger.Log;
 import it.polimi.mdir.logger.LogFactory;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.util.Iterator;
 
 import org.eclipse.smila.blackboard.Blackboard;
-import org.eclipse.smila.blackboard.BlackboardAccessException;
 import org.eclipse.smila.datamodel.AnyMap;
 import org.eclipse.smila.processing.Pipelet;
 import org.eclipse.smila.processing.ProcessingException;
 import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.JDOMException;
 import org.jdom.Namespace;
 import org.jdom.filter.ElementFilter;
 import org.jdom.input.SAXBuilder;
@@ -34,7 +27,6 @@ import org.jdom.input.SAXBuilder;
 public class KeywordExtractorPipelet implements Pipelet {
 
 	private final static Namespace XMI_NAMESPACE = Namespace.getNamespace("xmi", "http://schema.omg.org/spec/XMI/2.1");
-	private final static Namespace WEBML_NAMESPACE = Namespace.getNamespace("webml", "http://www.webml.org");
 	
 	private Log _log = LogFactory.getLog();
 	

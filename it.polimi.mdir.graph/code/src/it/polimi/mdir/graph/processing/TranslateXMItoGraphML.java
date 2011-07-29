@@ -40,11 +40,10 @@ import it.polimi.mdir.graph.processing.GraphUtils.RelationType;
  * It also creates the graph with the JUNG API and serializes it (.ser files) 
  * for future use.<br />
  * It gets a parameter from the comand line that is the location of the 
- * configuration.properties file containing 4 keys:
+ * configuration.properties file containing 3 keys:
  * <ul>
- * 	<li>XQUERY_PATH: the path to the folder containing the xqueries.</li>
  * 	<li>UML_PATH: the path of the folder where the .uml files are located</li>
- * 	<li>GRAPHML_PATH:the path where  the .gml will be written in output.</li>
+ * 	<li>GRAPHML_PATH: the path where  the .gml will be written in output.</li>
  *  <li>SERIALIZATION_PATH: The path to where to put the serialized file (.ser)</li>
  * </ul>
  */

@@ -1,6 +1,5 @@
 package it.polimi.mdir.webml.pipelet;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,10 +32,6 @@ public class WebmlPayloadAdderPipelet implements Pipelet {
 	private final static Namespace XMI_NAMESPACE = Namespace.getNamespace("xmi", "http://schema.omg.org/spec/XMI/2.1");
 	
 	private final Log _log = LogFactory.getLog();
-	private final String WEIGHTS_FILE = "weightsConfigurationFile";
-	
-	private AnyMap _configuration;
-	private String weightsConfigurationFile = "";
 	
 	private float SITEVIEW_WEIGHT;
 	private float AREA_WEIGHT;
@@ -47,12 +42,9 @@ public class WebmlPayloadAdderPipelet implements Pipelet {
 	
 	@Override
 	public void configure(AnyMap configuration) {
-		_configuration = configuration;
-		weightsConfigurationFile = _configuration.getStringValue(WEIGHTS_FILE);
 		try {
 			Properties config = new Properties();
-			FileInputStream	in = new FileInputStream(weightsConfigurationFile);
-			config.load(in);
+			config.load(this.getClass().getClassLoader().getResourceAsStream("configuration.properties"));
 			
 			SITEVIEW_WEIGHT = Float.valueOf(config.getProperty("siteview"));
 			AREA_WEIGHT = Float.valueOf(config.getProperty("area"));
