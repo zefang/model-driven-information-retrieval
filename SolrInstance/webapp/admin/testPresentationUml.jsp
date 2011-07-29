@@ -137,14 +137,7 @@ more comprehensible way relevant information of query results.
 
 <%
 
-// create and load xquery properties
-Properties xqueryConfig = new Properties();
-FileInputStream in = new FileInputStream("xqueryConfig.properties");
-xqueryConfig.load(in);
-in.close();
-
-String XQUERY_PATH = xqueryConfig.getProperty("DIR");
-//String XQUERY_PATH = "./xquery";
+String XQUERY_PATH = "./xquery";
 String[] experiments = new String[]{"A", "B", "C", "D"};
 
 ArrayList<String> resultList = new ArrayList<String>();
