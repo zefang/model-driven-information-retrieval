@@ -38,14 +38,7 @@ import it.polimi.mdir.graph.processing.GraphUtils.RelationType;
  * This class Translates an UML Graph in the XMI format (.uml) to 
  * a file in GraphML format (.gml).<br />
  * It also creates the graph with the JUNG API and serializes it (.ser files) 
- * for future use.<br />
- * It gets a parameter from the comand line that is the location of the 
- * configuration.properties file containing 3 keys:
- * <ul>
- * 	<li>UML_PATH: the path of the folder where the .uml files are located</li>
- * 	<li>GRAPHML_PATH: the path where  the .gml will be written in output.</li>
- *  <li>SERIALIZATION_PATH: The path to where to put the serialized file (.ser)</li>
- * </ul>
+ * for future use.
  */
 public class TranslateXMItoGraphML {
 	
@@ -54,9 +47,9 @@ public class TranslateXMItoGraphML {
 	private static String GRAPHML_PATH = "";
 	private static String SERIALIZATION_PATH = "";
 	
-	private static void initialization(String configFilePath) throws IOException {
+	private static void initialization() throws IOException {
 		Properties config = new Properties();
-		FileInputStream in = new FileInputStream(configFilePath);
+		FileInputStream in = new FileInputStream("../it.polimi.mdir.graph/configuration.properties");
 		config.load(in);
 		UML_PATH = config.getProperty("UML_PATH");
 		GRAPHML_PATH = config.getProperty("GRAPHML_PATH");
@@ -65,11 +58,8 @@ public class TranslateXMItoGraphML {
 	}
 	
 	public static void main(String[] args) throws IOException {
-		if (args.length < 1) {
-			System.out.println("Error: Missing parameter\n Correct usage: TranslateXMIToGraphML path-to-'configuration.properties'-file");
-			return;
-		}
-		initialization(args[0]);
+		
+		initialization();
 		
 		File f = new File(UML_PATH);
 		File[] files = f.listFiles(new UmlFileFilter());

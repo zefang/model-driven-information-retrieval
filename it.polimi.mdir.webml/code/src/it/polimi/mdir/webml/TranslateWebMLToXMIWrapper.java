@@ -23,13 +23,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * A utility class to call the TranslateWebMLToXMI class offline.<br/>
- * It gets one parameter from command line that specifies 
- * the path to the configuration.properties file which contains two paths.<br/>
- * <ul>
- * 	<li>WEBML_PATH: which specifies the parent folder of the webml projects to translate</li>
- *  <li>OUTPUT_PATH: the location in which to save the .xmi files in output</li>
- * </ul>  
+ * A utility class to call the TranslateWebMLToXMI class offline.
  */
 public class TranslateWebMLToXMIWrapper {
 
@@ -38,11 +32,11 @@ public class TranslateWebMLToXMIWrapper {
 	private static int numProjects = 0;
 	private static Document outputDocument = null;
 	
-	private static void initialization(String configFilePath){
+	private static void initialization(){
 		Properties config = new Properties();
 		FileInputStream in;
 		try {
-			in = new FileInputStream(configFilePath);
+			in = new FileInputStream("../it.polimi.mdir.webml/configuration.properties");
 			config.load(in);
 			WEBML_PATH = config.getProperty("WEBML_PATH");
 			OUTPUT_PATH = config.getProperty("OUTPUT_PATH");
@@ -55,11 +49,8 @@ public class TranslateWebMLToXMIWrapper {
 	}
 	
 	public static void main(String[] args) {
-		if (args.length < 1) {
-			System.out.println("Error: Missing parameter\n Correct usage: TranslateWebMLToXMIWrapper path-to-'configuration.properties'-file");
-			return;
-		}
-		initialization(args[0]);
+
+		initialization();
 		
 		File webmlPath = new File(WEBML_PATH);
 		File[] projects = webmlPath.listFiles();
