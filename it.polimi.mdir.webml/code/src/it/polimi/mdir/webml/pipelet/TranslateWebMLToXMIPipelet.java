@@ -2,6 +2,7 @@ package it.polimi.mdir.webml.pipelet;
 
 import it.polimi.mdir.logger.Log;
 import it.polimi.mdir.logger.LogFactory;
+import it.polimi.mdir.webml.ConfigLoader;
 import it.polimi.mdir.webml.TranslateWebMLToXMI;
 
 import java.io.File;
@@ -26,21 +27,14 @@ import org.w3c.dom.Element;
  * In the configuration file it is possible to specify the folder where the queries are kept,
  */
 public class TranslateWebMLToXMIPipelet implements Pipelet {
-
-	private final String QUERY_PATH = "queryPath";
 	
 	private String _queryPath = "";
-	
-	private AnyMap _configuration;
 	
 	private Log _log = LogFactory.getLog();
 	
 	@Override
 	public void configure(AnyMap configuration) throws ProcessingException {
-		_configuration = configuration;
-		if (_configuration.containsKey(QUERY_PATH)) {
-			_queryPath = _configuration.getStringValue(QUERY_PATH);
-		}
+		_queryPath = ConfigLoader.WEBML_QUERY_PATH;
 	}
 
 	@Override

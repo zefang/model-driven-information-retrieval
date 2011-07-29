@@ -8,6 +8,7 @@ public class ConfigLoader {
 
 	public static String WEBML_PATH = "";
 	public static String OUTPUT_PATH = "";
+	public static String WEBML_QUERY_PATH = "";
 	
 	private static Properties config;
 	static {
@@ -17,6 +18,7 @@ public class ConfigLoader {
 			
 			WEBML_PATH = config.getProperty("WEBML_PATH");
 			OUTPUT_PATH = config.getProperty("OUTPUT_PATH");
+			WEBML_QUERY_PATH = config.getProperty("WEBML_QUERY_PATH");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

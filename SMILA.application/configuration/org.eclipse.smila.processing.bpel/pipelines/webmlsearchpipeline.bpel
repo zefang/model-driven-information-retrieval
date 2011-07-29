@@ -27,9 +27,6 @@
       <proc:invokePipelet name="invokeTranslateWebMLToXMIPipelet">
         <proc:pipelet class="it.polimi.mdir.webml.pipelet.TranslateWebMLToXMIPipelet" />
         <proc:variables input="request" />
-        <proc:configuration>
-          <rec:Val key="queryPath">C:\Users\Lox\workspaceSMILA\webmlQueries\</rec:Val>
-        </proc:configuration>
       </proc:invokePipelet>
     </extensionActivity>
     
