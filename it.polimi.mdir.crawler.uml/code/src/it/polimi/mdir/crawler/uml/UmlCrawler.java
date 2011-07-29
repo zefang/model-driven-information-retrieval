@@ -410,7 +410,7 @@ public class UmlCrawler extends AbstractCrawler {
       case PATH:
         return file.getAbsolutePath();
       case PROJECT_ID:
-    	xq = new XQueryWrapper("../xquery/UmlCrawler/getProjectId.xquery");
+    	xq = new XQueryWrapper("../it.polimi.mdir.crawler.uml/xquery/getProjectId.xquery");
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         String id = resultList.get(0);
@@ -421,13 +421,13 @@ public class UmlCrawler extends AbstractCrawler {
     	  String projectName = file.getName();
     	  return projectName.substring(0, projectName.length()-4);
       case CLASS_NAMES:
-    	xq = new XQueryWrapper("../xquery/UmlCrawler/getClassNames.xquery");
+    	xq = new XQueryWrapper("../it.polimi.mdir.crawler.uml/xquery/getClassNames.xquery");
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         resultListString = arrayListToString(resultList);
         return resultListString; 
       case CLASS_IDS:
-    	xq = new XQueryWrapper("../xquery/UmlCrawler/getClassIds.xquery");
+    	xq = new XQueryWrapper("../it.polimi.mdir.crawler.uml/xquery/getClassIds.xquery");
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         resultListString = arrayListToString(resultList);
@@ -442,7 +442,7 @@ public class UmlCrawler extends AbstractCrawler {
     	 * 'classIdVALUE'$'attributeNameVALUE'+'conceptType:relTypeVALUE'+'lowerValue'-'upperValue'
     	 */
       case ATTRIBUTE_NAMES:
-    	xq = new XQueryWrapper("../xquery/UmlCrawler/getAttributeNames.xquery");
+    	xq = new XQueryWrapper("../it.polimi.mdir.crawler.uml/xquery/getAttributeNames.xquery");
         xq.bindVariable("document", file.getAbsolutePath());
         resultList = xq.executeQuery();
         resultListString = arrayListToString(resultList);
