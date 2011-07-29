@@ -27,7 +27,7 @@ public class GraphFactory {
 	
 	/**
 	 * This method creates a graph in memory using the JUNG libraries
-	 * starting from a .gml in the GrapphML format.
+	 * starting from a .gml in the GraphML format.
 	 * 
 	 * @param fileName
 	 * The path of the file to convert.

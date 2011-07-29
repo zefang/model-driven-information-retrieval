@@ -33,7 +33,8 @@ import edu.uci.ics.jung.graph.Graph;
  */
 public class CreateGraphPipelet implements Pipelet {
 	
-	private static String GRAPHML_PATH = ConfigLoader.GRAPHML_PATH;
+	private static String _graphmlPath = ConfigLoader.GRAPHML_PATH;
+	private static String _serializationPath = ConfigLoader.SERIALIZATION_PATH;
 	
 	private static final String FORCE_REWRITE = "forceRewrite";
 	
@@ -64,9 +65,10 @@ public class CreateGraphPipelet implements Pipelet {
 			
 				System.out.println(++count + "-> Creating graph: " + projectName);
 				
-				Graph<Node, Edge> g = GraphFactory.createGraphFromGraphML(GRAPHML_PATH + projectName);
+				Graph<Node, Edge> g = GraphFactory.createGraphFromGraphML(_graphmlPath + projectName);
 				
-				String filePath = ConfigLoader.SERIALIZATION_PATH + projectName+".ser";
+				//writes the serialized file
+				String filePath = _serializationPath + projectName+".ser";
 				try {
 					File f = new File(filePath);
 					if (_forceRewrite || !f.exists()) {
