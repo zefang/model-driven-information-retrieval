@@ -1,10 +1,10 @@
-jar manifest classpath build
-node expression
-design model web
-allocation responsible depend
-table element html
-tr table element html
-program type source
-manifest bundle package
-document name author latex
-process activity status finishmode
+Manage Products Manage Products Products List Search Product
+Publication create new pub Enter New Publication New publication Publication type
+Modify Modify Modify user Modify user data default group subject List User list
+Client Details Create Modify Exist Project Details Project details Title
+Manage clients Make calls Manage clients
+Responsibles compose mail info Ask for information Mail
+Manage appointments Manage appointments Appointments List
+Book requests Create book ConnectUserToBook New book request New book User Book request list
+Manage documents ModifyUnit1 New Document Modify document Document data Document details Document list Delete document
+Contract type Delete Contracts Contract types

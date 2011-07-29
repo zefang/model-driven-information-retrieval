@@ -182,15 +182,7 @@ public class BatchTestWebml {
 		}
 		
 		private static void init() throws IOException {
-			
-			// Load properties
-			Properties pathConfig = new Properties();
-			FileInputStream in = new FileInputStream("pathConfig.properties");
-			pathConfig.load(in);
-			in.close();
-
-			XML_RESULTS_PATH = pathConfig.getProperty("XML_RESULTS");
-			
+			XML_RESULTS_PATH = "./result_xml/";	
 		}
 
 }
