@@ -56,16 +56,8 @@ public class ExcelWriterBatchWebml {
 	private WritableCellFormat tableCellStyle;
 	
 	private void init() throws IOException {
-		
-		// Load properties
-		Properties pathConfig = new Properties();
-		FileInputStream in = new FileInputStream("pathConfig.properties");
-		pathConfig.load(in);
-		in.close();
-
-		XQUERY_PATH = pathConfig.getProperty("X-QUERY");
-		XML_RESULTS_PATH = pathConfig.getProperty("XML_RESULTS");
-		
+		XQUERY_PATH = "./xquery/";
+		XML_RESULTS_PATH = "./result_xml/";	
 	}
 	
 	private void createSheet(WritableSheet sheet, Experiment experiment, int queryInst) throws RowsExceededException, WriteException, IOException {
