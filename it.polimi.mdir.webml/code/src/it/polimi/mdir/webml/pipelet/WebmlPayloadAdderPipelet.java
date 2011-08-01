@@ -1,13 +1,11 @@
 package it.polimi.mdir.webml.pipelet;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
-import java.util.Properties;
 
 import it.polimi.mdir.logger.Log;
 import it.polimi.mdir.logger.LogFactory;
+import it.polimi.mdir.webml.WeightRules;
 
 import org.eclipse.smila.blackboard.Blackboard;
 import org.eclipse.smila.datamodel.AnyMap;
@@ -33,29 +31,11 @@ public class WebmlPayloadAdderPipelet implements Pipelet {
 	
 	private final Log _log = LogFactory.getLog();
 	
-	private float SITEVIEW_WEIGHT;
-	private float AREA_WEIGHT;
-	private float PAGE_WEIGHT;
-	private float UNIT_WEIGHT;
-	
 	private static int count = 0;
 	
 	@Override
 	public void configure(AnyMap configuration) {
-		try {
-			Properties config = new Properties();
-			config.load(this.getClass().getClassLoader().getResourceAsStream("configuration.properties"));
-			
-			SITEVIEW_WEIGHT = Float.valueOf(config.getProperty("siteview"));
-			AREA_WEIGHT = Float.valueOf(config.getProperty("area"));
-			PAGE_WEIGHT = Float.valueOf(config.getProperty("page"));
-			UNIT_WEIGHT = Float.valueOf(config.getProperty("unit"));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
+
 	}
 
 	@Override
@@ -78,13 +58,13 @@ public class WebmlPayloadAdderPipelet implements Pipelet {
 					Element element = packedElements.next();
 					float payload = 0.0f;
 					if (element.getAttributeValue("type",XMI_NAMESPACE).contains("SiteView")) {
-						payload = SITEVIEW_WEIGHT;
+						payload = WeightRules.weightMap.get("siteview");
 					} else if (element.getAttributeValue("type",XMI_NAMESPACE).contains("Area")) {
-						payload = AREA_WEIGHT;
+						payload = WeightRules.weightMap.get("area");
 					} else if (element.getAttributeValue("type",XMI_NAMESPACE).contains("Page")) {
-						payload = PAGE_WEIGHT;
+						payload = WeightRules.weightMap.get("page");
 					} else if (element.getAttributeValue("type",XMI_NAMESPACE).contains("Unit")) {
-						payload = UNIT_WEIGHT;
+						payload = WeightRules.weightMap.get("unit");
 					}
 					// get analyzed content
 					String nameValue = element.getAttributeValue("name");
