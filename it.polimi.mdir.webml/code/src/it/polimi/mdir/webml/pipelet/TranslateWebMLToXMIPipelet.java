@@ -28,13 +28,11 @@ import org.w3c.dom.Element;
  */
 public class TranslateWebMLToXMIPipelet implements Pipelet {
 	
-	private String _queryPath = "";
-	
 	private Log _log = LogFactory.getLog();
 	
 	@Override
 	public void configure(AnyMap configuration) throws ProcessingException {
-		_queryPath = ConfigLoader.WEBML_QUERY_PATH;
+		
 	}
 
 	@Override
@@ -50,7 +48,9 @@ public class TranslateWebMLToXMIPipelet implements Pipelet {
 		      final List<String> resultAttributes = parameters.getResultAttributes();
 	
 		    if (query != null && !query.isEmpty()) {
-		    	File webmlQueryProject = new File(_queryPath, query);
+		    	String queryPath = ConfigLoader.WEBML_QUERY_PATH; //parent folder of Webml Query
+		    	System.out.println(queryPath);
+		    	File webmlQueryProject = new File(queryPath, query);
 				
 				//webmlQueryProject MUST be a directory
 				if (!webmlQueryProject.isDirectory()) {
@@ -65,7 +65,7 @@ public class TranslateWebMLToXMIPipelet implements Pipelet {
 					webmlProject.setAttribute("xmlns:webml", "http://www.webml.org");
 					webmlProject.setAttribute("xmi:version", "2.1");
 					
-					TranslateWebMLToXMI translate = new TranslateWebMLToXMI(_queryPath, outputDocument);
+					TranslateWebMLToXMI translate = new TranslateWebMLToXMI(queryPath, outputDocument);
 					translate.processProject(webmlQueryProject, webmlProject);
 					
 					//converting from w3c.dom to jdom
