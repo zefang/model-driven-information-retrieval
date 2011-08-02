@@ -81,19 +81,6 @@ function showHide() {
 <table>
 <tr>
   <td>
-	<input id="writeToSheetCheckbox" name="writeToSheet" type="checkbox" onclick="showHide();" value="writeExcel" /> Write to a new excel sheet?<br />
-  </td>
-</tr>
-<tr id="metaQueryLabel">
-  <td>
-  	<strong>Meta-query instance label (e.g. MQ1INST1)</strong>
-  </td>
-  <td>
-	<input type="text" name="sheetTitle" value=""></input>
-  </td>
-</tr>
-<tr>
-  <td>
 	<strong>Query string</strong>
   </td>
   <td>
