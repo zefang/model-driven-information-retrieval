@@ -3,29 +3,24 @@ package it.polimi.mdir.ui;
 import it.polimi.mdir.ui.utils.CommentedProperties;
 
 import java.awt.Container;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class MainFrame extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 8323795009437878769L;
-
-	private static CommentedProperties config = new CommentedProperties();
-	
-	//Path to the executable of the program used to edit text files
-	private static String editor = "";
 	
 	private static final String UML_CONFIG_PATH = "../it.polimi.mdir.graph/configuration.properties";
 	private static final String WEBML_CONFIG_PATH = "../it.polimi.mdir.webml/configuration.properties";
@@ -56,9 +51,11 @@ public class MainFrame extends JFrame implements ActionListener {
 	
 	//TODO buttons to open the various schema.xml files?
 	
+	private JMenuBar menuBar;
+	private JMenu optionsMenu;
+	private JMenuItem preferencesMenuItem;
+	
 	public static void main(String[] args) {
-		
-		loadProperties();
 		
 		//Create and show UI
 		MainFrame mainFrame = new MainFrame("Configurator");
@@ -96,6 +93,11 @@ public class MainFrame extends JFrame implements ActionListener {
 			routerButton.addActionListener(this);
 			routerButton.setActionCommand(ROUTER_CONFIG_PATH);
 			
+		menuBar = new JMenuBar();
+		optionsMenu = new JMenu("Options");
+		preferencesMenuItem = new JMenuItem("Preferences");
+			preferencesMenuItem.addActionListener(this);
+			
 		addUIComponents();
 	}
 	
@@ -107,6 +109,10 @@ public class MainFrame extends JFrame implements ActionListener {
 		contentPane.add(webmlCrawlerButton);
 		contentPane.add(listenerButton);
 		contentPane.add(routerButton);
+		
+		optionsMenu.add(preferencesMenuItem);
+		menuBar.add(optionsMenu);
+		this.setJMenuBar(menuBar);
 	}
 	
 	
@@ -135,13 +141,15 @@ public class MainFrame extends JFrame implements ActionListener {
 		}
 	}
 
-	private static void loadProperties() {
+	private String getTextEditor() {
+		CommentedProperties config = new CommentedProperties();
 		try {
 			config.load(new FileInputStream(new File("configuration.properties")));
-			editor = config.getProperty("EDITOR");
+			return config.getProperty("EDITOR");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 	
 	/*
@@ -150,10 +158,16 @@ public class MainFrame extends JFrame implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		openEditor(e.getActionCommand());
+		if (e.getSource().getClass() == JMenuItem.class) {
+			openPreferencesDialog();
+		} else {
+			//it's a button. Open the editor.
+			openEditor(e.getActionCommand());	
+		}
 	}
 	
 	private void openEditor(String parameters) {
+		String editor = getTextEditor();
 		try {
 			ProcessBuilder procBuilder = new ProcessBuilder(editor, parameters);
 			procBuilder.start();
@@ -162,16 +176,12 @@ public class MainFrame extends JFrame implements ActionListener {
 		}
 	}
 	
-	private static void savePorperties() {
-		//TODO fare dire all'utente che applicazione vuole usare per editare i file di testo
+	private void openPreferencesDialog() {
+		PreferencesDialog preferencesDialog = new PreferencesDialog(this, "Preferences");
 		
-		config.setProperty("EDITOR", "notepad");
-		try {
-			config.store(new FileOutputStream(new File("configuration.properties")), null);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		preferencesDialog.pack();
+		preferencesDialog.setVisible(true);
 	}
+	
+	
 }
