@@ -1,7 +1,5 @@
 package it.polimi.mdir.solr.test;
 
-import it.polimi.mdir.test.ExcelUtils.ExcelWriter;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
 
@@ -11,9 +9,6 @@ import javax.xml.transform.stream.StreamSource;
 
 import java.io.*;
 import java.net.*;
-
-import jxl.read.biff.BiffException;
-import jxl.write.WriteException;
 
 public class WebmlTestServlet extends HttpServlet {
 
@@ -108,18 +103,6 @@ public class WebmlTestServlet extends HttpServlet {
 		      file.close();
 		    	  
 		      in.close();		 
-		  }
-		  
-		 // Write a new excel sheet 
-		  if (writeToSheet != null && !writeToSheet.isEmpty()) {
-			  ExcelWriter excelWriter = new ExcelWriter();
-			  try {
-				excelWriter.write(sheetTitle, originalQueryString);
-			} catch (BiffException e) {
-				e.printStackTrace();
-			} catch (WriteException e) {
-				e.printStackTrace();
-			}
 		  }
 		  
 		  // Redirect to test presentation page
