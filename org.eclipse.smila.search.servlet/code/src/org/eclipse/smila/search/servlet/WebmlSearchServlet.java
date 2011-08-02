@@ -94,7 +94,8 @@ public class WebmlSearchServlet extends SMILASearchServlet {
 	        result = transform(resultDoc, stylesheet);
 	      }
 	      
-	      String queryString = query.getMetadata().getStringValue("query"); 
+	      String queryString = query.getMetadata().getStringValue("query");
+	      queryString+=": "+ query.getMetadata().getStringValue("keywords");
 	      if (queryString == null) {
 	    	  response.getOutputStream().write(result);
 		      response.getOutputStream().flush();  
