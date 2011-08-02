@@ -59,8 +59,11 @@ public class PreferencesDialog extends JDialog implements ActionListener {
 	private String getTextEditor() {
 		CommentedProperties config = new CommentedProperties();
 		try {
-			config.load(new FileInputStream(new File("configuration.properties")));
-			return config.getProperty("EDITOR");
+			FileInputStream in = new FileInputStream(new File("configuration.properties")); 
+			config.load(in);
+			String editorPath = config.getProperty("EDITOR");
+			in.close();
+			return editorPath;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -78,6 +81,7 @@ public class PreferencesDialog extends JDialog implements ActionListener {
 		if (approved == JFileChooser.APPROVE_OPTION) {
 			File editor = fileChooser.getSelectedFile();
 			String filePath = editor.getAbsolutePath();
+			filePath = filePath.replaceAll("\\\\", "/");
 			editorLabel.setText(filePath);
 			savePorperties(filePath);
 		}
@@ -87,7 +91,9 @@ public class PreferencesDialog extends JDialog implements ActionListener {
 		CommentedProperties config = new CommentedProperties();
 		config.setProperty("EDITOR", path);
 		try {
-			config.store(new FileOutputStream(new File("configuration.properties")), null);
+			FileOutputStream out = new FileOutputStream(new File("configuration.properties")); 
+			config.store(out, null);
+			out.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
