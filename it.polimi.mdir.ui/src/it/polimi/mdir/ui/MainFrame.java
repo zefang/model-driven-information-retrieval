@@ -112,7 +112,10 @@ public class MainFrame extends JFrame implements ActionListener {
 		
 		optionsMenu.add(preferencesMenuItem);
 		menuBar.add(optionsMenu);
-		this.setJMenuBar(menuBar);
+		
+		//TODO delete all code related to menubar if not needed anymore,
+		//     including the PreferencesDialog
+		//this.setJMenuBar(menuBar); 
 	}
 	
 	
@@ -144,8 +147,12 @@ public class MainFrame extends JFrame implements ActionListener {
 	private String getTextEditor() {
 		CommentedProperties config = new CommentedProperties();
 		try {
-			config.load(new FileInputStream(new File("configuration.properties")));
-			return config.getProperty("EDITOR");
+			FileInputStream in = new FileInputStream(new File("configuration.properties")); 
+			config.load(in);
+			String editorPath = config.getProperty("EDITOR");
+			System.out.println(editorPath);
+			in.close();
+			return editorPath;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
