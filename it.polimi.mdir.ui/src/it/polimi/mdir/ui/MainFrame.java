@@ -25,32 +25,65 @@ public class MainFrame extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 8323795009437878769L;
 	
-	private static final String UML_CONFIG_PATH = "../it.polimi.mdir.graph/configuration.properties";
-	private static final String WEBML_CONFIG_PATH = "../it.polimi.mdir.webml/configuration.properties";
-	private static final String UMLCRAWLER_CONFIG_PATH = "../SMILA.application/configuration/org.eclipse.smila.connectivity.framework/uml.xml";
-	private static final String WEBMLCRAWLER_CONFIG_PATH = "../SMILA.application/configuration/org.eclipse.smila.connectivity.framework/webml.xml";
 	private static final String LISTENER_CONFIG_PATH = "../SMILA.application/configuration/org.eclipse.smila.connectivity.queue.worker.jms/QueueWorkerListenerConfig.xml";
 	private static final String ROUTER_CONFIG_PATH = "../SMILA.application/configuration/org.eclipse.smila.connectivity.queue.worker.jms/QueueWorkerRouterConfig.xml";
+	private static final String CONNECTIVITY_CONFIG_PATH = "../SMILA.application/configuration/org.eclipse.smila.connectivity.queue.worker.jms/QueueWorkerConnectionConfig.xml";
+	private static final String PROCESSOR_PROPERTIES_PATH = "../SMILA.application/configuration/org.eclipse.smila.processing.bpel/processor.properties";
+	private static final String RECORD_FILTERS_PATH = "../SMILA.application/configuration/org.eclipse.smila.blackboard/RecordFilters.xml";
+	private static final String DEPLOY_XML_PATH = "../SMILA.application/configuration/org.eclipse.smila.processing.bpel/pipelines/deploy.xml";
+	
+	private static final String UML_CONFIG_PATH = "../it.polimi.mdir.graph/configuration.properties";
+	private static final String UMLCRAWLER_CONFIG_PATH = "../SMILA.application/configuration/org.eclipse.smila.connectivity.framework/uml.xml";
+	private static final String UML_PIPELINE_PATH = "../SMILA.application/configuration/org.eclipse.smila.processing.bpel/pipelines/umlpipeline.bpel";
+	
+	
+	private static final String WEBML_CONFIG_PATH = "../it.polimi.mdir.webml/configuration.properties";
+	private static final String WEBMLCRAWLER_CONFIG_PATH = "../SMILA.application/configuration/org.eclipse.smila.connectivity.framework/webml.xml";
+	private static final String WEBML_PIPELINE_B_PATH = "../SMILA.application/configuration/org.eclipse.smila.processing.bpel/pipelines/webmlpipeline_B.bpel";
+	private static final String WEBML_PIPELINE_C_PATH = "../SMILA.application/configuration/org.eclipse.smila.processing.bpel/pipelines/webmlpipeline_C.bpel";
+	
+	
+/*
+ * UI Components
+ */
 	
 	/*
-	 * UI Components
+	 * SMILA buttons
 	 */
-	
-	private JButton umlButton; //it.polimi.mdir.graph/configuration.properties
-	private JButton webmlButton; //it.polimi.mdir.webml/configuration.properties
-	
-	//SMILA.application/configuration/org.eclipse.smila.connectivity.framework/uml.xml
-	private JButton umlCrawlerButton;
-	//SMILA.application/configuration/org.eclipse.smila.connectivity.framework/webml.xml
-	private JButton webmlCrawlerButton;
-	
 	//SMILA.application/configuration/org.eclipse.smila.connectivity.queue.worker.jms/QueueWorkerListenerConfig.xml
 	private JButton listenerButton;
-	////SMILA.application/configuration/org.eclipse.smila.connectivity.queue.worker.jms/QueueWorkerRouterConfig.xml
+	//SMILA.application/configuration/org.eclipse.smila.connectivity.queue.worker.jms/QueueWorkerRouterConfig.xml
 	private JButton routerButton;
-	//TODO connectivity button?
+	//SMILA.application/configuration/org.eclipse.smila.connectivity.queue.worker.jms/QueueWorkerConnectionConfig.xml
+	private JButton connectivityButton;
+	//SMILA.application/configuration/org.eclipse.smila.processing.bpel/processor.properties
+	private JButton processorPropertiesButton;
+	//SMILA.application/configuration/org.eclipse.smila.blackboard/RecordFilters.xml
+	private JButton recordFiltersButton;
+	//SMILA.application/configuration/org.eclipse.smila.processing.bpel/pipelines/deploy.xml
+	private JButton deployXmlButton;
 	
-	//TODO pipeline buttons?
+	/*
+	 * UML buttons
+	 */
+	//it.polimi.mdir.graph/configuration.properties
+	private JButton umlButton; 
+	//SMILA.application/configuration/org.eclipse.smila.connectivity.framework/uml.xml
+	private JButton umlCrawlerButton;
+	//SMILA.application/configuration/org.eclipse.smila.processing.bpel/pipelines/umlpipeline.bpel
+	private JButton umlPipelineButton;
+	
+	/*
+	 * WebML buttons
+	 */
+	//it.polimi.mdir.webml/configuration.properties
+	private JButton webmlButton; 
+	//SMILA.application/configuration/org.eclipse.smila.connectivity.framework/webml.xml
+	private JButton webmlCrawlerButton;
+	//SMILA.application/configuration/org.eclipse.smila.processing.bpel/pipelines/webmlpipeline_B.bpel
+	private JButton webmlPipelineBButton;
+	//SMILA.application/configuration/org.eclipse.smila.processing.bpel/pipelines/webmlpipeline_C.bpel
+	private JButton webmlPipelineCButton;
 	
 	//TODO buttons to open the various schema.xml files?
 	
@@ -78,24 +111,48 @@ public class MainFrame extends JFrame implements ActionListener {
 		setLookAndFeel();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		umlButton = new JButton("it.polimi.mdir.graph/configuration.properties");
-			umlButton.addActionListener(this);
-			umlButton.setActionCommand(UML_CONFIG_PATH);
-		webmlButton = new JButton("it.polimi.mdir.webml/configuration.properties");
-			webmlButton.addActionListener(this);
-			webmlButton.setActionCommand(WEBML_CONFIG_PATH);
-		umlCrawlerButton = new JButton("SMILA.application/configuration/org.eclipse.smila.connectivity.framework/uml.xml");
-			umlCrawlerButton.addActionListener(this);
-			umlCrawlerButton.setActionCommand(UMLCRAWLER_CONFIG_PATH);
-		webmlCrawlerButton = new JButton("SMILA.application/configuration/org.eclipse.smila.connectivity.framework/webml.xml");
-			webmlCrawlerButton.addActionListener(this);
-			webmlCrawlerButton.setActionCommand(WEBMLCRAWLER_CONFIG_PATH);
-		listenerButton = new JButton("SMILA.application/configuration/org.eclipse.smila.connectivity.queue.worker.jms/QueueWorkerListenerConfig.xml");
+		listenerButton = new JButton(LISTENER_CONFIG_PATH);
 			listenerButton.addActionListener(this);
 			listenerButton.setActionCommand(LISTENER_CONFIG_PATH);
-		routerButton = new JButton("SMILA.application/configuration/org.eclipse.smila.connectivity.queue.worker.jms/QueueWorkerRouterConfig.xml");
+		routerButton = new JButton(ROUTER_CONFIG_PATH);
 			routerButton.addActionListener(this);
 			routerButton.setActionCommand(ROUTER_CONFIG_PATH);
+		connectivityButton = new JButton(CONNECTIVITY_CONFIG_PATH);
+			connectivityButton.addActionListener(this);
+			connectivityButton.setActionCommand(CONNECTIVITY_CONFIG_PATH);
+		processorPropertiesButton = new JButton(PROCESSOR_PROPERTIES_PATH);
+			processorPropertiesButton.addActionListener(this);
+			processorPropertiesButton.setActionCommand(PROCESSOR_PROPERTIES_PATH);
+		recordFiltersButton = new JButton(RECORD_FILTERS_PATH);
+			recordFiltersButton.addActionListener(this);
+			recordFiltersButton.setActionCommand(RECORD_FILTERS_PATH);
+		deployXmlButton = new JButton(DEPLOY_XML_PATH);
+			deployXmlButton.addActionListener(this);
+			deployXmlButton.setActionCommand(DEPLOY_XML_PATH);
+		
+		umlButton = new JButton(UML_CONFIG_PATH);
+			umlButton.addActionListener(this);
+			umlButton.setActionCommand(UML_CONFIG_PATH);
+		umlCrawlerButton = new JButton(UMLCRAWLER_CONFIG_PATH);
+			umlCrawlerButton.addActionListener(this);
+			umlCrawlerButton.setActionCommand(UMLCRAWLER_CONFIG_PATH);
+		umlPipelineButton = new JButton(UML_PIPELINE_PATH);
+			umlPipelineButton.addActionListener(this);
+			umlPipelineButton.setActionCommand(UML_PIPELINE_PATH);
+			
+		webmlButton = new JButton(WEBML_CONFIG_PATH);
+			webmlButton.addActionListener(this);
+			webmlButton.setActionCommand(WEBML_CONFIG_PATH);
+		webmlCrawlerButton = new JButton(WEBMLCRAWLER_CONFIG_PATH);
+			webmlCrawlerButton.addActionListener(this);
+			webmlCrawlerButton.setActionCommand(WEBMLCRAWLER_CONFIG_PATH);
+		webmlPipelineBButton = new JButton(WEBML_PIPELINE_B_PATH);
+			webmlPipelineBButton.addActionListener(this);
+			webmlPipelineBButton.setActionCommand(WEBML_PIPELINE_B_PATH);
+		webmlPipelineCButton = new JButton(WEBML_PIPELINE_C_PATH);
+			webmlPipelineCButton.addActionListener(this);
+			webmlPipelineCButton.setActionCommand(WEBML_PIPELINE_C_PATH);
+		
 			
 		tabbedPane = new JTabbedPane();
 			
@@ -110,15 +167,22 @@ public class MainFrame extends JFrame implements ActionListener {
 	private void addUIComponents() {
 		Container contentPane = this.getContentPane();
 		
-		JPanel tab1Panel = new JPanel(new GridLayout(2,1));
-			tab1Panel.add(listenerButton);
+		JPanel tab1Panel = new JPanel(new GridLayout(6,1));
+			tab1Panel.add(new JPanel().add(listenerButton).getParent());
 			tab1Panel.add(routerButton);
-		JPanel tab2Panel = new JPanel(new GridLayout(2,1));
+			tab1Panel.add(connectivityButton);
+			tab1Panel.add(processorPropertiesButton);
+			tab1Panel.add(recordFiltersButton);
+			tab1Panel.add(deployXmlButton);
+		JPanel tab2Panel = new JPanel(new GridLayout(3,1));
 			tab2Panel.add(umlButton);
 			tab2Panel.add(umlCrawlerButton);
-		JPanel tab3Panel = new JPanel(new GridLayout(2,1));
+			tab2Panel.add(umlPipelineButton);
+		JPanel tab3Panel = new JPanel(new GridLayout(4,1));
 			tab3Panel.add(webmlButton);
 			tab3Panel.add(webmlCrawlerButton);
+			tab3Panel.add(webmlPipelineBButton);
+			tab3Panel.add(webmlPipelineCButton);
 		
 		optionsMenu.add(preferencesMenuItem);
 		menuBar.add(optionsMenu);
