@@ -1,0 +1,10 @@
+jar manifest classpath build
+node expression
+tag name
+event
+link
+shape
+program type source
+note
+task
+process activity status finishmode
