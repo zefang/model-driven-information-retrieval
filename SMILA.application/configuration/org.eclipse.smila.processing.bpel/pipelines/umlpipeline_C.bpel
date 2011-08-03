@@ -10,7 +10,7 @@
   * Daniel Stucky (Empolis GmbH) - initial design
   * Igor Novakovic (Empolis GmbH) - added the invocation of SolrPipelet
 -->
-<process name="SolrAddPipeline_A" targetNamespace="http://www.eclipse.org/smila/processor"
+<process name="UmlPipeline_C" targetNamespace="http://www.eclipse.org/smila/processor"
   xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns:proc="http://www.eclipse.org/smila/processor" xmlns:rec="http://www.eclipse.org/smila/record" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
 
@@ -38,32 +38,62 @@
         <bpel:sequence>
                         
                         <extensionActivity>
-		    				<proc:invokePipelet name="invokeSplitAPipelet">
-		        				<proc:pipelet class="it.polimi.mdir.uml.SplitAPipelet" />
+                        	<proc:invokePipelet name="invokeSplitCPipelet">
+		        				<proc:pipelet class="it.polimi.mdir.uml.SplitCPipelet" />
 		        				<proc:variables input="request" />     
-		    				</proc:invokePipelet>
-						</extensionActivity>
-						
+		    				</proc:invokePipelet>		
+                        </extensionActivity>
+                        
                         <extensionActivity>
-	                        <proc:invokePipelet name="invokeSolrIndexerPipelet_A">
-            					<proc:pipelet class="it.polimi.mdir.solr.SolrIndexerPipelet" />
+                			<proc:invokePipelet name="invokeUmlPayloadAdder">
+		        				<proc:pipelet class="it.polimi.mdir.uml.UmlPayloadAdderPipelet" />
+								<proc:variables input="request" />     
+		    				</proc:invokePipelet>
+                		</extensionActivity>
+                        
+				        <extensionActivity>
+				          <proc:invokePipelet name="invokeAnalyzerPayloadSubstitutionPipelet">
+				            <proc:pipelet class="it.polimi.mdir.uml.AnalyzerPayloadSubstitutionPipelet" />
+				            <proc:variables input="request" />
+				            <proc:configuration>
+				              <rec:Val key="coreName">text_experiment_C</rec:Val>
+				              <rec:Val key="analysisField">text_C</rec:Val>
+				            </proc:configuration>
+				          </proc:invokePipelet>
+				        </extensionActivity>
+                		
+                        <extensionActivity>
+                        	<proc:invokePipelet name="invokeSolrIndexerPipelet_C">
+                    			<proc:pipelet class="it.polimi.mdir.solr.SolrIndexerPipelet" />
             					<proc:variables input="request" />
             					<proc:configuration>
-	              					<rec:Val key="executionMode">ADD</rec:Val>
+              						<rec:Val key="executionMode">ADD</rec:Val>
               						<rec:Val key="commitWithin" type="long">10000</rec:Val>
-              						<rec:Val key="coreName">text_experiment_A</rec:Val>
+              						<rec:Val key="coreName">text_experiment_C</rec:Val>
 			  						<rec:Seq key="smilaFields">
-				    					<rec:Val>projectId</rec:Val>
-										<rec:Val>projectName</rec:Val>		    
-										<rec:Val>content</rec:Val>	
+			    						<rec:Val>projectId</rec:Val>
+										<rec:Val>projectName</rec:Val>
+										<rec:Val>projectName_analyzed</rec:Val>	  	    
+										<rec:Val>conceptType</rec:Val>
+										<rec:Val>classId</rec:Val>
+										<rec:Val>className</rec:Val>
+										<rec:Val>className_analyzed</rec:Val>
+										<rec:Val>attributeNames</rec:Val>
+										<rec:Val>attributeNames_analyzed</rec:Val>
 			  						</rec:Seq>
 			  						<rec:Seq key="solrFields">
-				    					<rec:Val>projectId</rec:Val>
+			    						<rec:Val>projectId</rec:Val>
 										<rec:Val>projectName</rec:Val>
-										<rec:Val>content</rec:Val>				
+										<rec:Val>content</rec:Val>
+										<rec:Val>conceptType</rec:Val>			
+										<rec:Val>classId</rec:Val>
+										<rec:Val>className</rec:Val>
+										<rec:Val>content</rec:Val>
+										<rec:Val>attributeNames</rec:Val>
+										<rec:Val>content</rec:Val>
 			  						</rec:Seq>
             					</proc:configuration>
-          					</proc:invokePipelet>
+                    		</proc:invokePipelet>
                         </extensionActivity>
                     
         </bpel:sequence>

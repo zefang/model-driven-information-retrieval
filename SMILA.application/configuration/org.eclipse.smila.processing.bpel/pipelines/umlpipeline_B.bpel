@@ -10,7 +10,7 @@
   * Daniel Stucky (Empolis GmbH) - initial design
   * Igor Novakovic (Empolis GmbH) - added the invocation of SolrPipelet
 -->
-<process name="SolrAddPipeline_B" targetNamespace="http://www.eclipse.org/smila/processor"
+<process name="UmlPipeline_B" targetNamespace="http://www.eclipse.org/smila/processor"
   xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns:proc="http://www.eclipse.org/smila/processor" xmlns:rec="http://www.eclipse.org/smila/record" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
 
