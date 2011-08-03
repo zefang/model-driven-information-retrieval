@@ -104,7 +104,7 @@
 							<rec:Val>conceptType</rec:Val>
 							<rec:Val>classId</rec:Val>
 							<rec:Val>className</rec:Val>
-							<rec:Val>className_analyzed</rec:Val>
+							<!-- <rec:Val>className_analyzed</rec:Val> className is already in attributeNames in experiment D-->
 							<rec:Val>attributeNames</rec:Val>
 							<rec:Val>attributeNames_analyzed</rec:Val>
 			  			</rec:Seq>
@@ -115,7 +115,7 @@
 							<rec:Val>conceptType</rec:Val>			
 							<rec:Val>classId</rec:Val>
 							<rec:Val>className</rec:Val>
-							<rec:Val>content</rec:Val>
+							<!-- <rec:Val>content</rec:Val> -->
 							<rec:Val>attributeNames</rec:Val>
 							<rec:Val>content</rec:Val>
 			  			</rec:Seq>
