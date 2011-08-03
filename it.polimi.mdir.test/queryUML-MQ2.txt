@@ -1,0 +1,10 @@
+function source struct char int class member operator variable parameter
+element node attribute name children
+table column database
+business process
+task activity
+message operation
+node attribute
+formula
+color print size
+transition
