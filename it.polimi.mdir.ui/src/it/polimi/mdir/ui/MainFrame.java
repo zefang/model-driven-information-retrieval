@@ -10,11 +10,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -51,6 +54,8 @@ public class MainFrame extends JFrame implements ActionListener {
 	
 	//TODO buttons to open the various schema.xml files?
 	
+	private JTabbedPane tabbedPane;
+	
 	private JMenuBar menuBar;
 	private JMenu optionsMenu;
 	private JMenuItem preferencesMenuItem;
@@ -72,7 +77,6 @@ public class MainFrame extends JFrame implements ActionListener {
 	private void initializeUIComponents() {
 		setLookAndFeel();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setLayout(new GridLayout(6, 1, 10, 10));
 		
 		umlButton = new JButton("it.polimi.mdir.graph/configuration.properties");
 			umlButton.addActionListener(this);
@@ -93,6 +97,8 @@ public class MainFrame extends JFrame implements ActionListener {
 			routerButton.addActionListener(this);
 			routerButton.setActionCommand(ROUTER_CONFIG_PATH);
 			
+		tabbedPane = new JTabbedPane();
+			
 		menuBar = new JMenuBar();
 		optionsMenu = new JMenu("Options");
 		preferencesMenuItem = new JMenuItem("Preferences");
@@ -103,22 +109,29 @@ public class MainFrame extends JFrame implements ActionListener {
 	
 	private void addUIComponents() {
 		Container contentPane = this.getContentPane();
-		contentPane.add(umlButton);
-		contentPane.add(webmlButton);
-		contentPane.add(umlCrawlerButton);
-		contentPane.add(webmlCrawlerButton);
-		contentPane.add(listenerButton);
-		contentPane.add(routerButton);
+		
+		JPanel tab1Panel = new JPanel(new GridLayout(2,1));
+			tab1Panel.add(listenerButton);
+			tab1Panel.add(routerButton);
+		JPanel tab2Panel = new JPanel(new GridLayout(2,1));
+			tab2Panel.add(umlButton);
+			tab2Panel.add(umlCrawlerButton);
+		JPanel tab3Panel = new JPanel(new GridLayout(2,1));
+			tab3Panel.add(webmlButton);
+			tab3Panel.add(webmlCrawlerButton);
 		
 		optionsMenu.add(preferencesMenuItem);
 		menuBar.add(optionsMenu);
+		
+		tabbedPane.addTab("SMILA Configuration", new ImageIcon("./images/SMILA.gif"), tab1Panel, "SMILA configuration properties");
+		tabbedPane.addTab("UML Experiments", new ImageIcon("./images/uml.gif"), tab2Panel, "UML configuration properties");
+		tabbedPane.addTab("WebML Experiments", new ImageIcon("./images/webml.gif"), tab3Panel, "WebML configuration properties");
+		contentPane.add(tabbedPane);
 		
 		//TODO delete all code related to menubar if not needed anymore,
 		//     including the PreferencesDialog
 		//this.setJMenuBar(menuBar); 
 	}
-	
-	
 	
 	private void setLookAndFeel() {
 		try {
@@ -150,7 +163,6 @@ public class MainFrame extends JFrame implements ActionListener {
 			FileInputStream in = new FileInputStream(new File("configuration.properties")); 
 			config.load(in);
 			String editorPath = config.getProperty("EDITOR");
-			System.out.println(editorPath);
 			in.close();
 			return editorPath;
 		} catch (IOException e) {
