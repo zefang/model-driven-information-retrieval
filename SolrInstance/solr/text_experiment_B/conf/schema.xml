@@ -323,7 +323,7 @@
    <field name="attributeNames" type="text_B" indexed="true" stored="true" required="true" />
 
    <field name="content" type="text_B" indexed="true" stored="true"    
-			multiValued="true" termVectors="true" termOffsets="true" termPosition="true" omitNorms="true"/>			
+			multiValued="true" termVectors="true" termOffsets="true" termPosition="true"/>			
    
  </fields>
 

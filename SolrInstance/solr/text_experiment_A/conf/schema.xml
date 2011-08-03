@@ -319,7 +319,7 @@
    <field name="projectName" type="text_A" indexed="true" stored="true" required="true" /> 
 			
    <field name="content" type="text_A" indexed="true" stored="true"   
-			multiValued="true" termVectors="true" termOffsets="true" termPosition="true" omitNorms="true"/>
+			multiValued="true" termVectors="true" termOffsets="true" termPosition="true"/>
 	
    
  </fields>

@@ -342,7 +342,7 @@
    <field name="attributeNames" type="text_C" indexed="true" stored="true" required="true"/>
 
    <field name="content" type="lastAnalysis" indexed="true" stored="true"    
-			multiValued="true" termVectors="true" termOffsets="true" termPosition="true" omitNorms="true"/>	<!-- Here the actual search is performed -->	
+			multiValued="true" termVectors="true" termOffsets="true" termPosition="true"/>	<!-- Here the actual search is performed -->	
 			
 	<field name="text_C" type="text_C" /> <!-- All analysis is performed here -->
    
