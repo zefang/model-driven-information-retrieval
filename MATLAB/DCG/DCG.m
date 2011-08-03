@@ -50,16 +50,22 @@ for i=1:configuration.experiments_number
             if(isempty(index) == 0)
                 rel_j = groundtruth(index,2);
                 rel_j = str2double(rel_j{1});
-                fprintf('Document with id %s FOUND in groundtruth with relevance %d\n', docId_j, rel_j);
+                fprintf('%d) Document with id %s FOUND in groundtruth with relevance %d\n', j, docId_j, rel_j);
             else
             % ..if not, relevance = 0
                 rel_j = 0;
-                fprintf('Document with id %s NOT FOUND in groundtruth, so its relevance is %d\n', docId_j, rel_j);
+                fprintf('%d) Document with id %s NOT FOUND in groundtruth, so its relevance is %d\n', j, docId_j, rel_j);
             end
         end
         
+        % if this is not the first document in the result list and there
+        % are still documents in the result list, then compute the DCG
+        % normally
         if (j ~= 1 && j <= exp_iMaxRows)
             DCG_i(j) = DCG_i(j-1) + rel_j/log2(j);
+        % if this is not the first document in the result list and there
+        % are no more documents in the result list, the DCG at the current
+        % position is the same as previous position
         elseif (j ~=1 && j > exp_iMaxRows)
             DCG_i(j) = DCG_i(j-1);
         else

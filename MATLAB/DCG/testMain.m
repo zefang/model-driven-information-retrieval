@@ -1,6 +1,6 @@
 function [DCGMean iDCGMean nDCGMean] = testMain(abs_path, mq_label, mqinst_num, dataset)
 % 1) input: abs_path of output.xls (abs path still not used!)
-% 2) input: MQ label (e.g. MQ1)
+% 2) input: MQ label (e.g. MQ1); this is needed only for dataset='uml'
 % 3) input: number of MQ instances
 % 4) input: dataset ('uml'/'webml')
 %
@@ -38,7 +38,7 @@ DCGOutput = cell(1,mqinst_num);
 % instance
 iDCGOutput = cell(1,mqinst_num);
 
-fprintf('------- DCG/iDCG -------- \n \n \n');
+fprintf('------- DCG/iDCG --------\n');
 
 % for all instances
 for i=1:mqinst_num
