@@ -42,6 +42,8 @@ public class MainFrame extends JFrame implements ActionListener {
 	private static final String WEBML_PIPELINE_B_PATH = "../SMILA.application/configuration/org.eclipse.smila.processing.bpel/pipelines/webmlpipeline_B.bpel";
 	private static final String WEBML_PIPELINE_C_PATH = "../SMILA.application/configuration/org.eclipse.smila.processing.bpel/pipelines/webmlpipeline_C.bpel";
 	
+	private static final String SOLR_XML_PATH = "../SolrInstance/solr/solr.xml";
+	
 	
 /*
  * UI Components
@@ -84,6 +86,12 @@ public class MainFrame extends JFrame implements ActionListener {
 	private JButton webmlPipelineBButton;
 	//SMILA.application/configuration/org.eclipse.smila.processing.bpel/pipelines/webmlpipeline_C.bpel
 	private JButton webmlPipelineCButton;
+	
+	/*
+	 * Solr buttons
+	 */
+	//SolrInstance/solr/solr.xml
+	private JButton solrXmlButton;
 	
 	//TODO buttons to open the various schema.xml files?
 	
@@ -153,6 +161,9 @@ public class MainFrame extends JFrame implements ActionListener {
 			webmlPipelineCButton.addActionListener(this);
 			webmlPipelineCButton.setActionCommand(WEBML_PIPELINE_C_PATH);
 		
+		solrXmlButton = new JButton(SOLR_XML_PATH);
+			solrXmlButton.addActionListener(this);
+			solrXmlButton.setActionCommand(SOLR_XML_PATH);
 			
 		tabbedPane = new JTabbedPane();
 			
@@ -183,6 +194,8 @@ public class MainFrame extends JFrame implements ActionListener {
 			tab3Panel.add(webmlCrawlerButton);
 			tab3Panel.add(webmlPipelineBButton);
 			tab3Panel.add(webmlPipelineCButton);
+		JPanel tab4Panel = new JPanel(new GridLayout(3,1));
+			tab4Panel.add(solrXmlButton);
 		
 		optionsMenu.add(preferencesMenuItem);
 		menuBar.add(optionsMenu);
@@ -190,6 +203,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		tabbedPane.addTab("SMILA Configuration", new ImageIcon("./images/SMILA.gif"), tab1Panel, "SMILA configuration properties");
 		tabbedPane.addTab("UML Experiments", new ImageIcon("./images/uml.gif"), tab2Panel, "UML configuration properties");
 		tabbedPane.addTab("WebML Experiments", new ImageIcon("./images/webml.gif"), tab3Panel, "WebML configuration properties");
+		tabbedPane.addTab("Apache Solr Configuration", new ImageIcon("./images/solr.gif"), tab4Panel, "Solr schema.xml properties");
 		contentPane.add(tabbedPane);
 		
 		//TODO delete all code related to menubar if not needed anymore,
