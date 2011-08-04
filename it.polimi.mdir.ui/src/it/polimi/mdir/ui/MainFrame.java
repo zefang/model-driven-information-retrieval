@@ -43,8 +43,11 @@ public class MainFrame extends JFrame implements ActionListener {
 	private static final String WEBML_PIPELINE_C_PATH = "../SMILA.application/configuration/org.eclipse.smila.processing.bpel/pipelines/webmlpipeline_C.bpel";
 	
 	private static final String SOLR_XML_PATH = "../SolrInstance/solr/solr.xml";
-	
-	
+	private static final String UML_SCHEMA_XML_EXP_A = "../SolrInstance/solr/text_experiment_A/conf/schema.xml";
+	private static final String UML_SCHEMA_XML_EXP_B = "../SolrInstance/solr/text_experiment_B/conf/schema.xml";
+	private static final String UML_SCHEMA_XML_EXP_C = "../SolrInstance/solr/text_experiment_C/conf/schema.xml";
+	private static final String UML_SCHEMA_XML_EXP_D = "../SolrInstance/solr/text_experiment_D/conf/schema.xml";
+
 /*
  * UI Components
  */
@@ -92,8 +95,10 @@ public class MainFrame extends JFrame implements ActionListener {
 	 */
 	//SolrInstance/solr/solr.xml
 	private JButton solrXmlButton;
-	
-	//TODO buttons to open the various schema.xml files?
+	private JButton umlSchemaXmlExpAButton;
+	private JButton umlSchemaXmlExpBButton;
+	private JButton umlSchemaXmlExpCButton;
+	private JButton umlSchemaXmlExpDButton;
 	
 	private JTabbedPane tabbedPane;
 	
@@ -164,6 +169,18 @@ public class MainFrame extends JFrame implements ActionListener {
 		solrXmlButton = new JButton(SOLR_XML_PATH);
 			solrXmlButton.addActionListener(this);
 			solrXmlButton.setActionCommand(SOLR_XML_PATH);
+		umlSchemaXmlExpAButton = new JButton(UML_SCHEMA_XML_EXP_A);
+			umlSchemaXmlExpAButton.addActionListener(this);
+			umlSchemaXmlExpAButton.setActionCommand(UML_SCHEMA_XML_EXP_A);
+		umlSchemaXmlExpBButton = new JButton(UML_SCHEMA_XML_EXP_B);
+			umlSchemaXmlExpBButton.addActionListener(this);
+			umlSchemaXmlExpBButton.setActionCommand(UML_SCHEMA_XML_EXP_B);
+		umlSchemaXmlExpCButton = new JButton(UML_SCHEMA_XML_EXP_C);
+			umlSchemaXmlExpCButton.addActionListener(this);
+			umlSchemaXmlExpCButton.setActionCommand(UML_SCHEMA_XML_EXP_C);
+		umlSchemaXmlExpDButton = new JButton(UML_SCHEMA_XML_EXP_D);
+			umlSchemaXmlExpDButton.addActionListener(this);
+			umlSchemaXmlExpDButton.setActionCommand(UML_SCHEMA_XML_EXP_D);
 			
 		tabbedPane = new JTabbedPane();
 			
@@ -196,6 +213,10 @@ public class MainFrame extends JFrame implements ActionListener {
 			tab3Panel.add(webmlPipelineCButton);
 		JPanel tab4Panel = new JPanel(new GridLayout(3,1));
 			tab4Panel.add(solrXmlButton);
+			tab4Panel.add(umlSchemaXmlExpAButton);
+			tab4Panel.add(umlSchemaXmlExpBButton);
+			tab4Panel.add(umlSchemaXmlExpCButton);
+			tab4Panel.add(umlSchemaXmlExpDButton);
 		
 		optionsMenu.add(preferencesMenuItem);
 		menuBar.add(optionsMenu);
