@@ -421,8 +421,8 @@
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="FieldElement">
           <eStructuralFeatures xsi:type="ecore:EReference" name="fieldelement00" ordered="false"
-              lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1"
-              eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1/field01"/>
+              lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Field01"
+              eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Field01/field01"/>
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="Alternative" eSuperTypes="#//WebML/HypertextView/PageView/PageElement #//WebML/CommonElements/NamedElement #//WebML/CommonElements/IdentifiedElement #//WebML/CommonElements/ElementWithProperty #//WebML/CommonElements/ElementWithComment"/>
         <eClassifiers xsi:type="ecore:EClass" name="Web"/>
@@ -507,7 +507,7 @@
         </eSubpackages>
         <eSubpackages name="ContentUnitView" nsURI="http:///WebML_MM/WebML/HypertextView/UnitView/ContentUnitView.ecore"
             nsPrefix="WebML_MM.WebML.HypertextView.UnitView.ContentUnitView">
-          <eClassifiers xsi:type="ecore:EClass" name="NormalField" eSuperTypes="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1">
+          <eClassifiers xsi:type="ecore:EClass" name="NormalField" eSuperTypes="#//WebML/HypertextView/UnitView/ContentUnitView/Field01">
             <eStructuralFeatures xsi:type="ecore:EAttribute" name="preloaded" ordered="false"
                 lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
             <eStructuralFeatures xsi:type="ecore:EAttribute" name="modifiable" ordered="false"
@@ -533,10 +533,10 @@
                 lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/EntryUnit"
                 eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/EntryUnit/entryunit02"/>
             <eStructuralFeatures xsi:type="ecore:EReference" name="validationrule02" ordered="false"
-                lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1"
-                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1/field00"/>
+                lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Field01"
+                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Field01/field00"/>
           </eClassifiers>
-          <eClassifiers xsi:type="ecore:EClass" name="SelectionField" eSuperTypes="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1">
+          <eClassifiers xsi:type="ecore:EClass" name="SelectionField" eSuperTypes="#//WebML/HypertextView/UnitView/ContentUnitView/Field01">
             <eStructuralFeatures xsi:type="ecore:EAttribute" name="preselectedValue"
                 ordered="false" lowerBound="1"/>
             <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" ordered="false"
@@ -556,8 +556,8 @@
             <eStructuralFeatures xsi:type="ecore:EAttribute" name="output" ordered="false"
                 lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
             <eStructuralFeatures xsi:type="ecore:EReference" name="slot00" ordered="false"
-                lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1"
-                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1/field02"/>
+                lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Field01"
+                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Field01/field02"/>
             <eStructuralFeatures xsi:type="ecore:EReference" name="slot01" ordered="false"
                 lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/SelectionField"
                 eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/SelectionField/selectionfield00"/>
@@ -641,7 +641,7 @@
                 lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/ContentUnit"
                 eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/ContentUnit/condition"/>
           </eClassifiers>
-          <eClassifiers xsi:type="ecore:EClass" name="Field" eSuperTypes="#//WebML/CommonElements/NamedElement #//WebML/CommonElements/IdentifiedElement #//WebML/CommonElements/ElementWithProperty #//WebML/CommonElements/ElementWithComment #//WebML/CommonElements/GeneralElement">
+          <eClassifiers xsi:type="ecore:EClass" name="Field01" eSuperTypes="#//WebML/CommonElements/NamedElement #//WebML/CommonElements/IdentifiedElement #//WebML/CommonElements/ElementWithProperty #//WebML/CommonElements/ElementWithComment #//WebML/CommonElements/GeneralElement">
             <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" ordered="false"
                 lowerBound="1" eType="#//WebML/CommonElements/WebMLType.1"/>
             <eStructuralFeatures xsi:type="ecore:EAttribute" name="contentType" ordered="false"
@@ -672,10 +672,10 @@
           </eClassifiers>
           <eClassifiers xsi:type="ecore:EClass" name="EntryUnit" eSuperTypes="#//WebML/HypertextView/UnitView/ContentUnitView/ContentUnit">
             <eStructuralFeatures xsi:type="ecore:EReference" name="entryunit00" ordered="false"
-                upperBound="-1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1"
-                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1/field03"/>
+                upperBound="-1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Field01"
+                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Field01/field03"/>
             <eStructuralFeatures xsi:type="ecore:EReference" name="entryunit01" lowerBound="1"
-                upperBound="-1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1"
+                upperBound="-1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Field01"
                 containment="true"/>
             <eStructuralFeatures xsi:type="ecore:EReference" name="entryunit02" ordered="false"
                 upperBound="-1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/ValidationRule"
