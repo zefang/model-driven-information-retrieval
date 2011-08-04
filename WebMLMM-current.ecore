@@ -12,10 +12,10 @@
             upperBound="-1" eType="#//WebML/DataView/RelationshipRole" eOpposite="#//WebML/DataView/RelationshipRole/relationshiprole02"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="entity01" ordered="false"
             upperBound="-1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/HierarchicalUnit"
-            eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/HierarchicalUnit/_"/>
+            eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/HierarchicalUnit/hierarchicalunit00"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="entity02" ordered="false"
             lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Level"
-            eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Level/_.3"/>
+            eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Level/level03"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="entity03" ordered="false"
             upperBound="-1" eType="#//WebML/HypertextView/GLParameter/GlobalParameter"
             eOpposite="#//WebML/HypertextView/GLParameter/GlobalParameter/_"/>
@@ -33,16 +33,16 @@
             eOpposite="#//WebML/HypertextView/UnitView/OperationUnitView/CreateUnit/createunit00"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="entity08" ordered="false"
             upperBound="-1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/DataUnit"
-            eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/DataUnit/_"/>
+            eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/DataUnit/dataunit00"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="entity09" ordered="false"
             upperBound="-1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/IndexUnit"
-            eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/IndexUnit/_"/>
+            eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/IndexUnit/indexunit00"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="entity10" ordered="false"
             upperBound="-1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/MultiDataUnit"
-            eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/MultiDataUnit/_"/>
+            eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/MultiDataUnit/multidataunit00"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="entity11" ordered="false"
             upperBound="-1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/ScrollerUnit"
-            eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/ScrollerUnit/_"/>
+            eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/ScrollerUnit/scrollerunit00"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" ordered="false"
             lowerBound="1" eType="#//WebML/CommonElements/PersistentType" defaultValueLiteral="Persistent"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="super_entity" ordered="false"
@@ -63,7 +63,7 @@
             lowerBound="1"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="isConditionOf" ordered="false"
             upperBound="-1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Condition"
-            eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Condition/_.2"/>
+            eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Condition/condition02"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="attribute00" ordered="false"
             lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/NormalField"
             eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/NormalField/normalfield00"/>
@@ -93,7 +93,7 @@
             lowerBound="1" eType="#//WebML/DataView/Relationship" eOpposite="#//WebML/DataView/Relationship/relationship00"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="relationshiprole04" ordered="false"
             lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Level"
-            eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Level/_.4"/>
+            eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Level/level04"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="relationshiprole05" ordered="false"
             lowerBound="1" eType="#//WebML/HypertextView/ParameterView/Parameter"
             eOpposite="#//WebML/HypertextView/ParameterView/Parameter/_.7"/>
@@ -104,7 +104,7 @@
       <eClassifiers xsi:type="ecore:EClass" name="Relationship" eSuperTypes="#//WebML/CommonElements/DataModelElement #//WebML/CommonElements/ElementWithProperty #//WebML/CommonElements/ElementWithComment #//WebML/CommonElements/IdentifiedElement #//WebML/CommonElements/NamedElement #//WebML/CommonElements/DerivableElement">
         <eStructuralFeatures xsi:type="ecore:EReference" name="isConditionOf" ordered="false"
             upperBound="-1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Condition"
-            eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Condition/_.7"/>
+            eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Condition/condition07"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="relationship00" ordered="false"
             lowerBound="2" upperBound="2" eType="#//WebML/DataView/RelationshipRole"
             eOpposite="#//WebML/DataView/RelationshipRole/relationshiprole03"/>
@@ -411,7 +411,7 @@
         <eClassifiers xsi:type="ecore:EClass" name="InformationSource">
           <eStructuralFeatures xsi:type="ecore:EReference" name="informationsource00" ordered="false"
               upperBound="-1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Unit"
-              eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Unit/_.4"/>
+              eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Unit/unit04"/>
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="Element" eSuperTypes="#//WebML/HypertextView/SiteView/SiteViewElement">
           <eStructuralFeatures xsi:type="ecore:EReference" name="element00" ordered="false"
@@ -422,7 +422,7 @@
         <eClassifiers xsi:type="ecore:EClass" name="FieldElement">
           <eStructuralFeatures xsi:type="ecore:EReference" name="fieldelement00" ordered="false"
               lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1"
-              eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1/_.1"/>
+              eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1/field01"/>
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="Alternative" eSuperTypes="#//WebML/HypertextView/PageView/PageElement #//WebML/CommonElements/NamedElement #//WebML/CommonElements/IdentifiedElement #//WebML/CommonElements/ElementWithProperty #//WebML/CommonElements/ElementWithComment"/>
         <eClassifiers xsi:type="ecore:EClass" name="Web"/>
@@ -447,20 +447,20 @@
           <eClassifiers xsi:type="ecore:EClass" name="ConnectUnit" eSuperTypes="#//WebML/HypertextView/UnitView/OperationUnitView/OperationUnit">
             <eStructuralFeatures xsi:type="ecore:EReference" name="sourceSelector"
                 ordered="false" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Condition"
-                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Condition/_.3"/>
+                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Condition/condition03"/>
             <eStructuralFeatures xsi:type="ecore:EReference" name="targetSelector"
                 ordered="false" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Condition"
-                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Condition/_.4"/>
+                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Condition/condition04"/>
             <eStructuralFeatures xsi:type="ecore:EReference" name="connectunit00" ordered="false"
                 lowerBound="1" eType="#//WebML/DataView/RelationshipRole" eOpposite="#//WebML/DataView/RelationshipRole/relationshiprole00"/>
           </eClassifiers>
           <eClassifiers xsi:type="ecore:EClass" name="DisconnectUnit" eSuperTypes="#//WebML/HypertextView/UnitView/OperationUnitView/OperationUnit">
             <eStructuralFeatures xsi:type="ecore:EReference" name="sourceSelector"
                 ordered="false" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Condition"
-                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Condition/_.5"/>
+                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Condition/condition05"/>
             <eStructuralFeatures xsi:type="ecore:EReference" name="targetSelector"
                 ordered="false" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Condition"
-                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Condition/_.6"/>
+                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Condition/condition06"/>
             <eStructuralFeatures xsi:type="ecore:EReference" name="disconnectunit00" ordered="false"
                 lowerBound="1" eType="#//WebML/DataView/RelationshipRole" eOpposite="#//WebML/DataView/RelationshipRole/relationshiprole01"/>
           </eClassifiers>
@@ -469,14 +469,14 @@
                 lowerBound="1" eType="#//WebML/DataView/Entity" eOpposite="#//WebML/DataView/Entity/entity04"/>
             <eStructuralFeatures xsi:type="ecore:EReference" name="deleteunit01" ordered="false"
                 eType="#//WebML/HypertextView/UnitView/ContentUnitView/Condition"
-                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Condition/_.9"/>
+                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Condition/condition09"/>
           </eClassifiers>
           <eClassifiers xsi:type="ecore:EClass" name="ModifyUnit" eSuperTypes="#//WebML/HypertextView/UnitView/OperationUnitView/OperationUnit">
             <eStructuralFeatures xsi:type="ecore:EReference" name="modifyunit00" ordered="false"
                 lowerBound="1" eType="#//WebML/DataView/Entity" eOpposite="#//WebML/DataView/Entity/entity05"/>
             <eStructuralFeatures xsi:type="ecore:EReference" name="sourceSlector"
                 ordered="false" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Condition"
-                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Condition/_.10"/>
+                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Condition/condition10"/>
           </eClassifiers>
           <eClassifiers xsi:type="ecore:EClass" name="LogoutUnit" eSuperTypes="#//WebML/HypertextView/UnitView/OperationUnitView/OperationUnit">
             <eStructuralFeatures xsi:type="ecore:EReference" name="logoutunit00" ordered="false"
@@ -531,10 +531,10 @@
                 eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/SelectionField/selectionfield01"/>
             <eStructuralFeatures xsi:type="ecore:EReference" name="validationrule01" ordered="false"
                 lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/EntryUnit"
-                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/EntryUnit/_.2"/>
+                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/EntryUnit/entryunit02"/>
             <eStructuralFeatures xsi:type="ecore:EReference" name="validationrule02" ordered="false"
                 lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1"
-                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1/_"/>
+                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1/field00"/>
           </eClassifiers>
           <eClassifiers xsi:type="ecore:EClass" name="SelectionField" eSuperTypes="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1">
             <eStructuralFeatures xsi:type="ecore:EAttribute" name="preselectedValue"
@@ -557,7 +557,7 @@
                 lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
             <eStructuralFeatures xsi:type="ecore:EReference" name="slot00" ordered="false"
                 lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1"
-                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1/_.2"/>
+                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1/field02"/>
             <eStructuralFeatures xsi:type="ecore:EReference" name="slot01" ordered="false"
                 lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/SelectionField"
                 eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/SelectionField/selectionfield00"/>
@@ -578,7 +578,7 @@
                 lowerBound="1" eType="#//WebML/DataView/Entity" eOpposite="#//WebML/DataView/Entity/entity06"/>
             <eStructuralFeatures xsi:type="ecore:EReference" name="multichoiceindexunit01" ordered="false"
                 lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/CheckValidation"
-                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/CheckValidation/_"/>
+                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/CheckValidation/checkvalidation00"/>
             <eStructuralFeatures xsi:type="ecore:EReference" name="multichoiceindexunit02" ordered="false"
                 upperBound="-1" eType="#//WebML/HypertextView/LinkView/Link" eOpposite="#//WebML/HypertextView/LinkView/Link/_"/>
           </eClassifiers>
@@ -590,34 +590,34 @@
                 lowerBound="1"/>
             <eStructuralFeatures xsi:type="ecore:EReference" name="condition" ordered="false"
                 eType="#//WebML/HypertextView/UnitView/ContentUnitView/Condition"
-                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Condition/_.12"/>
+                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Condition/condition12"/>
           </eClassifiers>
           <eClassifiers xsi:type="ecore:EClass" name="Condition" eSuperTypes="#//WebML/HypertextView/UnitView/ContentUnitView/ContentUnit #//WebML/HypertextView/HypertexMetamodel_Elements/InformationSource #//WebML/CommonElements/NamedElement #//WebML/CommonElements/IdentifiedElement #//WebML/CommonElements/ElementWithComment">
             <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
               <details key="documentation" value="relationshipOwner->notEmpty()&#xA;XOR&#xA;relationshipAttribute->notEmpty()"/>
             </eAnnotations>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="condition00" ordered="false"
                 lowerBound="1" eType="#//WebML/DataView/Entity"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="condition01" ordered="false"
                 eType="#//WebML/HypertextView/ParameterView/LinkParameterCoupling"
                 eOpposite="#//WebML/HypertextView/ParameterView/LinkParameterCoupling/_.2"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" upperBound="-1"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="condition02" upperBound="-1"
                 eType="#//WebML/DataView/Attribute" eOpposite="#//WebML/DataView/Attribute/isConditionOf"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="condition03" ordered="false"
                 lowerBound="1" eType="#//WebML/HypertextView/UnitView/OperationUnitView/ConnectUnit"
                 eOpposite="#//WebML/HypertextView/UnitView/OperationUnitView/ConnectUnit/sourceSelector"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="condition04" ordered="false"
                 lowerBound="1" eType="#//WebML/HypertextView/UnitView/OperationUnitView/ConnectUnit"
                 eOpposite="#//WebML/HypertextView/UnitView/OperationUnitView/ConnectUnit/targetSelector"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="condition05" ordered="false"
                 lowerBound="1" eType="#//WebML/HypertextView/UnitView/OperationUnitView/DisconnectUnit"
                 eOpposite="#//WebML/HypertextView/UnitView/OperationUnitView/DisconnectUnit/sourceSelector"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="condition06" ordered="false"
                 lowerBound="1" eType="#//WebML/HypertextView/UnitView/OperationUnitView/DisconnectUnit"
                 eOpposite="#//WebML/HypertextView/UnitView/OperationUnitView/DisconnectUnit/targetSelector"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="condition07" ordered="false"
                 lowerBound="1" eType="#//WebML/DataView/Relationship" eOpposite="#//WebML/DataView/Relationship/isConditionOf"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="condition08" ordered="false"
                 lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Level"
                 eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Level/condition"/>
             <eStructuralFeatures xsi:type="ecore:EAttribute" name="predicate" ordered="false"
@@ -628,16 +628,16 @@
                 lowerBound="1"/>
             <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" ordered="false"
                 lowerBound="1" eType="#//WebML/CommonElements/TypeSelector"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="condition09" ordered="false"
                 lowerBound="1" eType="#//WebML/HypertextView/UnitView/OperationUnitView/DeleteUnit"
                 eOpposite="#//WebML/HypertextView/UnitView/OperationUnitView/DeleteUnit/deleteunit01"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="condition10" ordered="false"
                 lowerBound="1" eType="#//WebML/HypertextView/UnitView/OperationUnitView/ModifyUnit"
                 eOpposite="#//WebML/HypertextView/UnitView/OperationUnitView/ModifyUnit/sourceSlector"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="condition11" ordered="false"
                 lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/SelectorCondition"
-                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/SelectorCondition/_"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/SelectorCondition/selectorcondition00"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="condition12" ordered="false"
                 lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/ContentUnit"
                 eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/ContentUnit/condition"/>
           </eClassifiers>
@@ -652,69 +652,69 @@
                 lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
             <eStructuralFeatures xsi:type="ecore:EAttribute" name="hidden" ordered="false"
                 lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="field00" ordered="false"
                 upperBound="-1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/ValidationRule"
                 eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/ValidationRule/validationrule02"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="field01" ordered="false"
                 upperBound="-1" eType="#//WebML/HypertextView/HypertexMetamodel_Elements/FieldElement"
                 eOpposite="#//WebML/HypertextView/HypertexMetamodel_Elements/FieldElement/fieldelement00"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="field02" ordered="false"
                 upperBound="-1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Slot"
                 eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Slot/slot00"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="field03" ordered="false"
                 lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/EntryUnit"
-                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/EntryUnit/_"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" upperBound="-1"
+                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/EntryUnit/entryunit00"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="field04" upperBound="-1"
                 eType="#//WebML/HypertextView/UnitView/ContentUnitView/Slot" containment="true"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" upperBound="-1"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="field05" upperBound="-1"
                 eType="#//WebML/HypertextView/UnitView/ContentUnitView/ValidationRule"
                 containment="true"/>
           </eClassifiers>
           <eClassifiers xsi:type="ecore:EClass" name="EntryUnit" eSuperTypes="#//WebML/HypertextView/UnitView/ContentUnitView/ContentUnit">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="entryunit00" ordered="false"
                 upperBound="-1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1"
-                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1/_.3"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" lowerBound="1"
+                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1/field03"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="entryunit01" lowerBound="1"
                 upperBound="-1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Field.1"
                 containment="true"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="entryunit02" ordered="false"
                 upperBound="-1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/ValidationRule"
                 eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/ValidationRule/validationrule01"/>
           </eClassifiers>
           <eClassifiers xsi:type="ecore:EClass" name="Level">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="level00" ordered="false"
                 lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Level"
-                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Level/_.1"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Level/level01"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="level01" ordered="false"
                 lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Level"
-                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Level/_"/>
+                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Level/level00"/>
             <eStructuralFeatures xsi:type="ecore:EReference" name="condition" ordered="false"
                 eType="#//WebML/HypertextView/UnitView/ContentUnitView/Condition"
-                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Condition/_.8"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Condition/condition08"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="level02" ordered="false"
                 lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/HierarchicalUnit"
-                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/HierarchicalUnit/_.2"/>
+                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/HierarchicalUnit/hierarchicalunit02"/>
             <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
                 lowerBound="1"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="level03" ordered="false"
                 lowerBound="1" eType="#//WebML/DataView/Entity" eOpposite="#//WebML/DataView/Entity/entity02"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="level04" ordered="false"
                 lowerBound="1" eType="#//WebML/DataView/RelationshipRole" eOpposite="#//WebML/DataView/RelationshipRole/relationshiprole04"/>
           </eClassifiers>
           <eClassifiers xsi:type="ecore:EClass" name="HierarchicalUnit" eSuperTypes="#//WebML/HypertextView/UnitView/ContentUnitView/ContentUnit">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="sinnombre" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="sinnombre00" ordered="false"
                 lowerBound="1" eType="#//WebML/DataView/Entity"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="hierarchicalunit00" ordered="false"
                 lowerBound="1" eType="#//WebML/DataView/Entity" eOpposite="#//WebML/DataView/Entity/entity01"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="hierarchicalunit01" ordered="false"
                 upperBound="-1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Level"
                 containment="true"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="hierarchicalunit02" ordered="false"
                 upperBound="-1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Level"
-                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Level/_.2"/>
+                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Level/level02"/>
           </eClassifiers>
           <eClassifiers xsi:type="ecore:EClass" name="Getunit" eSuperTypes="#//WebML/HypertextView/UnitView/ContentUnitView/ContentUnit #//WebML/HypertextView/UnitView/OperationUnitView/OperationUnit">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="getunit00" ordered="false"
                 lowerBound="1" eType="#//WebML/HypertextView/GLParameter/GlobalParameter"
                 eOpposite="#//WebML/HypertextView/GLParameter/GlobalParameter/_.1"/>
           </eClassifiers>
@@ -723,9 +723,9 @@
                 ordered="false" lowerBound="1"/>
             <eStructuralFeatures xsi:type="ecore:EAttribute" name="booleanOperator"
                 ordered="false" lowerBound="1" eType="#//WebML/CommonElements/BooleanOperator"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="selectorcondition00" ordered="false"
                 lowerBound="1" upperBound="-1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Condition"
-                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Condition/_.11"/>
+                eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Condition/condition11"/>
           </eClassifiers>
           <eClassifiers xsi:type="ecore:EClass" name="CheckValidation">
             <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -745,34 +745,34 @@
                 lowerBound="1"/>
             <eStructuralFeatures xsi:type="ecore:EAttribute" name="className" ordered="false"
                 lowerBound="1"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="checkvalidation00" ordered="false"
                 lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/MultiChoiceIndexUnit"
                 eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/MultiChoiceIndexUnit/multichoiceindexunit01"/>
           </eClassifiers>
           <eClassifiers xsi:type="ecore:EClass" name="DataUnit" eSuperTypes="#//WebML/HypertextView/UnitView/ContentUnitView/ContentUnit">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="dataunit00" ordered="false"
                 lowerBound="1" eType="#//WebML/DataView/Entity" eOpposite="#//WebML/DataView/Entity/entity08"/>
           </eClassifiers>
           <eClassifiers xsi:type="ecore:EClass" name="IndexUnit" eSuperTypes="#//WebML/HypertextView/UnitView/ContentUnitView/ContentUnit">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="sinnombre" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="sinnombre00" ordered="false"
                 lowerBound="1" eType="#//WebML/DataView/Entity"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="indexunit00" ordered="false"
                 lowerBound="1" eType="#//WebML/DataView/Entity" eOpposite="#//WebML/DataView/Entity/entity09"/>
             <eStructuralFeatures xsi:type="ecore:EAttribute" name="distinct" ordered="false"
                 lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
           </eClassifiers>
           <eClassifiers xsi:type="ecore:EClass" name="MultiDataUnit" eSuperTypes="#//WebML/HypertextView/UnitView/ContentUnitView/ContentUnit">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="sinnombre" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="sinnombre00" ordered="false"
                 lowerBound="1" eType="#//WebML/DataView/Entity"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="multidataunit00" ordered="false"
                 lowerBound="1" eType="#//WebML/DataView/Entity" eOpposite="#//WebML/DataView/Entity/entity10"/>
             <eStructuralFeatures xsi:type="ecore:EAttribute" name="distinct" ordered="false"
                 lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
           </eClassifiers>
           <eClassifiers xsi:type="ecore:EClass" name="ScrollerUnit" eSuperTypes="#//WebML/HypertextView/UnitView/ContentUnitView/ContentUnit">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="sinnombre" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="sinnombre00" ordered="false"
                 lowerBound="1" eType="#//WebML/DataView/Entity"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="scrollerunit00" ordered="false"
                 lowerBound="1" eType="#//WebML/DataView/Entity" eOpposite="#//WebML/DataView/Entity/entity11"/>
           </eClassifiers>
           <eClassifiers xsi:type="ecore:EClass" name="CustomContentUnit" eSuperTypes="#//WebML/HypertextView/UnitView/ContentUnitView/ContentUnit"/>
@@ -784,20 +784,20 @@
             <eStructuralFeatures xsi:type="ecore:EReference" name="inputParameter"
                 ordered="false" lowerBound="1" eType="#//WebML/HypertextView/ParameterView/Parameter"
                 eOpposite="#//WebML/HypertextView/ParameterView/Parameter/_.3"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="unit00" ordered="false"
                 upperBound="-1" eType="#//WebML/HypertextView/LinkView/Link" eOpposite="#//WebML/HypertextView/LinkView/Link/_.2"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="unit01" ordered="false"
                 upperBound="-1" eType="#//WebML/HypertextView/LinkView/Link" eOpposite="#//WebML/HypertextView/LinkView/Link/_.3"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="unit02" ordered="false"
                 upperBound="-1" eType="#//WebML/HypertextView/LinkView/NonContextualLink"
                 eOpposite="#//WebML/HypertextView/LinkView/NonContextualLink/_"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="unit03" ordered="false"
                 upperBound="-1" eType="#//WebML/HypertextView/LinkView/OkLink" eOpposite="#//WebML/HypertextView/LinkView/OkLink/_"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="sinnombre" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="sinnombre00" ordered="false"
                 lowerBound="1" eType="#//WebML/HypertextView/HypertexMetamodel_Elements/NormalLink"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="sinnombre" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="sinnombre01" ordered="false"
                 lowerBound="1" eType="#//WebML/HypertextView/HypertexMetamodel_Elements/NormalLink"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
+            <eStructuralFeatures xsi:type="ecore:EReference" name="unit04" ordered="false"
                 upperBound="-1" eType="#//WebML/HypertextView/HypertexMetamodel_Elements/InformationSource"
                 eOpposite="#//WebML/HypertextView/HypertexMetamodel_Elements/InformationSource/informationsource00"/>
           </eClassifiers>
@@ -939,10 +939,10 @@
               eOpposite="#//WebML/HypertextView/PageView/Choreography/_"/>
           <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
               lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Unit"
-              eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Unit/_"/>
+              eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Unit/unit00"/>
           <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
               lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Unit"
-              eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Unit/_.1"/>
+              eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Unit/unit01"/>
           <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
               lowerBound="1" eType="#//WebML/HypertextView/SiteView/Page" eOpposite="#//WebML/HypertextView/SiteView/Page/_.1"/>
           <eStructuralFeatures xsi:type="ecore:EReference" name="sourcePage" ordered="false"
@@ -959,7 +959,7 @@
           </eAnnotations>
           <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
               lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Unit"
-              eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Unit/_.2"/>
+              eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Unit/unit02"/>
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="KOLink" eSuperTypes="#//WebML/HypertextView/LinkView/ContextualLink">
           <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -984,7 +984,7 @@
           </eAnnotations>
           <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
               lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Unit"
-              eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Unit/_.3"/>
+              eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Unit/unit03"/>
           <eStructuralFeatures xsi:type="ecore:EAttribute" name="code" ordered="false"
               lowerBound="1"/>
         </eClassifiers>
@@ -1056,7 +1056,7 @@
               eOpposite="#//WebML/HypertextView/LinkView/ContextualLink/linkParameter"/>
           <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
               upperBound="-1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Condition"
-              eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Condition/_.1"/>
+              eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Condition/condition01"/>
         </eClassifiers>
       </eSubpackages>
       <eSubpackages name="GLParameter" nsURI="http:///WebML_MM/WebML/HypertextView/GLParameter.ecore"
@@ -1066,7 +1066,7 @@
               eType="#//WebML/DataView/Entity" eOpposite="#//WebML/DataView/Entity/entity03"/>
           <eStructuralFeatures xsi:type="ecore:EReference" name="_" ordered="false"
               lowerBound="1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Getunit"
-              eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Getunit/_"/>
+              eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Getunit/getunit00"/>
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="GLParameter" eSuperTypes="#//WebML/CommonElements/NamedElement #//WebML/CommonElements/IdentifiedElement #//WebML/CommonElements/ElementWithProperty #//WebML/CommonElements/ElementWithComment #//WebML/HypertextView/HypertextModelElement">
           <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" ordered="false"
