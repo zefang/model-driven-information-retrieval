@@ -158,7 +158,7 @@
           <eStructuralFeatures xsi:type="ecore:EReference" name="rootStep" ordered="false"
               eType="#//WebML/DataView/Derivation/PathStep"/>
           <eStructuralFeatures xsi:type="ecore:EReference" name="steps" ordered="false"
-              upperBound="0" eType="#//WebML/DataView/Derivation/PathStep" containment="true"/>
+              upperBound="-1" eType="#//WebML/DataView/Derivation/PathStep" containment="true"/>
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="OperatorConditionExpr" eSuperTypes="#//WebML/DataView/Derivation/ConditionExpr">
           <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" ordered="false"
