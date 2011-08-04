@@ -47,7 +47,9 @@ public class MainFrame extends JFrame implements ActionListener {
 	private static final String UML_SCHEMA_XML_EXP_B = "../SolrInstance/solr/text_experiment_B/conf/schema.xml";
 	private static final String UML_SCHEMA_XML_EXP_C = "../SolrInstance/solr/text_experiment_C/conf/schema.xml";
 	private static final String UML_SCHEMA_XML_EXP_D = "../SolrInstance/solr/text_experiment_D/conf/schema.xml";
-
+	private static final String WEBML_SCHEMA_XML_EXP_B = "../SolrInstance/solr/webml_B/conf/schema.xml";
+	private static final String WEBML_SCHEMA_XML_EXP_C = "../SolrInstance/solr/webml_C/conf/schema.xml";
+	
 /*
  * UI Components
  */
@@ -99,6 +101,8 @@ public class MainFrame extends JFrame implements ActionListener {
 	private JButton umlSchemaXmlExpBButton;
 	private JButton umlSchemaXmlExpCButton;
 	private JButton umlSchemaXmlExpDButton;
+	private JButton webmlSchemaXmlExpBButton;
+	private JButton webmlSchemaXmlExpCButton;
 	
 	private JTabbedPane tabbedPane;
 	
@@ -181,6 +185,12 @@ public class MainFrame extends JFrame implements ActionListener {
 		umlSchemaXmlExpDButton = new JButton(UML_SCHEMA_XML_EXP_D);
 			umlSchemaXmlExpDButton.addActionListener(this);
 			umlSchemaXmlExpDButton.setActionCommand(UML_SCHEMA_XML_EXP_D);
+		webmlSchemaXmlExpBButton = new JButton(WEBML_SCHEMA_XML_EXP_B);
+			webmlSchemaXmlExpBButton.addActionListener(this);
+			webmlSchemaXmlExpBButton.setActionCommand(WEBML_SCHEMA_XML_EXP_B);
+		webmlSchemaXmlExpCButton = new JButton(WEBML_SCHEMA_XML_EXP_C);
+			webmlSchemaXmlExpCButton.addActionListener(this);
+			webmlSchemaXmlExpCButton.setActionCommand(WEBML_SCHEMA_XML_EXP_C);
 			
 		tabbedPane = new JTabbedPane();
 			
@@ -197,27 +207,35 @@ public class MainFrame extends JFrame implements ActionListener {
 		
 		JPanel tab1Panel = new JPanel(new GridLayout(6,1));
 			tab1Panel.add(new JPanel().add(listenerButton).getParent());
-			tab1Panel.add(routerButton);
-			tab1Panel.add(connectivityButton);
-			tab1Panel.add(processorPropertiesButton);
-			tab1Panel.add(recordFiltersButton);
-			tab1Panel.add(deployXmlButton);
+			tab1Panel.add(new JPanel().add(routerButton).getParent());
+			tab1Panel.add(new JPanel().add(connectivityButton).getParent());
+			tab1Panel.add(new JPanel().add(processorPropertiesButton).getParent());
+			tab1Panel.add(new JPanel().add(recordFiltersButton).getParent());
+			tab1Panel.add(new JPanel().add(deployXmlButton).getParent());
 		JPanel tab2Panel = new JPanel(new GridLayout(3,1));
-			tab2Panel.add(umlButton);
-			tab2Panel.add(umlCrawlerButton);
-			tab2Panel.add(umlPipelineButton);
+			tab2Panel.add(new JPanel().add(umlButton).getParent());
+			tab2Panel.add(new JPanel().add(umlCrawlerButton).getParent());
+			tab2Panel.add(new JPanel().add(umlPipelineButton).getParent());
 		JPanel tab3Panel = new JPanel(new GridLayout(4,1));
-			tab3Panel.add(webmlButton);
-			tab3Panel.add(webmlCrawlerButton);
-			tab3Panel.add(webmlPipelineBButton);
-			tab3Panel.add(webmlPipelineCButton);
-		JPanel tab4Panel = new JPanel(new GridLayout(3,1));
-			tab4Panel.add(solrXmlButton);
-			tab4Panel.add(umlSchemaXmlExpAButton);
-			tab4Panel.add(umlSchemaXmlExpBButton);
-			tab4Panel.add(umlSchemaXmlExpCButton);
-			tab4Panel.add(umlSchemaXmlExpDButton);
-		
+			tab3Panel.add(new JPanel().add(webmlButton).getParent());
+			tab3Panel.add(new JPanel().add(webmlCrawlerButton).getParent());
+			tab3Panel.add(new JPanel().add(webmlPipelineBButton).getParent());
+			tab3Panel.add(new JPanel().add(webmlPipelineCButton).getParent());
+		JPanel tab4Panel = new JPanel(new GridLayout(1,3));
+		JPanel tab41Panel = new JPanel(new GridLayout(1,1));
+		JPanel tab42Panel = new JPanel(new GridLayout(4,1));
+		JPanel tab43Panel = new JPanel(new GridLayout(2,1));
+			tab4Panel.add(tab41Panel);
+			tab4Panel.add(tab42Panel);
+			tab4Panel.add(tab43Panel);
+				tab41Panel.add(new JPanel().add(solrXmlButton).getParent());
+				tab42Panel.add(new JPanel().add(umlSchemaXmlExpAButton).getParent());
+				tab42Panel.add(new JPanel().add(umlSchemaXmlExpBButton).getParent());
+				tab42Panel.add(new JPanel().add(umlSchemaXmlExpCButton).getParent());
+				tab42Panel.add(new JPanel().add(umlSchemaXmlExpDButton).getParent());
+				tab43Panel.add(new JPanel().add(webmlSchemaXmlExpBButton).getParent());
+				tab43Panel.add(new JPanel().add(webmlSchemaXmlExpCButton).getParent());
+				
 		optionsMenu.add(preferencesMenuItem);
 		menuBar.add(optionsMenu);
 		
