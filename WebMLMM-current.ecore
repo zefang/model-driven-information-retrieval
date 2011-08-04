@@ -545,7 +545,7 @@
             <eStructuralFeatures xsi:type="ecore:EAttribute" name="preselectedValue"
                 ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
             <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" ordered="false"
-                lowerBound="1" eType="#//WebML/CommonElements/WebMLType01"/>
+                lowerBound="1" eType="#//WebML/CommonElements/WebMLType"/>
             <eStructuralFeatures xsi:type="ecore:EReference" name="selectionfield00"
                 ordered="false" upperBound="-1" eType="#//WebML/HypertextView/UnitView/ContentUnitView/Slot"
                 eOpposite="#//WebML/HypertextView/UnitView/ContentUnitView/Slot/slot01"/>
@@ -649,7 +649,7 @@
           </eClassifiers>
           <eClassifiers xsi:type="ecore:EClass" name="Field01" eSuperTypes="#//WebML/CommonElements/NamedElement #//WebML/CommonElements/IdentifiedElement #//WebML/CommonElements/ElementWithProperty #//WebML/CommonElements/ElementWithComment #//WebML/CommonElements/GeneralElement">
             <eStructuralFeatures xsi:type="ecore:EAttribute" name="field01_type" ordered="false"
-                lowerBound="1" eType="#//WebML/CommonElements/WebMLType01"/>
+                lowerBound="1" eType="#//WebML/CommonElements/WebMLType"/>
             <eStructuralFeatures xsi:type="ecore:EAttribute" name="field01_contentType"
                 ordered="false" lowerBound="1" eType="#//WebML/CommonElements/ContentType"/>
             <eStructuralFeatures xsi:type="ecore:EAttribute" name="field01_preloaded"
@@ -1079,7 +1079,7 @@
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="GLParameter" eSuperTypes="#//WebML/CommonElements/NamedElement #//WebML/CommonElements/IdentifiedElement #//WebML/CommonElements/ElementWithProperty #//WebML/CommonElements/ElementWithComment #//WebML/HypertextView/HypertextModelElement">
           <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" ordered="false"
-              lowerBound="1" eType="#//WebML/CommonElements/WebMLType01"/>
+              lowerBound="1" eType="#//WebML/CommonElements/WebMLType"/>
         </eClassifiers>
       </eSubpackages>
       <eSubpackages name="TransactionView" nsURI="http:///WebML_MM/WebML/HypertextView/TransactionView.ecore"
