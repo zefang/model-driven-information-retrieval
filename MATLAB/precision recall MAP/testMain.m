@@ -11,11 +11,12 @@ function [PRCurveMean elevenInterpAvgPr MAP MRR] = testMain(mq_label, mqinst_num
 % the groundtruth for each query instance. Each query instance has a
 % differen spreadsheet. The name of the spreadsheet is resd by the code.
 % 
-% 1) input: mq_label (e.g. MQ1 for UML, INST for WebML). Notice that this
+% 1) input: mq_label (e.g. MQ1 for UML). Notice that this
 % label is read by the code while reading the excel file. It references the
-% name of the excel spreadsheets.
-% 3) input: number of query/MQ instances
-% 4) input: dataset ('uml'/'webml')
+% name of the excel spreadsheets. This parameter is not needed for WebML
+% since WebML has no "meta-queries".
+% 2) input: number of query/MQ instances
+% 3) input: dataset ('uml'/'webml')
 
 fprintf('------- Precision at fixed retrieval level k | 11-point interpolated average precision | Mean Average Precision MAP | Mean Reciprocal Rank MRR -------\n\n');
 
