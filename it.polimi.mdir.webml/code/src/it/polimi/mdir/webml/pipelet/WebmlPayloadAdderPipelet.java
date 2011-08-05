@@ -57,19 +57,28 @@ public class WebmlPayloadAdderPipelet implements Pipelet {
 				while (packedElements.hasNext()) {
 					Element element = packedElements.next();
 					float payload = 0.0f;
-					if (element.getAttributeValue("type",XMI_NAMESPACE).contains("SiteView")) {
+					String typeValue = element.getAttributeValue("type", XMI_NAMESPACE);
+					if (typeValue.contains("SiteView")) {
 						payload = WeightRules.weightMap.get("siteview");
-					} else if (element.getAttributeValue("type",XMI_NAMESPACE).contains("Area")) {
+					} else if (typeValue.contains("Area")) {
 						payload = WeightRules.weightMap.get("area");
-					} else if (element.getAttributeValue("type",XMI_NAMESPACE).contains("Page")) {
+					} else if (typeValue.contains("Page")) {
 						payload = WeightRules.weightMap.get("page");
-					} else if (element.getAttributeValue("type",XMI_NAMESPACE).contains("Unit")) {
+					} else if (typeValue.contains("Unit")) {
 						payload = WeightRules.weightMap.get("unit");
+					} else if (typeValue.contains("Link")) {
+						payload = WeightRules.weightMap.get("link");
 					}
-					// get analyzed content
-					String nameValue = element.getAttributeValue("name");
 					
-					String[] splittedValue = nameValue.split("\\$");
+					// get analyzed content
+					String value = "";
+					if (typeValue.contains("Link")) {
+						value = element.getAttributeValue("name");
+					} else {
+						value = element.getAttributeValue("to");
+					}
+					
+					String[] splittedValue = value.split("\\$");
 					if (splittedValue.length > 1) {
 						String originalValue = splittedValue[0];
 						String analyzedValue = splittedValue[1];
@@ -79,7 +88,12 @@ public class WebmlPayloadAdderPipelet implements Pipelet {
 						for (int i = 0; i < content.length; i++) {
 							analyzedValue += content[i]+"|"+payload + " ";	
 						}
-						element.setAttribute("name", originalValue+"$"+analyzedValue.trim());	
+						
+						if (typeValue.contains("Link")) {
+							element.setAttribute("to", originalValue+"$"+analyzedValue.trim());
+						} else {
+							element.setAttribute("name", originalValue+"$"+analyzedValue.trim());	
+						}
 					}
 				}
 				XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());

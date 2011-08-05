@@ -11,6 +11,7 @@ public class WeightRules {
 	private static float AREA_WEIGHT = 0.0f;
 	private static float PAGE_WEIGHT = 0.0f;
 	private static float UNIT_WEIGHT = 0.0f;
+	private static float LINK_WEIGHT = 0.0f;
 	
 	private static Properties config;
 	static {
@@ -22,6 +23,7 @@ public class WeightRules {
 			AREA_WEIGHT = Float.valueOf(config.getProperty("area"));
 			PAGE_WEIGHT = Float.valueOf(config.getProperty("page"));
 			UNIT_WEIGHT = Float.valueOf(config.getProperty("unit"));
+			LINK_WEIGHT = Float.valueOf(config.getProperty("link"));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -36,5 +38,6 @@ public class WeightRules {
 		weightMap.put("area", AREA_WEIGHT);
 		weightMap.put("page", PAGE_WEIGHT);
 		weightMap.put("unit", UNIT_WEIGHT);
+		weightMap.put("link", LINK_WEIGHT);
 	}
 }
