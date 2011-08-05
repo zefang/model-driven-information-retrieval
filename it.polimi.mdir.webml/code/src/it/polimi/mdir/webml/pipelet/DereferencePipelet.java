@@ -109,10 +109,10 @@ public class DereferencePipelet implements Pipelet {
 						//substitute "to" in Links
 						if (element.getAttributeValue("type",XMI_NAMESPACE).contains("Link")) {
 							String key = element.getAttributeValue("to");
-							System.out.print(key+": "); //TODO delete this line
+							//System.out.print(key+": ");
 							if (linksMap.containsKey(key)) {
 								element.setAttribute("to", linksMap.get(key));
-								System.out.println(linksMap.get(key));//TODO delete this line
+								//System.out.println(linksMap.get(key));
 							}
 						}
 					}

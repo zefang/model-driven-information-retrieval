@@ -40,10 +40,11 @@ import org.w3c.dom.DOMImplementation;
 /**
  * This pipelet will navigate the DOM tree of the records in input (Areas) extracting
  * and substituting the content of the "name", "displayAttributes" and "entities" attributes
- * with their analyzed version.
+ * with their analyzed version.<br/>
  * The original content will be kept inside the field following this format:
- * "orginal content"$"analyzed content"
- * without quotes.
+ * "orginal content"$"analyzed content" without quotes.<br/>
+ * in the case of Links it will extract and substitute the "to" attribute.
+ * 
  */
 public class AnalyzerSubstitutionPipelet implements Pipelet {
 
@@ -97,18 +98,26 @@ public class AnalyzerSubstitutionPipelet implements Pipelet {
 				while (packedElements.hasNext()) {
 					Element element = packedElements.next();
 					
-					//keep the original content in the form 'original'$'analyzed'
-					String originalValue = element.getAttributeValue("name");
-					element.setAttribute("name", originalValue+"$"+callSolrAnalyzer(element.getAttributeValue("id", XMI_NAMESPACE), originalValue, _fieldType));	
-					numAnalyzed += 1;
-					
-					//checks if there are "displayAttributes" and "entity" to analyze
-					if (element.getAttribute("displayAttributes") != null) {
-						originalValue = element.getAttributeValue("displayAttributes");
-						element.setAttribute("displayAttributes", originalValue+"$"+callSolrAnalyzer(element.getAttributeValue("id", XMI_NAMESPACE), originalValue, _fieldType));
-						originalValue = element.getAttributeValue("entity");
-						element.setAttribute("entity", originalValue+"$"+callSolrAnalyzer(element.getAttributeValue("id", XMI_NAMESPACE), originalValue, _fieldType));
-						numAnalyzed += 2;
+					if (element.getAttributeValue("type", XMI_NAMESPACE).contains("Link")) {
+						//It's a Link
+						String originalValue = element.getAttributeValue("to");
+						element.setAttribute("to", originalValue+"$"+callSolrAnalyzer(element.getAttributeValue("id", XMI_NAMESPACE), originalValue, _fieldType));
+						numAnalyzed += 1;
+					} else {
+						//It's not a Link
+						//keep the original content in the form 'original'$'analyzed'
+						String originalValue = element.getAttributeValue("name");
+						element.setAttribute("name", originalValue+"$"+callSolrAnalyzer(element.getAttributeValue("id", XMI_NAMESPACE), originalValue, _fieldType));	
+						numAnalyzed += 1;
+						
+						//checks if there are "displayAttributes" and "entity" to analyze
+						if (element.getAttribute("displayAttributes") != null) {
+							originalValue = element.getAttributeValue("displayAttributes");
+							element.setAttribute("displayAttributes", originalValue+"$"+callSolrAnalyzer(element.getAttributeValue("id", XMI_NAMESPACE), originalValue, _fieldType));
+							originalValue = element.getAttributeValue("entity");
+							element.setAttribute("entity", originalValue+"$"+callSolrAnalyzer(element.getAttributeValue("id", XMI_NAMESPACE), originalValue, _fieldType));
+							numAnalyzed += 2;
+						}
 					}
 				}
 				XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
