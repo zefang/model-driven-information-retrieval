@@ -73,9 +73,9 @@ public class WebmlPayloadAdderPipelet implements Pipelet {
 					// get analyzed content
 					String value = "";
 					if (typeValue.contains("Link")) {
-						value = element.getAttributeValue("name");
-					} else {
 						value = element.getAttributeValue("to");
+					} else {
+						value = element.getAttributeValue("name");
 					}
 					
 					String[] splittedValue = value.split("\\$");
