@@ -48,6 +48,7 @@ public class IndexerPipelet implements Pipelet {
   
   private String _coreName = "";
   private String _fieldType = "";
+  private boolean _indexLinks = false;
   
   private static Log _log = LogFactory.getLog();
   private static int count = 0;
@@ -63,7 +64,8 @@ public class IndexerPipelet implements Pipelet {
   public void configure(final AnyMap configuration) throws ProcessingException {
 	  _configuration = configuration;
 	  _coreName = _configuration.getStringValue("coreName");
-	  _fieldType = _configuration.getStringValue("fieldType");  
+	  _fieldType = _configuration.getStringValue("fieldType");
+	  _indexLinks = _configuration.getBooleanValue("indexLinks");
   }
   
 @Override
@@ -86,18 +88,21 @@ public class IndexerPipelet implements Pipelet {
 				Iterator<Element> packedElements = doc.getDescendants(new ElementFilter("packagedElement"));
 				while (packedElements.hasNext()) {
 					Element element = packedElements.next();
-					if (!element.getAttributeValue("type", XMI_NAMESPACE).contains("Link") //discard all Links 
-						&&	!element.getAttributeValue("type", XMI_NAMESPACE).equals("webml:WebModel") //Discard meaningless WebModel node
-						&&	!element.getAttributeValue("type", XMI_NAMESPACE).equals("webml:OperationGroup")) { //Discard all OperationGroup (and Transactions)
+					if (!element.getAttributeValue("type", XMI_NAMESPACE).equals("webml:WebModel") //Discard meaningless WebModel node
+						&&	!element.getAttributeValue("type", XMI_NAMESPACE).equals("webml:OperationGroup") //Discard all OperationGroup (and Transactions)
+						&& (_indexLinks || !element.getAttributeValue("type", XMI_NAMESPACE).contains("Link")) ) { //Checks if we have to consider also Links 
 						
+						String value = "";
+						if (element.getAttributeValue("type", XMI_NAMESPACE).contains("Link")) {
+							value = element.getAttributeValue("to");
+						} else {
+							value = element.getAttributeValue("name");	
+						}
 						// strip the content to index from the original, e.g
 						// discard all the content before the '$'
-						String value = element.getAttributeValue("name");
 						String[] splittedValue = value.split("\\$");
 						if (splittedValue.length > 1) {
 							toIndex += splittedValue[1] + " ";
-						} else {
-							toIndex += value + " "; //TODO maybe we shouldn't do this? in this case value would be "" right?
 						}
 						
 						//discard "entity" and "displayAttributes" attributes
