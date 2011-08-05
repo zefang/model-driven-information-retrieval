@@ -24,12 +24,12 @@ import org.jdom.output.XMLOutputter;
 /**
  * This pipelet performs the dereferentiation of the ids contained in 
  * the "entity" and "displayAttributes" attributes of the OperationUnits and 
- * ContentUnits, (as well as the "to" attribute in the Links ???).
- *   
- * //TODO "to" attribute of Links vacant for now, because there are some links to the layout?
+ * ContentUnits.
+ * Also the attribute "to" of Links gets dereferenced using the "name" attribute 
+ * of the object pointed by the link.
  */
 public class DereferencePipelet implements Pipelet {
-
+	
 	private final static Namespace XMI_NAMESPACE = Namespace.getNamespace("xmi", "http://schema.omg.org/spec/XMI/2.1");
 	private final static String PACKAGED_ELEMENT = "packagedElement";
 	
@@ -64,9 +64,9 @@ public class DereferencePipelet implements Pipelet {
 				Element root = doc.getRootElement();
 				List<Element> rootChildren = root.getChildren();
 				Element dataModelElement = rootChildren.get(0); 
-				Iterator<Element> packagedElements = dataModelElement.getDescendants(new ElementFilter(PACKAGED_ELEMENT));
-				while (packagedElements.hasNext()) {
-					Element element = packagedElements.next();
+				Iterator<Element> packagedDataModelElements = dataModelElement.getDescendants(new ElementFilter(PACKAGED_ELEMENT));
+				while (packagedDataModelElements.hasNext()) {
+					Element element = packagedDataModelElements.next();
 					if (element.getAttributeValue("type", XMI_NAMESPACE).equals("webml:Entity") ||
 							element.getAttributeValue("type", XMI_NAMESPACE).equals("webml:Attribute")) {
 						entitiesMap.put(element.getAttributeValue("id", XMI_NAMESPACE), element.getAttributeValue("name"));
@@ -76,20 +76,18 @@ public class DereferencePipelet implements Pipelet {
 				
 				Element webModelElement = rootChildren.get(1);
 				
-				/*
-				//get all the other Elements and put them in the other map (Because they can be pointed to by Links)
 				HashMap<String, String> linksMap = new HashMap<String, String>();
-				Iterator<Element> webModelElements = webModelElement.getDescendants(new ElementFilter(PACKAGED_ELEMENT));
-				while (webModelElements.hasNext()) {
-					Element element = webModelElements.next();
-					linksMap.put(element.getAttributeValue("id", XMI_NAMESPACE), element.getAttributeValue("name"));
+				//get all the other Elements and put them in the other map (Because they can be pointed to by Links)
+				Iterator<Element> packagedWebModelElements = webModelElement.getDescendants(new ElementFilter(PACKAGED_ELEMENT));
+				while (packagedWebModelElements.hasNext()) {
+					Element element = packagedWebModelElements.next();
+					linksMap.put(element.getAttributeValue("id", XMI_NAMESPACE), element.getAttributeValue("name"));					
 				}
-				*/
 				
 				//Navigate the dom and substitute the references with the names in the map
-				Iterator<Element> webModelElements2 = webModelElement.getDescendants(new ElementFilter(PACKAGED_ELEMENT));
-				while (webModelElements2.hasNext()) {
-					Element element = webModelElements2.next();
+				Iterator<Element> packagedWebModelElements2 = webModelElement.getDescendants(new ElementFilter(PACKAGED_ELEMENT));
+				while (packagedWebModelElements2.hasNext()) {
+					Element element = packagedWebModelElements2.next();
 
 					if (element.getAttributeValue("displayAttributes") != null &&
 							element.getAttributeValue("entity") != null) {
@@ -107,17 +105,18 @@ public class DereferencePipelet implements Pipelet {
 						}
 						element.setAttribute("displayAttributes", displayAttributes.trim());		
 					} 
-					
-					/*
 					else {
-					
 						//substitute "to" in Links
 						if (element.getAttributeValue("type",XMI_NAMESPACE).contains("Link")) {
-							System.out.println(element.getAttributeValue("to"));
-							element.setAttribute("to", linksMap.get(element.getAttributeValue("to")));
+							String key = element.getAttributeValue("to");
+							System.out.print(key+": "); //TODO delete this line
+							if (linksMap.containsKey(key)) {
+								element.setAttribute("to", linksMap.get(key));
+								System.out.println(linksMap.get(key));//TODO delete this line
+							}
 						}
 					}
-					*/
+						
 				}
 				
 				XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
