@@ -27,6 +27,20 @@ if strcmp(dataset,'uml')
 	filename = strcat('UML-',mq_label,'_DCG');
     print(DCG, '-dpng', filename);
     
+    % save DCG values to text file
+    fid = fopen('UML-DCG.txt','w');
+    fprintf(fid,'UML - DCG\r\n');
+    fprintf(fid,' ---- DCG experiment B --- \r\n');
+    for i=1:size(DCGMean{1,1})
+        fprintf(fid,'[%d] %f \r\n',i,DCGMean{1,1}(i));
+    end
+
+    fprintf(fid,' ---- DCG experiment C --- \r\n');
+    for i=1:size(DCGMean{1,2})
+        fprintf(fid,'[%d] %f \r\n',i,DCGMean{1,2}(i));
+    end
+    fclose(fid);
+    
     % nDCG at rank position x (from 1 to 10)
     nDCG = figure;
 
@@ -65,6 +79,20 @@ else
     
     filename = 'WebML-DCG';
     print(DCG, '-dpng', filename);
+
+    % save DCG values to text file
+    fid = fopen('WebML-DCG.txt','w');
+    fprintf(fid,'WebML - DCG\r\n');
+    fprintf(fid,' ---- DCG experiment B --- \r\n');
+    for i=1:size(DCGMean{1,1})
+        fprintf(fid,'[%d] %f \r\n',i,DCGMean{1,1}(i));
+    end
+
+    fprintf(fid,' ---- DCG experiment C --- \r\n');
+    for i=1:size(DCGMean{1,2})
+        fprintf(fid,'[%d] %f \r\n',i,DCGMean{1,2}(i));
+    end
+    fclose(fid);
     
     % nDCG at rank position x (from 1 to 10)
     nDCG = figure;
