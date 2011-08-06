@@ -94,12 +94,12 @@ public class WebmlSearchServlet extends SMILASearchServlet {
 	        result = transform(resultDoc, stylesheet);
 	      }
 	      
-	      String queryString = query.getMetadata().getStringValue("query");
-	      queryString+=": "+ query.getMetadata().getStringValue("keywords");
-	      if (queryString == null) {
+	      String webmlQuery = query.getMetadata().getStringValue("query");
+	      if (webmlQuery == null) {
 	    	  response.getOutputStream().write(result);
 		      response.getOutputStream().flush();  
 	      } else {
+	    	  String queryString = webmlQuery + ": " + query.getMetadata().getStringValue("keywords");
 	    	  response.sendRedirect("http://localhost:8983/solr/admin/testPresentationWebml.jsp?queryString="+queryString);
 	      }
 	      
