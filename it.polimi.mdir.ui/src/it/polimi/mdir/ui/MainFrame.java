@@ -11,7 +11,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -25,84 +24,90 @@ public class MainFrame extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 8323795009437878769L;
 	
+	/*
+	 * SMILA buttons and instructions
+	 */
 	private static final String LISTENER_CONFIG_PATH = "../SMILA.application/configuration/org.eclipse.smila.connectivity.queue.worker.jms/QueueWorkerListenerConfig.xml";
+	private static final String LISTENER_INSTRUCTIONS = "Rules that specify which pipeline to call.";
+	
 	private static final String ROUTER_CONFIG_PATH = "../SMILA.application/configuration/org.eclipse.smila.connectivity.queue.worker.jms/QueueWorkerRouterConfig.xml";
+	private static final String ROUTER_INSTRUCTIONS = "Specify which broker to use and possibly some custom properties to send along with your messages.";
+	
 	private static final String CONNECTIVITY_CONFIG_PATH = "../SMILA.application/configuration/org.eclipse.smila.connectivity.queue.worker.jms/QueueWorkerConnectionConfig.xml";
+	private static final String CONNECTIVITY_INSTRUCTIONS = "Define brokers.";
+	
 	private static final String PROCESSOR_PROPERTIES_PATH = "../SMILA.application/configuration/org.eclipse.smila.processing.bpel/processor.properties";
+	private static final String PROCESSOR_INSTRUCTIONS = "Here you can define some properties for the BPEL processor. Relevant properties are:\n"+ 
+													     "Pipeline.timeout = amount in seconds until the pipeline execution “expires”. Basically everything needs to finish within this time.\n"+
+													     "Record.filter = which record filter to apply automatically to the processed records. Can be defined in RecordsFilter.xml";
+	
 	private static final String RECORD_FILTERS_PATH = "../SMILA.application/configuration/org.eclipse.smila.blackboard/RecordFilters.xml";
+	private static final String RECORD_FILTERS_INSTRUCTIONS = "You can apply a filter to a record if you need to discard some fields while keeping others. In this file you can define those filters.";
+	
 	private static final String DEPLOY_XML_PATH = "../SMILA.application/configuration/org.eclipse.smila.processing.bpel/pipelines/deploy.xml";
+	private static final String DEPLOY_XML_INSTRUCTIONS= "Here you register your pipelines.";
 	
+	
+	/*
+	 * UML buttons and instructions
+	 */
 	private static final String UML_CONFIG_PATH = "../it.polimi.mdir.graph/configuration.properties";
+	private static final String UML_CONFIG_INSTRUCTIONS = "Specify weights, penalties, location of the dataset and other stuff.\n See the file itself for details.";
+	
 	private static final String UMLCRAWLER_CONFIG_PATH = "../SMILA.application/configuration/org.eclipse.smila.connectivity.framework/uml.xml";
+	private static final String UMLCRAWLER_CONFIG_INSTRUCTIONS = "Specify location to crawl for UML class diagrams (.uml)";
+	
 	private static final String UML_PIPELINE_PATH = "../SMILA.application/configuration/org.eclipse.smila.processing.bpel/pipelines/umlpipeline.bpel";
+	private static final String UML_PIPELINE_INSTRUCTIONS = "Specify and configure the chains of operations to perform in the indexing phase";
 	
 	
+	/*
+	 * WebML buttons and instructions
+	 */
 	private static final String WEBML_CONFIG_PATH = "../it.polimi.mdir.webml/configuration.properties";
-	private static final String WEBMLCRAWLER_CONFIG_PATH = "../SMILA.application/configuration/org.eclipse.smila.connectivity.framework/webml.xml";
-	private static final String WEBML_PIPELINE_B_PATH = "../SMILA.application/configuration/org.eclipse.smila.processing.bpel/pipelines/webmlpipeline_B.bpel";
-	private static final String WEBML_PIPELINE_C_PATH = "../SMILA.application/configuration/org.eclipse.smila.processing.bpel/pipelines/webmlpipeline_C.bpel";
+	private static final String WEBML_CONFIG_INSTRUCTIONS = "Specify weights, location of the dataset and other stuff.\n See the file itself for details.";
 	
+	private static final String WEBMLCRAWLER_CONFIG_PATH = "../SMILA.application/configuration/org.eclipse.smila.connectivity.framework/webml.xml";
+	private static final String WEBMLCRAWLER_CONFIG_INSTRUCTIONS = "Specify location to crawl for WebML projects";
+	
+	private static final String WEBML_PIPELINE_B_PATH = "../SMILA.application/configuration/org.eclipse.smila.processing.bpel/pipelines/webmlpipeline_B.bpel";
+	private static final String WEBML_PIPELINE_B_INSTRUCTIONS = "Specify and configure the chains of operations to perform in the indexing phase for WebML experiment B (no weights)";
+	
+	private static final String WEBML_PIPELINE_C_PATH = "../SMILA.application/configuration/org.eclipse.smila.processing.bpel/pipelines/webmlpipeline_C.bpel";
+	private static final String WEBML_PIPELINE_C_INSTRUCTIONS = "Specify and configure the chains of operations to perform in the indexing phase for WebML experiment C (with weights)";
+	
+	private static final String WEBML_SEARCH_PIPELINE_PATH = "../SMILA.application/configuration/org.eclipse.smila.processing.bpel/pipelines/webmlsearchpipeline.bpel";
+	private static final String WEBML_SEARCH_PIPELINE_INSTRUCTIONS = "Specify the chains of operations to perform in the query phase for WebML.";
+	
+	
+	/*
+	 * Solr buttons and instructions
+	 */
 	private static final String SOLR_XML_PATH = "../SolrInstance/solr/solr.xml";
-	private static final String UML_SCHEMA_XML_EXP_A = "../SolrInstance/solr/text_experiment_A/conf/schema.xml";
-	private static final String UML_SCHEMA_XML_EXP_B = "../SolrInstance/solr/text_experiment_B/conf/schema.xml";
-	private static final String UML_SCHEMA_XML_EXP_C = "../SolrInstance/solr/text_experiment_C/conf/schema.xml";
-	private static final String UML_SCHEMA_XML_EXP_D = "../SolrInstance/solr/text_experiment_D/conf/schema.xml";
-	private static final String WEBML_SCHEMA_XML_EXP_B = "../SolrInstance/solr/webml_B/conf/schema.xml";
-	private static final String WEBML_SCHEMA_XML_EXP_C = "../SolrInstance/solr/webml_C/conf/schema.xml";
+	private static final String SOLR_XML_INSTRUCTIONS = "Specify the Solr cores (indexes).";
+	
+	private static final String UML_SCHEMA_XML_EXP_A_PATH = "../SolrInstance/solr/text_experiment_A/conf/schema.xml";
+	private static final String UML_SCHEMA_XML_EXP_A_INSTRUCTIONS = "Configures index parameters for UML experiment A (project granularity)";
+	
+	private static final String UML_SCHEMA_XML_EXP_B_PATH = "../SolrInstance/solr/text_experiment_B/conf/schema.xml";
+	private static final String UML_SCHEMA_XML_EXP_B_INSTRUCTIONS = "Configures index parameters for UML experiment B (class granularity, no weights)";
+	
+	private static final String UML_SCHEMA_XML_EXP_C_PATH = "../SolrInstance/solr/text_experiment_C/conf/schema.xml";
+	private static final String UML_SCHEMA_XML_EXP_C_INSTRUCTIONS = "Configures index parameters for UML experiment C (class granularity, with weights)";
+	
+	private static final String UML_SCHEMA_XML_EXP_D_PATH = "../SolrInstance/solr/text_experiment_D/conf/schema.xml";
+	private static final String UML_SCHEMA_XML_EXP_D_INSTRUCTIONS = "Configures index parameters for UML experiment D (Class granularity, with weights and penalties, importing attributes from neighbours)";
+	
+	private static final String WEBML_SCHEMA_XML_EXP_B_PATH = "../SolrInstance/solr/webml_B/conf/schema.xml";
+	private static final String WEBML_SCHEMA_XML_EXP_B_INSTRUCTIONS = "Configures index parameters for WebML experiment B (no weights)";
+	
+	private static final String WEBML_SCHEMA_XML_EXP_C_PATH = "../SolrInstance/solr/webml_C/conf/schema.xml";
+	private static final String WEBML_SCHEMA_XML_EXP_C_INSTRUCTIONS = "Configures index parameters for WebML experiment C (with weights)";
+	
 	
 /*
  * UI Components
  */
-	
-	/*
-	 * SMILA buttons
-	 */
-	//SMILA.application/configuration/org.eclipse.smila.connectivity.queue.worker.jms/QueueWorkerListenerConfig.xml
-	private JButton listenerButton;
-	//SMILA.application/configuration/org.eclipse.smila.connectivity.queue.worker.jms/QueueWorkerRouterConfig.xml
-	private JButton routerButton;
-	//SMILA.application/configuration/org.eclipse.smila.connectivity.queue.worker.jms/QueueWorkerConnectionConfig.xml
-	private JButton connectivityButton;
-	//SMILA.application/configuration/org.eclipse.smila.processing.bpel/processor.properties
-	private JButton processorPropertiesButton;
-	//SMILA.application/configuration/org.eclipse.smila.blackboard/RecordFilters.xml
-	private JButton recordFiltersButton;
-	//SMILA.application/configuration/org.eclipse.smila.processing.bpel/pipelines/deploy.xml
-	private JButton deployXmlButton;
-	
-	/*
-	 * UML buttons
-	 */
-	//it.polimi.mdir.graph/configuration.properties
-	private JButton umlButton; 
-	//SMILA.application/configuration/org.eclipse.smila.connectivity.framework/uml.xml
-	private JButton umlCrawlerButton;
-	//SMILA.application/configuration/org.eclipse.smila.processing.bpel/pipelines/umlpipeline.bpel
-	private JButton umlPipelineButton;
-	
-	/*
-	 * WebML buttons
-	 */
-	//it.polimi.mdir.webml/configuration.properties
-	private JButton webmlButton; 
-	//SMILA.application/configuration/org.eclipse.smila.connectivity.framework/webml.xml
-	private JButton webmlCrawlerButton;
-	//SMILA.application/configuration/org.eclipse.smila.processing.bpel/pipelines/webmlpipeline_B.bpel
-	private JButton webmlPipelineBButton;
-	//SMILA.application/configuration/org.eclipse.smila.processing.bpel/pipelines/webmlpipeline_C.bpel
-	private JButton webmlPipelineCButton;
-	
-	/*
-	 * Solr buttons
-	 */
-	//SolrInstance/solr/solr.xml
-	private JButton solrXmlButton;
-	private JButton umlSchemaXmlExpAButton;
-	private JButton umlSchemaXmlExpBButton;
-	private JButton umlSchemaXmlExpCButton;
-	private JButton umlSchemaXmlExpDButton;
-	private JButton webmlSchemaXmlExpBButton;
-	private JButton webmlSchemaXmlExpCButton;
 	
 	private JTabbedPane tabbedPane;
 	
@@ -128,70 +133,6 @@ public class MainFrame extends JFrame implements ActionListener {
 		setLookAndFeel();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		listenerButton = new JButton(LISTENER_CONFIG_PATH);
-			listenerButton.addActionListener(this);
-			listenerButton.setActionCommand(LISTENER_CONFIG_PATH);
-		routerButton = new JButton(ROUTER_CONFIG_PATH);
-			routerButton.addActionListener(this);
-			routerButton.setActionCommand(ROUTER_CONFIG_PATH);
-		connectivityButton = new JButton(CONNECTIVITY_CONFIG_PATH);
-			connectivityButton.addActionListener(this);
-			connectivityButton.setActionCommand(CONNECTIVITY_CONFIG_PATH);
-		processorPropertiesButton = new JButton(PROCESSOR_PROPERTIES_PATH);
-			processorPropertiesButton.addActionListener(this);
-			processorPropertiesButton.setActionCommand(PROCESSOR_PROPERTIES_PATH);
-		recordFiltersButton = new JButton(RECORD_FILTERS_PATH);
-			recordFiltersButton.addActionListener(this);
-			recordFiltersButton.setActionCommand(RECORD_FILTERS_PATH);
-		deployXmlButton = new JButton(DEPLOY_XML_PATH);
-			deployXmlButton.addActionListener(this);
-			deployXmlButton.setActionCommand(DEPLOY_XML_PATH);
-		
-		umlButton = new JButton(UML_CONFIG_PATH);
-			umlButton.addActionListener(this);
-			umlButton.setActionCommand(UML_CONFIG_PATH);
-		umlCrawlerButton = new JButton(UMLCRAWLER_CONFIG_PATH);
-			umlCrawlerButton.addActionListener(this);
-			umlCrawlerButton.setActionCommand(UMLCRAWLER_CONFIG_PATH);
-		umlPipelineButton = new JButton(UML_PIPELINE_PATH);
-			umlPipelineButton.addActionListener(this);
-			umlPipelineButton.setActionCommand(UML_PIPELINE_PATH);
-			
-		webmlButton = new JButton(WEBML_CONFIG_PATH);
-			webmlButton.addActionListener(this);
-			webmlButton.setActionCommand(WEBML_CONFIG_PATH);
-		webmlCrawlerButton = new JButton(WEBMLCRAWLER_CONFIG_PATH);
-			webmlCrawlerButton.addActionListener(this);
-			webmlCrawlerButton.setActionCommand(WEBMLCRAWLER_CONFIG_PATH);
-		webmlPipelineBButton = new JButton(WEBML_PIPELINE_B_PATH);
-			webmlPipelineBButton.addActionListener(this);
-			webmlPipelineBButton.setActionCommand(WEBML_PIPELINE_B_PATH);
-		webmlPipelineCButton = new JButton(WEBML_PIPELINE_C_PATH);
-			webmlPipelineCButton.addActionListener(this);
-			webmlPipelineCButton.setActionCommand(WEBML_PIPELINE_C_PATH);
-		
-		solrXmlButton = new JButton(SOLR_XML_PATH);
-			solrXmlButton.addActionListener(this);
-			solrXmlButton.setActionCommand(SOLR_XML_PATH);
-		umlSchemaXmlExpAButton = new JButton(UML_SCHEMA_XML_EXP_A);
-			umlSchemaXmlExpAButton.addActionListener(this);
-			umlSchemaXmlExpAButton.setActionCommand(UML_SCHEMA_XML_EXP_A);
-		umlSchemaXmlExpBButton = new JButton(UML_SCHEMA_XML_EXP_B);
-			umlSchemaXmlExpBButton.addActionListener(this);
-			umlSchemaXmlExpBButton.setActionCommand(UML_SCHEMA_XML_EXP_B);
-		umlSchemaXmlExpCButton = new JButton(UML_SCHEMA_XML_EXP_C);
-			umlSchemaXmlExpCButton.addActionListener(this);
-			umlSchemaXmlExpCButton.setActionCommand(UML_SCHEMA_XML_EXP_C);
-		umlSchemaXmlExpDButton = new JButton(UML_SCHEMA_XML_EXP_D);
-			umlSchemaXmlExpDButton.addActionListener(this);
-			umlSchemaXmlExpDButton.setActionCommand(UML_SCHEMA_XML_EXP_D);
-		webmlSchemaXmlExpBButton = new JButton(WEBML_SCHEMA_XML_EXP_B);
-			webmlSchemaXmlExpBButton.addActionListener(this);
-			webmlSchemaXmlExpBButton.setActionCommand(WEBML_SCHEMA_XML_EXP_B);
-		webmlSchemaXmlExpCButton = new JButton(WEBML_SCHEMA_XML_EXP_C);
-			webmlSchemaXmlExpCButton.addActionListener(this);
-			webmlSchemaXmlExpCButton.setActionCommand(WEBML_SCHEMA_XML_EXP_C);
-			
 		tabbedPane = new JTabbedPane();
 			
 		menuBar = new JMenuBar();
@@ -206,35 +147,30 @@ public class MainFrame extends JFrame implements ActionListener {
 		Container contentPane = this.getContentPane();
 		
 		JPanel tab1Panel = new JPanel(new GridLayout(6,1));
-			tab1Panel.add(new JPanel().add(listenerButton).getParent());
-			tab1Panel.add(new JPanel().add(routerButton).getParent());
-			tab1Panel.add(new JPanel().add(connectivityButton).getParent());
-			tab1Panel.add(new JPanel().add(processorPropertiesButton).getParent());
-			tab1Panel.add(new JPanel().add(recordFiltersButton).getParent());
-			tab1Panel.add(new JPanel().add(deployXmlButton).getParent());
+			tab1Panel.add(new ConfigFilePanel("Listener", LISTENER_CONFIG_PATH, LISTENER_INSTRUCTIONS));
+			tab1Panel.add(new ConfigFilePanel("Router", ROUTER_CONFIG_PATH, ROUTER_INSTRUCTIONS));
+			tab1Panel.add(new ConfigFilePanel("Connectivity", CONNECTIVITY_CONFIG_PATH, CONNECTIVITY_INSTRUCTIONS));
+			tab1Panel.add(new ConfigFilePanel("Processor Properties", PROCESSOR_PROPERTIES_PATH, PROCESSOR_INSTRUCTIONS));
+			tab1Panel.add(new ConfigFilePanel("Record Filters", RECORD_FILTERS_PATH, RECORD_FILTERS_INSTRUCTIONS));
+			tab1Panel.add(new ConfigFilePanel("deploy.xml", DEPLOY_XML_PATH, DEPLOY_XML_INSTRUCTIONS));
 		JPanel tab2Panel = new JPanel(new GridLayout(3,1));
-			tab2Panel.add(new JPanel().add(umlButton).getParent());
-			tab2Panel.add(new JPanel().add(umlCrawlerButton).getParent());
-			tab2Panel.add(new JPanel().add(umlPipelineButton).getParent());
-		JPanel tab3Panel = new JPanel(new GridLayout(4,1));
-			tab3Panel.add(new JPanel().add(webmlButton).getParent());
-			tab3Panel.add(new JPanel().add(webmlCrawlerButton).getParent());
-			tab3Panel.add(new JPanel().add(webmlPipelineBButton).getParent());
-			tab3Panel.add(new JPanel().add(webmlPipelineCButton).getParent());
-		JPanel tab4Panel = new JPanel(new GridLayout(1,3));
-		JPanel tab41Panel = new JPanel(new GridLayout(1,1));
-		JPanel tab42Panel = new JPanel(new GridLayout(4,1));
-		JPanel tab43Panel = new JPanel(new GridLayout(2,1));
-			tab4Panel.add(tab41Panel);
-			tab4Panel.add(tab42Panel);
-			tab4Panel.add(tab43Panel);
-				tab41Panel.add(new JPanel().add(solrXmlButton).getParent());
-				tab42Panel.add(new JPanel().add(umlSchemaXmlExpAButton).getParent());
-				tab42Panel.add(new JPanel().add(umlSchemaXmlExpBButton).getParent());
-				tab42Panel.add(new JPanel().add(umlSchemaXmlExpCButton).getParent());
-				tab42Panel.add(new JPanel().add(umlSchemaXmlExpDButton).getParent());
-				tab43Panel.add(new JPanel().add(webmlSchemaXmlExpBButton).getParent());
-				tab43Panel.add(new JPanel().add(webmlSchemaXmlExpCButton).getParent());
+			tab2Panel.add(new ConfigFilePanel("UML configuration.properties", UML_CONFIG_PATH, UML_CONFIG_INSTRUCTIONS));
+			tab2Panel.add(new ConfigFilePanel("UML Crawler", UMLCRAWLER_CONFIG_PATH, UMLCRAWLER_CONFIG_INSTRUCTIONS));
+			tab2Panel.add(new ConfigFilePanel("UML Pipeline", UML_PIPELINE_PATH, UML_PIPELINE_INSTRUCTIONS));
+		JPanel tab3Panel = new JPanel(new GridLayout(5,1));
+			tab3Panel.add(new ConfigFilePanel("WebML configuration.properties", WEBML_CONFIG_PATH, WEBML_CONFIG_INSTRUCTIONS));
+			tab3Panel.add(new ConfigFilePanel("WebML Crawler", WEBMLCRAWLER_CONFIG_PATH, WEBMLCRAWLER_CONFIG_INSTRUCTIONS));
+			tab3Panel.add(new ConfigFilePanel("WebML Pipeline B", WEBML_PIPELINE_B_PATH, WEBML_PIPELINE_B_INSTRUCTIONS));
+			tab3Panel.add(new ConfigFilePanel("WebML Pipeline C", WEBML_PIPELINE_C_PATH, WEBML_PIPELINE_C_INSTRUCTIONS));
+			tab3Panel.add(new ConfigFilePanel("WebML Search Pipeline", WEBML_SEARCH_PIPELINE_PATH, WEBML_SEARCH_PIPELINE_INSTRUCTIONS));
+		JPanel tab4Panel = new JPanel(new GridLayout(7,1));
+			tab4Panel.add(new ConfigFilePanel("solr.xml", SOLR_XML_PATH, SOLR_XML_INSTRUCTIONS));
+			tab4Panel.add(new ConfigFilePanel("UML experiment A schema.xml", UML_SCHEMA_XML_EXP_A_PATH, UML_SCHEMA_XML_EXP_A_INSTRUCTIONS));
+			tab4Panel.add(new ConfigFilePanel("UML experiment B schema.xml", UML_SCHEMA_XML_EXP_B_PATH, UML_SCHEMA_XML_EXP_B_INSTRUCTIONS));
+			tab4Panel.add(new ConfigFilePanel("UML experiment C schema.xml", UML_SCHEMA_XML_EXP_C_PATH, UML_SCHEMA_XML_EXP_C_INSTRUCTIONS));
+			tab4Panel.add(new ConfigFilePanel("UML experiment D schema.xml", UML_SCHEMA_XML_EXP_D_PATH, UML_SCHEMA_XML_EXP_D_INSTRUCTIONS));
+			tab4Panel.add(new ConfigFilePanel("WebML experiment B schema.xml", WEBML_SCHEMA_XML_EXP_B_PATH, WEBML_SCHEMA_XML_EXP_B_INSTRUCTIONS));
+			tab4Panel.add(new ConfigFilePanel("WebML experiment C schema.xml", WEBML_SCHEMA_XML_EXP_C_PATH, WEBML_SCHEMA_XML_EXP_C_INSTRUCTIONS));
 				
 		optionsMenu.add(preferencesMenuItem);
 		menuBar.add(optionsMenu);
@@ -296,9 +232,6 @@ public class MainFrame extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().getClass() == JMenuItem.class) {
 			openPreferencesDialog();
-		} else {
-			//it's a button. Open the editor.
-			openEditor(e.getActionCommand());	
 		}
 	}
 	
