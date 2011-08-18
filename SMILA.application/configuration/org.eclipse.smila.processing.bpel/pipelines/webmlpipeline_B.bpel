@@ -61,7 +61,8 @@
             					<proc:configuration>
               						<rec:Val key="coreName">webml_B</rec:Val>
 			  						<rec:Val key="fieldType">content</rec:Val>
-									<rec:Val key="indexLinks">false</rec:Val>
+									<rec:Val key="indexLinks">true</rec:Val>
+									<rec:Val key="indexDisplayAttributes">true</rec:Val>
             					</proc:configuration>
                     		</proc:invokePipelet>
                         </extensionActivity>

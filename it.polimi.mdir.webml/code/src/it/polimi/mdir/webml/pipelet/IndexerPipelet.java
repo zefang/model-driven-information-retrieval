@@ -36,8 +36,10 @@ import org.w3c.dom.DOMImplementation;
  * This pipelet gets all the indexable content in the xmiContent of the Area record
  * and sends it to Solr for indexing.<br/>
  * As of now only the "name" attribute of Areas, SiteViews, Pages and Units is used.
- * "name" and "to" attributes of Links is discarded too.<br/>
- * "entity" and "displayAttributes" attributes are discarded too.
+ * The "name" of Links is discarded.<br/>
+ * indexLinks is a boolean value that specifies whether to index the "to" attributes or not.<br/>
+ * indexDisplayAttributes is a boolean value that specifies whether to index the "displayattributes"
+ * and the "entity" attributes or not.<br/>
  */
 public class IndexerPipelet implements Pipelet {
 	
@@ -46,9 +48,13 @@ public class IndexerPipelet implements Pipelet {
   
   private static final TransformerFactory TRANSFORMER_FACTORY = TransformerFactory.newInstance();
   
+  private static final String INDEX_LINKS = "indexLinks";
+  private static final String INDEX_DISPLAYATTRIBUTES = "indexDisplayAttributes";
+  
   private String _coreName = "";
   private String _fieldType = "";
   private boolean _indexLinks = false;
+  private boolean _indexDisplayAttributes = false;
   
   private static Log _log = LogFactory.getLog();
   private static int count = 0;
@@ -65,7 +71,12 @@ public class IndexerPipelet implements Pipelet {
 	  _configuration = configuration;
 	  _coreName = _configuration.getStringValue("coreName");
 	  _fieldType = _configuration.getStringValue("fieldType");
-	  _indexLinks = _configuration.getBooleanValue("indexLinks");
+	  if (_configuration.containsKey(INDEX_LINKS)) {
+		  _indexLinks = _configuration.getBooleanValue(INDEX_LINKS);  
+	  }
+	  if (_configuration.containsKey(INDEX_DISPLAYATTRIBUTES)) {
+		  _indexDisplayAttributes = _configuration.getBooleanValue(INDEX_DISPLAYATTRIBUTES);
+	  }
   }
   
 @Override
@@ -105,13 +116,12 @@ public class IndexerPipelet implements Pipelet {
 							toIndex += splittedValue[1] + " ";
 						}
 						
-						//discard "entity" and "displayAttributes" attributes
-						/*
-						if (element.getAttribute("displayAttributes") != null) {
+						//get displayAttributes and entity if needed
+						if (_indexDisplayAttributes && element.getAttribute("displayAttributes") != null) {
 							toIndex += element.getAttributeValue("displayAttributes").split("\\$")[1] + " ";
 							toIndex += element.getAttributeValue("entity").split("\\$")[1] + " ";
 						}
-						*/
+						
 					}
 				}
 				toIndex = toIndex.trim();
