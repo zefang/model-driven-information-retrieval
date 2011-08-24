@@ -37,9 +37,9 @@ public class MainFrame extends JFrame implements ActionListener {
 	private static final String CONNECTIVITY_INSTRUCTIONS = "Define brokers.";
 	
 	private static final String PROCESSOR_PROPERTIES_PATH = "../SMILA.application/configuration/org.eclipse.smila.processing.bpel/processor.properties";
-	private static final String PROCESSOR_INSTRUCTIONS = "Here you can define some properties for the BPEL processor. Relevant properties are:\n"+ 
-													     "Pipeline.timeout = amount in seconds until the pipeline execution “expires”. Basically everything needs to finish within this time.\n"+
-													     "Record.filter = which record filter to apply automatically to the processed records. Can be defined in RecordsFilter.xml";
+	private static final String PROCESSOR_INSTRUCTIONS = "Here you can define the properties of the BPEL processor. Some of the relevant properties are:\n"+ 
+													     " - Pipeline.timeout = amount in seconds until the pipeline execution “expires”. Basically everything needs to finish within this time.\n"+
+													     " - Record.filter = which record filter to apply automatically to the processed records. Filters can be defined in RecordsFilter.xml";
 	
 	private static final String RECORD_FILTERS_PATH = "../SMILA.application/configuration/org.eclipse.smila.blackboard/RecordFilters.xml";
 	private static final String RECORD_FILTERS_INSTRUCTIONS = "You can apply a filter to a record if you need to discard some fields while keeping others. In this file you can define those filters.";
