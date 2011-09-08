@@ -50,11 +50,13 @@ public class IndexerPipelet implements Pipelet {
   
   private static final String INDEX_LINKS = "indexLinks";
   private static final String INDEX_DISPLAYATTRIBUTES = "indexDisplayAttributes";
+  private static final String INDEX_CONCEPTTYPE = "indexConceptType";
   
   private String _coreName = "";
   private String _fieldType = "";
   private boolean _indexLinks = false;
   private boolean _indexDisplayAttributes = false;
+  private boolean _indexConceptType = false;
   
   private static Log _log = LogFactory.getLog();
   private static int count = 0;
@@ -76,6 +78,9 @@ public class IndexerPipelet implements Pipelet {
 	  }
 	  if (_configuration.containsKey(INDEX_DISPLAYATTRIBUTES)) {
 		  _indexDisplayAttributes = _configuration.getBooleanValue(INDEX_DISPLAYATTRIBUTES);
+	  }
+	  if (_configuration.containsKey(INDEX_CONCEPTTYPE)) {
+		  _indexConceptType = _configuration.getBooleanValue(INDEX_CONCEPTTYPE);
 	  }
   }
   
@@ -120,6 +125,12 @@ public class IndexerPipelet implements Pipelet {
 						if (_indexDisplayAttributes && element.getAttribute("displayAttributes") != null) {
 							toIndex += element.getAttributeValue("displayAttributes").split("\\$")[1] + " ";
 							toIndex += element.getAttributeValue("entity").split("\\$")[1] + " ";
+						}
+						
+						//index also the concept type of the element 
+						//(page, area an siteview will show up in the index)
+						if (_indexConceptType) {
+							toIndex += element.getAttributeValue("type", XMI_NAMESPACE).split("\\:")[1] + " ";
 						}
 						
 					}
