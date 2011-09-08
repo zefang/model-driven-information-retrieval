@@ -34,6 +34,9 @@
       <proc:invokePipelet name="invokeKeywordExtractorPipelet">
         <proc:pipelet class="it.polimi.mdir.webml.pipelet.search.KeywordExtractorPipelet" />
         <proc:variables input="request" />
+		<proc:configuration>
+			<rec:Val key="extractConceptType">true</rec:Val>
+        </proc:configuration>
       </proc:invokePipelet>
     </extensionActivity>
     
