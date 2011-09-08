@@ -118,6 +118,11 @@ public class AnalyzerSubstitutionPipelet implements Pipelet {
 							element.setAttribute("entity", originalValue+"$"+callSolrAnalyzer(element.getAttributeValue("id", XMI_NAMESPACE), originalValue, _fieldType));
 							numAnalyzed += 2;
 						}
+						
+						//analyze also concept type names
+						originalValue = element.getAttributeValue("type", XMI_NAMESPACE);
+						element.setAttribute("type", originalValue+"$"+callSolrAnalyzer(element.getAttributeValue("id", XMI_NAMESPACE), originalValue.split("\\:")[1], _fieldType), XMI_NAMESPACE);
+						numAnalyzed += 1;
 					}
 				}
 				XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());

@@ -130,7 +130,7 @@ public class IndexerPipelet implements Pipelet {
 						//index also the concept type of the element 
 						//(page, area an siteview will show up in the index)
 						if (_indexConceptType) {
-							toIndex += element.getAttributeValue("type", XMI_NAMESPACE).split("\\:")[1] + " ";
+							toIndex += element.getAttributeValue("type", XMI_NAMESPACE).split("\\$")[1] + " ";
 						}
 						
 					}
