@@ -26,13 +26,22 @@ import org.jdom.input.SAXBuilder;
  */
 public class KeywordExtractorPipelet implements Pipelet {
 
+	private AnyMap _configuration;
+	
 	private final static Namespace XMI_NAMESPACE = Namespace.getNamespace("xmi", "http://schema.omg.org/spec/XMI/2.1");
+	
+	private static final String EXTRACT_CONCEPTTYPE = "extractConceptType";
+	
+	private boolean _extractConceptType = false;
 	
 	private Log _log = LogFactory.getLog();
 	
 	@Override
 	public void configure(AnyMap configuration) throws ProcessingException {
-		
+		_configuration = configuration;
+		if (_configuration.containsKey(EXTRACT_CONCEPTTYPE)) {
+			  _extractConceptType = _configuration.getBooleanValue(EXTRACT_CONCEPTTYPE);
+		  }
 	}
 
 	@Override
@@ -53,6 +62,10 @@ public class KeywordExtractorPipelet implements Pipelet {
 					Element nextElement = packedElements.next();
 					if (checkEligibility(nextElement)) {
 						keywordString += nextElement.getAttributeValue("name") + " ";
+						
+						if (_extractConceptType) {
+							keywordString += nextElement.getAttributeValue("type", XMI_NAMESPACE).split("\\:")[1] + " ";	
+						}
 					}
 				}
 				
