@@ -1,0 +1,10 @@
+Manage Products Area Manage Products Page Products List PowerIndexUnit Search Product EntryUnit
+Publication Area create new pub CreateUnit Enter New Publication Page New publication EntryUnit Publication type SelectorUnit
+Modify Area Modify ModifyUnit Modify user Page Modify user data EntryUnit default group DataUnit subject DataUnit List Page User list PowerIndexUnit
+Client Details SiteView Create CreateUnit Modify ModifyUnit Exist IsNotNullUnit Project Details Page Project details EntryUnit Title SelectorUnit
+Manage clients Area Make calls Page Manage clients Page
+Responsibles SiteView compose mail ScriptUnit info MailUnit Ask for information Page Mail EntryUnit
+Manage appointments Area Manage appointments Page Appointments List PowerIndexUnit
+Book requests Area Create book CreateUnit ConnectUserToBook ConnectUnit New book request Page New book EntryUnit User GetUnit Book request list Page
+Manage documents Area ModifyUnit1 ModifyUnit New Document Page Modify document Page Document data EntryUnit Document details Page Document list IndexUnit Delete document Page
+Contract type Area Delete DeleteUnit Contracts Page Contract types PowerIndexUnit
