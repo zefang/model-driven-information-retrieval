@@ -63,7 +63,7 @@
 			  						<rec:Val key="fieldType">content</rec:Val>
 									<rec:Val key="indexLinks">false</rec:Val>
 									<rec:Val key="indexDisplayAttributes">false</rec:Val>
-									<rec:Val key="indexConceptType">true</rec:Val>
+									<rec:Val key="indexConceptType">false</rec:Val>
             					</proc:configuration>
                     		</proc:invokePipelet>
                         </extensionActivity>
